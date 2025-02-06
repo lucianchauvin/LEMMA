@@ -4,7 +4,7 @@ export function load() {
   return {
     summaries: courses.map((course) => ({
       name: course.name,
-      number: course.slug,
+      slug: course.slug,
       description: course.description
     }))
   };
