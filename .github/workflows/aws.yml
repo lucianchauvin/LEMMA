@@ -28,7 +28,7 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
             cd ~/LEMMA
-            npm install -g pm2
+            npm install pm2
             npm install
             npm run build
             pm2 restart lemma || pm2 start "npm run preview -- --host --port 3000" --name lemma
