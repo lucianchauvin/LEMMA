@@ -19,3 +19,18 @@ jobs:
           REMOTE_HOST: "ec2-18-223-213-153.us-east-2.compute.amazonaws.com"
           REMOTE_USER: "ubuntu"
           TARGET: "/home/ubuntu/LEMMA"
+
+      - name: Install dependencies and restart app with PM2
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ec2-18-223-213-153.us-east-2.compute.amazonaws.com
+          username: ubuntu
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            cd ~/LEMMA
+            npm install -g pm2
+            npm install
+            npm run build
+            pm2 restart lemma || pm2 start "npm run preview -- --host --port 3000" --name lemma
+            pm2 save
+            pm2 startup
