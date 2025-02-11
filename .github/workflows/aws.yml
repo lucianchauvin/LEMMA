@@ -33,4 +33,3 @@ jobs:
             npm run build
             pm2 restart lemma || pm2 start "npm run preview -- --host --port 3000" --name lemma
             pm2 save
-            pm2 startup
