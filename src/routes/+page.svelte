@@ -7,7 +7,7 @@
 <style>
   .home-container {
     display: flex;
-    align-items: center; /* Aligns items vertically */
+    align-items: center; /* Center the items vertically */
     justify-content: center; /* Centers the content horizontally */
   }
 
