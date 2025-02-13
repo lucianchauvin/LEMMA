@@ -124,7 +124,7 @@ ALTER TABLE "assignments" ADD FOREIGN KEY ("course_id") REFERENCES "courses" ("c
 
 ALTER TABLE "student_assignments" ADD FOREIGN KEY ("assignment_id") REFERENCES "assignments" ("assignment_id");
 
-ALTER TABLE "student_assignments" ADD FOREIGN KEY ("student_id") REFERENCES "users" ("user_id") ON DELETE NONE;
+ALTER TABLE "student_assignments" ADD FOREIGN KEY ("student_id") REFERENCES "users" ("user_id") ON DELETE CASCADE;
 
 ALTER TABLE "problems" ADD FOREIGN KEY ("problem_id") REFERENCES "assignments" ("assignment_id");
 
