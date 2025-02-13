@@ -1,5 +1,5 @@
 <div class="home-container">
-  <img src="/House.png" width="50" alt="Canvas Home Sign">
+  <img src="/Canvas_Home.png" width="50" alt="Canvas Home Sign">
   <h1 class="home-text">Home Page</h1>
 </div>
 <div class="line"></div>
