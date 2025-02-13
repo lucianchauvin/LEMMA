@@ -1,10 +1,10 @@
 name: aws
 
-
 on:
   push:
     branches:
       - main
+      - dev
 
 jobs:
   deploy:
@@ -35,5 +35,5 @@ jobs:
             npm install pm2
             npm install
             npm run build
-            pm2 restart lemma || pm2 start "npm run preview -- --host --port 3000" --name lemma
+            pm2 restart lemma || pm2 start "PORT=3000 node -r dotenv/config build" --name lemma
             pm2 save
