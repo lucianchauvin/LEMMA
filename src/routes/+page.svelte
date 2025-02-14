@@ -7,7 +7,7 @@
 
 <h2>Other pages</h2>
 <ul>
-    {#each data.summaries as { name, slug, description }}
-        <li><a href="/{slug}">{name}</a></li> 
+    {#each data.courses as { course_id, course_name }}
+        <li><a href="/{course_id}">{course_name}</a></li> 
     {/each}
 </ul>

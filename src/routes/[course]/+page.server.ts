@@ -1,15 +1,22 @@
+import type { PageServerLoad } from './$types';
 import { error } from '@sveltejs/kit';
-import { courses } from '$lib/data';
 
-export function load({ params } : {params: any}) {
-  // params.course comes from the url
+export const load = (async ({params, locals: { database }}) => {
+    const result = await database.query("SELECT * FROM courses WHERE course_id=$1", [params.course]);
 
-	const course = courses.find((course) => course.slug === params.course);
+    if (!result.rows) throw error(404); // no course found like this
+    if (result.rows.length > 1) {
+        console.error(`Found multiple courses with id ${params.course}`);
+        throw error(500);
+    }
 
+    const course = result.rows[0];
 
-	if (!course) throw error(404);
+    return {course: {
+        name: course.course_name,
+        number: course.course_number,
+        description: course.course_description,
+    }};
+        
+}) satisfies PageServerLoad;
 
-	return {
-		course
-	};
-}
