@@ -58,7 +58,7 @@ CREATE TABLE "courses" (
   "course_number" varchar(10) NOT NULL,
   "course_name" varchar(100) NOT NULL,
   "status" course_status NOT NULL DEFAULT 'active',
-  "course_description" TEXT,
+  "course_description" text,
   "start_date" timestamptz NOT NULL,
   "end_date" timestamptz NOT NULL
 );
@@ -76,13 +76,14 @@ CREATE TABLE "readings" (
   "reading_id" uuid PRIMARY KEY DEFAULT (gen_random_uuid()),
   "course_id" uuid NOT NULL,
   "reading_name" varchar(100) NOT NULL,
-  "reading_description" TEXT,
+  "reading_description" text,
   "active" boolean NOT NULL
 );
 
 CREATE TABLE "reading_statements" (
   "reading_id" uuid NOT NULL,
-  "statement_id" uuid NOT NULL
+  "statement_id" uuid NOT NULL,
+  PRIMARY KEY ("reading_id", "statement_id")
 );
 
 CREATE TABLE "problems" (
@@ -92,15 +93,16 @@ CREATE TABLE "problems" (
 
 CREATE TABLE "problem_statements" (
   "problem_id" uuid NOT NULL,
-  "statement_id" uuid NOT NULL
+  "statement_id" uuid NOT NULL,
+  PRIMARY KEY ("problem_id", "statement_id")
 );
 
 CREATE TABLE "statements" (
   "statement_id" uuid PRIMARY KEY DEFAULT (gen_random_uuid()),
   "statement_name" varchar(100) NOT NULL,
   "statement_type" statement NOT NULL,
-  "statement_description" TEXT,
-  "statement_filepath" TEXT NOT NULL,
+  "statement_description" text,
+  "statement_filepath" text NOT NULL,
   "statement_category" varchar(100)
 );
 
@@ -115,7 +117,7 @@ CREATE TABLE "student_proofs" (
   "problem_id" uuid PRIMARY KEY DEFAULT (gen_random_uuid()),
   "student_assignment_id" uuid NOT NULL,
   "complete" bool NOT NULL DEFAULT false,
-  "student_problem_filepath" TEXT NOT NULL
+  "student_problem_filepath" text NOT NULL
 );
 
 CREATE TABLE "roles" (
