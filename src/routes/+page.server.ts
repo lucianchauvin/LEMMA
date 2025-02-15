@@ -1,11 +1,7 @@
-import { courses } from '$lib/data';
+import type { PageServerLoad } from './$types';
 
-export function load() {
-  return {
-    summaries: courses.map((course) => ({
-      name: course.name,
-      slug: course.slug,
-      description: course.description
-    }))
-  };
+export const load: PageServerLoad = async ({locals: { database }}) => {
+    const result = await database.query("SELECT * FROM courses");
+
+    return {courses: result.rows};
 }
