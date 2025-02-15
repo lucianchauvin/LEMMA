@@ -1,4 +1,5 @@
 import type { PageServerLoad } from './$types';
+import type { Course } from '$lib/types';
 import { error } from '@sveltejs/kit';
 
 export const load = (async ({params, locals: { database }}) => {
@@ -10,7 +11,7 @@ export const load = (async ({params, locals: { database }}) => {
         throw error(500);
     }
 
-    const course = result.rows[0];
+    const course: Course = result.rows[0];
 
     return {course: {
         name: course.course_name,
