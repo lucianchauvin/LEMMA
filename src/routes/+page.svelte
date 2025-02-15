@@ -1,30 +1,19 @@
-<script lang="ts">
-  import Button from '@smui/button';
-</script>
-
-<div class="home-container">
-  <img src="/Canvas_Home.png" width="50" alt="Canvas Home Sign">
-  <h1 class="home-text">Home Page</h1>
-</div>
-<div class="line"></div>
-
-<Button on:click = {() => alert('Button clicked!')}>Click Me!</Button>
-
-<style>
-  .home-container {
-    display: flex;
-    align-items: center; /* Center the items vertically */
-    justify-content: center; /* Centers the content horizontally */
-  }
-
-  .home-text {
-    margin-left: 20px; /* Adds space between image and text */
-  }
+<svg width="100%">
+  <!-- Rectangle shape, filling the entire width -->
+  <rect x="0" y="0" width="100%" height="100" fill="#0077be" />
   
-  /* Line below the image and text */
-  .line{
-    width: 100%; 
-    border-bottom: 2px solid black; /* Adds a line */
-    margin-top: 15px; /* Adds space between the image+caption and the line */
-  }
-</style>
+  <!-- Triangle (Home roof) -->
+  <polygon points="5,40 50,10 100,40" fill="white" />
+  
+  <rect x="5" y="40" width="95" height="15" fill="white" />
+
+  <rect x="5" y="55" width="30" height="40" fill="white" />
+
+  <rect x="35" y="55" width="35" height="10" fill="white" />
+
+  <rect x="70" y="55" width="30" height="40" fill="white" />
+
+  <text x="120"  y="75"  font-size="50"  text-anchor="start" fill="white" alignment-baseline="middle">
+    {"Home Page"}
+  </text>
+</svg>
