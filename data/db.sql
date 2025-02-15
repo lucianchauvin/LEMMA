@@ -82,8 +82,7 @@ CREATE TABLE "readings" (
 
 CREATE TABLE "reading_statements" (
   "reading_id" uuid NOT NULL,
-  "statement_id" uuid NOT NULL,
-  PRIMARY KEY ("reading_id", "statement_id")
+  "statement_id" uuid NOT NULL
 );
 
 CREATE TABLE "problems" (
@@ -93,8 +92,7 @@ CREATE TABLE "problems" (
 
 CREATE TABLE "problem_statements" (
   "problem_id" uuid NOT NULL,
-  "statement_id" uuid NOT NULL,
-  PRIMARY KEY ("problem_id", "statement_id")
+  "statement_id" uuid NOT NULL
 );
 
 CREATE TABLE "statements" (
@@ -144,6 +142,10 @@ CREATE TABLE "user_roles" (
   "role_name" varchar(100) NOT NULL
 );
 
+CREATE UNIQUE INDEX ON "reading_statements" ("reading_id", "statement_id");
+
+CREATE UNIQUE INDEX ON "problem_statements" ("problem_id", "statement_id");
+
 CREATE UNIQUE INDEX ON "user_roles" ("user_id", "course_id");
 
 ALTER TABLE "user_roles" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("user_id") ON DELETE CASCADE;
@@ -160,9 +162,9 @@ ALTER TABLE "assignments" ADD FOREIGN KEY ("course_id") REFERENCES "courses" ("c
 
 ALTER TABLE "readings" ADD FOREIGN KEY ("course_id") REFERENCES "courses" ("course_id") ON DELETE CASCADE;
 
-ALTER TABLE "statements" ADD FOREIGN KEY ("statement_id") REFERENCES "reading_statements" ("statement_id");
+ALTER TABLE "reading_statements" ADD FOREIGN KEY ("statement_id") REFERENCES "statements" ("statement_id");
 
-ALTER TABLE "readings" ADD FOREIGN KEY ("reading_id") REFERENCES "reading_statements" ("reading_id") ON DELETE CASCADE;
+ALTER TABLE "reading_statements" ADD FOREIGN KEY ("reading_id") REFERENCES "readings" ("reading_id") ON DELETE CASCADE;
 
 ALTER TABLE "student_assignments" ADD FOREIGN KEY ("assignment_id") REFERENCES "assignments" ("assignment_id") ON DELETE CASCADE;
 
@@ -174,6 +176,6 @@ ALTER TABLE "student_proofs" ADD FOREIGN KEY ("problem_id") REFERENCES "problems
 
 ALTER TABLE "student_proofs" ADD FOREIGN KEY ("student_assignment_id") REFERENCES "student_assignments" ("student_assignment_id") ON DELETE CASCADE;
 
-ALTER TABLE "statements" ADD FOREIGN KEY ("statement_id") REFERENCES "problem_statements" ("statement_id");
+ALTER TABLE "problem_statements" ADD FOREIGN KEY ("statement_id") REFERENCES "statements" ("statement_id");
 
-ALTER TABLE "problems" ADD FOREIGN KEY ("problem_id") REFERENCES "problem_statements" ("problem_id") ON DELETE CASCADE;
+ALTER TABLE "problem_statements" ADD FOREIGN KEY ("problem_id") REFERENCES "problems" ("problem_id") ON DELETE CASCADE;
