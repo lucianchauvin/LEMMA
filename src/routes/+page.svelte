@@ -1,8 +1,14 @@
+<script lang="ts">
+  import Button from '@smui/button';
+</script>
+
 <div class="home-container">
   <img src="/Canvas_Home.png" width="50" alt="Canvas Home Sign">
   <h1 class="home-text">Home Page</h1>
 </div>
 <div class="line"></div>
+
+<Button on:click = {() => alert('Button clicked!')}>Click Me!</Button>
 
 <style>
   .home-container {
