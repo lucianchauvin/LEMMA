@@ -21,15 +21,17 @@
     Courses
   </text>
 
-  <rect x="43.5%" y="200" width="200" height="40" fill="#008000" stroke="black" stroke-width="3" /> 
-  <text x="50%" y = "230" font-size="25" text-anchor="middle" fill="white">
-    CSCE222
-  </text>
-  <rect x="43.5%" y="240" width="200" height="120" fill="white" stroke="black" stroke-width="3" />
-  <text x="50%" y = "275" font-size="15" text-anchor="middle" fill="w==black">
-    Discrete Structures for
-    <tspan x="50%" dy="20">Computing</tspan>
-  </text>
+  <a href = "coursepage.svelte">
+    <rect x="43.5%" y="200" width="200" height="40" fill="#008000" stroke="black" stroke-width="3" /> 
+    <text x="50%" y = "230" font-size="25" text-anchor="middle" fill="white">
+      CSCE222
+    </text>
+    <rect x="43.5%" y="240" width="200" height="120" fill="white" stroke="black" stroke-width="3" />
+    <text x="50%" y = "275" font-size="15" text-anchor="middle" fill="w==black">
+      Discrete Structures for
+      <tspan x="50%" dy="20">Computing</tspan>
+    </text>
+  </a>
 </svg>
 
 
