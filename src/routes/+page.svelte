@@ -32,6 +32,15 @@
       <tspan x="50%" dy="20">Computing</tspan>
     </text>
   </a>
+
+  <rect x="1200" y="145" width="210" height="25" fill="#0077be" stroke = "black" stroke-width ="3" />
+  <!-- Grid of white squares with black borderlines -->
+  {#each Array(5).fill(0) as _, rowIndex}
+    {#each Array(7).fill(0) as _, colIndex}
+      <rect x={1200 + colIndex * 30} y={170 + rowIndex * 30} 
+        width="30" height="30" fill="white" stroke="black" stroke-width="3" />
+    {/each}
+  {/each}
 </svg>
 
 
