@@ -21,7 +21,7 @@
     Courses
   </text>
 
-  <a href = "coursepage.svelte">
+  <a href = "coursepage">
     <rect x="43.5%" y="200" width="200" height="40" fill="#008000" stroke="black" stroke-width="3" /> 
     <text x="50%" y = "230" font-size="25" text-anchor="middle" fill="white">
       CSCE222
