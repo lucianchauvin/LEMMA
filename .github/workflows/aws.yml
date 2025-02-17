@@ -34,6 +34,7 @@ jobs:
             cd ~/LEMMA
             npm install pm2
             npm install
+            cp ../.env .
             npm run build
             pm2 restart lemma || pm2 start "PORT=3000 node -r dotenv/config build" --name lemma
             pm2 save
