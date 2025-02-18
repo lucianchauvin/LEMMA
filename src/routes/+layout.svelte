@@ -17,7 +17,6 @@
     }
 </style>
 
-
 <!-- Blue rectangle at (0,0) -->
 <div class="rectangle"></div>
 <img src="/Canvas_Home.png" alt="Home" style="position: absolute; top: 15px; left: 15px; width: 75px; height: 75px;" />
