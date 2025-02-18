@@ -10,7 +10,6 @@
     .header {
         width: 100%;
         height: 100px;
-        background-color: blue;
         display: flex;
         align-items: center;
         gap: 20px;
