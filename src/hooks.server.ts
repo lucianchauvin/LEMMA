@@ -6,7 +6,6 @@ export const handle: Handle = async ({ event, resolve }) => {
     /**
     * Creates a Postgres client specific to this server request.
     */
-    console.log("'" + Buffer.from(PGPASSWORD, 'base64').toString('utf-8').trim().replace(/(\r\n|\n|\r)/gm, "") + "'");
     event.locals.database = new pg.Pool({
         host: PGHOST,
         user: PGUSER,
