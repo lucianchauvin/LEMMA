@@ -71,25 +71,6 @@
     <img src="/Canvas_Home.png" alt="Home">
 </div>
 
-<!-- Page Content -->
-<div class="content">
-    <h1>Courses</h1>
-
-    <div class="courses-container">
-        <!-- Course 1 -->
-        <div>
-            <div class="course dark-green">CSCE222</div>
-            <div class="course-description">Discrete Mathematics</div>
-        </div>
-
-        <!-- Course 2 -->
-        <div>
-            <div class="course maroon">MATH415</div>
-            <div class="course-description">Modern Algebra</div>
-        </div>
-    </div>
-</div>
-
 <!-- Space for Sean's Component -->
 <div class="sean-component-container">
     <slot></slot> <!-- This allows Sean's component to be inserted dynamically -->
