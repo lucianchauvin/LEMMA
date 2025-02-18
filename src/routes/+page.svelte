@@ -45,7 +45,6 @@
         justify-content: center;
         align-items: center;
         text-align: center;
-        margin-top: 5px; /* Ensures no large gap */
     }
 
     .sean-component-container {
