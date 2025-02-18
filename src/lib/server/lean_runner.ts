@@ -8,7 +8,7 @@ async function run(file: string)
 {
     return new Promise(function (resolve, reject)
     {
-        const path = LEANBIN.replaceAll("\\", "/") + "/lean --run ";
+        const path = LEANBIN + "/lean --run ";
         exec(path + file, (err, stdout, stderr) =>
         {
             if (err)
