@@ -7,7 +7,9 @@ async function run(file)
 {
     return new Promise(function (resolve, reject)
     {
-        exec("lean --run " + file, (err, stdout, stderr) =>
+        //const path = "C:/Users/andre/.elan/bin/lean.exe --run "
+        const path = "/home/ubuntu/.elan/bin/lean --run "
+        exec(path + file, (err, stdout, stderr) =>
         {
             if (err)
             {
@@ -15,20 +17,19 @@ async function run(file)
             }
             else
             {
+                console.log(stdout);
+                //console.log(stderr);
                 resolve({ stdout, stderr });
             }
         });
     });
 }
 
+/*
 async function main()
 {
     let { stdout } = await run("../../test.lean");
-    for (const line in stdout.split("\n"))
-    {
-        console.log(line);
-    }
 }
 
 main();
-
+*/
