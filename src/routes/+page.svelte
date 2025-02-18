@@ -3,11 +3,6 @@
 </script>
 
 <h1 style="text-align: center;">Courses</h1>
-<ul>
-    {#each data.courses as { course_id, course_name }}
-       <li><a href="/{course_id}">{course_name}</a></li> 
-    {/each}
-</ul> 
 
 <style>
     .rectangle {
