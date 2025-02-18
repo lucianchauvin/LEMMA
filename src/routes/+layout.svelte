@@ -25,45 +25,6 @@
         align-items: center;
     }
 
-    /* Courses Section */
-    .courses-container {
-        display: flex;
-        justify-content: center; /* Centers horizontally */
-        gap: 50px; /* Adds spacing between courses */
-        margin-top: 20px;
-    }
-
-    .course {
-        width: 200px;
-        height: 30px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        font-weight: bold;
-        color: white;
-        border: 2px solid black;
-    }
-
-    .dark-green {
-        background-color: darkgreen;
-    }
-
-    .maroon {
-        background-color: maroon;
-    }
-
-    /* Course Descriptions */
-    .course-description {
-        width: 200px;
-        height: 100px;
-        border: 2px solid black;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        text-align: center;
-        gap: 0; 
-    }
-
 </style>
 
 <!-- Blue Header -->
