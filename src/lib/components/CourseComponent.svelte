@@ -6,13 +6,9 @@
   export let CourseNumber = "Course #";
   export let CourseName = "Course Name";
 
-  // Position
-  export let top = "0px";
-  export let left= "0px";
-  export let margin = "20px";
 </script>
 
-<div class="shape-container" style="margin: {margin}; position: relative; top: {top}; left: {left}">
+<div class="shape-container">
   <div class="square-container">
     <div class="small-rectangle" style="background-color: {CourseColor};">
       {CourseNumber}

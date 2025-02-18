@@ -19,5 +19,5 @@
 </ul>
 
   
-<CourseComponent CourseColor = "green" CourseName = "Discrete Structures for Computing" CourseNumber = "CSCE 222" top = "-100px" left = "-100px" margin = "0px"/>
+<CourseComponent CourseColor = "green" CourseName = "Discrete Structures for Computing" CourseNumber = "CSCE 222"/>
   
