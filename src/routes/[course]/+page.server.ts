@@ -13,10 +13,12 @@ export const load = (async ({params, locals: { database }}) => {
 
     const course: Course = result.rows[0];
 
-    return {course: {
-        name: course.course_name,
-        number: course.course_number,
-        description: course.course_description,
+    return {
+        title: `${course.course_number}: ${course.course_name}`,
+        course: {
+            name: course.course_name,
+            number: course.course_number,
+            description: course.course_description,
     }};
         
 }) satisfies PageServerLoad;

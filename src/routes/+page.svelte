@@ -1,70 +1,33 @@
 <script>
     export let data;
+    import CourseComponent from '$lib/components/CourseComponent.svelte';
 </script>
 
-<h1 style="text-align: center;">Courses</h1>
+<h1>Courses</h1>
+
+<div class="courses-container">
+<ul class="courses">
+    {#each data.courses as { course_id, course_name, course_number, color }}
+        <li>
+        <a href="/{course_id}">
+            <CourseComponent CourseName={course_name} CourseNumber={course_number} CourseColor={color}/>
+        </a>
+        </li> 
+    {/each}
+</ul>
+</div>
 
 <style>
     .courses-container {
+        width: 75%;
+    }
+
+    .courses {
+        padding: 0;
+        margin: 0;
+        list-style-type: none;
         display: flex;
-        justify-content: center;
-        gap: 50px; /* Space between courses */
-        margin-top: 20px;
-    }
-
-    .course {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .rectangle {
-        width: 200px; 
-        height: 30px; 
-        border: 2px solid black;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        font-weight: bold;
-        color: white;
-    }
-
-    .dark-green {
-        background-color: darkgreen;
-    }
-
-    .maroon {
-        background-color: maroon;
-    }
-
-    .border-rectangle {
-        width: 200px;
-        height: 100px; 
-        border: 2px solid black;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        text-align: center;
-    }
-
-    .sean-component-container {
-        display: flex;
-        justify-content: center;
-        margin-top: 40px;
+        justify-content: start;
+        gap: 50px;
     }
 </style>
-
-<!-- Courses Container -->
-<div class="courses-container">
-    <!-- Course 1 -->
-    <div class="course">
-        <div class="rectangle dark-green">CSCE222</div>
-        <div class="border-rectangle">Discrete Mathematics</div>
-    </div>
-
-    <!-- Course 2 -->
-    <div class="course">
-        <div class="rectangle maroon">MATH415</div>
-        <div class="border-rectangle">Modern Algebra</div>
-    </div>
-</div>

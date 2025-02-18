@@ -1,5 +1,8 @@
-<script lang="ts">
-    export let children;
+<script>
+  import { page } from '$app/stores';
+  
+  // Reactive derived page title
+  $: pageTitle = $page.data?.title || "LEMMA";
 </script>
 
 <style>
@@ -9,30 +12,26 @@
         height: 100px;
         background-color: blue;
         display: flex;
-        align-items: center; /* Centers content vertically */
-        padding: 0 20px;
-    }
-
-    .header img {
-        width: 75px;
-        height: 75px;
-    }
-
-    .content {
-        margin-top: 20px; /* Adds space below the header */
-        display: flex;
-        flex-direction: column;
         align-items: center;
+        gap: 20px;
+        padding: 0 20px;
+        color: #fff;
     }
 
+    .body {
+        padding: 20px;
+    }
 </style>
 
 <!-- Blue Header -->
 <div class="header">
-    <img src="/Canvas_Home.png" alt="Home">
+    <a href="/">
+        <img src="/home-icon.svg" alt="Home" width="75" height="75">
+    </a>
+
+    <h1>{pageTitle}</h1>
 </div>
 
-<!-- Space for Sean's Component -->
-<div class="sean-component-container">
-    <slot></slot> <!-- This allows Sean's component to be inserted dynamically -->
+<div class="body">
+    <slot/>
 </div>
