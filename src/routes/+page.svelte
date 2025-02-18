@@ -8,7 +8,6 @@
     .rectangle {
         width: 200px; 
         height: 30px; 
-        position: absolute; /* Position rectangles relative to the container or viewport */
         border: 2px solid black; /* Add black border with size 2px */
         display: flex;
         justify-content: center;
@@ -32,7 +31,6 @@
     .border-rectangle {
         width: 200px;
         height: 100px; 
-        position: absolute;
         border: 2px solid black; /* Create border lines */
         display: flex;
         justify-content: center;
