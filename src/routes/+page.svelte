@@ -1,6 +1,5 @@
 <script>
     export let data;
-    import CourseComponent from '$lib/components/CourseComponent.svelte';
 </script>
 
 <h1>Welcome to SvelteKit</h1>

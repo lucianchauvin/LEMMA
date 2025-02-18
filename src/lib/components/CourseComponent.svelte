@@ -8,25 +8,18 @@
 
 </script>
 
-<div class="shape-container">
-  <div class="square-container">
-    <div class="small-rectangle" style="background-color: {CourseColor};">
-      {CourseNumber}
-    </div>
-    <div class="square" style="background-color: {color};">
-      <div class="square-text">
-        {CourseName}
-      </div>
-    </div>
+<div class="square-container">
+<div class="small-rectangle" style="background-color: {CourseColor};">
+  {CourseNumber}
+</div>
+<div class="square" style="background-color: {color};">
+  <div class="square-text">
+    {CourseName}
   </div>
+</div>
 </div>
 
 <style>
-  .shape-container {
-    text-align: center;
-    position: relative;
-  }
-
   .square-container {
     display: inline-block;
     position: relative;
