@@ -89,3 +89,8 @@
         </div>
     </div>
 </div>
+
+<!-- Space for Sean's Component -->
+<div class="sean-component-container">
+    <slot></slot> <!-- This allows Sean's component to be inserted dynamically -->
+</div>
