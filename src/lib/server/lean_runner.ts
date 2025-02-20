@@ -8,7 +8,7 @@ export default async function run(file: string)
 {
     return new Promise(function (resolve, reject)
     {
-        const path = LEANBIN + "/lean --run ";
+        const path = LEANBIN + " --run ";
         exec(path + file, (err, stdout, stderr) =>
         {
             if (err)
@@ -26,12 +26,12 @@ export default async function run(file: string)
 }
 
 
-/* Testing Code
+/* Testing code
 async function main()
 {
     let { stdout } = await run("../../test.lean");
 }
 
 main();
-*/
+/*
 
