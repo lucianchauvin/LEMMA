@@ -4,8 +4,9 @@ import { error } from '@sveltejs/kit';
 
 export const load = (async ({params, locals: { database }}) => {
     const result = await database.query("SELECT * FROM courses WHERE course_id=$1", [params.course]);
+    const assignmentResult = await database.query("SELECT * FROM assignments WHERE assignments.course_id=$1", [params.course]);
 
-    if (!result.rows) throw error(404); // no course found like this
+    if (result.rows.length === 0) throw error(404); // no course found like this
     if (result.rows.length > 1) {
         console.error(`Found multiple courses with id ${params.course}`);
         throw error(500);
@@ -16,10 +17,13 @@ export const load = (async ({params, locals: { database }}) => {
     return {
         title: `${course.course_number}: ${course.course_name}`,
         course: {
+            id: course.course_id,
             name: course.course_name,
             number: course.course_number,
             description: course.course_description,
-    }};
+        },
+        assignments: assignmentResult.rows
+    };
         
 }) satisfies PageServerLoad;
 
