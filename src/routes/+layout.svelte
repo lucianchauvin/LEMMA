@@ -9,16 +9,23 @@
         display: flex;
         align-items: center;
         background-color: #000080; 
-        color: white; /* Text color */
+        color: cyan; /* Text color */
     }
     
+    .user-login-icon {
+        background-color: #000080; /* Set the background color to the same as the header */
+        border-radius: 50%;  /* Optional: if the image is circular */
+        position: absolute;  /* Position it relative to the header */
+        right: 2%;  /* Move the image to 95% of the width */
+    }
+
     .LEMMA_Triangle {
         /* Setting width and height to 0 prevents rectangular formation */
         width: 0;
         height: 0;
         border-right: 30px solid transparent;   /* slanted sides of triangle */
         border-left: 30px solid transparent;    /* slanted sides of triangle */
-        border-bottom: 45px solid white;    /* base of triangle */
+        border-bottom: 45px solid cyan;    /* base of triangle */
         background: transparent;
         position: relative; /* Important to position the inner triangle */
         left: 10px;
@@ -46,7 +53,8 @@
 
 <div class="header"> 
     <div class="LEMMA_Triangle"> </div>
-    <div class="LEMMA_Text">LEMMA</div>  <!-- Added LEMMA text here -->
+    <div class="LEMMA_Text">LEMMA</div>  <!-- Added LEMMA text -->
+    <img src = "/user_login_icon.png" alt = "Sign Out" width = 40 height = 40 class="user-login-icon">
 </div>
 
 <div class="body">
