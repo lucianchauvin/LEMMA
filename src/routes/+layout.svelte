@@ -19,11 +19,9 @@
     }
 
     .LEMMA_Triangle  {
-        background-color: #00080;
+        background-color: #000080;
         width: 60px;
         height: 60px;
-        background-color: transparent; 
-        mix-blend-mode: multiply;
         margin-right: 10px; 
     }
 
