@@ -1,5 +1,6 @@
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css">
-
+<script>
+    import {Avatar} from '@skeletonlabs/skeleton';
+</script>
 
 <style>
     .header {
@@ -37,12 +38,9 @@
 
 <div class="header"> 
     <img src="/LEMMA_Triangle.png" alt="LMS Logo" width="50" height="50" class="LEMMA_Triangle">
-    <div class="LEMMA_Text h2">LEMMA</div>  
-    
-    <img src="/user_login_icon.png" alt="Sign Out" width="40" height="40" class="user-login-icon">
-
+    <div class="LEMMA_Text">LEMMA</div>  
+    <Avatar src="/user_login_icon.png" alt="Sign Out" class="user-login-icon" size="sm" />
 </div>
-
 
 <div class="body">
     <slot/>
