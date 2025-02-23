@@ -1,6 +1,5 @@
-<script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css">
 
-</script>
 
 <style>
     .header {
@@ -11,34 +10,21 @@
         background-color: #000080; 
         color: cyan; /* Text color */
     }
-    
+
     .user-login-icon {
         background-color: #000080; /* Set the background color to the same as the header */
-        border-radius: 50%;  /* Optional: if the image is circular */
-        position: absolute;  /* Position it relative to the header */
-        right: 2%;  /* Move the image to 95% of the width */
+        border-radius: 50%;  
+        position: absolute;  
+        right: 2%;  
     }
 
-    .LEMMA_Triangle {
-        /* Setting width and height to 0 prevents rectangular formation */
-        width: 0;
-        height: 0;
-        border-right: 30px solid transparent;   /* slanted sides of triangle */
-        border-left: 30px solid transparent;    /* slanted sides of triangle */
-        border-bottom: 45px solid cyan;    /* base of triangle */
-        background: transparent;
-        position: relative; /* Important to position the inner triangle */
-        left: 10px;
-    }
-
-    .LEMMA_Triangle::after {
-        content: "";
-        position: absolute;  /* ensures the triangle is inside LEMMA_Triangle */
-        top: 7px;  /* move inner triangle 5 pixels down from top */
-        left: -20px;  
-        border-left: 20px solid transparent;  
-        border-right: 20px solid transparent;  
-        border-bottom: 35px solid #000080;  /* same color as the header background color to create a hollow effect */
+    .LEMMA_Triangle  {
+        background-color: #00080;
+        width: 60px;
+        height: 60px;
+        background-color: transparent; 
+        mix-blend-mode: multiply;
+        margin-right: 10px; 
     }
 
     .LEMMA_Text {
@@ -52,10 +38,13 @@
 </style>
 
 <div class="header"> 
-    <div class="LEMMA_Triangle"> </div>
-    <div class="LEMMA_Text">LEMMA</div>  <!-- Added LEMMA text -->
-    <img src = "/user_login_icon.png" alt = "Sign Out" width = 40 height = 40 class="user-login-icon">
+    <img src="/LEMMA_Triangle.png" alt="LMS Logo" width="50" height="50" class="LEMMA_Triangle">
+    <div class="LEMMA_Text h2">LEMMA</div>  
+    
+    <img src="/user_login_icon.png" alt="Sign Out" width="40" height="40" class="user-login-icon">
+
 </div>
+
 
 <div class="body">
     <slot/>
