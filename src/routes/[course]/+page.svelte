@@ -7,8 +7,7 @@
 <ul>
     {#each data.assignments as { assignment_id, assignment_name }}
         <li>
-        {console.log(`/${data.course.id}/${assignment_id}`)}
-        <a href="/{data.course.id}/{assignment_id}">
+        <a href="/{data.course.course_id}/{assignment_id}">
             {assignment_name}
         </a>
         </li> 
