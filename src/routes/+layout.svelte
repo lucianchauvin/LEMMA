@@ -13,10 +13,9 @@
     }
 
     .user-login-icon {
-        background-color: #000080; /* Set the background color to the same as the header */
-        border-radius: 50%;  
         position: absolute;  
-        right: 2%;  
+        border-radius: 50%; 
+        right: 1%;  
     }
 
     .LEMMA_Triangle  {
@@ -39,9 +38,12 @@
 <div class="header"> 
     <img src="/LEMMA_Triangle.png" alt="LMS Logo" width="50" height="50" class="LEMMA_Triangle">
     <div class="LEMMA_Text">LEMMA</div>  
-    <Avatar src="/user_login_icon.png" alt="Sign Out" class="user-login-icon" size="sm" />
+    <div class="user-login-icon">
+        <Avatar src="/user_login_icon.png" alt="Sign Out" style="width: 55px; height: 55px;"/>
+    </div>
 </div>
 
 <div class="body">
     <slot/>
 </div>
+
