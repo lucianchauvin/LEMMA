@@ -3,18 +3,16 @@
     import CourseComponent from '$lib/components/CourseComponent.svelte';
 </script>
 
-<h1>Courses</h1>
 
+<h1>Courses</h1>
 <div class="courses-container">
-<ul class="courses">
-    {#each data.courses as { course_id, course_name, course_number, color }}
-        <li>
-        <a href="/{course_id}">
-            <CourseComponent CourseName={course_name} CourseNumber={course_number} CourseColor={color}/>
-        </a>
-        </li> 
-    {/each}
-</ul>
+    <ul class="courses">
+        {#each data.courses as { course_id, course_name, course_number, color }}
+            <a href="/{course_id}">
+                <CourseComponent CourseName={course_name} CourseNumber={course_number} CourseColor={color} />
+            </a>
+        {/each}
+    </ul>
 </div>
 
 <style>
