@@ -1,38 +1,37 @@
-# sv
+# LEMMA
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+Web application that integrates the formal language [LEAN](https://lean-lang.org/) into a LMS to enable autograding of student-written proofs.
 
-## Creating a project
+## Installation and Running
+All of the following commands are expected to be ran on the root of the repo.
 
-If you're seeing this, you've probably already done this step. Congrats!
-
+This project uses a postgres. The files necessary to create the server is seen in `data`. To generate the initialization of the database, 
 ```bash
-# create a new project in the current directory
-npx sv create
-
-# create a new project in my-app
-npx sv create my-app
+data/create_db.sh
+```
+This creates a `data/init_db.sql` file that runs the other `data/*.sql` files in a valid order. You may run this within postgres with
+```psql
+\i data/init_db.sql
 ```
 
-## Developing
+This project requires a `.env` file. The existing `.env.example` is on the repo with the environment variables used in the project.
+```bash
+cp .env.example .env
+```
+Fill out the variables in `.env` based on the comments.
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+Install the necessary packages
+```bash
+npm install
+```
 
+Running development
 ```bash
 npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
 ```
 
-## Building
-
-To create a production version of your app:
-
+Running for deployment
 ```bash
 npm run build
+node build
 ```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
