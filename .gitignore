@@ -24,5 +24,3 @@ vite.config.ts.timestamp-*
 
 # Database
 data/init_db.sql
-
-.lake
