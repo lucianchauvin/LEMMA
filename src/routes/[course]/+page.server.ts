@@ -17,10 +17,12 @@ export const load = (async ({params, locals: { database }}) => {
         error(500, {message: 'Database failed to query for courses for specific course'})
     }
 
-    if (!result.rows) throw error(404); // no course found like this
+    if (!result.rows) 
+        throw error(404, {message: 'No course found'}); // no course found like this
     if (result.rows.length > 1) {
+        // should never happen
         console.error(`Found multiple courses with id ${params.course}`);
-        throw error(500);
+        throw error(500, {message: 'Multiple courses found with this id'});
     }
 
     const course: Course = result.rows[0];
