@@ -15,19 +15,22 @@ jobs:
       - name: Checkout the code
         uses: actions/checkout@v1
 
+      - name: Read IP from file
+        run: echo "RHOST=$(cat IP | tr -d '[:space:]')" >> $GITHUB_ENV
+
       - name: Deploy to my EC2 instance
         uses: easingthemes/ssh-deploy@v2.1.5
         env:
           SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
           SOURCE: "./"
-          REMOTE_HOST: "18.221.17.99"
+          REMOTE_HOST: "${{ env.RHOST }}"
           REMOTE_USER: "ubuntu"
           TARGET: "/home/ubuntu/LEMMA"
 
       - name: Install dependencies and restart app with PM2
         uses: appleboy/ssh-action@v0.1.10
         with:
-          host: 18.221.17.99
+          host: "${{ env.RHOST }}"
           username: ubuntu
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
@@ -36,5 +39,5 @@ jobs:
             npm install
             cp ../.env .
             npm run build
-            pm2 restart lemma || pm2 start "PORT=3000 node -r dotenv/config build" --name lemma
+            pm2 restart lemma || pm2 start --no-autorestart "PORT=3000 node -r dotenv/config build" --name lemma
             pm2 save

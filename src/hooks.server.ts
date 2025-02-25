@@ -1,6 +1,9 @@
 import pg from 'pg';
+import fs from 'fs';
 import { type Handle } from '@sveltejs/kit';
-import { PGHOST, PGUSER, PGDATABASE, PGPASSWORD, PGPORT } from '$env/static/private';
+import { PGUSER, PGDATABASE, PGPASSWORD, PGPORT } from '$env/static/private';
+
+const PGHOST = fs.readFileSync('IP', 'utf-8').trim();
 
 export const handle: Handle = async ({ event, resolve }) => {
     /**
@@ -10,12 +13,10 @@ export const handle: Handle = async ({ event, resolve }) => {
         host: PGHOST,
         user: PGUSER,
         password: Buffer.from(PGPASSWORD, 'base64').toString('utf-8').trim().replace(/(\r\n|\n|\r)/gm, ""),
-        port: parseInt(PGPORT)
+        port: parseInt(PGPORT),
+        connectionTimeoutMillis: 5000, // 5 sec timeout
     })
 
     const response = await resolve(event);
     return response;
 }
-
-
-

@@ -49,7 +49,7 @@ CREATE TABLE "users" (
   "username" varchar(255) UNIQUE NOT NULL,
   "password" varchar(255) NOT NULL,
   "email" varchar(255) UNIQUE NOT NULL,
-  "is_super_admin" bool NOT NULL DEFAULT true,
+  "is_super_admin" bool NOT NULL DEFAULT false,
   "active" bool NOT NULL DEFAULT false
 );
 
@@ -108,6 +108,7 @@ CREATE TABLE "student_assignments" (
   "student_assignment_id" uuid PRIMARY KEY DEFAULT (gen_random_uuid()),
   "assignment_id" uuid NOT NULL,
   "student_id" uuid NOT NULL,
+  "edit" boolean NOT NULL DEFAULT false,
   "grade" float NOT NULL DEFAULT 0
 );
 
