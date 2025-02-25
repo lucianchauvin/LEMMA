@@ -1,8 +1,6 @@
 import type { PageServerLoad } from './$types';
-import type { Assignment } from '$lib/types';
+import type { Course, Assignment } from '$lib/types';
 import { error } from '@sveltejs/kit';
-import { writeFile } from 'fs/promises';
-import { PROJPATH } from '$env/static/private';
 
 export const load = (async ({params, locals: { database }}) => {
     const courseResult = await database.query("SELECT * FROM course WHERE course_id=$1", [params.course]);
@@ -21,7 +19,6 @@ export const load = (async ({params, locals: { database }}) => {
         throw error(500);
     }
 
-
     const course: Course = courseResult.rows[0];
     const assignment: Assignment = assignmentResult.rows[0];
 
@@ -35,15 +32,3 @@ export const load = (async ({params, locals: { database }}) => {
     };
         
 }) satisfies PageServerLoad;
-
-export const actions = {
-	upload: async ({ params, request, locals: { database } }) => {
-		const formData = await request.formData();
-    const file = formData.file;
-
-    database.query("INSERT INTO student_proofs ")
-    
-    await writeFile(`${PROJPATH}/savedwork/${params.course}/${params.assignment}/${file.name}`, await file.text());
-	},
-}
-
