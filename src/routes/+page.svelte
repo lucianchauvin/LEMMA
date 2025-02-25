@@ -4,7 +4,7 @@
 </script>
 
 
-<h1>Courses</h1>
+<h1> <center> Courses </center></h1>
 <div class="courses-container">
     <ul class="courses">
         {#each data.courses as { course_id, course_name, course_number, color }}
@@ -17,7 +17,9 @@
 
 <style>
     .courses-container {
-        width: 75%;
+        
+        display: flex;
+        justify-content: center; /* Centers horizontally */
     }
 
     .courses {
