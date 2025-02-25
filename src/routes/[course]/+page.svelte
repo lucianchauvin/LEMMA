@@ -1,110 +1,48 @@
 <script>
-    import {AppRail, AppRailTile} from '@skeletonlabs/skeleton';
+    import {AppRail, AppRailTile, AppRailAnchor} from '@skeletonlabs/skeleton';
+
 </script>
 
-<style>
-    
-    .AppRailContainer {
-        display: flex;
-        flex-direction: column;   
-    }
 
-    .CourseNavigationTile {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width: 60px;
-        height: 60px;
-        background-color: azure;
-        border-radius: 8px;
-    }
+<AppRail class="vertical-rail">
+    <svelte:fragment slot="lead">
+        <AppRailAnchor href="">
+            <img src="Hamburger_Icon.png" alt="Hamburger Icon" width=60px height=60px>
+        </AppRailAnchor>
+    </svelte:fragment>
 
-    .BarsSolid {
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        width: 24px;
-        height: 18px;
-    }
-
-    .BarsSolid div {
-        width: 100%;
-        height: 4px;
-        background-color: black;
-        border-radius: 2px;
-    }
-
-    .HomeTile {
-        width: 60px;
-        height: 60px;
-        background-color: green;
-        margin-top: 100px; 
-        display: flex;
-        flex-direction: column;  
-        align-items: center;     
-        justify-content: center; 
-    }
-
-    .HomeTile img {
-        filter: grayscale(100%) brightness(0%);
-    }
-
-    .OtherTile {
-        width: 60px;
-        height: 60px;
-        background-color: azure;
-        display: flex;
-        flex-direction: column;  
-        align-items: center;     
-        justify-content: center; 
-    }
-</style>
-
-<div class="AppRailContainer">
-<AppRail>
-    <AppRailTile>
-        <div class="CourseNavigationTile">
-            <div class="BarsSolid">
-                <div></div>
-                <div></div>
-                <div></div>
-            </div>
-        </div>
+    <AppRailTile value={0} title="Home">
+        <svelte:fragment slot="lead">
+            <img src="/home-icon.svg" alt="Home" width="60" height="60">
+        </svelte:fragment>
+        <span>Home</span>
     </AppRailTile>
 
-    <AppRailTile>
-        <div class="HomeTile">
-            <img src="/home-icon.svg" alt="House" width=15px height=15px style="margin-top: 10px;"> 
-            <h1 style="font-size: 10px;"> Home </h1>
-        </div>
+    <AppRailTile value={1} title="Grades">
+        <svelte:fragment slot="lead">
+            <img src="/CheckMark.jpg" alt="Grades" width="60" height="60">
+        </svelte:fragment>
+        <span>Grades</span>
     </AppRailTile>
 
-    <AppRailTile>
-        <div class = "OtherTile">
-            <img src="/CheckMark.jpg" alt="Grades" width=20px height=20px style="margin-tip: 10px;">
-            <h1 style="font-size: 10px;"> Grades </h1>
-        </div>
+    <AppRailTile value={2} title="GradeBook">
+        <svelte:fragment slot="lead">
+            <img src="/GradeBook.png" alt="Grade Book" width="60" height="60">
+        </svelte:fragment>
+        <span>Grade Book</span>
     </AppRailTile>
 
-    <AppRailTile>
-        <div class = "OtherTile">
-            <img src="/GradeBook.png" alt="GradeBook" width=20px height=20px style="margin-tip: 10px;">
-            <h1 style="font-size: 10px;"> Grade Book </h1>
-        </div>
+    <AppRailTile value={3} title="Students">
+        <svelte:fragment slot="lead">
+            <img src="/Student.png" alt="Students" width="60" height="60">
+        </svelte:fragment>
+        <span>Students</span>
     </AppRailTile>
 
-    <AppRailTile>
-        <div class = "OtherTile">
-            <img src="/Student.png" alt="Students" width=20px height=20px style="margin-tip: 10px;">
-            <h1 style="font-size: 10px;"> Students </h1>
-        </div>
-    </AppRailTile>
-
-    <AppRailTile>
-        <div class = "OtherTile">
-            <img src="/LightBulb.png" alt="Light Bulb Icon" width=20px height=20px style="margin-tip: 10px;">
-            <h1 style="font-size: 10px;"> Statements </h1>
-        </div>
+    <AppRailTile value={4} title="Statements">
+        <svelte:fragment slot="lead">
+            <img src="/LightBulb.png" alt="Statements" width="60" height="60">
+        </svelte:fragment>
+        <span>Statements</span>
     </AppRailTile>
 </AppRail>
-</div>
