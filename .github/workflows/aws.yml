@@ -36,5 +36,5 @@ jobs:
             npm install
             cp ../.env .
             npm run build
-            pm2 restart lemma || pm2 start "PORT=3000 node -r dotenv/config build" --name lemma
+            pm2 restart lemma || pm2 start --no-autorestart "PORT=3000 node -r dotenv/config build" --name lemma
             pm2 save
