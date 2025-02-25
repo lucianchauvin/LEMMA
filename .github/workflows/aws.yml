@@ -15,12 +15,15 @@ jobs:
       - name: Checkout the code
         uses: actions/checkout@v1
 
+      - name: Read IP from file
+        run: echo "RHOST=$(cat IP | tr -d '[:space:]')" >> $GITHUB_ENV
+
       - name: Deploy to my EC2 instance
         uses: easingthemes/ssh-deploy@v2.1.5
         env:
           SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
           SOURCE: "./"
-          REMOTE_HOST: "18.221.17.99"
+          REMOTE_HOST: "${{ env.RHOST }}"
           REMOTE_USER: "ubuntu"
           TARGET: "/home/ubuntu/LEMMA"
 
