@@ -1,48 +1,37 @@
-<script>
+<script lang="ts">
     import {AppRail, AppRailTile, AppRailAnchor} from '@skeletonlabs/skeleton';
-
+    let currentTile: number = 0;
 </script>
 
-
-<AppRail class="vertical-rail">
+<AppRail>
     <svelte:fragment slot="lead">
         <AppRailAnchor href="">
             <img src="Hamburger_Icon.png" alt="Hamburger Icon" width=60px height=60px>
         </AppRailAnchor>
     </svelte:fragment>
 
-    <AppRailTile value={0} title="Home">
-        <svelte:fragment slot="lead">
-            <img src="/home-icon.svg" alt="Home" width="60" height="60">
-        </svelte:fragment>
+    <AppRailAnchor href="/" title="Home">
+        <img src="/home-icon.svg" alt="Home" width="60px" height="60px">
         <span>Home</span>
-    </AppRailTile>
+    </AppRailAnchor>
 
-    <AppRailTile value={1} title="Grades">
-        <svelte:fragment slot="lead">
-            <img src="/CheckMark.jpg" alt="Grades" width="60" height="60">
-        </svelte:fragment>
+    <AppRailAnchor href="/grades" title="Grades">
+        <img src="/CheckMark.jpg" alt="Grades" width="60px" height="60px">
         <span>Grades</span>
-    </AppRailTile>
+    </AppRailAnchor>
 
-    <AppRailTile value={2} title="GradeBook">
-        <svelte:fragment slot="lead">
-            <img src="/GradeBook.png" alt="Grade Book" width="60" height="60">
-        </svelte:fragment>
+    <AppRailAnchor href="/gradebook" title="GradeBook">
+        <img src="/GradeBook.png" alt="Grade Book" width="60px" height="60px">
         <span>Grade Book</span>
-    </AppRailTile>
+    </AppRailAnchor>
 
-    <AppRailTile value={3} title="Students">
-        <svelte:fragment slot="lead">
-            <img src="/Student.png" alt="Students" width="60" height="60">
-        </svelte:fragment>
+    <AppRailAnchor href="/students" title="Students">
+        <img src="/Student.png" alt="Students" width="60px" height="60px">
         <span>Students</span>
-    </AppRailTile>
+    </AppRailAnchor>
 
-    <AppRailTile value={4} title="Statements">
-        <svelte:fragment slot="lead">
-            <img src="/LightBulb.png" alt="Statements" width="60" height="60">
-        </svelte:fragment>
+    <AppRailAnchor href="/statements" title="Statements">
+        <img src="/LightBulb.png" alt="Statements" width="60px" height="60px">
         <span>Statements</span>
-    </AppRailTile>
+    </AppRailAnchor>
 </AppRail>
