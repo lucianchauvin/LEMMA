@@ -5,7 +5,7 @@
 	"type": "module",
 	"scripts": {
 		"dev": "npm run prepare && vite dev",
-		"build": "npm run prepare && npm run build_server && vite build",
+		"build": "npm run prepare && vite build",
 		"build_server": "server/build.sh",
 		"start_server": "cd server && NODE_ENV=development nodemon ./index.mjs",
 		"preview": "vite preview",
