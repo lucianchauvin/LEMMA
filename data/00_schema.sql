@@ -25,16 +25,16 @@ CREATE TYPE "permission" AS ENUM (
   'delete_courses',
   'update_assigned_courses',
   'create_readings',
-  'delete_readings',
   'update_readings',
+  'delete_readings',
   'view_inactive_assigned_course_readings',
   'create_statements',
   'update_statements',
   'delete_statements',
   'view_assigned_course_statements',
   'create_assignments',
-  'delete_assignments',
   'update_assignments',
+  'delete_assignments',
   'view_inactive_assigned_course_assignments',
   'view_course_student_assignments',
   'update_course_student_assignments',
@@ -49,7 +49,7 @@ CREATE TABLE "users" (
   "username" varchar(255) UNIQUE NOT NULL,
   "password" varchar(255) NOT NULL,
   "email" varchar(255) UNIQUE NOT NULL,
-  "is_super_admin" bool NOT NULL DEFAULT true,
+  "is_super_admin" bool NOT NULL DEFAULT false,
   "active" bool NOT NULL DEFAULT false
 );
 
@@ -68,7 +68,7 @@ CREATE TABLE "assignments" (
   "course_id" uuid NOT NULL,
   "assignment_name" varchar(100) NOT NULL,
   "assignment_description" varchar(1000),
-  "active" boolean NOT NULL,
+  "active" boolean NOT NULL DEFAULT false,
   "due_date" timestamptz
 );
 
@@ -108,6 +108,7 @@ CREATE TABLE "student_assignments" (
   "student_assignment_id" uuid PRIMARY KEY DEFAULT (gen_random_uuid()),
   "assignment_id" uuid NOT NULL,
   "student_id" uuid NOT NULL,
+  "edit" boolean NOT NULL DEFAULT false,
   "grade" float NOT NULL DEFAULT 0
 );
 
@@ -138,7 +139,7 @@ CREATE TABLE "role_permissions" (
 CREATE TABLE "user_roles" (
   "user_role_id" uuid PRIMARY KEY DEFAULT (gen_random_uuid()),
   "user_id" uuid NOT NULL,
-  "course_id" uuid NOT NULL,
+  "course_id" uuid,
   "role_name" varchar(100) NOT NULL
 );
 
