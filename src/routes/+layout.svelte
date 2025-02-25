@@ -5,7 +5,7 @@
 <style>
     .header {
         width: 100%;
-        height: 70px;
+        height: 60px;
         display: flex;
         align-items: center;
         background-color: #000080; 
@@ -20,8 +20,8 @@
 
     .LEMMA_Triangle  {
         background-color: #000080;
-        width: 70px;
-        height: 70px;
+        width: 60px;
+        height: 60px;
         margin-right: 10px; 
     }
 
@@ -38,7 +38,7 @@
     </a>
     <div class="LEMMA_Text">LEMMA</div>  
     <div class="user-login-icon">
-        <Avatar src="/user_login_icon.png" alt="Sign Out" style="width: 65px; height: 65px;"/>
+        <Avatar src="/user_login_icon.png" alt="Sign Out" style="width: 55px; height: 55px;"/>
     </div>
 </div>
 
