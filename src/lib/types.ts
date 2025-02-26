@@ -118,6 +118,7 @@ export type StudentAssignment = {
     student_assignment_id: UUID,
     assignment_id: UUID,
     student_id: UUID,
+    edit: boolean,
     grade: number
 }
 
