@@ -28,6 +28,7 @@
     .LEMMA_Text {
         margin-left: 40px; /* Space between triangle and text */
         font-size: 30px;
+        background-color: var(--theme-primary); 
     }
 
 </style>

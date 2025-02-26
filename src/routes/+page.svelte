@@ -4,8 +4,10 @@
 </script>
 
 
-<h1> <center> Courses </center></h1>
+<h1 class="courses-title">Courses</h1>
+
 <div class="courses-container">
+    
     <ul class="courses">
         {#each data.courses as { course_id, course_name, course_number, color }}
             <a href="/{course_id}">
@@ -16,8 +18,15 @@
 </div>
 
 <style>
+    .courses-title {
+        font-weight: bold;
+        margin-top: 20px;
+        display: flex;
+        justify-content: center;
+        color: var(--theme-secondary);
+    }
+
     .courses-container {
-        
         display: flex;
         justify-content: center; /* Centers horizontally */
     }
