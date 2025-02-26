@@ -4,7 +4,11 @@ declare global {
 	namespace App {
 		// interface Error {}
 		interface Locals {
-        database: Pool
+        database: Pool;
+        safeQuery: <T extends QueryResultRow>(
+            query: string, 
+            params?: any[]
+        ) => Promise<SafeQueryResult<T>>;
     }
 		// interface PageData {}
 		// interface PageState {}
