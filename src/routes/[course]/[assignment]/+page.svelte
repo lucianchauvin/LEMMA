@@ -5,8 +5,8 @@
 <h1>{data.assignment.name}</h1>
 
 <ul>
-    {#each data.proofs as proof}
-        <li href=""></li>
+    {#each data.studentAssignments as assignment}
+        <li href="">{assignment.student_id}</li>
     {/each}
 </ul>
 
