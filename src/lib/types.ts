@@ -146,3 +146,7 @@ export type ProblemStatement = {
     problem_id: UUID,
     statement_id: UUID
 }
+
+export type SafeQueryResult<T> = 
+    | { data: T[]; error: null }
+    | { data: null; error: string }
