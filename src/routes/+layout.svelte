@@ -8,8 +8,8 @@
         height: 60px;
         display: flex;
         align-items: center;
-        background-color: #000080; 
-        color: cyan; /* Text color */
+        background-color: var(--theme-primary); /* Rocket theme color */
+        color: var(--theme-secondary); /* Adjust text color */
     }
 
     .user-login-icon {
@@ -28,7 +28,7 @@
     .LEMMA_Text {
         margin-left: 40px; /* Space between triangle and text */
         font-size: 30px;
-        background-color: var(--theme-primary); 
+        color: var(--theme-tertiary);  
     }
 
 </style>

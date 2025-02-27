@@ -10,7 +10,10 @@ module.exports = {
     plugins: [
       require('skeleton')({
         themes: {
-            preset: [ { name: "rocket", enhancements: true } ] 
+			preset: [
+				// Enable 'enhancements' per each registered theme:
+				{ name: "rocket", enhancements: true }
+			] 
         }
       })
     ],
