@@ -36,6 +36,7 @@ import "../app.css";
         width: 60px;
         height: 60px;
         margin-right: 10px; 
+        filter: invert(100%);
     }
 
     .LEMMA_Text {

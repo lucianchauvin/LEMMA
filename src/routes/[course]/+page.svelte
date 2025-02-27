@@ -4,12 +4,11 @@
 </script>
 
 <AppRail>
-    <svelte:fragment slot="lead">
-        <AppRailAnchor href="">
+    <AppRailAnchor href="">
+        <svelte:fragment slot="lead">
             <img src="Hamburger_Icon.png" alt="Hamburger Icon" width=60px height=60px>
-        </AppRailAnchor>
-    </svelte:fragment>
-
+        </svelte:fragment>
+    </AppRailAnchor>
 
     <AppRailAnchor href="/" title="Home" class="home-link" selected={$page.url.pathname === "/"}>
         <svelte:fragment slot="lead">
