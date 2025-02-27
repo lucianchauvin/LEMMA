@@ -1,6 +1,18 @@
 <script>
-    import {Avatar} from '@skeletonlabs/skeleton';
+import {Avatar} from '@skeletonlabs/skeleton';
 </script>
+
+
+
+<div class="header"> 
+    <a href="/">
+        <img src="/LEMMA_Triangle.png" alt="LMS Logo" class="LEMMA_Triangle" />
+    </a>
+    <div class="LEMMA_Text">LEMMA</div>  
+    <div class="user-login-icon">
+        <Avatar src="/user_login_icon.png" alt="Sign Out" style="width: 55px; height: 55px;"></Avatar>
+    </div>
+</div>
 
 <style>
     .header {
@@ -8,8 +20,8 @@
         height: 60px;
         display: flex;
         align-items: center;
-        background-color: var(--theme-primary); /* Rocket theme color */
-        color: var(--theme-secondary); /* Adjust text color */
+        background-color: #000080;
+        color: cyan; 
     }
 
     .user-login-icon {
@@ -27,23 +39,11 @@
 
     .LEMMA_Text {
         margin-left: 40px; /* Space between triangle and text */
-        font-size: 30px;
-        color: var(--theme-tertiary);  
+        font-size: 30px; 
     }
 
 </style>
 
-<div class="header"> 
-    <a href = "/">
-        <img src="/LEMMA_Triangle.png" alt="LMS Logo" class="LEMMA_Triangle">
-    </a>
-    <div class="LEMMA_Text">LEMMA</div>  
-    <div class="user-login-icon">
-        <Avatar src="/user_login_icon.png" alt="Sign Out" style="width: 55px; height: 55px;"/>
-    </div>
-</div>
-
 <div class="body">
-    <slot/>
+    <slot></slot>
 </div>
-
