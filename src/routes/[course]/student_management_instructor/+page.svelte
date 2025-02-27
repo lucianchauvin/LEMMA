@@ -1,4 +1,4 @@
-<script>
+<!-- <script>
     export let data;
 </script>
 
@@ -12,11 +12,4 @@
         </a>
         </li> 
     {/each}
-</ul>
-
-<div>
-    <a href="/{data.course.id}/student_management_instructor">Student Management</a>
-</div>
-<div>
-    <a href="/{data.course.id}/grades">Grades</a>
-</div>
+</ul> -->
