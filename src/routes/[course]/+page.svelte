@@ -20,3 +20,6 @@
 <div>
     <a href="/{data.course.id}/grades">Grades</a>
 </div>
+<div>
+    <a href="/{data.course.id}/gradebook">Gradebook</a>
+</div>
