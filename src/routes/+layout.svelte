@@ -1,5 +1,6 @@
 <script>
 import {Avatar} from '@skeletonlabs/skeleton';
+import "../app.css";
 </script>
 
 
