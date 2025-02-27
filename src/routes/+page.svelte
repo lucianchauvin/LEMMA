@@ -23,7 +23,6 @@
         margin-top: 20px;
         display: flex;
         justify-content: center;
-        color: var(--theme-secondary);
     }
 
     .courses-container {
