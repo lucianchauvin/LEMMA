@@ -1,6 +1,13 @@
 <script lang="ts">
     import {AppRail, AppRailAnchor} from '@skeletonlabs/skeleton';
+    import { Table} from '@skeletonlabs/skeleton';
     import {page} from '$app/stores';
+
+    const assignmentsData = [
+        { position: 1, name: 'Assignment 1', dueDate: '2025-02-28', status: 'Completed' },
+        { position: 2, name: 'Assignment 2', dueDate: '2025-03-05', status: 'Pending' },
+        { position: 3, name: 'Assignment 3', dueDate: '2025-03-12', status: 'Completed' },
+    ];
 </script>
 
 <AppRail>

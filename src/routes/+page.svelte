@@ -4,7 +4,7 @@
 </script>
 
 
-<h1 class="courses-title">Courses</h1>
+<h1 class="course-title">Courses</h1>
 
 <div class="courses-container">
     
@@ -18,16 +18,18 @@
 </div>
 
 <style>
-    .courses-title {
-        font-weight: bold;
-        margin-top: 20px;
-        display: flex;
-        justify-content: center;
+    .course-title {
+        font-size: 36px;   
+        font-weight: bold; 
+        color: black;      
+        text-align: center; 
+        margin-top: 25px;
     }
 
     .courses-container {
         display: flex;
         justify-content: center; /* Centers horizontally */
+        margin-top: 50px;
     }
 
     .courses {
