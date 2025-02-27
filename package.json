@@ -31,10 +31,15 @@
 	"dependencies": {
 		"@types/pg": "^8.11.11",
 		"dotenv": "^16.4.7",
+		"express": "^4.21.2",
+		"ip-anonymize": "^0.1.0",
 		"lean4monaco": "^1.0.42",
 		"memfs": "^4.17.0",
+		"nocache": "^4.0.0",
+		"nodemon": "^3.1.9",
 		"pg": "^8.13.3",
 		"vite-plugin-node-polyfills": "^0.23.0",
-		"vite-plugin-static-copy": "^2.2.0"
+		"vite-plugin-static-copy": "^2.2.0",
+		"ws": "^8.18.1"
 	}
 }
