@@ -1,14 +1,26 @@
 <script lang="ts">
     import {AppRail, AppRailAnchor} from '@skeletonlabs/skeleton';
     import { Table} from '@skeletonlabs/skeleton';
+    import type { TableSource } from '@skeletonlabs/skeleton';
     import {page} from '$app/stores';
 
     const assignmentsData = [
-        { position: 1, name: 'Assignment 1', dueDate: '2025-02-28', status: 'Completed' },
-        { position: 2, name: 'Assignment 2', dueDate: '2025-03-05', status: 'Pending' },
-        { position: 3, name: 'Assignment 3', dueDate: '2025-03-12', status: 'Completed' },
+        { position: 1, name: 'HW 1', dueDate: '2025-02-28', status: 'Completed' },
+        { position: 2, name: 'HW 2', dueDate: '2025-03-05', status: 'Incomplete' },
+        { position: 3, name: 'HW 3', dueDate: '2025-03-12', status: 'Completed' },
     ];
+
+    const tableSource: TableSource = {
+        head: ['Assignment Name', 'Due Date', 'Status'],
+        body: assignmentsData.map((assignment) => [
+            assignment.name, assignment.dueDate, assignment.status
+        ]),
+    };
 </script>
+
+<div class="table-wrapper">
+    <Table source={tableSource} />
+</div>
 
 <AppRail>
     <AppRailAnchor href="">
@@ -52,3 +64,15 @@
         <div>Statements</div>
     </AppRailAnchor>
 </AppRail>
+
+
+<style>
+    .table-wrapper {
+        position: absolute;  
+        margin-top: 100px;   
+        margin-left: 300px;  
+        width: 800px;        
+        height: 500px;       
+        overflow: auto;
+    }
+</style>
