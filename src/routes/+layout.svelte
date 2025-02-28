@@ -31,7 +31,7 @@ $: pageTitle = $page.data?.title || "LEMMA";</script>
 </style>
 
 <!-- Blue Header -->
-<div class="header bg-primary-500 text-secondary-500">
+<div class="header bg-surface-500 text-primary-100">
     <div class="home">
     <a href="/">
         <img src="/home-icon.svg" alt="Home" width="75" height="75">
