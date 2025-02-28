@@ -1,17 +1,14 @@
-<script>
-  import { page } from '$app/stores';
-  
-  // Reactive derived page title
-  $: pageTitle = $page.data?.title || "LEMMA";
-</script>
+<script>import "../app.css";
+import { page } from '$app/stores';
+
+// Reactive derived page title
+$: pageTitle = $page.data?.title || "LEMMA";</script>
 
 <style>
-    /* Top Blue Header */
     .header {
         height: 100px;
         display: flex;
         padding: 0 20px;
-        color: #fff;
     }
 
     .home {
@@ -34,13 +31,13 @@
 </style>
 
 <!-- Blue Header -->
-<div class="header">
+<div class="header bg-surface-500 text-primary-100">
     <div class="home">
     <a href="/">
         <img src="/home-icon.svg" alt="Home" width="75" height="75">
     </a>
 
-    <h1>{pageTitle}</h1>
+    <h1 class="h1">{pageTitle}</h1>
     </div>
 
     <div class="admin">
