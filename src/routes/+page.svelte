@@ -9,7 +9,7 @@
 <ul class="courses">
     {#each data.courses as { course_id, course_name, course_number, color }}
         <li>
-        <a href="/{course_id}">
+        <a href="{course_id}">
             <CourseComponent CourseName={course_name} CourseNumber={course_number} CourseColor={color}/>
         </a>
         </li> 

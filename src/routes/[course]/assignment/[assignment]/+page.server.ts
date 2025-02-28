@@ -10,13 +10,17 @@ export const load = (async ({parent, params, locals: { safeQuery }}) => {
         error(500, {message: 'Database failed to query student assignments for assignment'})
     }
 
+    // find edit assignment
+    const editAssignment = studentAssignments.find((item: StudentAssignment) => item.edit);
+
     return {
         title: "Assignment Page",
-        course: course,
-        assignment: {
-            name: assignment.assignment_name,
-        },
-        studentAssignments
+        course,
+        assignment,
+        studentAssignments,
+        edit: {
+            editAssignment
+        }
     };
         
 }) satisfies PageServerLoad;

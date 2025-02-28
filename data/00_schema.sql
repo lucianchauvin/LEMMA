@@ -107,7 +107,7 @@ CREATE TABLE "statements" (
 CREATE TABLE "student_assignments" (
   "student_assignment_id" uuid PRIMARY KEY DEFAULT (gen_random_uuid()),
   "assignment_id" uuid NOT NULL,
-  "student_id" uuid NOT NULL,
+  "student_id" uuid,
   "edit" boolean NOT NULL DEFAULT false,
   "grade" float NOT NULL DEFAULT 0
 );

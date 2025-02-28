@@ -2,7 +2,9 @@
     export let data;
 </script>
 
-<h1>{data.assignment.name}</h1>
+<h1 class="h1">{data.assignment.name}</h1>
+
+<a href="{data.editAssignment.student_assignment_id}">Edit Assignment</a>
 
 <ul>
     {#each data.studentAssignments as assignment}
@@ -10,20 +12,3 @@
     {/each}
 </ul>
 
-<form
-    action="?/upload"
-    method="post"
-    enctype="multipart/form-data"
->
-<input>
-<label>
-<input 
-    type="file"
-    name="file"
-    id="student-file"
-/>
-</label>
-
-<button>Upload</button>
-
-</form>
