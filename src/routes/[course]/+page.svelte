@@ -12,10 +12,18 @@
         </a>
         </li> 
     {/each}
+    {#each data.readings as { reading_id, reading_name }}
+        <li>
+        <a href="/{data.course.id}/reading/{reading_id}">
+            {reading_name}
+        </a>
+        </li> 
+    {/each}
+
 </ul>
 
 <div>
-    <a href="/{data.course.id}/student_management_instructor">Student Management</a>
+    <a href="/{data.course.id}/student_management">Student Management</a>
 </div>
 <div>
     <a href="/{data.course.id}/grades">Grades</a>
