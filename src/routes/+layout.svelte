@@ -8,13 +8,24 @@
 <style>
     /* Top Blue Header */
     .header {
-        width: 100%;
         height: 100px;
+        display: flex;
+        padding: 0 20px;
+        color: #fff;
+    }
+
+    .home {
+        width: 50%;
         display: flex;
         align-items: center;
         gap: 20px;
-        padding: 0 20px;
-        color: #fff;
+    }
+
+    .admin {
+        width: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: end;
     }
 
     .body {
@@ -24,11 +35,17 @@
 
 <!-- Blue Header -->
 <div class="header">
+    <div class="home">
     <a href="/">
         <img src="/home-icon.svg" alt="Home" width="75" height="75">
     </a>
 
     <h1>{pageTitle}</h1>
+    </div>
+
+    <div class="admin">
+        <a href="/admin">Admin Panel</a>
+    </div>
 </div>
 
 <div class="body">
