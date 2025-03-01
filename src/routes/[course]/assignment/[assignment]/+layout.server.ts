@@ -3,7 +3,7 @@ import type { Course, Assignment } from '$lib/types';
 import { error } from '@sveltejs/kit';
 
 export const load = (async ({parent, params, locals: { safeQuery }}) => {
-    const course = await parent();
+    const {course} = await parent();
     const {data: assignmentResult, error: assignmentErr} = await safeQuery<Assignment>("SELECT * FROM assignments WHERE assignment_id=$1", [params.assignment]);
 
     if(assignmentErr) {
