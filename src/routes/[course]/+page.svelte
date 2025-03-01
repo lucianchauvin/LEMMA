@@ -10,16 +10,27 @@
         { position: 3, name: 'HW 3', dueDate: '2025-03-12', status: 'Completed' },
     ];
 
-    const tableSource: TableSource = {
-        head: ['Assignment Name', 'Due Date', 'Status'],
-        body: assignmentsData.map((assignment) => [
-            assignment.name, assignment.dueDate, assignment.status
-        ]),
-    };
 </script>
 
 <div class="table-wrapper">
-    <Table source={tableSource} />
+    <table class="table border border-gray-200 shadow-lg rounded-lg w-full">
+        <thead class="bg-gray-100">
+            <tr>
+                <th class="p-3 text-left">Assignment Name</th>
+                <th class="p-3 text-left">Due Date</th>
+                <th class="p-3 text-left">Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {#each assignmentsData as assignment}
+                <tr class="border-t border-gray-300">
+                    <td class="p-3">{assignment.name}</td>
+                    <td class="p-3">{assignment.dueDate}</td>
+                    <td class="p-3">{assignment.status}</td>
+                </tr>
+            {/each}
+        </tbody>
+    </table>
 </div>
 
 <AppRail>
