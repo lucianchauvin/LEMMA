@@ -139,7 +139,7 @@ CREATE TABLE "role_permissions" (
 CREATE TABLE "user_roles" (
   "user_role_id" uuid PRIMARY KEY DEFAULT (gen_random_uuid()),
   "user_id" uuid NOT NULL,
-  "course_id" uuid,
+  "course_id" uuid NOT NULL,
   "role_name" varchar(100) NOT NULL
 );
 
