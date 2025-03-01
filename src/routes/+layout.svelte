@@ -1,20 +1,7 @@
 <script>import "../app.css";
 import { page } from '$app/stores';
-import {Avatar} from '@skeletonlabs/skeleton';
 // Reactive derived page title
 $: pageTitle = $page.data?.title || "LEMMA";</script>
-
-
-
-<div class="header"> 
-    <a href="/">
-        <img src="/LEMMA_Triangle.png" alt="LMS Logo" class="LEMMA_Triangle" />
-    </a>
-    <div class="LEMMA_Text">LEMMA</div>  
-    <div class="user-login-icon">
-        <Avatar src="/user_login_icon.png" alt="Sign Out" style="width: 55px; height: 55px;"></Avatar>
-    </div>
-</div>
 
 <style>
     .header {
