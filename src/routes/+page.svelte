@@ -1,7 +1,7 @@
 <script>
     export let data;
     import CourseComponent from '$lib/components/CourseComponent.svelte';
-    import Calendar from "./Calendar.svelte";
+    import Calendar from '$lib/components/CalendarComponent.svelte';
 	import {createEventDispatcher, onMount} from 'svelte';
 
 	var dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
@@ -133,18 +133,16 @@
 <h1>Courses</h1>
 
 <div class="courses-container">
-<ul class="courses">
-    {#each data.courses as { course_id, course_name, course_number, color }}
-        <li>
-        <a href="/{course_id}">
-            <CourseComponent CourseName={course_name} CourseNumber={course_number} CourseColor={color}/>
-        </a>
-        </li> 
-    {/each}
-</ul>
+	<ul class="courses">
+		{#each data.courses as { course_id, course_name, course_number, color }}
+			<li>
+			<a href="/{course_id}">
+				<CourseComponent CourseName={course_name} CourseNumber={course_number} CourseColor={color}/>
+			</a>
+			</li> 
+		{/each}
+	</ul>
 </div>
-
-<div class = "calendar"></div>
 
 <style>
     .courses-container {
@@ -159,6 +157,34 @@
         justify-content: start;
         gap: 50px;
     }
+
+	.calendar-container {
+		width: 90%;
+		margin: auto;
+		overflow: hidden;
+		box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+		border-radius: 10px;
+		background: #fff;
+		max-width: 1200px;
+  }
+  .calendar-header {
+		text-align: center;
+		padding: 20px 0;
+		background: #eef;
+		border-bottom: 1px solid rgba(166, 168, 179, 0.12);
+  }
+  .calendar-header h1 {
+		margin: 0;
+		font-size: 18px;
+  }
+  .calendar-header button {
+		background: #eef;
+		border: 1px ;
+		padding: 6;
+		color: rgba(81, 86, 93, 0.7);
+		cursor: pointer;
+		outline: 0;
+  }
 </style>
 
 <div class="calendar-container">
@@ -182,33 +208,3 @@
 		on:headerClick={(e)=>headerClick(e.detail)}
 		/>
 </div>
-	
-<style>
-.calendar-container {
-  width: 90%;
-  margin: auto;
-  overflow: hidden;
-  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
-  border-radius: 10px;
-  background: #fff;
-  max-width: 1200px;
-}
-.calendar-header {
-  text-align: center;
-  padding: 20px 0;
-  background: #eef;
-  border-bottom: 1px solid rgba(166, 168, 179, 0.12);
-}
-.calendar-header h1 {
-  margin: 0;
-  font-size: 18px;
-}
-.calendar-header button {
-  background: #eef;
-  border: 1px ;
-  padding: 6;
-  color: rgba(81, 86, 93, 0.7);
-  cursor: pointer;
-  outline: 0;
-}
-</style>
