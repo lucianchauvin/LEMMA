@@ -18,7 +18,6 @@ export const load: PageServerLoad = async ({locals: { safeQuery }}) => {
     }
 
     return {
-        title: "Home Page",
         courses: result
     };
 }

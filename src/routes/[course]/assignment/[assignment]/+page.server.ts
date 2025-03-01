@@ -2,7 +2,14 @@ import type { PageServerLoad } from './$types';
 import type { UUID, User, Course, Assignment, StudentAssignment } from '$lib/types';
 import { error } from '@sveltejs/kit';
 
-type StudentAssignmentData = User & {student_assignment_id: UUID, grade: number};
+type StudentAssignmentData = {
+    id: UUID,
+    first_name: UUID,
+    last_name: UUID,
+    username: UUID,
+    student_assignment_id: UUID, 
+    grade: number
+}
 
 export const load = (async ({parent, params, locals: { safeQuery }}) => {
     const {course, assignment} = await parent();
@@ -13,7 +20,11 @@ export const load = (async ({parent, params, locals: { safeQuery }}) => {
     }
     // get usernames of students
     const {data: students, error: studentErr} = await safeQuery<StudentAssignmentData>(
-        "SELECT users.*, student_assignments.student_assignment_id, student_assignments.grade \
+        "SELECT users.user_id AS student_id, \
+                users.first_name, \
+                users.last_name, \
+                users.username, \
+                student_assignments.student_assignment_id, student_assignments.grade \
         FROM users \
         INNER JOIN student_assignments ON users.user_id = student_assignments.student_id \
         WHERE student_assignments.assignment_id = $1",
@@ -28,11 +39,11 @@ export const load = (async ({parent, params, locals: { safeQuery }}) => {
     const editAssignment = editAssignments[0];
 
     if(!editAssignment){
+        // hopefully this doesn't happen
         console.error('ERROR: Assignment missing edit student assignment entry.');
     }
 
     return {
-        title: "Assignment Page",
         course,
         assignment,
         students,

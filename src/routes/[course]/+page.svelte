@@ -1,5 +1,7 @@
 <script>
     export let data;
+    import { haveHeader } from '$lib/stores/header';
+    $haveHeader = true;
 </script>
 
 <p>{data.course.description}</p>

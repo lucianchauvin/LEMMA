@@ -1,8 +1,8 @@
-<script>import "../app.css";
-import { page } from '$app/stores';
+<script>
+    import "../app.css";
 
-// Reactive derived page title
-$: pageTitle = $page.data?.title || "LEMMA";</script>
+    import { haveHeader } from '$lib/stores/header';
+</script>
 
 <style>
     .header {
@@ -24,27 +24,28 @@ $: pageTitle = $page.data?.title || "LEMMA";</script>
         align-items: center;
         justify-content: end;
     }
-
-    .body {
-        padding: 20px;
-    }
 </style>
 
-<!-- Blue Header -->
-<div class="header bg-surface-500 text-primary-100">
-    <div class="home">
-    <a href="/">
-        <img src="/home-icon.svg" alt="Home" width="75" height="75">
-    </a>
+<div class="h-screen">
+    {#if ($haveHeader)}
+    <header class="header bg-surface-500 text-primary-100">
+        <div class="home">
+        <a href="/">
+            <img src="/home-icon.svg" alt="Home" width="75" height="75">
+        </a>
 
-    <h1 class="h1">{pageTitle}</h1>
-    </div>
+        <h1 class="h1">LEMMA</h1>
+        </div>
 
-    <div class="admin">
-        <a href="/admin">Admin Panel</a>
-    </div>
-</div>
+        <div class="admin">
+            <a href="/admin">Admin Panel</a>
+        </div>
+    </header>
+    <main class="p-8">
+        <slot/>
+    </main>
 
-<div class="body">
-    <slot/>
+    {:else}
+        <slot/>
+    {/if}
 </div>

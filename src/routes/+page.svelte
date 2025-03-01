@@ -1,9 +1,12 @@
 <script>
     export let data;
+    import { haveHeader } from '$lib/stores/header';
+    $haveHeader = true;
+
     import CourseComponent from '$lib/components/CourseComponent.svelte';
 </script>
 
-<h2 class="h2">Courses</h2>
+<h2 class="h2 pb-8">Courses</h2>
 
 <div class="courses-container">
 <ul class="courses">
