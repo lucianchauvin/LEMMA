@@ -1,13 +1,7 @@
 <script lang="ts">
     import {AppRail, AppRailAnchor} from '@skeletonlabs/skeleton';
     import {page} from '$app/stores';
-
-    const assignmentsData = [
-        { position: 1, name: 'HW 1', dueDate: '2025-02-28', status: 'Completed' },
-        { position: 2, name: 'HW 2', dueDate: '2025-03-05', status: 'Incomplete' },
-        { position: 3, name: 'HW 3', dueDate: '2025-03-12', status: 'Completed' },
-    ];
-
+    const assignmentsData = $page.data.assignments ?? [];
 </script>
 
 <div class="table-wrapper">
@@ -17,14 +11,16 @@
                 <th class="p-3 ">Assignment Name</th>
                 <th class="p-3 ">Due Date</th>
                 <th class="p-3 ">Status</th>
+                <th class="p-3 ">Active</th>
             </tr>
         </thead>
         <tbody>
-            {#each assignmentsData as assignment}
+            {#each assignmentsData as assignments}
                 <tr class="border-t border-gray-300">
-                    <td class="p-3">{assignment.name}</td>
-                    <td class="p-3">{assignment.dueDate}</td>
-                    <td class="p-3">{assignment.status}</td>
+                    <td class="p-3">{assignments.assignment_name}</td>
+                    <td class="p-3">{assignments.assignment_description}</td>
+                    <td class="p-3">{assignments.due_date.toLocaleDateString()}</td>
+                    <td class="p-3">{assignments.active}</td>
                 </tr>
             {/each}
         </tbody>
