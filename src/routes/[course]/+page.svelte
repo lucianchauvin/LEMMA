@@ -1,7 +1,5 @@
 <script lang="ts">
     import {AppRail, AppRailAnchor} from '@skeletonlabs/skeleton';
-    import { Table} from '@skeletonlabs/skeleton';
-    import type { TableSource } from '@skeletonlabs/skeleton';
     import {page} from '$app/stores';
 
     const assignmentsData = [
@@ -16,9 +14,9 @@
     <table class="table border border-gray-200 shadow-lg rounded-lg w-full">
         <thead class="bg-gray-100">
             <tr>
-                <th class="p-3 text-left">Assignment Name</th>
-                <th class="p-3 text-left">Due Date</th>
-                <th class="p-3 text-left">Status</th>
+                <th class="p-3 ">Assignment Name</th>
+                <th class="p-3 ">Due Date</th>
+                <th class="p-3 ">Status</th>
             </tr>
         </thead>
         <tbody>
