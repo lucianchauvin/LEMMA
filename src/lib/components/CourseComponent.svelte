@@ -1,22 +1,20 @@
-  
 <script>
   // Course Customization
   export let color = "white"
   export let CourseColor = "red";
   export let CourseNumber = "Course #";
   export let CourseName = "Course Name";
-
 </script>
 
 <div class="square-container">
-<div class="small-rectangle" style="background-color: {CourseColor};">
-  {CourseNumber}
-</div>
-<div class="square" style="background-color: {color};">
-  <div class="square-text">
-    {CourseName}
+  <div class="small-rectangle rounded-t-xl" style="background-color: {CourseColor};">
+    {CourseNumber}
   </div>
-</div>
+  <div class="square rounded-b-xl" style="background-color: {color};">
+    <div class="square-text">
+      {CourseName}
+    </div>
+  </div>
 </div>
 
 <style>

@@ -3,31 +3,14 @@
     import CourseComponent from '$lib/components/CourseComponent.svelte';
 </script>
 
-<h2 class="h2">Courses</h2>
+<h2 class="h2 pb-8">Courses</h2>
 
-<div class="courses-container">
-<ul class="courses">
+<div class="courses-container flex flex-wrap gap-20">
     {#each data.courses as { course_id, course_name, course_number, color }}
-        <li>
-        <a href="/{course_id}">
-            <CourseComponent CourseName={course_name} CourseNumber={course_number} CourseColor={color}/>
-        </a>
-        </li> 
+        <div class="flex-none rounded-xl shadow-xl shadow-surface-500 shadow-xl shadow-surface-700 shadow-xl shadow-surface-900">
+            <a href="/{course_id}">
+                <CourseComponent CourseName={course_name} CourseNumber={course_number} CourseColor={color}/>
+            </a>
+        </div> 
     {/each}
-</ul>
 </div>
-
-<style>
-    .courses-container {
-        width: 75%;
-    }
-
-    .courses {
-        padding: 0;
-        margin: 0;
-        list-style-type: none;
-        display: flex;
-        justify-content: start;
-        gap: 50px;
-    }
-</style>

@@ -5,45 +5,28 @@ import { page } from '$app/stores';
 $: pageTitle = $page.data?.title || "LEMMA";</script>
 
 <style>
-    .header {
-        height: 100px;
-        display: flex;
-        padding: 0 20px;
-    }
-
-    .home {
-        width: 50%;
-        display: flex;
-        align-items: center;
-        gap: 20px;
-    }
-
-    .admin {
-        width: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: end;
-    }
-
     .body {
         padding: 20px;
     }
 </style>
 
 <!-- Blue Header -->
-<div class="header bg-surface-500 text-primary-100">
-    <div class="home">
-    <a href="/">
-        <img src="/home-icon.svg" alt="Home" width="75" height="75">
-    </a>
-
-    <h1 class="h1">{pageTitle}</h1>
+<header class="header bg-surface-500 flex">
+    <div class="home flex items-center">
+        <button type="button" class="btn bg-initial drop-shadow-xl">
+            <a href="/">
+                <img src="/home-icon.svg" alt="Home" width="75" height="75">
+            </a>
+        </button>
+        <h1 class="h1 drop-shadow-xl font-semibold text-primary-100">{pageTitle}</h1>
     </div>
 
-    <div class="admin">
-        <a href="/admin">Admin Panel</a>
+    <div class="admin flex items-center ml-auto mr-10">
+        <button type="button" class="btn btn-sm variant-filled-error rounded-xl ring-2 ring-error-900">
+            <a href="/admin">Admin Panel</a>
+        </button>
     </div>
-</div>
+</header>
 
 <div class="body">
     <slot/>
