@@ -1,5 +1,6 @@
 <script>import "../app.css";
 import { Avatar } from '@skeletonlabs/skeleton';
+import { Triangle } from "lucide-svelte";
 </script>
 
 <style>
@@ -13,7 +14,7 @@ import { Avatar } from '@skeletonlabs/skeleton';
     <div class="home flex items-center">
         <button type="button" class="btn bg-initial drop-shadow-xl">
             <a href="/">
-                <img src="/logo.svg" alt="Home" width="50" height="50">
+                <Triangle size=48 color="#57cfa7" />
             </a>
         </button>
         <h2 class="h2 drop-shadow-xl font-medium text-primary-50">LEMMA</h2>
