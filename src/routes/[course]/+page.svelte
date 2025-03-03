@@ -1,4 +1,6 @@
 <script>
+    import { page } from '$app/stores';
+    const assignmentsData = $page.data.assignments ?? [];
     export let data;
 </script>
 
@@ -21,16 +23,3 @@
     {/each}
 
 </ul>
-
-<div>
-    <a href="/{data.course.id}/student_management">Student Management</a>
-</div>
-<div>
-    <a href="/{data.course.id}/grades">Grades</a>
-</div>
-<div>
-    <a href="/{data.course.id}/gradebook">Gradebook</a>
-</div>
-<div>
-    <a href="/{data.course.id}/statements">View All Statements</a>
-</div>
