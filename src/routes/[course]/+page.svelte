@@ -8,19 +8,19 @@
     <table class="table border border-gray-200 shadow-lg rounded-lg w-full">
         <thead class="bg-gray-100">
             <tr>
-                <th class="p-3 ">Assignment Name</th>
-                <th class="p-3 ">Due Date</th>
-                <th class="p-3 ">Status</th>
-                <th class="p-3 ">Active</th>
+                <th class="p-3 "><center> Assignment Name </center></th>
+                <th class="p-3 "><center> Assignment Description </center></th>
+                <th class="p-3 "><center> Due Date </center></th>
+                <th class="p-3 "><center> Status </center></th>
             </tr>
         </thead>
         <tbody>
             {#each assignmentsData as assignments}
                 <tr class="border-t border-gray-300">
-                    <td class="p-3">{assignments.assignment_name}</td>
-                    <td class="p-3">{assignments.assignment_description}</td>
-                    <td class="p-3">{assignments.due_date.toLocaleDateString()}</td>
-                    <td class="p-3">{assignments.active}</td>
+                    <td class="p-3"> <center> {assignments.assignment_name} </center> </td>
+                    <td class="p-3"> <center> {assignments.assignment_description} </center></td>
+                    <td class="p-3"> <center> {assignments.due_date.toLocaleDateString()} </center></td>
+                    <td class="p-3"> <center> {assignments.active} </center> </td>
                 </tr>
             {/each}
         </tbody>
