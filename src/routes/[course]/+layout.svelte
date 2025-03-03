@@ -1,11 +1,12 @@
 <script>
     import { AppRail, AppRailAnchor } from '@skeletonlabs/skeleton';
     import { Menu, House, BookMarked, BookCheck, BookOpenCheck, Users, SquareFunction } from "lucide-svelte";
+    import { fade } from "svelte/transition"
     import { page } from '$app/stores';
     export let data;
 </script>
 
-<AppRail class="float-left -ml-5 mr-10 -mt-5 h-screen">
+<AppRail class="float-left -ml-5 mr-10 -mt-5 h-screen shadow-lg shadow-surface-900">
     <AppRailAnchor>
         <svelte:fragment slot="lead">
             <Menu />
@@ -56,5 +57,9 @@
 </AppRail>
 
 <div class="body">
-    <slot/>
+    {#key data.url}
+        <div in:fade|global={{ delay: 300, duration: 300}} out:fade|global={{ duration: 300 }}>
+            <slot/>
+        </div>
+    {/key}
 </div>

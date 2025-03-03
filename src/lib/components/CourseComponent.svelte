@@ -27,14 +27,14 @@
     width: 200px;
     height: 140px;
     display: inline-block;
-    border: 3px solid black;
+    border: 2px solid black;
     padding-top: 45px;
   }
 
   .small-rectangle {
     width: 200px;
-    height: 45px;
-    border: 3px solid black;
+    height: 40px;
+    border: 2px solid black;
     display: flex;
     align-items: center;
     justify-content: center;

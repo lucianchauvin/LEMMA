@@ -10,7 +10,7 @@ import { Triangle } from "lucide-svelte";
 </style>
 
 <!-- Blue Header -->
-<header class="header bg-surface-700 flex">
+<header class="header bg-surface-700 flex shadow-md shadow-surface-900">
     <div class="home flex items-center">
         <button type="button" class="btn bg-initial drop-shadow-xl">
             <a href="/">
