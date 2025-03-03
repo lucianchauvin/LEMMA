@@ -19,11 +19,11 @@
 </div>
 
 <div class="right-side pl-5 h-screen border-l-2 border-surface-200 float-right" in:fade={{ delay: 300, duration: 300 }}>
-    <div class="right-side-upper border-b-2 border-surface-200" in:fade={{ delay: 300, duration: 300 }}>
+    <!-- <div class="right-side-upper border-b-2 border-surface-200" in:fade={{ delay: 300, duration: 300 }}>
         <div class="calendar-container flex flex-wrap gap-20">
             <h2 class="h2 pb-8 ml-2 font-semibold" in:fade|global={{ delay: 300, duration: 300 }}>Calendar Placeholder</h2>
         </div>
-    </div>
+    </div> -->
     <div class="right-side-lower">
         <div class="todo-container flex flex-wrap gap-20">
             <h2 class="h2 pb-8 ml-2 font-semibold" in:fade|global={{ delay: 300, duration: 300 }}>To Do Placeholder</h2>
