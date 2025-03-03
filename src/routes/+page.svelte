@@ -22,14 +22,14 @@
         font-size: 36px;   
         font-weight: bold; 
         color: black;      
-        text-align: center; 
         margin-top: 25px;
+        padding-left: 250px;
     }
 
     .courses-container {
         display: flex;
-        justify-content: center; /* Centers horizontally */
         margin-top: 50px;
+        padding-left: 100px;
     }
 
     .courses {
