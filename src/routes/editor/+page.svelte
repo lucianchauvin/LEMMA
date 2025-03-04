@@ -3,23 +3,31 @@
 
   let editorRef;
   let infoviewRef;
+  
+  const project = "mathlib-demo";
+  
+  onMount(() => {
+    const socketUrl = ((window.location.protocol === "https:") ? "wss://" : "ws://") +
+      window.location.host + "/websocket/" + project;
 
-  onMount(async () => {
-    const { LeanMonaco, LeanMonacoEditor } = await import("lean4monaco");
+    console.log(`[Lean4web] Socket url is ${socketUrl}`);
 
-    const options = {
-      websocket: { url: "ws://localhost:8080/" },
-      htmlElement: editorRef,
-      vscode: { "editor.wordWrap": true }
-    };
+    import("lean4monaco").then(({ LeanMonaco, LeanMonacoEditor }) => {
+      const options = {
+        websocket: { url: socketUrl },
+        htmlElement: editorRef,
+        vscode: { "editor.wordWrap": true }
+      };
 
-    const leanMonaco = new LeanMonaco();
-    const leanMonacoEditor = new LeanMonacoEditor();
+      const leanMonaco = new LeanMonaco();
+      const leanMonacoEditor = new LeanMonacoEditor();
 
-    leanMonaco.setInfoviewElement(infoviewRef);
+      leanMonaco.setInfoviewElement(infoviewRef);
 
-    await leanMonaco.start(options);
-    await leanMonacoEditor.start(editorRef, "/project/test.lean", "#check Nat");
+      leanMonaco.start(options).then(() => {
+        leanMonacoEditor.start(editorRef, `/project/0.lean`, "");
+      });
+    });
   });
 </script>
 
