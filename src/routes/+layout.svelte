@@ -2,6 +2,7 @@
     import "../app.css";
 
     import { haveHeader } from '$lib/stores/header';
+    import { Triangle } from 'lucide-svelte';
 </script>
 
 <style>
@@ -28,17 +29,19 @@
 
 <div class="h-screen">
     {#if ($haveHeader)}
-    <header class="header bg-surface-500 text-primary-100">
+    <header class="grid grid-cols-[auto_1fr_auto] p-4 bg-surface-800 text-primary-100">
         <div class="home">
-        <a href="/">
-            <img src="/home-icon.svg" alt="Home" width="75" height="75">
+        <a href="/" class="text-primary-100">
+            <Triangle size={48}/>
         </a>
 
         <h1 class="h1">LEMMA</h1>
         </div>
 
-        <div class="admin">
-            <a href="/admin">Admin Panel</a>
+        <div></div>
+
+        <div>
+            <a class="btn variant-filled pr-4" href="/admin">Admin Panel</a>
         </div>
     </header>
     <main class="p-8">
