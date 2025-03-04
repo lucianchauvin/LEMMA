@@ -6,6 +6,10 @@ on:
       - main
       - dev
 
+concurrency:
+  group: aws-deploy
+  cancel-in-progress: false
+
 jobs:
   deploy:
     name: Push to EC2 Instance
@@ -35,10 +39,9 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
             cd ~/LEMMA
-            # npm install pm2
+            npm install pm2
             npm install
             cp ../.env .
             npm run build
-            PORT=3000 node -r dotenv/config build > log.txt
-            # pm2 restart lemma || pm2 start "PORT=3000 node -r dotenv/config build" --name lemma --no-autorestart 
-            # pm2 save
+            pm2 start "PORT=3000 node -r dotenv/config build" --name lemma --no-autorestart 
+            pm2 save
