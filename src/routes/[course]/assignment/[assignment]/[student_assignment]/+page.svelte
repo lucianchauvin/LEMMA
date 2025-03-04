@@ -34,8 +34,7 @@
     </div>
 
     <div class="h-full grid grid-cols-[3fr_1fr]">
-        {#each data.proofs as proof}
-        {#if data.}
+        {#each data.problems as problem}
         <div class="h-full bg-surface-50">
 
         </div>
