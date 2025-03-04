@@ -1,7 +1,6 @@
 <script lang="ts">
     export let data;
-	
-    import CourseComponent from '$lib/components/CourseComponent.svelte';
+
     import Calendar from '$lib/components/CalendarComponent.svelte';
 	import {createEventDispatcher, onMount} from 'svelte';
 
@@ -149,20 +148,6 @@
 	}
 	
 </script>
-<a href="/calendar">Calendar</a>
-<h1>Courses</h1>
-
-<div class="courses-container">
-	<ul class="courses">
-		{#each data.courses as { course_id, course_name, course_number, color }}
-			<li>
-			<a href="/{course_id}">
-				<CourseComponent CourseName={course_name} CourseNumber={course_number} CourseColor={color}/>
-			</a>
-			</li> 
-		{/each}
-	</ul>
-</div>
 
 {#if data.courses.length > 0}
 <ul class=“assignments>
@@ -179,19 +164,6 @@
 
 
 <style>
-    .courses-container {
-        width: 75%;
-    }
-
-    .courses {
-        padding: 0;
-        margin: 0;
-        list-style-type: none;
-        display: flex;
-        justify-content: start;
-        gap: 50px;
-    }
-
 	.calendar-container {
 		width: 90%;
 		margin: auto;
