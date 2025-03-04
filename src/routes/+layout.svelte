@@ -1,36 +1,30 @@
 <script>
-  import { page } from '$app/stores';
-  
-  // Reactive derived page title
-  $: pageTitle = $page.data?.title || "LEMMA";
+    import "../app.css";
+    import { Avatar } from '@skeletonlabs/skeleton';
+    import { Triangle } from "lucide-svelte";
 </script>
 
-<style>
-    /* Top Blue Header */
-    .header {
-        width: 100%;
-        height: 100px;
-        display: flex;
-        align-items: center;
-        gap: 20px;
-        padding: 0 20px;
-        color: #fff;
-    }
+<header class="header bg-surface-700 flex shadow-md shadow-surface-900">
+    <div class="home flex items-center">
+        <button type="button" class="btn bg-initial drop-shadow-xl">
+            <a href="/">
+                <Triangle size=48 color="#57cfa7" />
+            </a>
+        </button>
+        <h2 class="h2 drop-shadow-xl font-medium text-primary-50">LEMMA</h2>
+    </div>
 
-    .body {
-        padding: 20px;
-    }
-</style>
+    <div class="admin flex items-center ml-auto mr-10">
+        <button type="button" class="btn btn-sm border-2 border-error-600 bg-surface-100 hover:variant-filled-error shadow-lg shadow-surface-900 text-error-600">
+            <a href="/admin">Admin Panel</a>
+        </button>
+    </div>
 
-<!-- Blue Header -->
-<div class="header">
-    <a href="/">
-        <img src="/home-icon.svg" alt="Home" width="75" height="75">
-    </a>
+    <div class="pfp flex items-center p-2">
+        <Avatar initials="AZ" background="bg-secondary-200"/>
+    </div>
+</header>
 
-    <h1>{pageTitle}</h1>
-</div>
-
-<div class="body">
-    <slot/>
-</div>
+<main class="p-5">
+    <slot></slot>
+</main>

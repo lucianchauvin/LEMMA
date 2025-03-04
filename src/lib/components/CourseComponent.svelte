@@ -1,55 +1,37 @@
-  
 <script>
-  // Course Customization
-  export let color = "white"
-  export let CourseColor = "red";
-  export let CourseNumber = "Course #";
-  export let CourseName = "Course Name";
-
+  import { Menu, House, CalendarDays, BookMarked, BookCheck, BookOpenCheck, Users, SquareFunction } from "lucide-svelte";
+  import { fade, slide } from "svelte/transition"
+  let { course_id, course_number, course_name, color } = $props();
 </script>
 
-<div class="square-container">
-<div class="small-rectangle" style="background-color: {CourseColor};">
-  {CourseNumber}
+<div class="card variant-filled card-hover overflow-hidden inline-block relative flex-none shadow-lg shadow-surface-500 shadow-lg shadow-surface-700 shadow-lg shadow-surface-900" in:slide|global={{ delay: 300, duration: 300 }}>
+  <a href="/{course_id}">
+      <header style="background-color:{color};" class="px-20 py-2 inline-block flex align-center justify-center">
+          <h3>{course_number}</h3>
+      </header>
+  </a>
+  <a href="/{course_id}">
+      <div class="bg-white py-10 inline-block flex align-center justify-center items-center">
+          <h3 class="text-black font-semibold">{course_name}</h3>
+      </div>
+  </a>
+  <footer>
+      <div class="inline-block flex flex-wrap gap-5 align-center justify-center">
+          <button type="button" class="btn-icon">
+              <a href="/{course_id}">
+                  <BookMarked />
+              </a>
+          </button>
+          <button type="button" class="btn-icon">
+              <a href="/{course_id}/grades">
+                  <BookCheck />
+              </a>
+          </button>
+          <button type="button" class="btn-icon">
+              <a href="/{course_id}/statements">
+                  <SquareFunction />
+              </a>
+          </button>
+      </div>
+  </footer>
 </div>
-<div class="square" style="background-color: {color};">
-  <div class="square-text">
-    {CourseName}
-  </div>
-</div>
-</div>
-
-<style>
-  .square-container {
-    display: inline-block;
-    position: relative;
-  }
-
-  .square {
-    width: 200px;
-    height: 140px;
-    display: inline-block;
-    border: 3px solid black;
-    padding-top: 45px;
-  }
-
-  .small-rectangle {
-    width: 200px;
-    height: 45px;
-    border: 3px solid black;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 18px;
-    font-weight: bold;
-    color: white;
-  }
-
-  .square-text {
-    text-align: center;
-    font-size: 18px;
-    font-weight: normal;
-    color: black;
-  }
-
-</style>

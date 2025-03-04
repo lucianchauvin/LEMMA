@@ -22,7 +22,6 @@ export const load: PageServerLoad = async ({locals: { safeQuery }}) => {
         console.error('ERROR: Database failed to query for courses');
         error(500, {message: 'Database failed to query for courses'})
     }
-    console.log(result);
 
     let i = 0;
     for(let course of result){
