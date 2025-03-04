@@ -4,7 +4,7 @@
   let { course_id, course_number, course_name, color } = $props();
 </script>
 
-<div class="card variant-filled card-hover border-2 border-black overflow-hidden inline-block relative flex-none shadow-lg shadow-surface-500 shadow-lg shadow-surface-700 shadow-lg shadow-surface-900" in:slide|global={{ delay: 300, duration: 300 }}>
+<div class="card variant-filled card-hover overflow-hidden inline-block relative flex-none shadow-lg shadow-surface-500 shadow-lg shadow-surface-700 shadow-lg shadow-surface-900" in:slide|global={{ delay: 300, duration: 300 }}>
   <a href="/{course_id}">
       <header style="background-color:{color};" class="px-20 py-2 inline-block flex align-center justify-center">
           <h3>{course_number}</h3>
