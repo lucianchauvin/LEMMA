@@ -46,7 +46,7 @@
 
 <label class="label pt-2">
 	<span>Statement Description</span>
-	<textarea class="textarea" rows="4" placeholder="  Statement Description" />
+	<textarea class="textarea" rows="4" placeholder="  Statement Description"></textarea>
 </label>		
 
 <label class="label pt-4">

@@ -15,7 +15,7 @@ const config = {
 	theme: {
 		extend: {}
 	},
-  plugins: [
+	plugins: [
     skeleton({
       themes: { preset: [ "skeleton" ] }
     })

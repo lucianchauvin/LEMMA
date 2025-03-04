@@ -1,15 +1,9 @@
-<script>import "../app.css";
-import { Avatar } from '@skeletonlabs/skeleton';
-import { Triangle } from "lucide-svelte";
+<script>
+    import "../app.css";
+    import { Avatar } from '@skeletonlabs/skeleton';
+    import { Triangle } from "lucide-svelte";
 </script>
 
-<style>
-    .body {
-        padding: 20px;
-    }
-</style>
-
-<!-- Blue Header -->
 <header class="header bg-surface-700 flex shadow-md shadow-surface-900">
     <div class="home flex items-center">
         <button type="button" class="btn bg-initial drop-shadow-xl">
@@ -31,6 +25,6 @@ import { Triangle } from "lucide-svelte";
     </div>
 </header>
 
-<div class="body">
-    <slot/>
-</div>
+<main class="p-5">
+    <slot></slot>
+</main>
