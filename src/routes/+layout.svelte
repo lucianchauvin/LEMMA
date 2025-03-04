@@ -1,54 +1,35 @@
 <script>
     import "../app.css";
-
+    import { Avatar } from '@skeletonlabs/skeleton';
+    import { Triangle } from "lucide-svelte";
     import { haveHeader } from '$lib/stores/header';
-    import { Triangle } from 'lucide-svelte';
 </script>
 
-<style>
-    .header {
-        height: 100px;
-        display: flex;
-        padding: 0 20px;
-    }
-
-    .home {
-        width: 50%;
-        display: flex;
-        align-items: center;
-        gap: 20px;
-    }
-
-    .admin {
-        width: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: end;
-    }
-</style>
-
 <div class="h-screen">
-    {#if ($haveHeader)}
-    <header class="grid grid-cols-[auto_1fr_auto] p-4 bg-surface-800 text-primary-100">
-        <div class="home">
-        <a href="/" class="text-primary-100">
-            <Triangle size={48}/>
-        </a>
+{#if haveHeader}
+<header class="header bg-surface-700 flex shadow-md shadow-surface-900">
+    <div class="home flex items-center">
+        <button type="button" class="btn bg-initial drop-shadow-xl">
+            <a href="/">
+                <Triangle size=48 color="#57cfa7" />
+            </a>
+        </button>
+        <h2 class="h2 drop-shadow-xl font-medium text-primary-50">LEMMA</h2>
+    </div>
 
-        <h1 class="h1">LEMMA</h1>
-        </div>
+    <div class="admin flex items-center ml-auto mr-10">
+        <button type="button" class="btn btn-sm border-2 border-error-600 bg-surface-100 hover:variant-filled-error shadow-lg shadow-surface-900 text-error-600">
+            <a href="/admin">Admin Panel</a>
+        </button>
+    </div>
 
-        <div></div>
+    <div class="pfp flex items-center p-2">
+        <Avatar initials="AZ" background="bg-secondary-200"/>
+    </div>
+</header>
+{/if}
 
-        <div>
-            <a class="btn variant-filled pr-4" href="/admin">Admin Panel</a>
-        </div>
-    </header>
-    <main class="p-8">
-        <slot/>
-    </main>
-
-    {:else}
-        <slot/>
-    {/if}
+<main class="p-5">
+    <slot></slot>
+</main>
 </div>
