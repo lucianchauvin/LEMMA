@@ -21,7 +21,7 @@
         <div>Home</div>
     </AppRailAnchor>
 
-    <AppRailAnchor href="/" title="Calendar" class="calendar-link" selected={$page.url.pathname === "/calendar"}>
+    <AppRailAnchor href="/calendar" title="Calendar" class="calendar-link" selected={$page.url.pathname === "/calendar"}>
         <svelte:fragment slot="lead">
             <CalendarDays />
         </svelte:fragment>
