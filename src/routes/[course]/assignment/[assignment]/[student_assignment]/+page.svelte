@@ -29,15 +29,19 @@
 </AppBar>
 
 <main class="h-full grid grid-cols-[1fr_4fr]">
-    <div class="h-full bg-surface-200">
+    <div id="problem-selection" class="h-full bg-surface-200">
         
     </div>
+
     <div class="h-full grid grid-cols-[3fr_1fr]">
+        {#each data.proofs as proof}
+        {#if data.}
         <div class="h-full bg-surface-50">
 
         </div>
         <div class="h-full bg-surface-200">
 
         </div>
+        {/each}
     </div>
 </main>

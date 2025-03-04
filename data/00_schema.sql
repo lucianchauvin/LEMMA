@@ -113,7 +113,8 @@ CREATE TABLE "student_assignments" (
 );
 
 CREATE TABLE "student_proofs" (
-  "problem_id" uuid PRIMARY KEY DEFAULT (gen_random_uuid()),
+  "proof_id" uuid PRIMARY KEY DEFAULT (gen_random_uuid()),
+  "problem_id" uuid NOT NULL,
   "student_assignment_id" uuid NOT NULL,
   "complete" bool NOT NULL DEFAULT false,
   "student_problem_filepath" text NOT NULL
