@@ -4,8 +4,36 @@ import { error } from '@sveltejs/kit';
 
 type ProblemStatementProofs = {problem: Problem, statements: Statement[], proofs: StudentProof[]};
 
-export const load = (async ({parent, params, locals: { safeQuery }}) => {
-    const {course, assignment} = await parent();
+export const load = (async ({params, locals: { safeQuery }}) => {
+    const {data: courseResult, error: courseErr} = await safeQuery<Course>("SELECT * FROM courses WHERE course_id=$1", [params.course]);
+
+    if(courseErr) {
+        console.error('ERROR: Database failed to query courses for specific course:', courseErr);
+        error(500, {message: 'Database failed to query courses for specific course'})
+    }
+
+    if (!courseResult) 
+        throw error(404, {message: 'No course found'}); // no course found like this
+    if (courseResult.length > 1) {
+        // should never happen
+        console.error(`Found multiple courses with id ${params.course}`);
+        throw error(500, {message: 'Multiple courses found with this id'});
+    }
+
+    const {data: assignmentResult, error: assignmentErr} = await safeQuery<Assignment>("SELECT * FROM assignments WHERE assignment_id=$1", [params.assignment]);
+
+    if(assignmentErr) {
+        console.error('ERROR: Database failed to query assignments for specific assignment:', assignmentErr);
+        error(500, {message: 'Database failed to query assignments for specific assignment'});
+    }
+
+    if (assignmentResult.length === 0) throw error(404); // no assignment found like this
+    if (assignmentResult.length > 1) {
+        // should never happen
+        console.error(`Found multiple assignments with id ${params.assignment}`);
+        throw error(500);
+    }
+
     const {data: [studentAssignment], error: studentErr} = await safeQuery<StudentAssignment>("SELECT * FROM student_assignments WHERE student_assignment_id=$1", [params.student_assignment]);
     if(studentErr){
         console.error('ERROR: Database failed to query student assignments for assignment:', studentErr);
@@ -29,8 +57,8 @@ export const load = (async ({parent, params, locals: { safeQuery }}) => {
     }
 
     return {
-        course,
-        assignment,
+        course: courseResult[0],
+        assignment: assignmentResult[0],
         studentAssignment,
         problems: problemStatementProofs
     };

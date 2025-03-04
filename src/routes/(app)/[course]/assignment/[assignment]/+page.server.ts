@@ -11,8 +11,7 @@ type StudentAssignmentData = {
     grade: number
 }
 
-export const load = (async ({parent, params, locals: { safeQuery }}) => {
-    const {course, assignment} = await parent();
+export const load = (async ({params, locals: { safeQuery }}) => {
     const {data: [editAssignment], error: err} = await safeQuery<StudentAssignment>("SELECT * FROM student_assignments WHERE assignment_id=$1 AND edit=true", [params.assignment]);
     if(err){
         console.error('ERROR: Database failed to query student assignments for assignment:', err);
@@ -41,8 +40,6 @@ export const load = (async ({parent, params, locals: { safeQuery }}) => {
     }
 
     return {
-        course,
-        assignment,
         students,
         edit: editAssignment
     };

@@ -65,7 +65,7 @@
 </AppRail>
 
 <div class="body flex-1 mr-5">
-    {#key data.url}
+    {#key $page.url}
         <div in:fade|global={{ delay: 300, duration: 300 }} out:fade={{ duration: 300 }}>
             <slot/>
         </div>
