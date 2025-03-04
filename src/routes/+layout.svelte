@@ -1,76 +1,30 @@
-<script>import "../app.css";
-import {Avatar} from '@skeletonlabs/skeleton';
-import { page } from '$app/stores';
+<script>
+    import "../app.css";
+    import { Avatar } from '@skeletonlabs/skeleton';
+    import { Triangle } from "lucide-svelte";
 </script>
 
-<style>
-    .header {
-        height: 100px;
-        display: flex;
-        align-items: center;
-        background-color: #000080;
-        color: cyan;
-    }
-
-    .home {
-        width: 50%;
-        display: flex;
-        align-items: center;
-        gap: 20px;
-    }
-
-    .admin {
-        position: absolute;
-        width: 50%;
-        right: 150px;
-
-        border: 3px solid cyan;
-        border-radius: 50%;
-        padding: 15px; 
-        width: 125px; 
-        height: 50px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-
-    .user-login-icon {
-        position: absolute;  
-        border-radius: 50%; 
-        right: 1%;  
-    }
-
-    .LEMMA_Triangle  {
-        background-color: #000080;
-        width: 90px;
-        height: 90px;
-        margin-right: 10px; 
-        filter: invert(100%);
-    }
-
-    .LEMMA_Text {
-        margin-left: 40px; /* Space between triangle and text */
-        font-size: 60px; 
-    }
-</style>
-
-<!-- Blue Header -->
-<div class="header">
-    <div class="home">
-    <a href="/">
-        <img src="/LEMMA_Triangle.png" alt="LMS Logo" class="LEMMA_Triangle" />
-    </a>
-    <div class="LEMMA_Text">LEMMA</div>  
-
+<header class="header bg-surface-700 flex shadow-md shadow-surface-900">
+    <div class="home flex items-center">
+        <button type="button" class="btn bg-initial drop-shadow-xl">
+            <a href="/">
+                <Triangle size=48 color="#57cfa7" />
+            </a>
+        </button>
+        <h2 class="h2 drop-shadow-xl font-medium text-primary-50">LEMMA</h2>
     </div>
-    <div class="user-login-icon">
-        <Avatar src="/user_login_icon.png" alt="Sign Out" style="width: 80px; height: 80px;"></Avatar>
-    </div>
-    <div class="admin">
-        <a href="/admin">Admin Panel</a>
-    </div>
-</div>
 
-<div class="body">
+    <div class="admin flex items-center ml-auto mr-10">
+        <button type="button" class="btn btn-sm border-2 border-error-600 bg-surface-100 hover:variant-filled-error shadow-lg shadow-surface-900 text-error-600">
+            <a href="/admin">Admin Panel</a>
+        </button>
+    </div>
+
+    <div class="pfp flex items-center p-2">
+        <Avatar initials="AZ" background="bg-secondary-200"/>
+    </div>
+</header>
+
+<main class="p-5">
     <slot></slot>
-</div>
+</main>
