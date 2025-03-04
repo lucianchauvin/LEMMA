@@ -1,31 +1,31 @@
 import type { PageServerLoad } from './$types';
-import type { Course } from '$lib/types';
+import type { Course, Assignment, Reading } from '$lib/types';
 import { error } from '@sveltejs/kit';
 
-export const load = (async ({params, locals: { safeQuery }}) => {
-    const {data: result, error: err} = await safeQuery<Course>("SELECT * FROM courses WHERE course_id=$1", [params.course]);
-    if(err) {
-        console.error('ERROR: Database failed to query courses for specific course:', err);
-        error(500, {message: 'Database failed to query courses for specific course'})
-    }
+export const load = (async ({parent, params, locals: { safeQuery }}) => {
+    const {course} = await parent();
+    const {data: assignmentResult, error: assignmentErr} = await safeQuery<Assignment>("SELECT * FROM assignments WHERE assignments.course_id=$1", [params.course]);
+    const {data: readingResult, error: readingErr} = await safeQuery<Reading>("SELECT * FROM readings WHERE readings.course_id=$1", [params.course]);
 
-    if (!result) 
-        throw error(404, {message: 'No course found'}); // no course found like this
-    if (result.length > 1) {
-        // should never happen
-        console.error(`Found multiple courses with id ${params.course}`);
-        throw error(500, {message: 'Multiple courses found with this id'});
+    if(assignmentErr) {
+        console.error('ERROR: Database failed to query assignments for course:', assignmentErr);
+        error(500, {message: 'Database failed to query assignments for course'})
     }
-
-    const course: Course = result[0];
+    if(readingErr) {
+        console.error('ERROR: Database failed to query readings for course:', readingErr);
+        error(500, {message: 'Database failed to query readings for course'})
+    }
 
     return {
         title: `${course.course_number}: ${course.course_name}`,
         course: {
+            id: course.course_id,
             name: course.course_name,
             number: course.course_number,
             description: course.course_description,
-    }};
-        
+        },
+        assignments: assignmentResult,
+        readings: readingResult,
+    };
 }) satisfies PageServerLoad;
 

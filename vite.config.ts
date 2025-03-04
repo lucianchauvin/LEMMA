@@ -28,12 +28,12 @@ export default defineConfig({
                     ],
                     dest: 'infoview'
                 },
-                {
-                    src: [
-                        normalizePath(path.resolve(__dirname, './node_modules/lean4monaco/node_modules/@leanprover/infoview/dist/codicon.ttf'))
-                    ],
-                    dest: 'assets'
-                }
+                // {
+                //     src: [
+                //         normalizePath(path.resolve(__dirname, './node_modules/lean4monaco/node_modules/@leanprover/infoview/dist/codicon.ttf'))
+                //     ],
+                //     dest: 'assets'
+                // }
             ]
         })
     ],

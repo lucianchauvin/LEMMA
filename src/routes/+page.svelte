@@ -3,7 +3,7 @@
     import CourseComponent from '$lib/components/CourseComponent.svelte';
 </script>
 
-<h1>Courses</h1>
+<h2 class="h2">Courses</h2>
 
 <div class="courses-container">
 <ul class="courses">
