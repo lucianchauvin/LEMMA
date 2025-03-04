@@ -6,6 +6,7 @@
     export let data;
 </script>
 
+<div class="flex">
 <AppRail class="float-left -ml-5 mr-16 -mt-5 h-screen shadow-lg shadow-surface-900">
     <AppRailAnchor>
         <svelte:fragment slot="lead">
@@ -63,10 +64,11 @@
     </AppRailAnchor>
 </AppRail>
 
-<div class="body">
+<div class="body flex-1">
     {#key data.url}
         <div in:fade|global={{ delay: 300, duration: 300 }} out:fade={{ duration: 300 }}>
             <slot/>
         </div>
     {/key}
+</div>
 </div>
