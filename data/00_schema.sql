@@ -7,8 +7,7 @@ CREATE TYPE "course_status" AS ENUM (
 CREATE TYPE "statement" AS ENUM (
   'tactic',
   'definition',
-  'theorem',
-  'problem'
+  'theorem'
 );
 
 CREATE TYPE "permission" AS ENUM (
@@ -87,7 +86,10 @@ CREATE TABLE "reading_statements" (
 
 CREATE TABLE "problems" (
   "problem_id" uuid PRIMARY KEY DEFAULT (gen_random_uuid()),
-  "assignment_id" uuid NOT NULL
+  "assignment_id" uuid NOT NULL,
+  "problem_name" varchar(100) NOT NULL,
+  "problem_description" text,
+  "problem_filepath" text NOT NULL
 );
 
 CREATE TABLE "problem_statements" (
@@ -172,7 +174,7 @@ ALTER TABLE "student_assignments" ADD FOREIGN KEY ("assignment_id") REFERENCES "
 
 ALTER TABLE "student_assignments" ADD FOREIGN KEY ("student_id") REFERENCES "users" ("user_id");
 
-ALTER TABLE "problems" ADD FOREIGN KEY ("problem_id") REFERENCES "assignments" ("assignment_id") ON DELETE CASCADE;
+ALTER TABLE "problems" ADD FOREIGN KEY ("assignment_id") REFERENCES "assignments" ("assignment_id") ON DELETE CASCADE;
 
 ALTER TABLE "student_proofs" ADD FOREIGN KEY ("problem_id") REFERENCES "problems" ("problem_id") ON DELETE CASCADE;
 
