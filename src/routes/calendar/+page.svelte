@@ -1,8 +1,10 @@
 <script lang="ts">
-    export let data;
-
     import Calendar from '$lib/components/CalendarComponent.svelte';
+	import { AppRail, AppRailAnchor } from '@skeletonlabs/skeleton';
+    import { Menu, House, CalendarDays, BookMarked, BookCheck, BookOpenCheck, Users, SquareFunction } from "lucide-svelte";
+	import { fade, slide } from "svelte/transition"
 	import {createEventDispatcher, onMount} from 'svelte';
+	export let data;
 
 	var dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 	let monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
@@ -149,8 +151,30 @@
 	
 </script>
 
+<AppRail class="float-left -ml-5 mr-11 -mt-5 h-screen shadow-lg shadow-surface-900">
+    <AppRailAnchor>
+        <svelte:fragment slot="lead">
+            <Menu />
+        </svelte:fragment>
+    </AppRailAnchor>
+
+    <AppRailAnchor href="/" title="Home" class="home-link" selected={false}>
+        <svelte:fragment slot="lead">
+            <House />
+        </svelte:fragment>
+        <div>Home</div>
+    </AppRailAnchor>
+
+    <AppRailAnchor href="/calendar" title="Calendar" class="calendar-link" selected={true}>
+        <svelte:fragment slot="lead">
+            <CalendarDays />
+        </svelte:fragment>
+        <div>Calendar</div>
+    </AppRailAnchor>
+</AppRail>
+
 {#if data.courses.length > 0}
-<ul class=“assignments>
+<ul class="assignments" in:fade|global={{ delay: 300, duration: 300 }}>
 	{#each data.courses as {assignment_id, assignment_name, due_date }}
 	<li>
 		<strong>{assignment_name}</strong><br>
@@ -193,7 +217,7 @@
   }
 </style>
 
-<div class="calendar-container">
+<div class="calendar-container" in:fade|global={{ delay: 300, duration: 300 }}>
   <div class="calendar-header">
     <h1>
       <button on:click={()=>year--}>&Lt;</button>
