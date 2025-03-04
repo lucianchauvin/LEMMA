@@ -1,7 +1,6 @@
 <script>
     export let data;
     import { onMount } from 'svelte';
-    import { haveHeader } from '$lib/stores/header';
 
     import { AppBar } from '@skeletonlabs/skeleton';
     import { ArrowLeft } from 'lucide-svelte';
@@ -9,14 +8,6 @@
     const urlBase = `/${data.course.course_id}/assignment/${data.assignment.assignment_id}`;
 
     $: problemActive = null;
-
-    onMount(() => {
-        // on load set that don't have header (needed if reload page)
-        haveHeader.set(false);
-        if(data.proofs.length > 0){
-            problemActive = data.proofs[0]
-        }
-    });
 </script>
 
 <AppBar background="bg-surface-900" padding="p-0" slotLead="text-primary-100" slotDefault="p-3 pl-0">

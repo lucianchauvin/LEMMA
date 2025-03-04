@@ -1,7 +1,5 @@
 <script lang="ts">
     export let data;
-    import { haveHeader } from '$lib/stores/header';
-    $haveHeader = true;
 
     const urlBase = `/${data.course.course_id}/assignment/${data.assignment.assignment_id}`;
 </script>

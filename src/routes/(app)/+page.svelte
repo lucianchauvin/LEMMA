@@ -5,9 +5,6 @@
     import CourseComponent from '$lib/components/CourseComponent.svelte';
     import TaskComponent from '$lib/components/TaskComponent.svelte';
     export let data;
-
-    import { haveHeader } from '$lib/stores/header';
-    $haveHeader = true;
 </script>
 
 <div class="all flex flex-nowrap">

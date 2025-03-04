@@ -1,11 +1,9 @@
 <script>
     import { Avatar } from '@skeletonlabs/skeleton';
     import { Triangle } from "lucide-svelte";
-    import { haveHeader } from '$lib/stores/header';
 </script>
 
 <div class="h-screen">
-{#if haveHeader}
 <header class="header bg-surface-700 flex shadow-md shadow-surface-900">
     <div class="home flex items-center">
         <button type="button" class="btn bg-initial drop-shadow-xl">
@@ -26,7 +24,6 @@
         <Avatar initials="AZ" background="bg-secondary-200"/>
     </div>
 </header>
-{/if}
 
 <main class="p-5">
     <slot></slot>

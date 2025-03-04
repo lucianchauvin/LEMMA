@@ -2,8 +2,6 @@
     import { page } from '$app/stores';
     const assignmentsData = $page.data.assignments ?? [];
     export let data;
-    import { haveHeader } from '$lib/stores/header';
-    $haveHeader = true;
 </script>
 
 <h2 class="h2 pb-3 ml-2 font-semibold border-b-2 border-surface-200">Course Assignments</h2>
