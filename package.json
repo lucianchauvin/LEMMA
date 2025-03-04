@@ -1,54 +1,54 @@
 {
-    "name": "lemma",
-    "private": true,
-    "version": "0.0.1",
-    "type": "module",
-    "bin": {
-        "server": "server/index.mjs"
-    },
-    "scripts": {
-        "dev": "cross-env NODE_ENV=development vite",
-        "build_client": "cross-env NODE_ENV=production vite build",
-        "build_server": "cross-env NODE_ENV=production server/build.sh",
-        "build": "concurrently \"npm run build_client\" \"npm run build_server\" -n client,server -c \"bgBlue.bold,bgMagenta.bold\"",
-        "start_server": "sh -c 'cd server && nodemon ./index.mjs'",
-        "start_client": "cross-env NODE_ENV=production vite preview",
-        "start": "concurrently \"npm run start_server\" \"npm run start_client\" -n client,server -c \"bgBlue.bold,bgMagenta.bold\"",
-        "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
-        "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch"
-    },
-    "devDependencies": {
-        "@codingame/esbuild-import-meta-url-plugin": "https://gitpkg.vercel.app/hhu-adam/lean4monaco/esbuild-import-meta-url-plugin?main",
-        "@skeletonlabs/skeleton": "^2.11.0",
-        "@skeletonlabs/tw-plugin": "^0.4.1",
-        "@smui/button": "^8.0.0-beta.3",
-        "@sveltejs/adapter-auto": "^4.0.0",
-        "@sveltejs/adapter-node": "^5.2.12",
-        "@sveltejs/kit": "^2.16.0",
-        "@sveltejs/vite-plugin-svelte": "^5.0.0",
-        "@tailwindcss/typography": "^0.5.14",
-        "autoprefixer": "^10.4.20",
-        "svelte": "^5.0.0",
-        "svelte-check": "^4.0.0",
-        "tailwindcss": "^3.4.9",
-        "typescript": "^5.0.0",
-        "vite": "^6.0.0"
-    },
-    "dependencies": {
-        "@fortawesome/free-solid-svg-icons": "^6.7.2",
-        "@types/pg": "^8.11.11",
-        "cross-env": "^7.0.3",
-        "dotenv": "^16.4.7",
-        "express": "^4.21.2",
-        "ip-anonymize": "^0.1.0",
-        "lean4monaco": "^1.0.42",
-        "lucide-svelte": "^0.476.0",
-        "nocache": "^4.0.0",
-        "nodemon": "^3.1.9",
-        "pg": "^8.13.3",
-        "vite-plugin-commonjs": "^0.10.4",
-        "vite-plugin-node-polyfills": "^0.23.0",
-        "vite-plugin-static-copy": "^2.2.0",
-        "ws": "^8.18.1"
-    }
+       "name": "lemma",
+       "private": true,
+       "version": "0.0.1",
+       "type": "module",
+       "bin": {
+               "server": "server/index.mjs"
+       },
+       "scripts": {
+               "dev": "cross-env NODE_ENV=development vite",
+               "build_client": "cross-env NODE_ENV=production vite build",
+               "build_server": "cross-env NODE_ENV=production server/build.sh",
+               "build": "concurrently \"npm run build_client\" \"npm run build_server\" -n client,server -c \"bgBlue.bold,bgMagenta.bold\"",
+               "start_server": "sh -c 'cd server && nodemon ./index.mjs'",
+               "start_client": "cross-env NODE_ENV=production vite preview",
+               "start": "concurrently \"npm run start_server\" \"npm run start_client\" -n client,server -c \"bgBlue.bold,bgMagenta.bold\"",
+               "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
+               "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch"
+       },
+       "devDependencies": {
+               "@codingame/esbuild-import-meta-url-plugin": "https://gitpkg.vercel.app/hhu-adam/lean4monaco/esbuild-import-meta-url-plugin?main",
+               "@skeletonlabs/skeleton": "^2.11.0",
+               "@skeletonlabs/tw-plugin": "^0.4.1",
+               "@smui/button": "^8.0.0-beta.3",
+               "@sveltejs/adapter-auto": "^4.0.0",
+               "@sveltejs/adapter-node": "^5.2.12",
+               "@sveltejs/kit": "^2.16.0",
+               "@sveltejs/vite-plugin-svelte": "^5.0.0",
+               "@tailwindcss/typography": "^0.5.14",
+               "autoprefixer": "^10.4.20",
+               "svelte": "^5.0.0",
+               "svelte-check": "^4.0.0",
+               "tailwindcss": "^3.4.9",
+               "typescript": "^5.0.0",
+               "vite": "^6.0.0"
+       },
+       "dependencies": {
+               "@fortawesome/free-solid-svg-icons": "^6.7.2",
+               "@types/pg": "^8.11.11",
+               "cross-env": "^7.0.3",
+               "dotenv": "^16.4.7",
+               "express": "^4.21.2",
+               "ip-anonymize": "^0.1.0",
+               "lean4monaco": "^1.0.42",
+               "lucide-svelte": "^0.476.0",
+               "nocache": "^4.0.0",
+               "nodemon": "^3.1.9",
+               "pg": "^8.13.3",
+               "vite-plugin-commonjs": "^0.10.4",
+               "vite-plugin-node-polyfills": "^0.23.0",
+               "vite-plugin-static-copy": "^2.2.0",
+               "ws": "^8.18.1"
+       }
 }
