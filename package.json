@@ -37,7 +37,6 @@
 		"ip-anonymize": "^0.1.0",
 		"lean4monaco": "^1.0.42",
 		"lucide-svelte": "^0.476.0",
-		"memfs": "^4.17.0",
 		"nocache": "^4.0.0",
 		"nodemon": "^3.1.9",
 		"pg": "^8.13.3",
