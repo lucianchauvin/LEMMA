@@ -46,6 +46,8 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
             cd ~/LEMMA
+            npm -v
+            node -v
             npm install pm2
             npm install
             cp ../.env .
