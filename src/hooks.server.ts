@@ -6,7 +6,7 @@ import { type Handle } from '@sveltejs/kit';
 import { PGUSER, PGDATABASE, PGPASSWORD, PGPORT } from '$env/static/private';
 
 // const PGHOST = fs.readFileSync('/data/IP', 'utf-8').trim();
-const PGHOST = "3.133.145.240";
+const PGHOST = "18.225.72.236";
 
 export const handle: Handle = async ({ event, resolve }) => {
     /**
