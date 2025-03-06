@@ -30,6 +30,13 @@ jobs:
           REMOTE_HOST: "${{ env.RHOST }}"
           REMOTE_USER: "ubuntu"
           TARGET: "/home/ubuntu/LEMMA"
+          SCRIPT_BEFORE: |
+            whoami
+            ls -al
+          SCRIPT_AFTER: |
+            whoami
+            ls -al
+            echo $RSYNC_STDOUT
 
       - name: Install dependencies and restart app with PM2
         uses: appleboy/ssh-action@v0.1.10
