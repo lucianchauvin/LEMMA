@@ -18,7 +18,6 @@
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch"
 	},
 	"devDependencies": {
-		"@codingame/esbuild-import-meta-url-plugin": "https://gitpkg.vercel.app/hhu-adam/lean4monaco/esbuild-import-meta-url-plugin?main",
 		"@skeletonlabs/skeleton": "^2.11.0",
 		"@skeletonlabs/tw-plugin": "^0.4.1",
 		"@smui/button": "^8.0.0-beta.3",
@@ -36,6 +35,7 @@
 		"vite": "^6.0.0"
 	},
 	"dependencies": {
+		"@codingame/esbuild-import-meta-url-plugin": "^1.0.3",
 		"@fortawesome/free-solid-svg-icons": "^6.7.2",
 		"@types/pg": "^8.11.11",
 		"concurrently": "^9.1.2",
