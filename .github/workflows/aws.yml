@@ -1,47 +1,47 @@
-# name: aws
+name: aws
 
-# on:
-#   push:
-#     branches:
-#       - main
-#       - dev
+on:
+  push:
+    branches:
+      - main
+      - dev
 
-# concurrency:
-#   group: aws-deploy
-#   cancel-in-progress: false
+concurrency:
+  group: aws-deploy
+  cancel-in-progress: false
 
-# jobs:
-#   deploy:
-#     name: Push to EC2 Instance
-#     runs-on: ubuntu-latest
+jobs:
+  deploy:
+    name: Push to EC2 Instance
+    runs-on: ubuntu-latest
 
-#     steps:
-#       - name: Checkout the code
-#         uses: actions/checkout@v1
+    steps:
+      - name: Checkout the code
+        uses: actions/checkout@v1
 
-#       - name: Read IP from file
-#         run: echo "RHOST=$(cat IP | tr -d '[:space:]')" >> $GITHUB_ENV
+      - name: Read IP from file
+        run: echo "RHOST=$(cat IP | tr -d '[:space:]')" >> $GITHUB_ENV
 
-#       - name: Deploy to my EC2 instance
-#         uses: easingthemes/ssh-deploy@v2.1.5
-#         env:
-#           SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
-#           SOURCE: "./"
-#           REMOTE_HOST: "${{ env.RHOST }}"
-#           REMOTE_USER: "ubuntu"
-#           TARGET: "/home/ubuntu/LEMMA"
+      - name: Deploy to my EC2 instance
+        uses: easingthemes/ssh-deploy@v2.1.5
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
+          SOURCE: "./"
+          REMOTE_HOST: "${{ env.RHOST }}"
+          REMOTE_USER: "ubuntu"
+          TARGET: "/home/ubuntu/LEMMA"
 
-#       - name: Install dependencies and restart app with PM2
-#         uses: appleboy/ssh-action@v0.1.10
-#         with:
-#           host: "${{ env.RHOST }}"
-#           username: ubuntu
-#           key: ${{ secrets.EC2_SSH_KEY }}
-#           script: |
-#             cd ~/LEMMA
-#             npm install pm2
-#             npm install
-#             cp ../.env .
-#             npm run build
-#             pm2 restart lemma || pm2 start "PORT=3000 node -r dotenv/config build" --name lemma --no-autorestart 
-#             pm2 save
+      - name: Install dependencies and restart app with PM2
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: "${{ env.RHOST }}"
+          username: ubuntu
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            cd ~/LEMMA
+            npm install pm2
+            npm install
+            cp ../.env .
+            npm run build
+            pm2 restart lemma || pm2 start "PORT=3000 node -r dotenv/config build" --name lemma --no-autorestart 
+            pm2 save
