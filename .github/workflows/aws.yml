@@ -48,6 +48,7 @@ jobs:
             cd ~/LEMMA
             npm -v
             node -v
+            echo $PATH
             npm install pm2
             npm install
             cp ../.env .
