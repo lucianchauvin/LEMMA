@@ -45,6 +45,7 @@ jobs:
           username: ubuntu
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
+            source ~/.bashrc
             cd ~/LEMMA
             npm -v
             node -v
