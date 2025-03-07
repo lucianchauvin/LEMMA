@@ -57,14 +57,14 @@
             </button>
         </div>
 
-        <div class="pfp flex items-center p-2 pfp-container">
+        <div class="pfp flex items-center p-2 pfp-container relative">
 
             <button on:click={togglePanel} >
                 <Avatar initials="AZ" background="bg-secondary-200"/>
             </button>
 
             {#if showLogOutPanel}
-                <div class="absolute bg-white border border-gray-300 rounded shadow-lg mt-2 w-40">
+                <div class="logout-panel absolute bg-white border border-gray-300 rounded shadow-lg mt-2 w-40">
                     <a href = "/login" class="block px-4 py-2 text-gray-800 hover:bg-gray-200 rounded"> Log Out</a>
                 </div>
             {/if}
@@ -73,7 +73,15 @@
     </header>
 
     <style>
-    
+        .pfp-container {
+            position: relative; 
+        }
+
+        .logout-panel {
+            top: 100%; 
+            right: 0; 
+            
+        }   
     </style>
 {/if}
 

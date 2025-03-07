@@ -18,8 +18,9 @@
 
 <div class="flex justify-center items-center min-h-screen">
     <div class="w-96 p-6 rounded-lg shadow-md bg-white">
-        <h2 class="text-2xl font-semibold text-center">Login</h2>
-        
+        <h2 class="text-2xl font-semibold text-center">Welcome to LEMMA</h2>
+        <p class="text-center text-gray-600 mb-4">Enter your username and password to continue</p>
+
         <form on:submit|preventDefault={handleSubmit} class="space-y-3">
             <div>
                 <label> Username: </label>
