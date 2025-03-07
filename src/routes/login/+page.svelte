@@ -4,7 +4,7 @@
     let password = "";
 </script>
 
-<div class="flex justify-center items-center">
+<div class="flex justify-center items-center min-h-screen">
     <div class="w-96 p-6 rounded-lg shadow-md bg-white">
             <h2 class="text-2xl font-semibold text-center">Login</h2>
 
