@@ -20,7 +20,7 @@
                 class="w-full px-3 py-2 border rounded-md focus:ring-2 focus:ring-blue-500"/>
             </div>
 
-            <button class="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition"> Log In </button>
+            <button class="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-750 transition"> Log In </button>
 
             <div class="text-center mt-2">
                 <a href="#" class="text-blue-500 hover:underline text-sm flex items-center justify-center">
