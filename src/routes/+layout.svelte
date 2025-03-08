@@ -10,7 +10,14 @@
     let isLoginPage = false;
 
     $:  {
-        isLoginPage = $page.url.pathname === '/login';
+        // Get the current pathname
+        let currentPath = $page.url.pathname;
+
+        // Get the base path where this layout is applied
+        let layoutPath = currentPath.substring(0, currentPath.lastIndexOf("/") + 1);
+
+        // If the current path is exactly the base path, we are in +page.svelte of this directory
+        isLoginPage = currentPath === layoutPath || currentPath === layoutPath.slice(0, -1);
     }
 
     function togglePanel()
@@ -44,7 +51,7 @@
     <header class="header bg-surface-700 flex shadow-md shadow-surface-900">
         <div class="home flex items-center">
             <button type="button" class="btn bg-initial drop-shadow-xl">
-                <a href="/">
+                <a href="/home">
                     <Triangle size=48 color="#57cfa7" />
                 </a>
             </button>
@@ -65,7 +72,7 @@
 
             {#if showLogOutPanel}
                 <div class="logout-panel absolute bg-white border border-gray-300 rounded shadow-lg mt-2 w-40">
-                    <a href = "/login" class="block px-4 py-2 text-gray-800 hover:bg-gray-200 rounded"> Log Out</a>
+                    <a href = "../" class="block px-4 py-2 text-gray-800 hover:bg-gray-200 rounded"> Log Out</a>
                 </div>
             {/if}
 

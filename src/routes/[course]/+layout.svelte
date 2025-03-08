@@ -14,7 +14,7 @@
         </svelte:fragment>
     </AppRailAnchor>
 
-    <AppRailAnchor href="/" title="Home" class="home-link" selected={$page.url.pathname === "/"}>
+    <AppRailAnchor href="/home" title="Home" class="home-link" selected={$page.url.pathname === "/"}>
         <svelte:fragment slot="lead">
             <House />
         </svelte:fragment>
