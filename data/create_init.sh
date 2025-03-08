@@ -23,10 +23,10 @@ CREATE SCHEMA $PGUSER;
 EOF
 
 # Loop through all .sql files and append \i commands to the output file
-for sql_file in $ROOT_DIR/data/*.sql; do
+for sql_file in "$ROOT_DIR/data/"*.sql; do
   # Skip the output file itself
   if [[ "$sql_file" != "$output_file" ]]; then
-    echo "\i $sql_file" >> "$output_file"
+    echo "\i '$sql_file'" >> "$output_file"
   fi
 done
 

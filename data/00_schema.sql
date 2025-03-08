@@ -89,7 +89,8 @@ CREATE TABLE "problems" (
   "assignment_id" uuid NOT NULL,
   "problem_name" varchar(100) NOT NULL,
   "problem_description" text,
-  "problem_filepath" text NOT NULL
+  "problem_filepath" text NOT NULL,
+  "problem_number" smallint NOT NULL DEFAULT 0
 );
 
 CREATE TABLE "problem_statements" (
@@ -119,7 +120,7 @@ CREATE TABLE "student_proofs" (
   "problem_id" uuid NOT NULL,
   "student_assignment_id" uuid NOT NULL,
   "complete" bool NOT NULL DEFAULT false,
-  "student_problem_filepath" text NOT NULL
+  "proof_filepath" text NOT NULL
 );
 
 CREATE TABLE "roles" (
@@ -147,6 +148,8 @@ CREATE TABLE "user_roles" (
 );
 
 CREATE UNIQUE INDEX ON "reading_statements" ("reading_id", "statement_id");
+
+CREATE UNIQUE INDEX ON "problems" ("assignment_id", "problem_number");
 
 CREATE UNIQUE INDEX ON "problem_statements" ("problem_id", "statement_id");
 

@@ -2,7 +2,7 @@ import type { PageServerLoad } from './$types';
 import type { Course, Assignment, StudentAssignment, StudentProof, Problem, Statement } from '$lib/types';
 import { error } from '@sveltejs/kit';
 
-type ProblemStatementProofs = {problem: Problem, statements: Statement[], proofs: StudentProof[]};
+type ProblemStatementProofs = Problem & {complete: boolean, proof_filepath: string, statements: Statement[]};
 
 export const load = (async ({params, locals: { safeQuery }}) => {
     const {data: courseResult, error: courseErr} = await safeQuery<Course>("SELECT * FROM courses WHERE course_id=$1", [params.course]);
@@ -27,7 +27,8 @@ export const load = (async ({params, locals: { safeQuery }}) => {
         error(500, {message: 'Database failed to query assignments for specific assignment'});
     }
 
-    if (assignmentResult.length === 0) throw error(404); // no assignment found like this
+    if (assignmentResult.length === 0) 
+        throw error(404, {message: 'No assignment found'}); 
     if (assignmentResult.length > 1) {
         // should never happen
         console.error(`Found multiple assignments with id ${params.assignment}`);
@@ -41,20 +42,23 @@ export const load = (async ({params, locals: { safeQuery }}) => {
     }
     const {data: problemStatementProofs, error: problemStatementProofErr} = await safeQuery<ProblemStatementProofs>(`
         SELECT 
-            json_agg(p.*) AS problem,
-            json_agg(s.*) AS statements,
-            json_agg(pr.*) AS proofs
+            p.*,
+            pr.complete,
+            pr.proof_filepath,
+            COALESCE(jsonb_agg(to_jsonb(s)) FILTER (WHERE s.statement_id IS NOT NULL), '[]'::jsonb) AS statements
         FROM problems p
-        JOIN problem_statements ps ON p.problem_id = ps.problem_id
-        JOIN statements s ON s.statement_id = ps.statement_id
-        JOIN student_proofs pr ON pr.problem_id = p.problem_id
-        WHERE p.assignment_id=$1
-        GROUP BY p.problem_id;
-    `, [studentAssignment.student_assignment_id]);
+        LEFT JOIN problem_statements ps ON p.problem_id = ps.problem_id
+        LEFT JOIN statements s ON s.statement_id = ps.statement_id
+        LEFT JOIN student_proofs pr ON pr.problem_id = p.problem_id
+        WHERE pr.student_assignment_id=$1
+        GROUP BY p.problem_id, pr.complete, pr.proof_filepath;
+    `, [params.student_assignment]);
     if(problemStatementProofErr){
         console.error('ERROR: Database failed to query for all the statements for each problem:', problemStatementProofErr);
         error(500, {message: 'Database failed to query for all the statements for each problem:'})
     }
+
+    console.log(problemStatementProofs);
 
     return {
         course: courseResult[0],
