@@ -8,10 +8,10 @@ export default defineConfig({
         allowedHosts: ['lemma-lean.org'],
     },
     resolve: {
-		    alias: {
-				    '@lucide/svelte/icons': fileURLToPath(
-    				    new URL('./node_modules/@lucide/svelte/dist/icons', import.meta.url)
-				)
-			}
-		}
+        alias: {
+            '@lucide/svelte/icons': fileURLToPath(
+                new URL('./node_modules/@lucide/svelte/dist/icons', import.meta.url)
+            )
+        }
+    }
 });
