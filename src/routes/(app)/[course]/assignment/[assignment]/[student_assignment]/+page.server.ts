@@ -51,14 +51,13 @@ export const load = (async ({params, locals: { safeQuery }}) => {
         LEFT JOIN statements s ON s.statement_id = ps.statement_id
         LEFT JOIN student_proofs pr ON pr.problem_id = p.problem_id
         WHERE pr.student_assignment_id=$1
-        GROUP BY p.problem_id, pr.complete, pr.proof_filepath;
+        GROUP BY p.problem_id, pr.complete, pr.proof_filepath
+        ORDER BY p.problem_number;
     `, [params.student_assignment]);
     if(problemStatementProofErr){
         console.error('ERROR: Database failed to query for all the statements for each problem:', problemStatementProofErr);
         error(500, {message: 'Database failed to query for all the statements for each problem:'})
     }
-
-    console.log(problemStatementProofs);
 
     return {
         course: courseResult[0],
