@@ -31,6 +31,7 @@
 	},
 	"dependencies": {
 		"@fortawesome/free-solid-svg-icons": "^6.7.2",
+		"@lucide/svelte": "^0.479.0",
 		"@types/file-saver": "^2.0.7",
 		"@types/lz-string": "^1.3.34",
 		"@types/pg": "^8.11.11",
@@ -41,7 +42,6 @@
 		"file-saver": "^2.0.5",
 		"ip-anonymize": "^0.1.0",
 		"lean4monaco": "^1.0.37",
-		"lucide-svelte": "^0.476.0",
 		"lz-string": "^1.5.0",
 		"memfs": "^4.17.0",
 		"nocache": "^4.0.0",

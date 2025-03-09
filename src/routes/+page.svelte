@@ -1,10 +1,18 @@
 <script>
+    export let data;
+
     import { AppRail, AppRailAnchor } from '@skeletonlabs/skeleton';
-    import { Menu, House, CalendarDays, BookMarked, BookCheck, BookOpenCheck, Users, SquareFunction } from "lucide-svelte";
     import { fade, slide } from "svelte/transition"
     import CourseComponent from '$lib/components/CourseComponent.svelte';
     import TaskComponent from '$lib/components/TaskComponent.svelte';
-    export let data;
+
+    import Menu from '@lucide/svelte/icons/menu'; 
+    import House from '@lucide/svelte/icons/house'; 
+    import CalendarDays from '@lucide/svelte/icons/calendar-days'; 
+    import BookMarked from '@lucide/svelte/icons/book-marked'; 
+    import BookOpenCheck from '@lucide/svelte/icons/book-open-check'; 
+    import Users from '@lucide/svelte/icons/users'; 
+    import SquareFunction from '@lucide/svelte/icons/square-function'; 
 </script>
 
 <div class="all flex flex-nowrap">
