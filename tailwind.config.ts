@@ -19,7 +19,8 @@ const config = {
     skeleton({
       themes: { preset: [ "skeleton" ] }
     })
-  ]
+  ],
+  mode: 'jit'
 } satisfies Config;
 
 export default config;
