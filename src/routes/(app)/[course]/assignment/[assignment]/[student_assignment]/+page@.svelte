@@ -1,15 +1,21 @@
-<script>
+<script lang="ts">
     export let data;
     import { onMount } from 'svelte';
 
-    import { AppBar } from '@skeletonlabs/skeleton';
+    import { AppBar, Tab, TabGroup } from '@skeletonlabs/skeleton';
     import ArrowLeft from '@lucide/svelte/icons/arrow-left';
 
     const urlBase = `/${data.course.course_id}/assignment/${data.assignment.assignment_id}`;
 
     $: activeProblem = (data.problems.length > 0) ? 0 : null;
-    $: problemFile = data.problems[activeProblem].proof_filepath
-    $: statements = data.problems[activeProblem].statements
+
+    $: problemFile = data.problems[activeProblem].proof_filepath;
+    $: tactics = data.problems[activeProblem].statements.filter((s) => s.statement_type === 'tactic');
+    $: definitions = data.problems[activeProblem].statements.filter((s) => s.statement_type === 'definition');
+    $: theorems = data.problems[activeProblem].statements.filter((s) => s.statement_type === 'theorem');
+    $: theoremCategories = new Set(theorems.map(theorem => theorem.statement_category));
+
+    let activeTheoremCategory = "";
 </script>
 
 <div class="h-screen flex flex-col">
@@ -59,8 +65,45 @@
                 
             </div>
         </div>
-        <div class="h-full bg-surface-200">
-            {statements}
+        <div class="h-full bg-surface-200 grid grid-rows-[1fr_1fr_3fr]">
+            <div>
+            <h3 class="h3">Tactics</h3>
+            <div class="flex flex-wrap gap-1">
+            {#each tactics as tactic}
+                <span class="chip variant-ringed">
+                {tactic.statement_name}
+                </span>
+            {/each}
+            </div>
+            </div>
+            <div>
+            <h3 class="h3">Definitions</h3>
+            <div class="flex flex-wrap gap-1">
+            {#each definitions as definition}
+                <span class="chip variant-ringed">
+                {definitions.statement_name}
+                </span>
+            {/each}
+            </div>
+            </div>
+            <div>
+            <h3 class="h3">Theorems</h3>
+            <TabGroup>
+                {#each theoremCategories as category}
+                <Tab bind:group={activeTheoremCategory} name={category} value={category}>
+                {category}
+                </Tab>
+                {/each}
+
+                <div class="flex flex-wrap gap-1" slot="panel">
+                {#each theorems.filter((s) => s.statement_category === activeTheoremCategory) as theorem}
+                    <span class="chip variant-ringed">
+                    {theorem.statement_name}
+                    </span>
+                {/each}
+                </div>
+            </TabGroup>
+            </div>
         </div>
     </div>
 </main>
