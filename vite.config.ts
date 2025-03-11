@@ -1,9 +1,13 @@
 import { fileURLToPath, URL } from "node:url";
 import { sveltekit } from '@sveltejs/kit/vite';
 import { defineConfig } from 'vite';
+import tailwindcss from "@tailwindcss/vite";
 
 export default defineConfig({
-    plugins: [sveltekit()],
+    plugins: [
+        tailwindcss(),
+        sveltekit(), 
+    ],
     preview: {
         allowedHosts: ['lemma-lean.org'],
     },
