@@ -15,7 +15,11 @@
     $: theorems = data.problems[activeProblem].statements.filter((s) => s.statement_type === 'theorem');
     $: theoremCategories = new Set(theorems.map(theorem => theorem.statement_category));
 
-    let activeTheoremCategory = "";
+    let activeTheoremCategory;
+
+    onMount(() => {
+        activeTheoremCategory = (theorems.map(theorem => theorem.statement_category))[0];
+    })
 </script>
 
 <div class="h-screen flex flex-col">
@@ -41,7 +45,7 @@
             <li>
                 <button on:click={activeProblem = i} 
                 class="w-full
-                {(i == activeProblem) ? '!variant-filled-primary' : ''}">
+                {(i == activeProblem) ? '!variant-filled-surface' : ''}">
                 <span class="flex-auto">
                     {problem.problem_name}
                 </span>
@@ -65,7 +69,7 @@
                 
             </div>
         </div>
-        <div class="h-full bg-surface-200 grid grid-rows-[1fr_1fr_3fr]">
+        <div class="h-full p-2 bg-surface-200 grid grid-rows-[1fr_1fr_3fr]">
             <div>
             <h3 class="h3">Tactics</h3>
             <div class="flex flex-wrap gap-1">
@@ -81,7 +85,7 @@
             <div class="flex flex-wrap gap-1">
             {#each definitions as definition}
                 <span class="chip variant-ringed">
-                {definitions.statement_name}
+                {definition.statement_name}
                 </span>
             {/each}
             </div>
