@@ -42,15 +42,15 @@ export const load = (async ({params, locals: { safeQuery }}) => {
     }
     const {data: problemStatementProofs, error: problemStatementProofErr} = await safeQuery<ProblemStatementProofs>(`
         SELECT 
-            p.*,
-            pr.complete,
+            p.*, 
+            COALESCE(pr.complete, false) AS complete,  -- Default to false if no proof
             pr.proof_filepath,
             COALESCE(jsonb_agg(to_jsonb(s)) FILTER (WHERE s.statement_id IS NOT NULL), '[]'::jsonb) AS statements
         FROM problems p
         LEFT JOIN problem_statements ps ON p.problem_id = ps.problem_id
         LEFT JOIN statements s ON s.statement_id = ps.statement_id
-        LEFT JOIN student_proofs pr ON pr.problem_id = p.problem_id
-        WHERE pr.student_assignment_id=$1
+        LEFT JOIN student_proofs pr ON pr.problem_id = p.problem_id AND pr.student_assignment_id = $1
+        WHERE p.assignment_id = (SELECT assignment_id FROM student_assignments WHERE student_assignment_id = $1)
         GROUP BY p.problem_id, pr.complete, pr.proof_filepath
         ORDER BY p.problem_number;
     `, [params.student_assignment]);

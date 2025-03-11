@@ -9,7 +9,8 @@
 
     $: activeProblem = (data.problems.length > 0) ? 0 : null;
 
-    $: problemFile = data.problems[activeProblem].proof_filepath;
+    $: problemFile = data.problems[activeProblem].problem_filepath;
+    $: proofFile = data.problems[activeProblem].proof_filepath;
     $: tactics = data.problems[activeProblem].statements.filter((s) => s.statement_type === 'tactic');
     $: definitions = data.problems[activeProblem].statements.filter((s) => s.statement_type === 'definition');
     $: theorems = data.problems[activeProblem].statements.filter((s) => s.statement_type === 'theorem');
@@ -59,11 +60,11 @@
     <div class="h-full grid grid-cols-[3fr_1fr]">
         <div class="h-full bg-surface-50 grid grid-rows-3">
             <div id="editor">
-                <textarea class="textarea resize-none p-2 h-full" placeholder="Enter some long form content."></textarea>
+                <textarea class="textarea resize-none p-2 h-full" placeholder="Enter your proof of the problem">{(proofFile) ? proofFile : 'No proof saved yet'}</textarea>
             </div>
             <div id="goal">
                 <h3 class="h3">Current Goal</h3>
-                <p>{problemFile}</p>
+                {problemFile}
             </div>
             <div id="editor-output">
                 
