@@ -6,16 +6,15 @@
 
 <h2 class="h2 pb-3 ml-2 font-semibold border-b-2 border-surface-200">Course Assignments</h2>
 
-<p>{data.course.description}</p>
 
 <div class="table-wrapper pt-8 pr-3">
     <table class="table border border-gray-200 shadow-lg rounded-lg">
         <thead class="bg-gray-100">
             <tr>
-                <th class="p-3 "><center> Assignment Name </center></th>
-                <th class="p-3 "><center> Assignment Description </center></th>
-                <th class="p-3 "><center> Due Date </center></th>
-                <th class="p-3 "><center> Open? </center></th>
+                <th class="p-3 text-center"> Assignment Name </th>
+                <th class="p-3 text-center"> Assignment Description </th>
+                <th class="p-3 text-center"> Due Date </th>
+                <th class="p-3 text-center"> Open? </th>
             </tr>
         </thead>
         <tbody>
