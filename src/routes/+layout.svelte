@@ -4,14 +4,14 @@
     import Triangle from "@lucide/svelte/icons/triangle";
 </script>
 
-<header class="header bg-surface-700 flex shadow-md shadow-surface-900">
-    <div class="home flex items-center">
-        <button type="button" class="btn bg-initial drop-shadow-xl">
-            <a href="/">
-                <Triangle size=48 color="#57cfa7" />
-            </a>
-        </button>
-        <h2 class="h2 drop-shadow-xl font-medium text-primary-50">LEMMA</h2>
+<div class="h-screen flex flex-col w-full">
+
+<header class="header h-20 bg-surface-700 flex shadow-md shadow-surface-900">
+    <div class="home flex items-center gap-2">
+        <a href="/" class="btn bg-initial drop-shadow-xl">
+            <Triangle size=48 color="#57cfa7" />
+        </a>
+        <h1 class="h2 drop-shadow-xl font-medium text-primary-50">LEMMA</h1>
     </div>
 
     <div class="admin flex items-center ml-auto mr-10">
@@ -25,6 +25,7 @@
     </div>
 </header>
 
-<main class="p-5">
+<main class="flex-grow">
     <slot></slot>
 </main>
+</div>

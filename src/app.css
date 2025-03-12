@@ -3,3 +3,9 @@
 @import "@skeletonlabs/skeleton/optional/presets";
 @import "@skeletonlabs/skeleton/themes/legacy";
 @source "../node_modules/@skeletonlabs/skeleton-svelte/dist";
+
+[data-theme='legacy'] {
+    --body-background-color: var(--color-surface-50);
+    --body-background-color-dark: var(--color-surface-800);
+    --heading-font-family: system-ui, Arial, san-serif
+}
