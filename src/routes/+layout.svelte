@@ -15,7 +15,7 @@
     </div>
 
     <div class="admin flex items-center ml-auto mr-10">
-        <button type="button" class="btn btn-sm border-2 border-error-600 bg-surface-100 hover:preset-filled-error-500 shadow-lg shadow-surface-900 text-error-600">
+        <button type="button" class="btn btn-sm rounded-full bg-surface-50 preset-outlined-error-500 hover:preset-filled-error-500 shadow-lg shadow-surface-900 text-error-600">
             <a href="/admin">Admin Panel</a>
         </button>
     </div>
