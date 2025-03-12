@@ -21,7 +21,7 @@
     </div>
 
     <div class="pfp flex items-center p-2">
-        <Avatar initials="AZ" background="bg-secondary-200"/>
+        <Avatar name="A Z" background="bg-secondary-200"/>
     </div>
 </header>
 
