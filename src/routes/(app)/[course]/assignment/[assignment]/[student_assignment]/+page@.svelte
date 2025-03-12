@@ -4,6 +4,8 @@
 
     import { AppBar, Tab, TabGroup } from '@skeletonlabs/skeleton';
     import ArrowLeft from '@lucide/svelte/icons/arrow-left';
+    import Circle from '@lucide/svelte/icons/circle';
+    import CircleCheckBig from '@lucide/svelte/icons/circle-check-big';
 
     const urlBase = `/${data.course.course_id}/assignment/${data.assignment.assignment_id}`;
 
@@ -45,10 +47,17 @@
             {#each data.problems as problem, i}
             <li>
                 <button on:click={activeProblem = i} 
-                class="w-full
+                class="w-full flex justify-between
                 {(i == activeProblem) ? '!variant-filled-surface' : ''}">
                 <span class="flex-auto">
                     {problem.problem_name}
+                </span>
+                <span>
+                    {#if problem.complete}
+                    <CircleCheckBig/>
+                    {:else}
+                    <Circle/>
+                    {/if}
                 </span>
                 </button>
             </li>
