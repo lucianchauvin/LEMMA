@@ -1,5 +1,5 @@
 <script>
-    import { AppRail, AppRailAnchor } from '@skeletonlabs/skeleton';
+    import { Navigation } from '@skeletonlabs/skeleton-svelte';
     import { fade, slide } from "svelte/transition"
     import CourseComponent from '$lib/components/CourseComponent.svelte';
     import TaskComponent from '$lib/components/TaskComponent.svelte';
@@ -15,7 +15,7 @@
 </script>
 
 <div class="all flex flex-nowrap">
-<AppRail class="float-left -ml-5 mr-11 -mt-5 h-screen shadow-lg shadow-surface-900">
+<Navigation class="float-left -ml-5 mr-11 -mt-5 h-screen shadow-lg shadow-surface-900">
     <AppRailAnchor>
         <svelte:fragment slot="lead">
             <Menu />
@@ -35,7 +35,7 @@
         </svelte:fragment>
         <div>Calendar</div>
     </AppRailAnchor>
-</AppRail>
+</Navigation>
 
 <div class="left-side pr-5 basis-[70%]">
     <h2 class="h2 pb-2 ml-2 font-semibold border-b-2 border-surface-200" in:fade|global={{ delay: 300, duration: 300 }}>Courses</h2>

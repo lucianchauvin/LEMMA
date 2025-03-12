@@ -11,7 +11,7 @@
 <div class="table-wrapper pt-8 pr-3">
     <table class="table border border-gray-200 shadow-lg rounded-lg">
         <thead class="bg-gray-100">
-            <tr class="!text-center">
+            <tr class="text-center!">
                 <th class="p-3"> Assignment Name </th>
                 <th class="p-3"> Assignment Description </th>
                 <th class="p-3"> Due Date </th>
