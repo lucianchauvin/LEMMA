@@ -196,11 +196,11 @@
 <div class="calendar-container">
   <div class="calendar-header">
     <h1>
-      <button on:click={()=>year--}>&Lt;</button>
+      <button on:click={()=>year--}>≪</button>
       <button on:click={()=>prev()}>&lt;</button>
        {monthNames[month]} {year}
       <button on:click={()=>next()}>&gt;</button>
-      <button on:click={()=>year++}>&Gt;</button>
+      <button on:click={()=>year++}>≫</button>
     </h1>
 		{eventText}
 	</div>

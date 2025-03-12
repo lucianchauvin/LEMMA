@@ -1,6 +1,6 @@
 <script>
     export let data;
-    import { AppRail, AppRailAnchor } from '@skeletonlabs/skeleton';
+    import { Navigation } from '@skeletonlabs/skeleton-svelte';
     import { fade } from "svelte/transition"
     import { page } from '$app/stores';
 
@@ -14,65 +14,29 @@
     import SquareFunction from '@lucide/svelte/icons/square-function'; 
 </script>
 
-<div class="flex">
-<AppRail class="float-left -ml-5 mr-16 -mt-5 h-screen shadow-lg shadow-surface-900">
-    <AppRailAnchor>
-        <svelte:fragment slot="lead">
-            <Menu />
-        </svelte:fragment>
-    </AppRailAnchor>
+<div class="h-full flex flex-nowrap">
+<Navigation classes="float-left h-full shadow-lg shadow-surface-900" tilesJustify="justify-start">
+    {#snippet header()}
+    <Navigation.Tile href="#" title="Menu"><Menu /></Navigation.Tile>
+    {/snippet}
 
-    <AppRailAnchor href="/" title="Home" class="home-link" selected={$page.url.pathname === "/"}>
-        <svelte:fragment slot="lead">
-            <House />
-        </svelte:fragment>
-        <div>Home</div>
-    </AppRailAnchor>
+    {#snippet tiles()}
+    <Navigation.Tile href="/" label="Home" id="home-link" selected={$page.url.pathname === "/"}><House /></Navigation.Tile>
+    <Navigation.Tile href="/calendar" label="Calendar" class="calendar-link" selected={$page.url.pathname === "/calendar"}><CalendarDays /></Navigation.Tile>
 
-    <AppRailAnchor href="/calendar" title="Calendar" class="calendar-link" selected={$page.url.pathname === "/calendar"}>
-        <svelte:fragment slot="lead">
-            <CalendarDays />
-        </svelte:fragment>
-        <div>Calendar</div>
-    </AppRailAnchor>
+    <Navigation.Tile href="/{data.course.course_id}" label="Assignments" class="assignment-link" selected={$page.url.pathname === `/${data.course.course_id}`}><BookMarked /></Navigation.Tile>
 
-    <AppRailAnchor href="/{data.course.course_id}" title="Assignments" class="assignment-link" selected={$page.url.pathname === `/${data.course.course_id}`}>
-        <svelte:fragment slot="lead">
-            <BookMarked />
-        </svelte:fragment>
-        <div>Course Assignments</div>
-    </AppRailAnchor>
+    <Navigation.Tile href="/{data.course.course_id}/grades" label="Grades" selected={$page.url.pathname === `/${data.course.course_id}/grades`}><BookCheck /></Navigation.Tile>
 
-    <AppRailAnchor href="/{data.course.course_id}/grades" title="Grades" selected={$page.url.pathname === `/${data.course.course_id}/grades`}>
-        <svelte:fragment slot="lead">
-            <BookCheck />
-        </svelte:fragment>
-        <div>Course Grades</div>
-    </AppRailAnchor>
+    <Navigation.Tile href="/{data.course.course_id}/gradebook" label="Gradebook" selected={$page.url.pathname === `/${data.course.course_id}/gradebook`}><BookOpenCheck /></Navigation.Tile>
 
-    <AppRailAnchor href="/{data.course.course_id}/gradebook" title="Gradebook" selected={$page.url.pathname === `/${data.course.course_id}/gradebook`}>
-        <svelte:fragment slot="lead">
-            <BookOpenCheck />
-        </svelte:fragment>
-        <div>Course Gradebook</div>
-    </AppRailAnchor>
+    <Navigation.Tile href="/{data.course.course_id}/students" label="Students" selected={$page.url.pathname === `/${data.course.course_id}/students`}><Users /></Navigation.Tile>
 
-    <AppRailAnchor href="/{data.course.course_id}/students" title="Students" selected={$page.url.pathname === `/${data.course.course_id}/students`}>
-        <svelte:fragment slot="lead">
-            <Users />
-        </svelte:fragment>
-        <div>Course Students</div>
-    </AppRailAnchor>
+    <Navigation.Tile href="/{data.course.course_id}/statements" label="Statements" selected={$page.url.pathname === `/${data.course.course_id}/statements`}><SquareFunction /></Navigation.Tile>
+    {/snippet}
+</Navigation>
 
-    <AppRailAnchor href="/{data.course.course_id}/statements" title="Statements" selected={$page.url.pathname === `/${data.course.course_id}/statements`}>
-        <svelte:fragment slot="lead">    
-            <SquareFunction />
-        </svelte:fragment>
-        <div>Course Statements</div>
-    </AppRailAnchor>
-</AppRail>
-
-<div class="body flex-1 mr-5">
+<div class="body p-5 flex-1 mr-5">
     {#key data.url}
         <div in:fade|global={{ delay: 300, duration: 300 }} out:fade={{ duration: 300 }}>
             <slot/>
