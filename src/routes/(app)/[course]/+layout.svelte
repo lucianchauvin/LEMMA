@@ -1,5 +1,6 @@
 <script>
     export let data;
+
     import { Navigation } from '@skeletonlabs/skeleton-svelte';
     import { fade } from "svelte/transition"
     import { page } from '$app/stores';
