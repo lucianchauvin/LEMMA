@@ -3,7 +3,7 @@
     import Triangle from "@lucide/svelte/icons/triangle";
 </script>
 
-<div class="h-screen">
+<div class="h-screen flex flex-col">
 <header class="header bg-surface-700 flex shadow-md shadow-surface-900">
     <div class="home flex items-center">
         <button type="button" class="btn bg-initial drop-shadow-xl">
@@ -25,7 +25,7 @@
     </div>
 </header>
 
-<main class="p-5">
+<main class="flex-grow">
     <slot></slot>
 </main>
 </div>

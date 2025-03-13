@@ -30,13 +30,13 @@
 <h2 class="h2 pt-8 pb-3 ml-2 font-semibold border-b-2 border-surface-200">Add A Statement</h2>
 
 <label class="label pt-4">
-    <span>Statement Name</span>
-    <input class="input" type="text" placeholder="  Statement Name" />
+    <span class="label-text">Statement Name</span>
+    <input class="input" type="text" placeholder="Statement Name" />
 </label>
 
 
 <label class="label pt-2">
-	<span>Statement Type</span>
+	<span class="label-text">Statement Type</span>
 	<select class="select">
 		<option value="1">Tactic</option>
 		<option value="2">Definition</option>
@@ -45,17 +45,17 @@
 </label>
 
 <label class="label pt-2">
-	<span>Statement Description</span>
-	<textarea class="textarea" rows="4" placeholder="  Statement Description"></textarea>
+	<span class="label-text">Statement Description</span>
+	<textarea class="textarea" rows="4" placeholder="Statement Description"></textarea>
 </label>		
 
 <label class="label pt-4">
-    <span>Statement Category</span>
-    <input class="input" type="text" placeholder="  Statement Category" />
+    <span class="label-text">Statement Category</span>
+    <input class="input" type="text" placeholder="Statement Category" />
 </label>
 
 <label class="label pt-4">
-    <span>Upload Lean File for Statement</span>
+    <span class="label-text">Upload Lean File for Statement</span>
     <input class="input" type="file" />
 </label>
 
