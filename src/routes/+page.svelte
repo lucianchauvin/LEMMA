@@ -1,15 +1,20 @@
-<script>
+<script lang="ts">
     import {Text} from 'lucide-svelte';
     import {goto} from '$app/navigation';
+    
+    import {page} from '$app/stores';
+    const usersData = $page.data.users ?? [];
+    export let data;
+    
     let username = "";
     let password = "";
 
     function handleSubmit(event) {
         event.preventDefault(); // Prevent page reload
         
-        //hard code the correct username and password for now
-        if (username === "correctUsername" && password === "correctPassword") {
-            goto("/home"); // Redirect to home page
+        const user = usersData.find(u => u.username === username && u.password === password)
+        if (user) {
+            goto("/home"); 
         } else {
             alert("Invalid login credentials");
         }
