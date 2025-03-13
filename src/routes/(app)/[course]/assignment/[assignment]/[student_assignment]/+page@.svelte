@@ -1,13 +1,15 @@
 <script lang="ts">
     let { data }: PageProps = $props();
-    import { onMount } from 'svelte';
 
     import { AppBar, Tabs } from '@skeletonlabs/skeleton-svelte';
     import ArrowLeft from '@lucide/svelte/icons/arrow-left';
+    import Plus from '@lucide/svelte/icons/plus';
     import Circle from '@lucide/svelte/icons/circle';
     import CircleCheckBig from '@lucide/svelte/icons/circle-check-big';
 
     const urlBase = `/${data.course.course_id}/assignment/${data.assignment.assignment_id}`;
+
+    const edit = data.studentAssignment.edit;
 
     let activeProblem = $state((data.problems.length > 0) ? 0 : null);
     const problemFile = $derived(data.problems[activeProblem].problem_filepath);
@@ -19,8 +21,14 @@
 
     let activeTheoremCategory = $state();
 
-    onMount(() => {
+    let addCategory = $state(false);
+    let addCategoryName = $state('');
+    let tempNewCategory = $state([]);
+
+
+    $effect(() => {
         activeTheoremCategory = (theorems.map(theorem => theorem.statement_category))[0];
+        tempNewCategory = [];
     })
 </script>
 
@@ -47,7 +55,7 @@
         <ul class="flex flex-col p-1 gap-1">
             {#each data.problems as problem, i}
             <li>
-                <button onclick={activeProblem = i} 
+                <button onclick={() => activeProblem = i} 
                 class="w-full flex justify-between p-1 rounded-full
                 {(i == activeProblem) ? '!preset-filled-surface-500' : ''}">
                 <span class="flex-auto text-xl">
@@ -105,11 +113,33 @@
             <h3 class="h3">Theorems</h3>
             <Tabs value={activeTheoremCategory} onValueChange={(e) => (activeTheoremCategory = e.value)}>
                 {#snippet list()}
-                {#each theoremCategories as category}
+                {#each new Set([...tempNewCategory, ...theoremCategories]) as category}
                 <Tabs.Control labelBase="btn hover:preset-tonal" name={category} value={category}>
                 {category}
                 </Tabs.Control>
                 {/each}
+                {#if edit}
+                {#if addCategory}
+                <form onsubmit={(e) => {
+                    e.preventDefault();
+                    if(addCategoryName)
+                        tempNewCategory = [addCategoryName];
+                
+                    addCategory = false;
+                    addCategoryName = '';
+                }}
+                    class="flex"
+                >
+                    <input size="5" class="input" type="text" bind:value={addCategoryName}/>
+                    <button class="btn hover:preset-tonal" type="submit">Submit</button>
+                </form>
+                {:else}
+                <button onclick={() => addCategory = true} class="btn hover:preset-tonal">
+                    <Plus />
+                </button>
+                {/if}
+                {/if}
+
                 {/snippet}
 
                 {#snippet content()}
@@ -119,6 +149,12 @@
                     {theorem.statement_name}
                     </span>
                 {/each}
+
+                {#if edit && theorems}
+                    <button class="btn px-1 preset-outlined">
+                    <Plus />
+                    </button>
+                {/if}
                 </Tabs.Panel>
                 {/snippet}
             </Tabs>
