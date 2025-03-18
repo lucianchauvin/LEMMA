@@ -1,9 +1,10 @@
 <script>
+    export let data;
+
     import { AppRail, AppRailAnchor } from '@skeletonlabs/skeleton';
     import { fade, slide } from "svelte/transition"
     import CourseComponent from '$lib/components/CourseComponent.svelte';
     import TaskComponent from '$lib/components/TaskComponent.svelte';
-    export let data;
 
     import Menu from '@lucide/svelte/icons/menu'; 
     import House from '@lucide/svelte/icons/house'; 
