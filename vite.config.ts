@@ -4,6 +4,7 @@ import { nodePolyfills } from 'vite-plugin-node-polyfills'
 import importMetaUrlPlugin from '@codingame/esbuild-import-meta-url-plugin'
 import { viteStaticCopy } from 'vite-plugin-static-copy'
 import { normalizePath } from 'vite'
+import tailwindcss from '@tailwindcss/vite'
 import path from 'node:path'
 
 export default defineConfig({
@@ -17,6 +18,7 @@ export default defineConfig({
         outDir: 'client/dist',
     },
     plugins: [
+        tailwindcss(),
         sveltekit(),
         process.env.NODE_ENV === 'production' && nodePolyfills({
           overrides: {

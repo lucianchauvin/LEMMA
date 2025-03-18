@@ -1,5 +1,5 @@
 <script>
-    import { AppRail, AppRailAnchor } from '@skeletonlabs/skeleton';
+    import { Navigation } from '@skeletonlabs/skeleton-svelte';
     import { Menu, House, CalendarDays, BookMarked, BookCheck, BookOpenCheck, Users, SquareFunction } from "lucide-svelte";
     import { fade } from "svelte/transition"
     import { page } from '$app/stores';
@@ -7,7 +7,7 @@
 </script>
 
 <div class="flex">
-<AppRail class="float-left -ml-5 mr-16 -mt-5 h-screen shadow-lg shadow-surface-900">
+<Navigation class="float-left -ml-5 mr-16 -mt-5 h-screen shadow-lg shadow-surface-900">
     <AppRailAnchor>
         <svelte:fragment slot="lead">
             <Menu />
@@ -62,7 +62,7 @@
         </svelte:fragment>
         <div>Course Statements</div>
     </AppRailAnchor>
-</AppRail>
+</Navigation>
 
 <div class="body flex-1 mr-5">
     {#key data.url}
