@@ -16,10 +16,7 @@ const config = {
 		extend: {}
 	},
 	plugins: [
-    skeleton({
-      themes: { preset: [ "skeleton" ] }
-    })
-  ]
+   ]
 } satisfies Config;
 
 export default config;
