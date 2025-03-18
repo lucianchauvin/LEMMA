@@ -27,23 +27,25 @@
 
 <div class="h-screen flex flex-col">
 
-<AppBar regionRowMain="h-fit" background="bg-surface-900" padding="p-0" slotLead="text-primary-100" slotDefault="p-3 pl-0">
+<AppBar regionRowMain="h-fit" background="bg-surface-900" padding="p-0" slotLead="text-primary-50" slotDefault="p-3 pl-0">
     <svelte:fragment slot="lead">
         <a href="{urlBase}" class="p-3"> <!-- TODO: Depends on the type of role user has -->
             <ArrowLeft size={48}/>
         </a>
+        <span class="p-3 pl-0">
+        <h2 class="h2 font-normal">{(data?.assignment) ? data?.assignment?.assignment_name : ''}</h2>
+        </span>
     </svelte:fragment>
-    <h2 class="h2 text-primary-100">{(data?.assignment) ? data?.assignment?.assignment_name : ''}</h2>
 </AppBar>
 
 <main class="h-full grid grid-cols-[1fr_4fr]">
-    <div class="h-full bg-surface-200 flex flex-col">
+    <div class="h-full bg-surface-100 flex flex-col">
     <div id="assignment-description" class="p-2">
         <p>{(data?.assignment) ? data?.assignment?.assignment_description : ''}</p>
     </div>
 
     <nav id="problem-selection" class="list-nav">
-        <ul class="flex flex-col gap-2 p-2">
+        <ul class="flex flex-col gap-1 p-1">
             {#each data.problems as problem, i}
             <li>
                 <button on:click={activeProblem = i} 
@@ -79,7 +81,7 @@
                 
             </div>
         </div>
-        <div class="h-full p-2 bg-surface-200 grid grid-rows-[1fr_1fr_3fr]">
+        <div class="h-full p-2 bg-surface-100 grid grid-rows-[1fr_1fr_3fr]">
             <div>
             <h3 class="h3">Tactics</h3>
             <div class="flex flex-wrap gap-1">
