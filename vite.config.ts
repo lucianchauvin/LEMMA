@@ -1,3 +1,5 @@
+import { fileURLToPath, URL } from "node:url";
+import tailwindcss from "@tailwindcss/vite";
 import { sveltekit } from '@sveltejs/kit/vite';
 import { defineConfig } from 'vite';
 import { nodePolyfills } from 'vite-plugin-node-polyfills'
@@ -61,6 +63,9 @@ export default defineConfig({
     resolve: {
         alias: {
             path: "path-browserify",
+            '@lucide/svelte/icons': fileURLToPath(
+                new URL('./node_modules/@lucide/svelte/dist/icons', import.meta.url)
+            )
         },
     },
 });

@@ -17,7 +17,6 @@ export const load = (async ({parent, params, locals: { safeQuery }}) => {
     }
 
     return {
-        title: `${course.course_number}: ${course.course_name}`,
         course: {
             id: course.course_id,
             name: course.course_name,

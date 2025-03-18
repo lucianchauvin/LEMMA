@@ -25,3 +25,10 @@
     border-color: var(--color-gray-200, currentColor);
   }
 }
+
+
+[data-theme='legacy'] {
+    --body-background-color: var(--color-surface-50);
+    --body-background-color-dark: var(--color-surface-800);
+    --heading-font-family: system-ui, Arial, san-serif
+}
