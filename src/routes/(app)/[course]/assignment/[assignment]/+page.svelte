@@ -7,11 +7,11 @@
 <h1 class="h1">{data.assignment.name}</h1>
 
 {#if data.edit}
-<a href="{urlBase}/{data.edit.student_assignment_id}" class="btn preset-filled">Edit Assignment</a>
+<a href="{urlBase}/{data.edit.student_assignment_id}" class="btn variant-filled">Edit Assignment</a>
 {/if}
 
 <div class="table-container">
-<table class="table ">
+<table class="table table-hover">
     <thead>
         <tr>
             <th>Student</th> 

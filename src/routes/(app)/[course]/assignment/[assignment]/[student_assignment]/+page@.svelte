@@ -2,7 +2,7 @@
     export let data;
     import { onMount } from 'svelte';
 
-    import { AppBar, Tab, Tabs } from '@skeletonlabs/skeleton-svelte';
+    import { AppBar, Tab, TabGroup } from '@skeletonlabs/skeleton';
     import ArrowLeft from '@lucide/svelte/icons/arrow-left';
     import Circle from '@lucide/svelte/icons/circle';
     import CircleCheckBig from '@lucide/svelte/icons/circle-check-big';
@@ -48,7 +48,7 @@
             <li>
                 <button on:click={activeProblem = i} 
                 class="w-full flex justify-between
-                {(i == activeProblem) ? '!preset-filled-surface-500' : ''}">
+                {(i == activeProblem) ? '!variant-filled-surface' : ''}">
                 <span class="flex-auto">
                     {problem.problem_name}
                 </span>
@@ -84,7 +84,7 @@
             <h3 class="h3">Tactics</h3>
             <div class="flex flex-wrap gap-1">
             {#each tactics as tactic}
-                <span class="chip preset-outlined">
+                <span class="chip variant-ringed">
                 {tactic.statement_name}
                 </span>
             {/each}
@@ -94,7 +94,7 @@
             <h3 class="h3">Definitions</h3>
             <div class="flex flex-wrap gap-1">
             {#each definitions as definition}
-                <span class="chip preset-outlined">
+                <span class="chip variant-ringed">
                 {definition.statement_name}
                 </span>
             {/each}
@@ -102,7 +102,7 @@
             </div>
             <div>
             <h3 class="h3">Theorems</h3>
-            <Tabs>
+            <TabGroup>
                 {#each theoremCategories as category}
                 <Tab bind:group={activeTheoremCategory} name={category} value={category}>
                 {category}
@@ -111,12 +111,12 @@
 
                 <div class="flex flex-wrap gap-1" slot="panel">
                 {#each theorems.filter((s) => s.statement_category === activeTheoremCategory) as theorem}
-                    <span class="chip preset-outlined">
+                    <span class="chip variant-ringed">
                     {theorem.statement_name}
                     </span>
                 {/each}
                 </div>
-            </Tabs>
+            </TabGroup>
             </div>
         </div>
     </div>

@@ -1,5 +1,5 @@
 <script>
-    import { Avatar } from '@skeletonlabs/skeleton-svelte';
+    import { Avatar } from '@skeletonlabs/skeleton';
     import Triangle from "@lucide/svelte/icons/triangle";
 </script>
 
@@ -15,7 +15,7 @@
     </div>
 
     <div class="admin flex items-center ml-auto mr-10">
-        <button type="button" class="btn btn-sm border-2 border-error-600 bg-surface-100 hover:preset-filled-error-500 shadow-lg shadow-surface-900 text-error-600">
+        <button type="button" class="btn btn-sm border-2 border-error-600 bg-surface-100 hover:variant-filled-error shadow-lg shadow-surface-900 text-error-600">
             <a href="/admin">Admin Panel</a>
         </button>
     </div>

@@ -59,5 +59,5 @@
     <input class="input" type="file" />
 </label>
 
-<button type="button" class="btn preset-filled-primary-500 mt-8">Submit</button>
-<button type="button" class="btn preset-filled-error-500 mt-8">Clear All Fields</button>
+<button type="button" class="btn variant-filled-primary mt-8">Submit</button>
+<button type="button" class="btn variant-filled-error mt-8">Clear All Fields</button>
