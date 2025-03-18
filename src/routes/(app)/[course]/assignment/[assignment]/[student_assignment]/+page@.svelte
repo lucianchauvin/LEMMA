@@ -20,9 +20,36 @@
 
     let activeTheoremCategory;
 
+    let editorRef;
+    let infoviewRef;
+    
+    const project = "mathlib-demo";
+    
     onMount(() => {
         activeTheoremCategory = (theorems.map(theorem => theorem.statement_category))[0];
-    })
+
+        const socketUrl = ((window.location.protocol === "https:") ? "wss://" : "ws://") +
+        window.location.host + "/websocket/" + project;
+
+        console.log(`[Lean4web] Socket url is ${socketUrl}`);
+
+        import("lean4monaco").then(({ LeanMonaco, LeanMonacoEditor }) => {
+            const options = {
+                websocket: { url: socketUrl },
+                htmlElement: editorRef,
+                vscode: { "editor.wordWrap": true }
+            };
+
+            const leanMonaco = new LeanMonaco();
+            const leanMonacoEditor = new LeanMonacoEditor();
+
+            leanMonaco.setInfoviewElement(infoviewRef);
+
+            leanMonaco.start(options).then(() => {
+                leanMonacoEditor.start(editorRef, `/project/0.lean`, "");
+            });
+        });
+    });
 </script>
 
 <div class="h-screen flex flex-col">
@@ -70,16 +97,12 @@
     
     <div class="h-full grid grid-cols-[3fr_1fr]">
         <div class="h-full bg-surface-50 grid grid-rows-3">
-            <div id="editor">
-                <textarea class="textarea resize-none p-2 h-full" placeholder="Enter your proof of the problem">{(proofFile) ? proofFile : 'No proof saved yet'}</textarea>
-            </div>
+            <div id="editor" bind:this={editorRef} class="h-full"></div>
             <div id="goal">
                 <h3 class="h3">Current Goal</h3>
                 {problemFile}
             </div>
-            <div id="editor-output">
-                
-            </div>
+            <div id="editor-output" bind:this={infoviewRef} class="h-full"></div>
         </div>
         <div class="h-full p-2 bg-surface-100 grid grid-rows-[1fr_1fr_3fr]">
             <div>
