@@ -5,7 +5,8 @@ import type { SafeQueryResult } from '$lib/types';
 import { type Handle } from '@sveltejs/kit';
 import { PGUSER, PGDATABASE, PGPASSWORD, PGPORT } from '$env/static/private';
 
-const PGHOST = fs.readFileSync('IP', 'utf-8').trim();
+// const PGHOST = fs.readFileSync('/data/IP', 'utf-8').trim();
+const PGHOST = "18.225.72.236";
 
 export const handle: Handle = async ({ event, resolve }) => {
     /**
