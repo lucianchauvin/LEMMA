@@ -197,9 +197,9 @@
   <div class="calendar-header">
     <h1>
       <button on:click={()=>year--}>≪</button>
-      <button on:click={()=>prev()}>&lt;</button>
+      <button on:click={()=>prev()}><</button>
        {monthNames[month]} {year}
-      <button on:click={()=>next()}>&gt;</button>
+      <button on:click={()=>next()}>></button>
       <button on:click={()=>year++}>≫</button>
     </h1>
 		{eventText}
