@@ -3,7 +3,6 @@ import type { Course, Assignment } from '$lib/types';
 import { error } from '@sveltejs/kit';
 
 export const load = (async ({parent, params, locals: { safeQuery }}) => {
-    const course = await parent();
     const {data: assignmentResult, error: assignmentErr} = await safeQuery<Assignment>("SELECT * FROM assignments WHERE assignment_id=$1", [params.assignment]);
 
     if(assignmentErr) {
@@ -11,7 +10,8 @@ export const load = (async ({parent, params, locals: { safeQuery }}) => {
         error(500, {message: 'Database failed to query assignments for specific assignment'});
     }
 
-    if (assignmentResult.length === 0) throw error(404); // no assignment found like this
+    if (assignmentResult.length === 0) 
+        throw error(404, {message: 'No assignment found'}); 
     if (assignmentResult.length > 1) {
         // should never happen
         console.error(`Found multiple assignments with id ${params.assignment}`);
@@ -19,7 +19,6 @@ export const load = (async ({parent, params, locals: { safeQuery }}) => {
     }
 
     return {
-        course,
         assignment: assignmentResult[0],
     }
         
