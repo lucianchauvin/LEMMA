@@ -1,23 +1,24 @@
 <script lang="ts">
-    let { data }: PageProps = $props();
+    export let data;
     import { onMount } from 'svelte';
 
-    import { AppBar, Tabs } from '@skeletonlabs/skeleton-svelte';
+    import { AppBar, Tab, Tabs } from '@skeletonlabs/skeleton-svelte';
     import ArrowLeft from '@lucide/svelte/icons/arrow-left';
     import Circle from '@lucide/svelte/icons/circle';
     import CircleCheckBig from '@lucide/svelte/icons/circle-check-big';
 
     const urlBase = `/${data.course.course_id}/assignment/${data.assignment.assignment_id}`;
 
-    let activeProblem = $state((data.problems.length > 0) ? 0 : null);
-    const problemFile = $derived(data.problems[activeProblem].problem_filepath);
-    const proofFile = $derived(data.problems[activeProblem].proof_filepath);
-    const tactics = $derived(data.problems[activeProblem].statements.filter((s) => s.statement_type === 'tactic'));
-    const definitions = $derived(data.problems[activeProblem].statements.filter((s) => s.statement_type === 'definition'));
-    const theorems = $derived(data.problems[activeProblem].statements.filter((s) => s.statement_type === 'theorem'));
-    const theoremCategories = $derived(new Set(theorems.map(theorem => theorem.statement_category)));
+    $: activeProblem = (data.problems.length > 0) ? 0 : null;
 
-    let activeTheoremCategory = $state();
+    $: problemFile = data.problems[activeProblem].problem_filepath;
+    $: proofFile = data.problems[activeProblem].proof_filepath;
+    $: tactics = data.problems[activeProblem].statements.filter((s) => s.statement_type === 'tactic');
+    $: definitions = data.problems[activeProblem].statements.filter((s) => s.statement_type === 'definition');
+    $: theorems = data.problems[activeProblem].statements.filter((s) => s.statement_type === 'theorem');
+    $: theoremCategories = new Set(theorems.map(theorem => theorem.statement_category));
+
+    let activeTheoremCategory;
 
     onMount(() => {
         activeTheoremCategory = (theorems.map(theorem => theorem.statement_category))[0];
@@ -27,11 +28,11 @@
 <div class="h-screen flex flex-col">
 
 <AppBar regionRowMain="h-fit" background="bg-surface-900" padding="p-0" slotLead="text-primary-100" slotDefault="p-3 pl-0">
-    {#snippet lead()}
+    <svelte:fragment slot="lead">
         <a href="{urlBase}" class="p-3"> <!-- TODO: Depends on the type of role user has -->
             <ArrowLeft size={48}/>
         </a>
-    {/snippet}
+    </svelte:fragment>
     <h2 class="h2 text-primary-100">{(data?.assignment) ? data?.assignment?.assignment_name : ''}</h2>
 </AppBar>
 
@@ -45,7 +46,7 @@
         <ul class="flex flex-col gap-2 p-2">
             {#each data.problems as problem, i}
             <li>
-                <button onclick={activeProblem = i} 
+                <button on:click={activeProblem = i} 
                 class="w-full flex justify-between
                 {(i == activeProblem) ? '!preset-filled-surface-500' : ''}">
                 <span class="flex-auto">
@@ -101,24 +102,20 @@
             </div>
             <div>
             <h3 class="h3">Theorems</h3>
-            <Tabs value={activeTheoremCategory} onValueChange={(e) => (activeTheoremCategory = e.value)}>
-                {#snippet list()}
+            <Tabs>
                 {#each theoremCategories as category}
-                <Tabs.Control name={category} value={category}>
+                <Tab bind:group={activeTheoremCategory} name={category} value={category}>
                 {category}
-                </Tabs.Control>
+                </Tab>
                 {/each}
-                {/snippet}
 
-                {#snippet content()}
-                <Tabs.Panel class="flex flex-wrap gap-1" value={activeTheoremCategory}>
+                <div class="flex flex-wrap gap-1" slot="panel">
                 {#each theorems.filter((s) => s.statement_category === activeTheoremCategory) as theorem}
                     <span class="chip preset-outlined">
                     {theorem.statement_name}
                     </span>
                 {/each}
-                </Tabs.Panel>
-                {/snippet}
+                </div>
             </Tabs>
             </div>
         </div>
