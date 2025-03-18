@@ -52,6 +52,7 @@ jobs:
             node -v
             echo $PATH
             npm install pm2
+            npm install @rollup/rollup-linux-arm64-gnu
             npm install
             cp ../.env .
             npm run build
