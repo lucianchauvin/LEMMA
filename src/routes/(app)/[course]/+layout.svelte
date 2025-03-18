@@ -1,6 +1,5 @@
 <script>
     export let data;
-
     import { AppRail, AppRailAnchor } from '@skeletonlabs/skeleton';
     import { fade } from "svelte/transition"
     import { page } from '$app/stores';
@@ -74,7 +73,7 @@
 </AppRail>
 
 <div class="body flex-1 mr-5">
-    {#key $page.url}
+    {#key data.url}
         <div in:fade|global={{ delay: 300, duration: 300 }} out:fade={{ duration: 300 }}>
             <slot/>
         </div>
