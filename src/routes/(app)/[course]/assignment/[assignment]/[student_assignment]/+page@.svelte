@@ -26,15 +26,13 @@
 
 <div class="h-screen flex flex-col">
 
-<AppBar regionRowMain="h-fit" background="bg-surface-900" padding="p-0">
+<AppBar regionRowMain="h-fit" background="bg-surface-900" padding="p-0" slotLead="text-primary-100" slotDefault="p-3 pl-0">
     {#snippet lead()}
-        <a href="{urlBase}" class="p-3 text-primary-100"> <!-- TODO: Depends on the type of role user has -->
+        <a href="{urlBase}" class="p-3"> <!-- TODO: Depends on the type of role user has -->
             <ArrowLeft size={48}/>
         </a>
-        <span class="p-3 pl-0">
-        <h2 class="h2 text-primary-100">{(data?.assignment) ? data?.assignment?.assignment_name : ''}</h2>
-        </span>
     {/snippet}
+    <h2 class="h2 text-primary-100">{(data?.assignment) ? data?.assignment?.assignment_name : ''}</h2>
 </AppBar>
 
 <main class="h-full grid grid-cols-[1fr_4fr]">
@@ -43,17 +41,17 @@
         <p>{(data?.assignment) ? data?.assignment?.assignment_description : ''}</p>
     </div>
 
-    <nav id="problem-selection" class="list-none">
-        <ul class="flex flex-col p-1">
+    <nav id="problem-selection" class="list-nav">
+        <ul class="flex flex-col gap-2 p-2">
             {#each data.problems as problem, i}
             <li>
                 <button onclick={activeProblem = i} 
-                class="w-full flex justify-between p-1 rounded-full
+                class="w-full flex justify-between
                 {(i == activeProblem) ? '!preset-filled-surface-500' : ''}">
-                <span class="flex-auto text-xl">
+                <span class="flex-auto">
                     {problem.problem_name}
                 </span>
-                <span class="flex items-center pr-1">
+                <span>
                     {#if problem.complete}
                     <CircleCheckBig/>
                     {:else}
@@ -72,7 +70,7 @@
             <div id="editor">
                 <textarea class="textarea resize-none p-2 h-full" placeholder="Enter your proof of the problem">{(proofFile) ? proofFile : 'No proof saved yet'}</textarea>
             </div>
-            <div id="goal" class="p-1">
+            <div id="goal">
                 <h3 class="h3">Current Goal</h3>
                 {problemFile}
             </div>
