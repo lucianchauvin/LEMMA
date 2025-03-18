@@ -1,21 +1,57 @@
 <script lang="ts">
+    import {Book, KeyRound} from 'lucide-svelte';
     export let data;
 </script>
 
-{#if data.assignments.length > 0}
+<!-- {#if data.assignments.length > 0}
 <ul class="assignments">
 	{#each data.assignments as {assignment_name, username, course_name, grade, course_id}}
-        {#if (username == 'marfung')}
+
         <li>
             Course: <strong>{course_name}</strong>
             Assignment: <strong>{assignment_name}</strong>
             Student: <strong>{username}</strong>
             Grade: <strong>{grade}</strong>
         </li>
-        {/if}
+
         {/each}
         
 </ul>
 {:else}
 	<p>No assignments available.</p>
-{/if}
+{/if} -->
+
+<div class="table-wrapper pt-8 pr-3">
+    <h1 class="text-xl font-bold flex items-center gap-2">
+        <Book size={24} /> Grades
+    </h1>
+
+    <table class="border-collapse border border-black w-full mt-4">
+        <thead>
+            <tr>
+                <!-- <th class = "p-3 text-center border border-black"> Student Name </th> -->
+                <th class = "p-3 text-center border border-black"> Assignment Name </th>
+                <th class="p-3 text-center border border-black">Grade</th>
+            </tr>
+        </thead>
+        <tbody>
+            {#each data.assignments as {username, assignment_name, grade}}
+                    <tr>
+                        <!-- <td class="p-3 text-center border border-black">
+                            {username}
+                        </td> -->
+
+                        <td class="p-3 text-center border border-black">
+
+                            {assignment_name}
+                        </td>
+    
+                        <td class="p-3 text-center border border-black">
+
+                            {grade}
+                        </td>
+                    </tr>
+            {/each}
+        </tbody>
+    </table>
+</div>

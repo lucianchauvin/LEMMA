@@ -22,9 +22,9 @@ export const load: PageServerLoad = async ({locals: { safeQuery }}) => {
     LEFT JOIN student_assignments ON assignments.assignment_id = student_assignments.assignment_id
     LEFT JOIN users on student_assignments.student_id = users.user_id
     LEFT JOIN courses on assignments.course_id = courses.course_id
-    WHERE student_assignments.edit=false
+    WHERE student_assignments.edit=false AND users.username=$1
     ORDER BY assignments.course_id, assignments.assignment_id;
-    `);
+    `, ['marfung']);
     if(err) {
         console.error('ERROR: Database failed to query for assignments');
         error(500, {message: 'Database failed to query for assignments'})
