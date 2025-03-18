@@ -5,6 +5,7 @@ on:
     branches:
       - main
       - dev
+      - editor
 
 concurrency:
   group: aws-deploy
