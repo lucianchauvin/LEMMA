@@ -13,9 +13,9 @@ else
   exit 1
 fi
 
-output_file="$ROOT_DIR/data/init_db.sql"
+output_file="init_db.sql"
 
-# Start the file by writing multiple lines at once to clear database
+# Start the file by writing multiple lines at once using a here document
 cat <<EOF > "$output_file"
 DROP SCHEMA $PGUSER CASCADE;
 CREATE SCHEMA $PGUSER;
@@ -23,10 +23,10 @@ CREATE SCHEMA $PGUSER;
 EOF
 
 # Loop through all .sql files and append \i commands to the output file
-for sql_file in "$ROOT_DIR/data/"*.sql; do
+for sql_file in *.sql; do
   # Skip the output file itself
   if [[ "$sql_file" != "$output_file" ]]; then
-    echo "\i '$sql_file'" >> "$output_file"
+    echo "\i $sql_file" >> "$output_file"
   fi
 done
 

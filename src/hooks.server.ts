@@ -5,7 +5,8 @@ import type { SafeQueryResult } from '$lib/types';
 import { type Handle } from '@sveltejs/kit';
 import { PGUSER, PGDATABASE, PGPASSWORD, PGPORT } from '$env/static/private';
 
-const PGHOST = fs.readFileSync('IP', 'utf-8').trim();
+// const PGHOST = fs.readFileSync('/data/IP', 'utf-8').trim();
+const PGHOST = "18.225.72.236";
 
 export const handle: Handle = async ({ event, resolve }) => {
     /**
@@ -26,15 +27,15 @@ export const handle: Handle = async ({ event, resolve }) => {
         query: string, 
         params: any[] = []
     ): Promise<SafeQueryResult<T>> => {
-        return event.locals.database.query<T>(query, params)
-            .then((res: QueryResult<T>) => {
-                if(res)
-                    return {data: res.rows, error: null}
-                return {data: null, error: "No result to query"}; // shouldn't happen
-            }) 
-            .catch((err: Error) => {
-              return {data: null, error: err.message}; 
-            });
+      return event.locals.database.query<T>(query, params)
+        .then((res: QueryResult<T>) => {
+            if(res)
+                return {data: res.rows, error: null}
+            return {data: null, error: "No result to query"}; // shouldn't happen
+        }) 
+        .catch((err: Error) => {
+          return {data: null, error: err.message}; 
+        });
     }
 
     const response = await resolve(event);
