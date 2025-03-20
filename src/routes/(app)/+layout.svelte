@@ -24,7 +24,7 @@
     <!-- </div> -->
 
     <form method="GET" action="/logout" data-sveltekit-reload>
-      <button id="logout" type="button" class="btn btn-sm border-2 border-surface-600 bg-surface-100 hover:variant-filled-surface shadow-lg shadow-surface-900 text-surface-600">Logout</button>
+      <button id="logout" class="btn btn-sm border-2 border-surface-600 bg-surface-100 hover:variant-filled-surface shadow-lg shadow-surface-900 text-surface-600">Logout</button>
     </form>
     </div>
 </header>
