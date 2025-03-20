@@ -2,8 +2,15 @@ import { lucia } from "$lib/server/auth";
 import { error, fail, redirect } from "@sveltejs/kit";
 import { verify } from "@node-rs/argon2";
 
-import type { User, Session } from "$lib/types"
-import type { Actions } from "./$types";
+import type { User } from "$lib/types"
+import type { PageServerLoad, Actions } from "./$types";
+
+export const load: PageServerLoad = async ({ locals: { getSession } }) => {
+	const {session} = await getSession();
+
+	/* User is already logged in. */
+	if (session) redirect(303, '/');
+};
 
 export const actions: Actions = {
     default: async ({ request, cookies, locals: { safeQuery } }) => {

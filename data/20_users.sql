@@ -1,6 +1,6 @@
 INSERT INTO users (first_name, last_name, username, password, email, is_super_admin)
 VALUES
-    ('Admin', '', 'Admin', 'fc8252c8dc55839967c58b9ad755a59b61b67c13227ddae4bd3f78a38bf394f7', 'admin@example.com', true),
-    ('Martin', 'Carsile', 'thedoctor', '5fb25d433e53c95c0a7954b7e18d177424ae275e96babf33645adac73c3b10a3', 'instructor@example.com', false),
-    ('Marvin', 'Fung', 'marfung', 'e4102fd4070fb60c14f38694db79e70f9783b57c8d8f762fc60b347ecb105e74', 'marfung37@tamu.edu', false),
-    ('Lucian', 'Chauvin', 'lucian', '06089e0b571bfc2d58044015c0dd482a627d79fc83d11d2e8696b334e1ecce29', 'lucian@tamu.edu', false);
+    ('Admin', '', 'admin', '$argon2id$v=19$m=19456,t=2,p=1$b6Ivsy35lxuz9HU8iVxnOA$PmcjfGSzMM9cpdQXlQGd8zzvH+2bPpbuh3/k1qpN+/Q', 'admin@example.com', true), -- pw: admin
+    ('Martin', 'Carsile', 'thedoctor', '$argon2id$v=19$m=19456,t=2,p=1$LBxCGPMdwhmJ5nlEQB3OhA$EorXN8wkZvNruhz9So/PefLdlLnir3vASRP2XFsIfoc', 'instructor@example.com', false), -- pw: thedoctor
+    ('Marvin', 'Fung', 'marfung', '$argon2id$v=19$m=19456,t=2,p=1$fDncxM9VkJQb0dpeHaZbgg$4fgtP79u90+cBuuzt5BRw0V+uKVGtv/OPCs8tSFr6gs', 'marfung37@tamu.edu', false), -- pw: marfung
+    ('Lucian', 'Chauvin', 'lucian', '$argon2id$v=19$m=19456,t=2,p=1$Ux1DBnYWIG5j3NSEroj2Yw$6KyAwTMNs/6VGHHkRxU9eOPL5nkGT07SzEhg7MXt7tc', 'lucian@tamu.edu', false); -- pw: lucian
