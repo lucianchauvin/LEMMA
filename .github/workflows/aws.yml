@@ -5,6 +5,7 @@ on:
     branches:
       - main
       - dev
+      - editor
 
 concurrency:
   group: aws-deploy
@@ -51,8 +52,9 @@ jobs:
             node -v
             echo $PATH
             npm install pm2
+            npm install @rollup/rollup-linux-arm64-gnu
             npm install
             cp ../.env .
             npm run build
-            pm2 restart lemma || pm2 start "PORT=3000 node -r dotenv/config build" --name lemma --no-autorestart 
+            pm2 restart lemma || pm2 start "npm run start" --name lemma --no-autorestart 
             pm2 save

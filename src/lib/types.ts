@@ -59,6 +59,12 @@ export type User = {
     active: boolean // default false
 }
 
+export type Session = {
+    session_id: string,
+    user_id: UUID,
+    expires_at: Date
+}
+
 export type PermissionFlag = {
     name: Permission,
     targets_role: boolean
@@ -111,10 +117,7 @@ export type Reading = {
 
 export type Problem = {
     problem_id: UUID,
-    assignment_id: UUID,
-    problem_name: string,
-    problem_description: string,
-    problem_filepath: string
+    assignment_id: UUID
 }
 
 export type StudentAssignment = {
@@ -129,7 +132,7 @@ export type StudentProof = {
     problem_id: UUID,
     student_assignment_id: UUID,
     complete: boolean,
-    proof_filepath: string,
+    student_problem_filepath: string,
 }
 
 export type Statements = {

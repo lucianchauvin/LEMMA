@@ -1,10 +1,15 @@
 import type { PageServerLoad } from './$types';
 import type { Course, Assignment, StudentAssignment, StudentProof, Problem, Statement } from '$lib/types';
-import { error } from '@sveltejs/kit';
+import { error, redirect } from '@sveltejs/kit';
 
 type ProblemStatementProofs = Problem & {complete: boolean, proof_filepath: string, statements: Statement[]};
 
-export const load = (async ({params, locals: { safeQuery }}) => {
+export const load = (async ({params, locals: { safeQuery, getSession }}) => {
+    const { session } = await getSession();
+
+    if (!session)
+        redirect(302, '/login')
+
     const {data: courseResult, error: courseErr} = await safeQuery<Course>("SELECT * FROM courses WHERE course_id=$1", [params.course]);
 
     if(courseErr) {
@@ -13,11 +18,11 @@ export const load = (async ({params, locals: { safeQuery }}) => {
     }
 
     if (!courseResult) 
-        error(404, {message: 'No course found'}); // no course found like this
+        throw error(404, {message: 'No course found'}); // no course found like this
     if (courseResult.length > 1) {
         // should never happen
         console.error(`Found multiple courses with id ${params.course}`);
-        error(500, {message: 'Multiple courses found with this id'});
+        throw error(500, {message: 'Multiple courses found with this id'});
     }
 
     const {data: assignmentResult, error: assignmentErr} = await safeQuery<Assignment>("SELECT * FROM assignments WHERE assignment_id=$1", [params.assignment]);
@@ -28,11 +33,11 @@ export const load = (async ({params, locals: { safeQuery }}) => {
     }
 
     if (assignmentResult.length === 0) 
-        error(404, {message: 'No assignment found'}); 
+        throw error(404, {message: 'No assignment found'}); 
     if (assignmentResult.length > 1) {
         // should never happen
         console.error(`Found multiple assignments with id ${params.assignment}`);
-        error(500, {message: 'Multiple assignments found with this id'});
+        throw error(500);
     }
 
     const {data: [studentAssignment], error: studentErr} = await safeQuery<StudentAssignment>("SELECT * FROM student_assignments WHERE student_assignment_id=$1", [params.student_assignment]);

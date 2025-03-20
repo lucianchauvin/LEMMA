@@ -29,20 +29,6 @@ VALUES
         'logic'
     ),
     (
-        'dist_cup_cap',
-        'theorem',
-        'Distributing intersection over union',
-        '/path/to/example/statement',
-        'sets'
-    ),
-    (
-        'dist_cap_cup',
-        'theorem',
-        'Distributing union over intersection',
-        '/path/to/example/statement',
-        'sets'
-    ),
-    (
         'Prop',
         'definition',
         'Proposition that can either true or false',

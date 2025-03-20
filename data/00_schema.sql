@@ -41,6 +41,12 @@ CREATE TYPE "permission" AS ENUM (
   'change_course_grades'
 );
 
+CREATE TABLE "sessions" (
+  "session_id" text PRIMARY KEY,
+  "user_id" uuid NOT NULL,
+  "expires_at" timestamptz NOT NULL DEFAULT (now() + interval '7 days')
+);
+
 CREATE TABLE "users" (
   "user_id" uuid PRIMARY KEY DEFAULT (gen_random_uuid()),
   "first_name" varchar(50),
@@ -186,3 +192,5 @@ ALTER TABLE "student_proofs" ADD FOREIGN KEY ("student_assignment_id") REFERENCE
 ALTER TABLE "problem_statements" ADD FOREIGN KEY ("statement_id") REFERENCES "statements" ("statement_id");
 
 ALTER TABLE "problem_statements" ADD FOREIGN KEY ("problem_id") REFERENCES "problems" ("problem_id") ON DELETE CASCADE;
+
+ALTER TABLE "sessions" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("user_id") ON DELETE CASCADE;

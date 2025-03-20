@@ -35,12 +35,4 @@ VALUES
     (
         (SELECT problem_id FROM problems WHERE problems.problem_name='Simplify 2'),
         (SELECT statement_id FROM statements WHERE statements.statement_name='de_morgan')
-    ),
-    (
-        (SELECT problem_id FROM problems WHERE problems.problem_name='Simplify 2'),
-        (SELECT statement_id FROM statements WHERE statements.statement_name='dist_cup_cap')
-    ),
-    (
-        (SELECT problem_id FROM problems WHERE problems.problem_name='Simplify 2'),
-        (SELECT statement_id FROM statements WHERE statements.statement_name='dist_cap_cup')
     );
