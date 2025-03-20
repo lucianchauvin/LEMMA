@@ -39,11 +39,9 @@ export const actions: Actions = {
         });
 
         // Insert user to database
-        const {data: userInsert, error: userErr} = await safeQuery(
+        const {data: [user], error: userErr} = await safeQuery<{user_id: string}>(
             `INSERT INTO users (username, password, email) VALUES ($1, $2, $3) RETURNING user_id`, 
         [username, passwordHash, email]);
-
-        console.log(userInsert, userErr);
 
         if(userErr === 'duplicate key value violates unique constraint "users_username_key"') {
             return fail(400, {
@@ -58,11 +56,7 @@ export const actions: Actions = {
         }
 
         try {
-            const userId = userInsert[0]["user_id"];
-
-            console.log(userId)
-
-            const session = await lucia.createSession(userId, {});
+            const session = await lucia.createSession(user.user_id, {});
             const sessionCookie = lucia.createSessionCookie(session.id);
             cookies.set(sessionCookie.name, sessionCookie.value, {
                 path: ".",

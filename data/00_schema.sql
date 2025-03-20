@@ -43,7 +43,7 @@ CREATE TYPE "permission" AS ENUM (
 
 CREATE TABLE "sessions" (
   "session_id" text PRIMARY KEY,
-  "user_id" uuid UNIQUE NOT NULL,
+  "user_id" uuid NOT NULL,
   "expires_at" timestamptz NOT NULL DEFAULT (now() + interval '7 days')
 );
 

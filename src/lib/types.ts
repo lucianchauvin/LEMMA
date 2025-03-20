@@ -59,6 +59,12 @@ export type User = {
     active: boolean // default false
 }
 
+export type Session = {
+    session_id: string,
+    user_id: UUID,
+    expires_at: Date
+}
+
 export type PermissionFlag = {
     name: Permission,
     targets_role: boolean
