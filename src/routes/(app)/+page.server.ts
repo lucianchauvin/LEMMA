@@ -1,15 +1,10 @@
 import type { PageServerLoad } from './$types';
 import type { Course } from '$lib/types';
-import { error, redirect } from '@sveltejs/kit';
+import { error } from '@sveltejs/kit';
 
 const colors = ["darkgreen", "maroon"];
 
-export const load: PageServerLoad = async ({locals: { safeQuery, getSession }}) => {
-    const {user} = await getSession();
-
-    // if not logged in redirect to login page
-    if (!user) redirect(302, "/login");
-
+export const load: PageServerLoad = async ({locals: { safeQuery }}) => {
     // get courses
     const {data: result, error: err} = await safeQuery<Course>('SELECT * FROM courses');
     if(err) {

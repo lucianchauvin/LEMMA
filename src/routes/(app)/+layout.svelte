@@ -29,7 +29,7 @@
     </div>
 </header>
 
-<main class="p-5">
+<main class="h-full p-5">
     <slot></slot>
 </main>
 </div>
