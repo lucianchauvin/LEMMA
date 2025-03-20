@@ -39,6 +39,7 @@
 		"@lucia-auth/adapter-drizzle": "^1.1.0",
 		"@lucia-auth/adapter-postgresql": "^3.1.2",
 		"@lucide/svelte": "^0.479.0",
+		"@node-rs/argon2": "^2.0.2",
 		"@types/pg": "^8.11.11",
 		"concurrently": "^9.1.2",
 		"cross-env": "^7.0.3",

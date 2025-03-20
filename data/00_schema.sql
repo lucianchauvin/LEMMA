@@ -42,7 +42,7 @@ CREATE TYPE "permission" AS ENUM (
 );
 
 CREATE TABLE "sessions" (
-  "session_id" uuid PRIMARY KEY DEFAULT (gen_random_uuid()),
+  "session_id" text PRIMARY KEY,
   "user_id" uuid UNIQUE NOT NULL,
   "expires_at" timestamptz NOT NULL DEFAULT (now() + interval '7 days')
 );
@@ -193,4 +193,4 @@ ALTER TABLE "problem_statements" ADD FOREIGN KEY ("statement_id") REFERENCES "st
 
 ALTER TABLE "problem_statements" ADD FOREIGN KEY ("problem_id") REFERENCES "problems" ("problem_id") ON DELETE CASCADE;
 
-ALTER TABLE "sessions" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("user_id");
+ALTER TABLE "sessions" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("user_id") ON DELETE CASCADE;
