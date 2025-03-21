@@ -7,8 +7,7 @@ CREATE TYPE "course_status" AS ENUM (
 CREATE TYPE "statement" AS ENUM (
   'tactic',
   'definition',
-  'theorem',
-  'problem'
+  'theorem'
 );
 
 CREATE TYPE "permission" AS ENUM (
@@ -40,6 +39,12 @@ CREATE TYPE "permission" AS ENUM (
   'update_course_student_assignments',
   'view_course_grades',
   'change_course_grades'
+);
+
+CREATE TABLE "sessions" (
+  "session_id" text PRIMARY KEY,
+  "user_id" uuid NOT NULL,
+  "expires_at" timestamptz NOT NULL DEFAULT (now() + interval '7 days')
 );
 
 CREATE TABLE "users" (
@@ -87,7 +92,11 @@ CREATE TABLE "reading_statements" (
 
 CREATE TABLE "problems" (
   "problem_id" uuid PRIMARY KEY DEFAULT (gen_random_uuid()),
-  "assignment_id" uuid NOT NULL
+  "assignment_id" uuid NOT NULL,
+  "problem_name" varchar(100) NOT NULL,
+  "problem_description" text,
+  "problem_filepath" text NOT NULL,
+  "problem_number" smallint NOT NULL DEFAULT 0
 );
 
 CREATE TABLE "problem_statements" (
@@ -107,16 +116,17 @@ CREATE TABLE "statements" (
 CREATE TABLE "student_assignments" (
   "student_assignment_id" uuid PRIMARY KEY DEFAULT (gen_random_uuid()),
   "assignment_id" uuid NOT NULL,
-  "student_id" uuid NOT NULL,
+  "student_id" uuid,
   "edit" boolean NOT NULL DEFAULT false,
   "grade" float NOT NULL DEFAULT 0
 );
 
 CREATE TABLE "student_proofs" (
-  "problem_id" uuid PRIMARY KEY DEFAULT (gen_random_uuid()),
+  "proof_id" uuid PRIMARY KEY DEFAULT (gen_random_uuid()),
+  "problem_id" uuid NOT NULL,
   "student_assignment_id" uuid NOT NULL,
   "complete" bool NOT NULL DEFAULT false,
-  "student_problem_filepath" text NOT NULL
+  "proof_filepath" text NOT NULL
 );
 
 CREATE TABLE "roles" (
@@ -145,6 +155,8 @@ CREATE TABLE "user_roles" (
 
 CREATE UNIQUE INDEX ON "reading_statements" ("reading_id", "statement_id");
 
+CREATE UNIQUE INDEX ON "problems" ("assignment_id", "problem_number");
+
 CREATE UNIQUE INDEX ON "problem_statements" ("problem_id", "statement_id");
 
 CREATE UNIQUE INDEX ON "user_roles" ("user_id", "course_id");
@@ -171,7 +183,7 @@ ALTER TABLE "student_assignments" ADD FOREIGN KEY ("assignment_id") REFERENCES "
 
 ALTER TABLE "student_assignments" ADD FOREIGN KEY ("student_id") REFERENCES "users" ("user_id");
 
-ALTER TABLE "problems" ADD FOREIGN KEY ("problem_id") REFERENCES "assignments" ("assignment_id") ON DELETE CASCADE;
+ALTER TABLE "problems" ADD FOREIGN KEY ("assignment_id") REFERENCES "assignments" ("assignment_id") ON DELETE CASCADE;
 
 ALTER TABLE "student_proofs" ADD FOREIGN KEY ("problem_id") REFERENCES "problems" ("problem_id") ON DELETE CASCADE;
 
@@ -180,3 +192,5 @@ ALTER TABLE "student_proofs" ADD FOREIGN KEY ("student_assignment_id") REFERENCE
 ALTER TABLE "problem_statements" ADD FOREIGN KEY ("statement_id") REFERENCES "statements" ("statement_id");
 
 ALTER TABLE "problem_statements" ADD FOREIGN KEY ("problem_id") REFERENCES "problems" ("problem_id") ON DELETE CASCADE;
+
+ALTER TABLE "sessions" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("user_id") ON DELETE CASCADE;

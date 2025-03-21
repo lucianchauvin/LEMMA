@@ -1,24 +1,10 @@
-import pg from 'pg';
-import fs from 'fs';
 import type { QueryResult, QueryResultRow } from 'pg';
 import type { SafeQueryResult } from '$lib/types';
 import { type Handle } from '@sveltejs/kit';
-import { PGUSER, PGDATABASE, PGPASSWORD, PGPORT } from '$env/static/private';
-
-const PGHOST = fs.readFileSync('IP', 'utf-8').trim();
+import { pool } from "$lib/server/db";
+import { lucia } from "$lib/server/auth";
 
 export const handle: Handle = async ({ event, resolve }) => {
-    /**
-    * Creates a Postgres client specific to this server request.
-    */
-    event.locals.database = new pg.Pool({
-        host: PGHOST,
-        user: PGUSER,
-        password: Buffer.from(PGPASSWORD, 'base64').toString('utf-8').trim().replace(/(\r\n|\n|\r)/gm, ""),
-        port: parseInt(PGPORT),
-        connectionTimeoutMillis: 5000, // 5 sec timeout
-    })
-
     /**
     * Queries and returns errors without separate try-catch
     */
@@ -26,7 +12,7 @@ export const handle: Handle = async ({ event, resolve }) => {
         query: string, 
         params: any[] = []
     ): Promise<SafeQueryResult<T>> => {
-      return event.locals.database.query<T>(query, params)
+      return pool.query<T>(query, params)
         .then((res: QueryResult<T>) => {
             if(res)
                 return {data: res.rows, error: null}
@@ -37,6 +23,33 @@ export const handle: Handle = async ({ event, resolve }) => {
         });
     }
 
-    const response = await resolve(event);
-    return response;
+    /**
+    * Get session from lucia
+    */
+    event.locals.getSession = async () => {
+        const sessionId = event.cookies.get(lucia.sessionCookieName);
+        if (!sessionId) return { user: null, session: null }
+
+        const { session, user } = await lucia.validateSession(sessionId);
+        if (session && session.fresh) {
+            const sessionCookie = lucia.createSessionCookie(session.id);
+            // sveltekit types deviates from the de-facto standard
+            // you can use 'as any' too
+            event.cookies.set(sessionCookie.name, sessionCookie.value, {
+                path: ".",
+                ...sessionCookie.attributes
+            });
+        }
+        if (!session) {
+            const sessionCookie = lucia.createBlankSessionCookie();
+            event.cookies.set(sessionCookie.name, sessionCookie.value, {
+                path: ".",
+                ...sessionCookie.attributes
+            });
+        }
+
+        return { user, session };
+    }
+
+    return resolve(event);
 }
