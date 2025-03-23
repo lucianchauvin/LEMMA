@@ -41,31 +41,31 @@
 </script>
 
 
-<div class="table-wrapper pt-8 pr-3">
+<div class="table-container">
     <h1 class="text-xl font-bold flex items-center gap-2">
         <Book size={24} /> Gradebook
     </h1>
 
-    <table class="border-collapse border border-black w-full mt-4">
+    <table class="table table-hover mt-4">
         <thead>
             <tr>
-                <th class = "p-3 text-center border border-black"> Student Name </th>
+                <th class = "p-3 text-center"> Student Name </th>
                 {#each assignmentsData as assignments}
-                    <th class = "p-3 text-center border border-black"> {assignments.assignment_name} </th>
+                    <th class = "p-3 text-center"> {assignments.assignment_name} </th>
                 {/each}
-                <th class="p-3 text-center border border-black">Letter Grade</th>
+                <th class="p-3 text-center">Letter Grade</th>
             </tr>
         </thead>
         <tbody>
             {#each students as student}
                 <tr>
-                    <td class="p-3 text-center border border-black">{student.first_name} {student.last_name}</td>
+                    <td class="p-3 text-center">{student.first_name} {student.last_name}</td>
                     {#each assignmentsData as assignments}
-                        <td class="p-3 text-center border border-black">
+                        <td class="p-3 text-center">
                             {fetchGrade(student.user_id, assignments.assignment_id)}
                         </td>
                     {/each}
-                    <td class="p-3 text-center border border-black">
+                    <td class="p-3 text-center">
                         {determineLetterGrade(
                             assignmentsData.map(assignment => fetchGrade(student.user_id, assignment.assignment_id))
                             .filter(grade => grade !== '-').map(Number)
