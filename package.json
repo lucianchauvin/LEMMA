@@ -38,6 +38,7 @@
 		"@fortawesome/free-solid-svg-icons": "^6.7.2",
 		"@lucide/svelte": "^0.479.0",
 		"@types/pg": "^8.11.11",
+		"@vincjo/datatables": "^2.5.0",
 		"concurrently": "^9.1.2",
 		"cross-env": "^7.0.3",
 		"dotenv": "^16.4.7",

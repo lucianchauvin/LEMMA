@@ -1,0 +1,67 @@
+<script>
+	//Import local datatable components
+	import ThSort from '$lib/components/client/ThSort.svelte';
+	import ThFilter from '$lib/components/client/ThFilter.svelte';
+	import Search from '$lib/components/client/Search.svelte';
+	import RowsPerPage from '$lib/components/client/RowsPerPage.svelte';
+	import RowCount from '$lib/components/client/RowCount.svelte';
+	import Pagination from '$lib/components/client/Pagination.svelte';
+
+	//Load local data
+	
+	// let data = [];
+
+	import data from '$lib/components/data';
+
+	//Import handler from SSD
+	import { DataHandler } from '@vincjo/datatables/legacy';
+    import { onMount } from 'svelte';
+    import { RpcSessionAtPos } from 'lean4monaco/dist/vscode-lean4/vscode-lean4/src/infoview';
+
+	// onMount(async () => {
+	// 	const res = await fetch('/admin');
+	// 	data = await res.json();
+	// 	console.log('Fetched users:', data);
+	// });
+
+	//Init data handler - CLIENT
+	const handler = new DataHandler(data, { rowsPerPage: 5 });
+	const rows = handler.getRows();
+</script>
+
+<div class=" overflow-x-auto space-y-4">
+	<!-- Header -->
+	<header class="flex justify-between gap-4">
+		<Search {handler} />
+		<RowsPerPage {handler} />
+	</header>
+	<!-- Table -->
+	<table class="table table-hover table-compact w-full table-auto">
+		<thead>
+			<tr>
+				<ThSort {handler} orderBy="first_name">First name</ThSort>
+				<ThSort {handler} orderBy="last_name">Last name</ThSort>
+				<ThSort {handler} orderBy="email">Email</ThSort>
+			</tr>
+			<tr>
+				<ThFilter {handler} filterBy="first_name" />
+				<ThFilter {handler} filterBy="last_name" />
+				<ThFilter {handler} filterBy="email" />
+			</tr>
+		</thead>
+		<tbody>
+			{#each $rows as row}
+				<tr>
+					<td>{row.first_name}</td>
+					<td>{row.last_name}</td>
+					<td>{row.email}</td>
+				</tr>
+			{/each}
+		</tbody>
+	</table>
+	<!-- Footer -->
+	<footer class="flex justify-between">
+		<RowCount {handler} />
+		<Pagination {handler} />
+	</footer>
+</div>
