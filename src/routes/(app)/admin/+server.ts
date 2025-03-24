@@ -35,10 +35,37 @@
 //     };
 // }
 
+import dotenv from 'dotenv';
+dotenv.config();
 import { json} from '@sveltejs/kit';
+import pg from 'pg';
+
+const { Pool } = pg;
+
+const encodedPassword = process.env.PGPASSWORD;
+const decodedPassword = encodedPassword ? Buffer.from(encodedPassword, 'base64').toString('utf-8').trim() : '';
+const pool = new Pool({
+    host: process.env.PGHOST,
+    database: process.env.PGDATABASE,
+    user: process.env.PGUSER,
+    password: decodedPassword,
+    port: parseInt(process.env.PGPORT!),
+});
+
+console.log('Database connection settings:', {
+    host: process.env.PGHOST,
+    database: process.env.PGDATABASE,
+    user: process.env.PGUSER,
+    password: decodedPassword,
+    port: process.env.PGPORT
+});
+
 export async function GET() {
+    console.log('[API] received GET request at /components/data');
     try {
-        const result = await safeQuery<User>(`
+        console.log('[API] running database query...');
+
+        const { rows } = await pool.query(`
         SELECT
             users.first_name,
             users.last_name,
@@ -48,9 +75,10 @@ export async function GET() {
         FROM users
         LEFT JOIN user_roles ON users.user_id = user_roles.user_id;
         `);
-        console.log('Fetched users:', result.rows);
-        return json(result.rows);
+        console.log('Fetched users:', rows);
+        return json(rows);
     } catch (error) {
+        console.error('[API] Databse query failed:', error);
         return json({ error: 'Database query failed'}, {status: 500});
     }
 }
