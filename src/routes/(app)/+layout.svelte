@@ -20,7 +20,7 @@
 <header class="header bg-surface-700 p-2 flex justify-between shadow-md shadow-surface-900">
     <div class="home flex items-center">
         <button type="button" class="btn bg-initial drop-shadow-xl text-primary-400">
-            <a href="/">
+            <a href="/" data-sveltekit-reload>
                 <Triangle size=48 />
             </a>
         </button>
