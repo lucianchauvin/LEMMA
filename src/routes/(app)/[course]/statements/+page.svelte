@@ -31,7 +31,7 @@
 
 <label class="label pt-4">
     <span>Statement Name</span>
-    <input class="input" type="text" placeholder="  Statement Name" />
+    <input class="input" type="text" placeholder="Statement Name" />
 </label>
 
 
@@ -46,12 +46,12 @@
 
 <label class="label pt-2">
 	<span>Statement Description</span>
-	<textarea class="textarea" rows="4" placeholder="  Statement Description"></textarea>
+	<textarea class="textarea" rows="4" placeholder="Statement Description"></textarea>
 </label>		
 
 <label class="label pt-4">
     <span>Statement Category</span>
-    <input class="input" type="text" placeholder="  Statement Category" />
+    <input class="input" type="text" placeholder="Statement Category" />
 </label>
 
 <label class="label pt-4">
