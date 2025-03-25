@@ -1,5 +1,7 @@
 <script lang="ts">
-    let { data }: PageProps = $props();
+    let { data, form }: PageProps = $props();
+
+    import { enhance } from "$app/forms";
     import { onMount } from 'svelte';
 
     import { AppBar, Tab, TabGroup } from '@skeletonlabs/skeleton';
@@ -111,6 +113,18 @@
             <div id="editor" bind:this={editorRef} class="h-full"></div>
             <div id="goal">
                 <h3 class="h3">Current Goal</h3>
+                {#if edit}
+                <form action="?/problem" enctype="multipart/form-data" method="post" use:enhance>
+                    <input type="file" name="file" accept=".lean" class="btn variant-filled" />
+                    <button type="submit" class="btn variant-filled">Upload</button>
+                </form>
+                {#if form?.message}
+                  <p>{form.message}</p>
+                {/if}
+                {#if form?.error}
+                  <p>{form.error}</p>
+                {/if}
+                {/if}
                 {problemFile}
             </div>
             <div id="editor-output" bind:this={infoviewRef} class="h-full"></div>

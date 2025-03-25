@@ -1,10 +1,17 @@
-import type { PageServerLoad } from './$types';
+import type { PageServerLoad, Actions } from './$types';
 import type { Course, Assignment, StudentAssignment, StudentProof, Problem, Statement } from '$lib/types';
-import { error } from '@sveltejs/kit';
+import { error, redirect } from '@sveltejs/kit';
 
 type ProblemStatementProofs = Problem & {complete: boolean, proof_filepath: string, statements: Statement[]};
 
-export const load = (async ({params, locals: { safeQuery }}) => {
+const BASE_DIR = "~/data/problems/"
+
+export const load = (async ({params, locals: { safeQuery, getSession }}) => {
+    const { session } = await getSession();
+
+    if (!session)
+        redirect(302, '/login')
+
     const {data: courseResult, error: courseErr} = await safeQuery<Course>("SELECT * FROM courses WHERE course_id=$1", [params.course]);
 
     if(courseErr) {
@@ -67,3 +74,28 @@ export const load = (async ({params, locals: { safeQuery }}) => {
     };
         
 }) satisfies PageServerLoad;
+
+export const actions: Actions = {
+    problem: async({ request, cookies, locals: { safeQuery } }) => {
+        const formData = await request.formData();
+        
+        const file: File = formData.get("file") as File;
+
+        if (!file || typeof file !== "string") {
+          throw error(400, "Invalid content");
+        }
+
+    const filePath = path.resolve("server-files", "output.txt");
+
+    try {
+      await fs.mkdir(path.dirname(filePath), { recursive: true });
+      await fs.writeFile(filePath, content, "utf-8");
+    } catch (err) {
+      console.error("File write error:", err);
+      throw error(500, "Failed to write file");
+    }
+
+    return { type: "success" };
+  }       
+    }
+}
