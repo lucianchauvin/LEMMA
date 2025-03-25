@@ -12,7 +12,7 @@
 		"build_server": "cross-env NODE_ENV=production server/build.sh",
 		"build": "concurrently \"npm run build_client\" \"npm run build_server\" -n client,server -c \"bgBlue.bold,bgMagenta.bold\"",
 		"start_server": "sh -c 'cd server && nodemon ./index.mjs'",
-		"start_client": "cross-env NODE_ENV=production vite preview --port 3000",
+		"start_client": "cross-env NODE_ENV=production vite preview --port 3000 --host",
 		"start": "concurrently \"npm run start_server\" \"npm run start_client\" -n client,server -c \"bgBlue.bold,bgMagenta.bold\"",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch"
