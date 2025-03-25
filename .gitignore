@@ -25,4 +25,5 @@ vite.config.ts.timestamp-*
 # Database
 data/init_db.sql
 
+Projects/mathlib-demo/lake-manifest.json
 .lake
