@@ -1,6 +1,8 @@
 <script lang="ts">
-    import {Book, KeyRound} from 'lucide-svelte';
     export let data;
+
+    import Book from '@lucide/svelte/icons/book'; 
+    import KeyRound from '@lucide/svelte/icons/key-round'; 
 </script>
 
 <!-- {#if data.assignments.length > 0}
