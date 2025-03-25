@@ -6,7 +6,6 @@
 
 <h2 class="h2 pb-3 ml-2 font-semibold border-b-2 border-surface-200">Course Assignments</h2>
 
-<p>{data.course.description}</p>
 
 <div class="table-wrapper pt-8 pr-3">
     <table class="table border border-gray-200 shadow-lg rounded-lg">
