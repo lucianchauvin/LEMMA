@@ -26,3 +26,7 @@ vite.config.ts.timestamp-*
 data/init_db.sql
 
 .lake
+
+# Testing
+test-results/
+playwright-report/
