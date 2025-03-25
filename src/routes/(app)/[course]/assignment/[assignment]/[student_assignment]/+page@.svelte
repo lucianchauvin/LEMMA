@@ -76,6 +76,10 @@
             leanMonaco.start(options).then(() => {
                 leanMonacoEditor.start(editorRef, `/project/scratch.lean`, proofCont);
             });
+
+            leanMonacoEditor.editor.onDidChangeModelContent(async () => {
+                await save();
+            });
         });
     });
 
