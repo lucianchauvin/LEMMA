@@ -26,6 +26,8 @@
     const project = "mathlib-demo";
 
     async function load() {
+        console.log(data.problems)
+
         const response = await fetch('/apiv2/loadProof', {
             method: 'POST',
             headers: {

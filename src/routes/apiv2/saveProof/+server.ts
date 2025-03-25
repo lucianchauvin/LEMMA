@@ -1,5 +1,5 @@
-import fs from 'memfs';
-import path from 'path';
+import {promises as fs} from 'zlib';
+import * as path from 'path';
 import { json, error } from '@sveltejs/kit';
 import { DATAROOT } from '$env/static/private';
 import type { RequestHandler } from './$types';
@@ -11,7 +11,7 @@ export const POST:RequestHandler = async ({ request, locals: { safeQuery } }) =>
 
     try {
         const { data, error: queryError } = await safeQuery(
-            'SELECT proof_filepath FROM public.student_proofs WHERE proof_id = $1',
+            'SELECT proof_filepath FROM student_proofs WHERE proof_id = $1',
             [proofId]
         );
 
