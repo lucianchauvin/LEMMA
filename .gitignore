@@ -27,6 +27,8 @@ data/init_db.sql
 
 .lake
 
-# Testing
-test-results/
-playwright-report/
+# Playwright
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
