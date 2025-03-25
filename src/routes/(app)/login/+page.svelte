@@ -2,21 +2,6 @@
     export let form;
 
     import { enhance } from "$app/forms";
-    import { page } from "$app/stores";
-    import { onDestroy } from "svelte";
-
-    let errorMessage = "";
-
-    const unsubscribe = page.subscribe(($page) => {
-        errorMessage = $page.form?.message ?? "";
-
-        if (errorMessage) {
-            alert(errorMessage); 
-        }
-    });
-
-    onDestroy(unsubscribe);
-
 </script>
 
 <div class="h-full flex justify-center mt-4">

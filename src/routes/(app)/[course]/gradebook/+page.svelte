@@ -1,5 +1,6 @@
 <script>
-    import {Book, KeyRound} from 'lucide-svelte';
+    import Book from '@lucide/svelte/icons/book'; 
+    import KeyRound from '@lucide/svelte/icons/key-round'; 
 
     import { page } from '$app/stores';
     const usersRoleData = $page.data.user_roles ?? [];
