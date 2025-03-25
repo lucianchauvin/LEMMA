@@ -1,5 +1,6 @@
 <script>
-    import forms from "@tailwindcss/forms"
+    import forms from "@tailwindcss/forms";
+    export let data;
 </script>
 
 <h2 class="h2 pb-3 ml-2 font-semibold border-b-2 border-surface-200">Course Statements</h2>
@@ -16,13 +17,15 @@
             </tr>
         </thead>
         <tbody>
+            {#each data.statements as { statement_id, statement_name, statement_type, statement_description, statement_category }}
                 <tr class="border-t border-gray-300">
-                    <td class="p-3"> <center> 12345678 </center> </td>
-                    <td class="p-3"> <center> succ_eq_add_one </center></td>
-                    <td class="p-3"> <center> Theorem </center></td>
-                    <td class="p-3"> <center> For all natural numbers a, we have succ(a) = a + 1</center></td>
-                    <td class="p-3"> <center> Number Theory </center></td>
+                    <td class="p-3"> <center> {statement_id} </center> </td>
+                    <td class="p-3"> <center> {statement_name} </center></td>
+                    <td class="p-3"> <center> {statement_type} </center></td>
+                    <td class="p-3"> <center> {statement_description} </td>
+                    <td class="p-3"> <center> {statement_category} </center></td>
                 </tr>
+            {/each}
         </tbody>
     </table>
 </div>

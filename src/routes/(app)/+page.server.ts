@@ -1,5 +1,5 @@
 import type { PageServerLoad } from './$types';
-import type { Course } from '$lib/types';
+import type { Course, Assignment } from '$lib/types';
 import { error } from '@sveltejs/kit';
 
 const colors = ["darkgreen", "maroon"];
@@ -7,7 +7,7 @@ const colors = ["darkgreen", "maroon"];
 export const load: PageServerLoad = async ({locals: { safeQuery }}) => {
     // get courses
     const {data: result_courses, error: err_courses} = await safeQuery<Course>('SELECT * FROM courses');
-    if(err_courses) {
+    if (err_courses) {
         console.error('ERROR: Database failed to query for courses:', err_courses);
         error(500, {message: 'Database failed to query for courses'})
     }
@@ -20,7 +20,7 @@ export const load: PageServerLoad = async ({locals: { safeQuery }}) => {
     // get assignments
     const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
     const {data: result_assignments, error: err_assignments} = await safeQuery<Assignment>('SELECT * FROM assignments');
-    if(err_assignments) {
+    if (err_assignments) {
         console.error('ERROR: Database failed to query for assignments:', err_assignments);
         error(500, {message: 'Database failed to query for assignments'})
     }
