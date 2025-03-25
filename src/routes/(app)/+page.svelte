@@ -13,6 +13,10 @@
     import BookOpenCheck from '@lucide/svelte/icons/book-open-check'; 
     import Users from '@lucide/svelte/icons/users'; 
     import SquareFunction from '@lucide/svelte/icons/square-function'; 
+
+    // import * as DataTables from '@vincjo/datatables/legacy';
+    // console.log(DataTables);
+
 </script>
 
 <div class="all flex flex-nowrap">
@@ -51,11 +55,23 @@
     <h2 class="h2 pb-2 ml-2 font-semibold border-b-2 border-surface-200" in:fade|global={{ delay: 300, duration: 300 }}>Assignments</h2>
     <div class="todo-container pt-4 grid grid-cols-1 gap-2" in:fade|global={{ delay: 300, duration: 300 }}>
         <h4 style="color:crimson;" class="h4 pb-2 ml-2 font-semibold">Overdue</h4>
-        <TaskComponent course_id={0} course_number={"CSCE222"} assignment_id={0} assignment_name={"Learn LEAN"} assignment_due_date={"Mar 1"} color={"darkgreen"} date_color={"crimson"} />
-        <h4 style="color:darkorange;" class="h4 pt-5 pb-2 ml-2 font-semibold">Due This Week</h4>
-        <TaskComponent course_id={0} course_number={"CSCE222"} assignment_id={0} assignment_name={"HW 1 - Propostional Logic"} assignment_due_date={"Mar 11"} color={"darkgreen"} date_color={"darkorange"} />
-        <h4 style="color:black;" class="h4 pt-5 pb-2 ml-2 font-semibold">Due Later</h4>
-        <TaskComponent course_id={0} course_number={"MATH415"} assignment_id={0} assignment_name={"Algebruh Moment"} assignment_due_date={"Mar 18"} color={"maroon"} date_color={"black"} />
+        {#each data.assignments as { course_number, assignment_name, active, due_date, color, date_color }}
+            {#if active === true && date_color === 'crimson'}
+                <TaskComponent {course_number} {assignment_name} {due_date} {color} {date_color} />
+            {/if}
+        {/each}
+        <h4 style="color:darkorange;" class="h4 pt-5 pb-2 ml-2 font-semibold">Due Today</h4>
+        {#each data.assignments as { course_number, assignment_name, active, due_date, color, date_color }}
+            {#if active === true && date_color === 'darkorange'}
+                <TaskComponent {course_number} {assignment_name} {due_date} {color} {date_color} />
+            {/if}
+        {/each}
+        <h4 style="color:black;" class="h4 pt-5 pb-2 ml-2 font-semibold">Due This Week</h4>
+        {#each data.assignments as { course_number, assignment_name, active, due_date, color, date_color }}
+            {#if active === true && date_color === 'black'}
+                <TaskComponent {course_number} {assignment_name} {due_date} {color} {date_color} />
+            {/if}
+        {/each}
     </div>
 </div>
 </div>

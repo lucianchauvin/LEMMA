@@ -38,9 +38,11 @@ export const actions: Actions = {
         });
 
         // Insert user to database
-        const {data: [user], error: userErr} = await safeQuery<{user_id: string}>(
+        const {data: userData, error: userErr} = await safeQuery<{user_id: string}>(
             `INSERT INTO users (username, password, email) VALUES ($1, $2, $3) RETURNING user_id`, 
         [username, passwordHash, email]);
+
+        const user = userData ? userData[0]: null;
 
         if(userErr === 'duplicate key value violates unique constraint "users_username_key"') {
             return fail(400, {

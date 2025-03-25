@@ -12,12 +12,14 @@
 		"build_server": "cross-env NODE_ENV=production server/build.sh",
 		"build": "concurrently \"npm run build_client\" \"npm run build_server\" -n client,server -c \"bgBlue.bold,bgMagenta.bold\"",
 		"start_server": "sh -c 'cd server && nodemon ./index.mjs'",
-		"start_client": "cross-env NODE_ENV=production vite preview --port 3000",
+		"start_client": "cross-env NODE_ENV=production vite preview --port 3000 --host",
 		"start": "concurrently \"npm run start_server\" \"npm run start_client\" -n client,server -c \"bgBlue.bold,bgMagenta.bold\"",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
-		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch"
+		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
+		"test": "playwright test"
 	},
 	"devDependencies": {
+		"@playwright/test": "^1.51.1",
 		"@skeletonlabs/skeleton": "^2.11.0",
 		"@skeletonlabs/tw-plugin": "^0.4.1",
 		"@sveltejs/adapter-auto": "^4.0.0",
@@ -41,6 +43,7 @@
 		"@lucide/svelte": "^0.479.0",
 		"@node-rs/argon2": "^2.0.2",
 		"@types/pg": "^8.11.11",
+		"@vincjo/datatables": "^2.5.0",
 		"concurrently": "^9.1.2",
 		"cross-env": "^7.0.3",
 		"dotenv": "^16.4.7",

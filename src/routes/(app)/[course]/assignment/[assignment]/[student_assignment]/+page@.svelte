@@ -1,6 +1,6 @@
 <script lang="ts">
     export let data;
-    import { onMount } from 'svelte';
+    import { onDestroy, onMount } from 'svelte';
 
     import { AppBar, Tab, TabGroup } from '@skeletonlabs/skeleton';
     import ArrowLeft from '@lucide/svelte/icons/arrow-left';
@@ -22,34 +22,66 @@
 
     let editorRef;
     let infoviewRef;
+    let leanMonaco;
+    let leanMonacoEditor;
+    let saveInterval;
     
     const project = "mathlib-demo";
+
+    async function load() {
+        const response = await fetch('/apiv2/loadProof', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({problemId: data.problems[activeProblem].problem_id, proofId: data.problems[activeProblem].proof_id})
+        });
+        let value = await response.json();
+        return value['content'];
+    }
+
+    async function save() {
+        console.log(`[Lean4web] Saving proof...`);
+        const response = await fetch('/apiv2/saveProof', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({proofId: data.problems[activeProblem].proof_id, content: leanMonacoEditor.editor.getValue()})
+        });
+    }
     
-    onMount(() => {
+    onMount(async () => {
         activeTheoremCategory = (theorems.map(theorem => theorem.statement_category))[0];
+
+        saveInterval = setInterval(save, 15000); // Fetch every 15 seconds
 
         const socketUrl = ((window.location.protocol === "https:") ? "wss://" : "ws://") +
         window.location.host + "/websocket/" + project;
 
         console.log(`[Lean4web] Socket url is ${socketUrl}`);
 
-        import("lean4monaco").then(({ LeanMonaco, LeanMonacoEditor }) => {
+        import("lean4monaco").then(async ({ LeanMonaco, LeanMonacoEditor }) => {
             const options = {
                 websocket: { url: socketUrl },
                 htmlElement: editorRef,
                 vscode: { "editor.wordWrap": true }
             };
 
-            const leanMonaco = new LeanMonaco();
-            const leanMonacoEditor = new LeanMonacoEditor();
+            leanMonaco = new LeanMonaco();
+            leanMonacoEditor = new LeanMonacoEditor();
 
             leanMonaco.setInfoviewElement(infoviewRef);
-
+            const proofCont = await load();
             leanMonaco.start(options).then(() => {
-                leanMonacoEditor.start(editorRef, `/project/0.lean`, "");
+                leanMonacoEditor.start(editorRef, `/project/scratch.lean`, proofCont);
             });
         });
     });
+
+    onDestroy(() => {
+        clearInterval(saveInterval);
+    })
 </script>
 
 <div class="h-screen flex flex-col">
@@ -75,7 +107,7 @@
         <ul class="flex flex-col gap-1 p-1">
             {#each data.problems as problem, i}
             <li>
-                <button on:click={activeProblem = i} 
+                <button on:click={() => activeProblem = i} 
                 class="w-full flex justify-between
                 {(i == activeProblem) ? '!variant-filled-surface' : ''}">
                 <span class="flex-auto">
