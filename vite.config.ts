@@ -22,6 +22,7 @@ export default defineConfig({
         process.env.NODE_ENV === 'production' && nodePolyfills({
           overrides: {
             fs: 'memfs', // Use 'memfs' for the 'fs' module in development
+            zlib: 'fs'
           },
         }),
         viteStaticCopy({
@@ -60,7 +61,7 @@ export default defineConfig({
                 target: 'ws://localhost:8080',
                     ws: true
             },
-            '/api': {
+            '/api/': {
                 target: 'http://localhost:8080',
             },
         }

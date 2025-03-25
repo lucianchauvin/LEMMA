@@ -1,4 +1,6 @@
 <script lang="ts">
+    export let form;
+
     import { enhance } from "$app/forms";
 </script>
 
@@ -15,6 +17,13 @@
     <button class="btn btn-sm border-2 border-surface-600 bg-surface-100 hover:variant-filled-surface text-surface-600" id="login">Login</button>
 </form>
 <a id="signup" href="/signup" class="btn btn-sm border-2 border-surface-600 bg-surface-100 hover:variant-filled-surface text-surface-600">Signup</a>
+
+{#if form?.message}
+	<p>{form.message}</p>
+{/if}
+{#if form?.error}
+	<p>{form.error}</p>
+{/if}
 </div>
 </div>
 
