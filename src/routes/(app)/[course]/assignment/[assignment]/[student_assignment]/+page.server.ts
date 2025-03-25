@@ -1,10 +1,15 @@
 import type { PageServerLoad, Actions } from './$types';
-import type { Course, Assignment, StudentAssignment, StudentProof, Problem, Statement } from '$lib/types';
+import type { UUID, Course, Assignment, StudentAssignment, StudentProof, Problem, Statement } from '$lib/types';
+import { DATAROOT } from '$env/static/private';
 import { error, redirect } from '@sveltejs/kit';
+import { promises as fs } from 'fs';
+import * as stream from 'stream';
+import * as fsStream from 'fs';
+import * as path from 'path';
 
 type ProblemStatementProofs = Problem & {complete: boolean, proof_filepath: string, statements: Statement[]};
 
-const BASE_DIR = "~/data/problems/"
+const BASE_DIR = path.join("data", "problems");
 
 export const load = (async ({params, locals: { safeQuery, getSession }}) => {
     const { session } = await getSession();
@@ -79,23 +84,37 @@ export const actions: Actions = {
     problem: async({ request, cookies, locals: { safeQuery } }) => {
         const formData = await request.formData();
         
+        const problemId: UUID = formData.get("problem_id") as UUID;
         const file: File = formData.get("file") as File;
 
-        if (!file || typeof file !== "string") {
-          throw error(400, "Invalid content");
+        if (!file || !(file instanceof File)) {
+          throw error(400, "Invalid file");
         }
 
-    const filePath = path.resolve("server-files", "output.txt");
+        const filePath = path.join(DATAROOT, BASE_DIR, problemId + '.lean');
 
-    try {
-      await fs.mkdir(path.dirname(filePath), { recursive: true });
-      await fs.writeFile(filePath, content, "utf-8");
-    } catch (err) {
-      console.error("File write error:", err);
-      throw error(500, "Failed to write file");
-    }
 
-    return { type: "success" };
-  }       
+        // Use a writable stream to write directly to the file
+        const writableStream = fsStream.createWriteStream(filePath);
+
+        // Pipe the incoming file stream to the writable stream
+        const readableStream = file.stream();
+        readableStream.pipe(writableStream);
+
+        // Wait for the file to be written completely
+        await new Promise<void>((resolve, reject) => {
+          writableStream.on('finish', resolve);
+          writableStream.on('error', reject);
+        });
+
+        try {
+          await fs.writeFile(filePath, file, "utf-8");
+        } catch (err) {
+          console.error("File write error:", err);
+          throw error(500, "Failed to write file");
+        }
+
+        return { type: "success" };
+      }       
     }
 }

@@ -114,7 +114,14 @@
             <div id="goal">
                 <h3 class="h3">Current Goal</h3>
                 {#if edit}
-                <form action="?/problem" enctype="multipart/form-data" method="post" use:enhance>
+                <form 
+                    action="?/problem" 
+                    enctype="multipart/form-data" 
+                    method="post" 
+                    use:enhance={async ({formData, cancel}) => {
+                        formData.set("problem_id", data.problems[activeProblem].problem_id);
+                    }}
+                >
                     <input type="file" name="file" accept=".lean" class="btn variant-filled" />
                     <button type="submit" class="btn variant-filled">Upload</button>
                 </form>

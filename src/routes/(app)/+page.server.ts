@@ -5,9 +5,10 @@ import { error } from '@sveltejs/kit';
 const colors = ["darkgreen", "maroon"];
 
 export const load: PageServerLoad = async ({locals: { safeQuery }}) => {
+    // get courses
     const {data: result, error: err} = await safeQuery<Course>('SELECT * FROM courses');
     if(err) {
-        console.error('ERROR: Database failed to query for courses');
+        console.error('ERROR: Database failed to query for courses:', err);
         error(500, {message: 'Database failed to query for courses'})
     }
 
