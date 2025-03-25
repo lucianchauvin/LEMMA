@@ -41,6 +41,7 @@
 		"@lucide/svelte": "^0.479.0",
 		"@node-rs/argon2": "^2.0.2",
 		"@types/pg": "^8.11.11",
+		"@vincjo/datatables": "^2.5.0",
 		"concurrently": "^9.1.2",
 		"cross-env": "^7.0.3",
 		"dotenv": "^16.4.7",
