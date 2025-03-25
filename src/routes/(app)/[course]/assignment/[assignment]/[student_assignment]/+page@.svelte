@@ -24,8 +24,31 @@
     let infoviewRef;
     
     const project = "mathlib-demo";
+
+    async function load() {
+        const response = await fetch('/apiv2/loadProof', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({problemId: data.problems[activeProblem].problem_id, proofId: data.problems[activeProblem].proof_id})
+        });
+        data = await response.json();
+        console.log(data);
+        return data['content'];
+    }
+
+    async function save() {
+        const response = await fetch('/apiv2/saveProof', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({proofId: data.problems[activeProblem].proof_id, content: "meow!"})
+        });
+    }
     
-    onMount(() => {
+    onMount(async () => {
         activeTheoremCategory = (theorems.map(theorem => theorem.statement_category))[0];
 
         const socketUrl = ((window.location.protocol === "https:") ? "wss://" : "ws://") +
@@ -33,7 +56,7 @@
 
         console.log(`[Lean4web] Socket url is ${socketUrl}`);
 
-        import("lean4monaco").then(({ LeanMonaco, LeanMonacoEditor }) => {
+        import("lean4monaco").then(async ({ LeanMonaco, LeanMonacoEditor }) => {
             const options = {
                 websocket: { url: socketUrl },
                 htmlElement: editorRef,
@@ -44,9 +67,9 @@
             const leanMonacoEditor = new LeanMonacoEditor();
 
             leanMonaco.setInfoviewElement(infoviewRef);
-
+            const proofCont = await load();
             leanMonaco.start(options).then(() => {
-                leanMonacoEditor.start(editorRef, `/project/0.lean`, "");
+                leanMonacoEditor.start(editorRef, `/project/scratch.lean`, proofCont);
             });
         });
     });
