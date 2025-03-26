@@ -38,7 +38,7 @@ export const actions: Actions = {
         const firstName = formData.get("first_name") as string;
         const lastName = formData.get("last_name") as string;
 
-        const {data: user, error: userErr} = await safeQuery("SELECT * FROM users WHERE first_name = $1 AND last_name = $2", [firstName, lastName]);
+        const {data: user, error: userErr} = await safeQuery("SELECT * FROM users WHERE LOWER(first_name) = LOWER($1) AND LOWER(last_name) = LOWER($2)", [firstName, lastName]);
 
         if (userErr || !user || user.length === 0)
         {
