@@ -1,16 +1,14 @@
 <script>
-    import {Book, KeyRound} from 'lucide-svelte';
+    import {Book, KeyRound, Edit} from 'lucide-svelte';
+    import {enhance} from '$app/forms';
 
-    import { page } from '$app/stores';
-    const usersRoleData = $page.data.user_roles ?? [];
-    const usersData = $page.data.users ?? [];
-    const assignmentsData = $page.data.assignments ?? [];
-    const studentAssignmentsData = $page.data.student_assignments ?? [];
     export let data;
+    const assignmentsData = data.assignments ?? [];
+    $:studentAssignmentsData = data.student_assignments ?? [];
     
     //filter users who are students
-    const students = usersData.filter(user => {
-        return usersRoleData.some(role => role.user_id === user.user_id && role.role_name === 'student')
+    const students = data.users.filter((user) => {
+        return data.user_roles.some((role) => role.user_id === user.user_id && role.role_name === 'student')
     });
 
     function fetchGrade(studentID, assignmentID)    {
@@ -38,8 +36,8 @@
             return 'B';
         return 'A';
     }
-</script>
 
+</script>
 
 <div class="table-container">
     <h1 class="text-xl font-bold flex items-center gap-2">
@@ -62,7 +60,18 @@
                     <td class="p-3 text-center">{student.first_name} {student.last_name}</td>
                     {#each assignmentsData as assignments}
                         <td class="p-3 text-center">
-                            {fetchGrade(student.user_id, assignments.assignment_id)}
+                            <div class="flex items-center gap-4 justify-center">
+                                <span>{fetchGrade(student.user_id, assignments.assignment_id)}</span>
+                                {#if fetchGrade(student.user_id, assignments.assignment_id) !== '-'}
+                                    <form method="POST" action="?/editGrades" use:enhance>
+                                        <input type="hidden" name="student_id" value={student.user_id} />
+                                        <input type="hidden" name="assignment_id" value={assignments.assignment_id} />
+                                        <button type="submit" class="bg-blue-500 text-white px-2 py-1 rounded flex items-center gap-1 p-2">
+                                            <Edit size={16} />
+                                        </button>
+                                    </form>
+                                {/if}
+                            </div>
                         </td>
                     {/each}
                     <td class="p-3 text-center">

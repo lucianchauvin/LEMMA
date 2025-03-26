@@ -1,4 +1,4 @@
-import type { PageServerLoad } from './$types'; //data fetching from server side
+import type { PageServerLoad, Actions } from './$types'; //data fetching from server side
 import type { Assignment, User, UserRole, StudentAssignment } from '$lib/types'; 
 import { error } from '@sveltejs/kit'; 
 
@@ -51,3 +51,36 @@ export const load = (async ({parent, params, locals: { safeQuery }}) => {
         student_assignments: studentAssignmentResult,
     };
 }) satisfies PageServerLoad;
+
+export const actions: Actions = {
+    editGrades: async ({ request, locals: { safeQuery } }) => {
+        const formData = await request.formData();
+        const studentId = formData.get('student_id');
+        const assignmentId = formData.get('assignment_id');
+        const grade = formData.get('grade');
+        
+        console.log('studentId:', studentId);
+        console.log('assignmentId:', assignmentId);
+        console.log('grade:', grade);
+        if (!studentId || !assignmentId || grade === null) {
+            return { error: 'Missing required fields' };
+        }
+
+        const numericGrade = parseFloat(grade as string);
+        if (isNaN(numericGrade) || numericGrade < 0 || numericGrade > 100) {
+            return { error: 'Invalid grade. Grade must be a number in between between 0 and 100 inclusive' };
+        }
+
+        const { error: updateError } = await safeQuery(
+            "UPDATE student_assignments SET grade = $1 WHERE student_id = $2 AND assignment_id = $3",
+            [numericGrade, studentId, assignmentId]
+        );
+
+        if (updateError) {
+            console.error('ERROR: Failed to update grade:', updateError);
+            return { error: 'Failed to update grade' };
+        }
+
+        return { success: true };
+    }
+};
