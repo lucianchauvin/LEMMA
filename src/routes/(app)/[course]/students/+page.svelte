@@ -10,6 +10,7 @@
     const students = usersData.filter(user => {
         return usersRoleData.some(role => role.user_id === user.user_id && role.role_name === 'student')
     });
+
 </script>
 
 <div class ="table-container">

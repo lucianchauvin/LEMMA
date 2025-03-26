@@ -1,7 +1,6 @@
 import type { PageServerLoad, Actions } from "../$types";
 import type { User, UserRole} from "$lib/types";
 import { error, fail } from "@sveltejs/kit";
-import { invalidateAll } from '$app/navigation'; 
 
 export const load = (async ({ parent, params, locals: { safeQuery } }) => {
     const { course } = await parent();
@@ -41,7 +40,7 @@ export const actions: Actions = {
 
         const {data: user, error: userErr} = await safeQuery("SELECT * FROM users WHERE first_name = $1 AND last_name = $2", [firstName, lastName]);
 
-        if (userErr || !user)
+        if (userErr || !user || user.length === 0)
         {
             console.error("ERROR: Student not found or database failed to query:", userErr);
             return fail(500, { message: "Student not found or database failed to query" });
