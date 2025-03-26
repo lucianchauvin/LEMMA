@@ -1,14 +1,11 @@
 <script>
-    import {page} from '$app/stores';
-    import {enhance} from '$app/forms';
+    import { enhance } from '$app/forms';
     import {Users, UserPlus, Trash} from '@lucide/svelte'; 
-    const usersRoleData = $page.data.user_roles ?? [];
-    const usersData = $page.data.users ?? [];
     export let data;
 
     // Filter users who are students
-    const students = usersData.filter(user => {
-        return usersRoleData.some(role => role.user_id === user.user_id && role.role_name === 'student')
+    let students = data.users.filter((user) => {
+        return data.user_roles.some((role) => role.user_id === user.user_id && role.role_name === 'student')
     });
 
 </script>
