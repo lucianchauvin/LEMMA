@@ -2,7 +2,7 @@ import type { LayoutServerLoad } from './$types';
 import type { Course } from '$lib/types';
 import { error } from '@sveltejs/kit';
 
-export const load = (async ({url, params, locals: { safeQuery }}) => {
+export const load = (async ({parent, params, locals: { safeQuery }}) => {
     const {data: courseResult, error: courseErr} = await safeQuery<Course>("SELECT * FROM courses WHERE course_id=$1", [params.course]);
 
     if(courseErr) {
@@ -20,6 +20,6 @@ export const load = (async ({url, params, locals: { safeQuery }}) => {
 
     return {
         course: courseResult[0],
-        url: url.pathname
+        ...(await parent())
     };
 }) satisfies LayoutServerLoad;
