@@ -19,7 +19,6 @@ declare global {
         permCheck: (
             permission: Permission,
             courseId?: UUID,
-            targetRoles?: string[]
         ) => Promise<PermCheckResult>
 
     }

@@ -39,15 +39,15 @@ export const load = (async ({parent, params, locals: { safeQuery, permCheck }}) 
 
     if(viewCourseGradesErr) {
         console.error('ERROR: Failed to determine permission for viewing course grades:', viewCourseGradesErr);
-        error(500, {message: 'Failed to determine permission for viewing course grades'})
+        throw error(500, {message: 'Failed to determine permission for viewing course grades'})
     }
     if(viewCourseUsersErr) {
         console.error('ERROR: Failed to determine permission for viewing course users:', viewCourseUsersErr);
-        error(500, {message: 'Failed to determine permission for viewing course users'})
+        throw error(500, {message: 'Failed to determine permission for viewing course users'})
     }
     if(viewCourseStatementsErr) {
         console.error('ERROR: Failed to determine permission for viewing course statements:', viewCourseStatementsErr);
-        error(500, {message: 'Failed to determine permission for viewing course statements'})
+        throw error(500, {message: 'Failed to determine permission for viewing course statements'})
     }
 
 
