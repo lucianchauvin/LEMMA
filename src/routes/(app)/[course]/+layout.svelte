@@ -43,12 +43,14 @@
         <div>Course Assignments</div>
     </AppRailAnchor>
 
+    {#if data.user.student}
     <AppRailAnchor href="/{data.course.course_id}/grades" title="Grades" selected={$page.url.pathname === `/${data.course.course_id}/grades`}>
         <svelte:fragment slot="lead">
             <BookCheck />
         </svelte:fragment>
         <div>Course Grades</div>
     </AppRailAnchor>
+    {/if}
 
     {#if data.permissions.view_course_grades.access}
     <AppRailAnchor href="/{data.course.course_id}/gradebook" title="Gradebook" selected={$page.url.pathname === `/${data.course.course_id}/gradebook`}>

@@ -3,10 +3,12 @@ import type { Course } from '$lib/types';
 import { error } from '@sveltejs/kit';
 
 export const load = (async ({parent, params, locals: { safeQuery, permCheck }}) => {
+    const {user, session} = await parent();
+
     const {data: courseResult, error: courseErr} = await safeQuery<Course>("SELECT * FROM courses WHERE course_id=$1", [params.course]);
     if(courseErr) {
         console.error('ERROR: Database failed to query courses for specific course:', courseErr);
-        error(500, {message: 'Database failed to query courses for specific course'})
+        throw error(500, {message: 'Database failed to query courses for specific course'})
     }
 
     if (!courseResult) 
@@ -18,6 +20,18 @@ export const load = (async ({parent, params, locals: { safeQuery, permCheck }}) 
     }
 
     const course = courseResult[0];
+
+    let student = false;
+    if(user) {
+        const {data: courseRole, error: roleErr} = await safeQuery(`SELECT * FROM user_roles WHERE user_id=$1 AND course_id=$2`, [user.id, course.course_id]);
+
+        if(roleErr) {
+            console.log(`ERROR: Database failed to query user roles for ${user.id} and ${course.course_id} pair:`, roleErr);
+            throw error(500, {message: 'Database failed to query user roles'});
+        }
+
+        student = courseRole![0].role_name === 'student';
+    }
 
     const {data: viewCourseGrades, error: viewCourseGradesErr} = await permCheck('view_course_grades', course.course_id);
     const {data: viewCourseUsers, error: viewCourseUsersErr} = await permCheck('view_course_users', course.course_id);
@@ -36,6 +50,7 @@ export const load = (async ({parent, params, locals: { safeQuery, permCheck }}) 
         error(500, {message: 'Failed to determine permission for viewing course statements'})
     }
 
+
     return {
         course,
         permissions: {
@@ -43,6 +58,10 @@ export const load = (async ({parent, params, locals: { safeQuery, permCheck }}) 
             view_course_users: viewCourseUsers,
             view_course_statements: viewCourseStatements,
         },
-        ...(await parent())
+        user: {
+            student,
+            ...user
+        },
+        session
     };
 }) satisfies LayoutServerLoad;
