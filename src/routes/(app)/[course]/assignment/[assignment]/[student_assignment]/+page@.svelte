@@ -1,5 +1,6 @@
 <script lang="ts">
     export let data;
+    import { page } from '$app/stores';
     import { onDestroy, onMount } from 'svelte';
 
     import { AppBar, Tab, TabGroup } from '@skeletonlabs/skeleton';
@@ -34,7 +35,12 @@
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({courseId: data.course.course_id, proofId: data.problems[activeProblem].proof_id, problemId: data.problems[activeProblem].problem_id})
+            body: JSON.stringify({
+                courseId: data.course.course_id, 
+                proofId: data.problems[activeProblem].proof_id, 
+                problemId: data.problems[activeProblem].problem_id,
+                studentAssignment: $page.params.student_assignment
+            })
         });
         let value = await response.json();
         return value['content'];
@@ -107,7 +113,12 @@
         <ul class="flex flex-col gap-1 p-1">
             {#each data.problems as problem, i}
             <li>
-                <button on:click={() => activeProblem = i} 
+                <button on:click={async () => {
+                        await save();
+                        activeProblem = i; 
+                        leanMonacoEditor.editor.setValue(await load());
+                    } 
+                }
                 class="w-full flex justify-between
                 {(i == activeProblem) ? '!variant-filled-surface' : ''}">
                 <span class="flex-auto">
