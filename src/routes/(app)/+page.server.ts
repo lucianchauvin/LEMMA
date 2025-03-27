@@ -4,7 +4,7 @@ import { error } from '@sveltejs/kit';
 
 const colors = ["darkgreen", "maroon"];
 
-export const load: PageServerLoad = async ({locals: { safeQuery }}) => {
+export const load: PageServerLoad = async ({locals: { safeQuery, permCheck }}) => {
     // get courses
     const {data: result_courses, error: err_courses} = await safeQuery<Course>('SELECT * FROM courses');
     if (err_courses) {
@@ -12,7 +12,7 @@ export const load: PageServerLoad = async ({locals: { safeQuery }}) => {
         error(500, {message: 'Database failed to query for courses'})
     }
     let i = 0;
-    for (let course of result_courses) {
+    for (let course of result_courses!) {
         course.color = colors[i];
         i++;
     }
@@ -25,7 +25,7 @@ export const load: PageServerLoad = async ({locals: { safeQuery }}) => {
         error(500, {message: 'Database failed to query for assignments'})
     }
     i = 0;
-    for (let assignment of result_assignments) {
+    for (let assignment of result_assignments!) {
         if (assignment.course_id === '6baedc0e-72e5-4674-9ab8-e96db38446eb') {
             assignment.course_number = 'CSCE222';
             assignment.color = 'darkgreen';

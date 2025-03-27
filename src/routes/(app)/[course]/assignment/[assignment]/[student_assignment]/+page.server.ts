@@ -5,11 +5,6 @@ import { error, redirect } from '@sveltejs/kit';
 type ProblemStatementProofs = Problem & {complete: boolean, proof_filepath: string, statements: Statement[]};
 
 export const load = (async ({params, locals: { safeQuery, getSession }}) => {
-    const { session } = await getSession();
-
-    if (!session)
-        redirect(302, '/login')
-
     const {data: courseResult, error: courseErr} = await safeQuery<Course>("SELECT * FROM courses WHERE course_id=$1", [params.course]);
 
     if(courseErr) {
