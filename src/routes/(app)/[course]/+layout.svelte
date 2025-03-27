@@ -50,26 +50,32 @@
         <div>Course Grades</div>
     </AppRailAnchor>
 
+    {#if data.permissions.view_course_grades.access}
     <AppRailAnchor href="/{data.course.course_id}/gradebook" title="Gradebook" selected={$page.url.pathname === `/${data.course.course_id}/gradebook`}>
         <svelte:fragment slot="lead">
             <BookOpenCheck />
         </svelte:fragment>
         <div>Course Gradebook</div>
     </AppRailAnchor>
+    {/if}
 
+    {#if data.permissions.view_course_users.access}
     <AppRailAnchor href="/{data.course.course_id}/students" title="Students" selected={$page.url.pathname === `/${data.course.course_id}/students`}>
         <svelte:fragment slot="lead">
             <Users />
         </svelte:fragment>
         <div>Course Students</div>
     </AppRailAnchor>
+    {/if}
 
+    {#if data.permissions.view_course_statements.access}
     <AppRailAnchor href="/{data.course.course_id}/statements" title="Statements" selected={$page.url.pathname === `/${data.course.course_id}/statements`}>
         <svelte:fragment slot="lead">    
             <SquareFunction />
         </svelte:fragment>
         <div>Course Statements</div>
     </AppRailAnchor>
+    {/if}
 </AppRail>
 
 <div class="body flex-1 mr-5">

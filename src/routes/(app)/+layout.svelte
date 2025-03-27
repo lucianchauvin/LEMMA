@@ -21,9 +21,11 @@
     </div>
 
     <div class="flex items-center gap-4">
+    {#if data.user && data.user.isAdmin}
     <a id="admin" href="/admin" class="btn btn-sm border-2 border-error-600 bg-surface-100 hover:variant-filled-error shadow-lg shadow-surface-900 text-error-600" data-sveltekit-reload>
         Admin Panel
     </a>
+    {/if}
 
     <!-- <div id="pfp"> -->
     <!--     <Avatar initials="AZ" background="bg-secondary-200"/> -->
