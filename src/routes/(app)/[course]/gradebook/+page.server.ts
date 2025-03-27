@@ -59,15 +59,13 @@ export const actions: Actions = {
         const assignmentId = formData.get('assignment_id');
         const grade = formData.get('grade');
         
-        console.log('studentId:', studentId);
-        console.log('assignmentId:', assignmentId);
-        console.log('grade:', grade);
         if (!studentId || !assignmentId || grade === null) {
             return { error: 'Missing required fields' };
         }
 
         const numericGrade = parseFloat(grade as string);
         if (isNaN(numericGrade) || numericGrade < 0 || numericGrade > 100) {
+            console.error('ERROR:', grade, 'is an invalid grade. Grade must be a number in between 0 and 100 inclusive');
             return { error: 'Invalid grade. Grade must be a number in between between 0 and 100 inclusive' };
         }
 
