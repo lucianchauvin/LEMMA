@@ -16,6 +16,10 @@
     import { onMount } from 'svelte';
 	import { getData } from '$lib/components/data';
 
+	// Import trash button
+	import { enhance } from '$app/forms';
+    import {Users, UserPlus, Trash} from '@lucide/svelte'; 
+
 	// Initialize data, handler, and loading state
 	let data = [];
 	let handler;
@@ -55,6 +59,14 @@
 
 <!-- Render table when data is ready -->
 {#if !isLoading && data.length > 0 && handler}
+	<form method="POST" action="?/add" class="mt-4 flex gap-2" use:enhance>
+		<input type="text" name="first_name" placeholder="First Name" required class="p-2 border rounded" />
+		<input type="text" name="last_name" placeholder="Last Name" required class="p-2 border rounded" />
+		<button type="submit" class="p-2 bg-green-500 text-white rounded flex items-center gap-1">
+			<UserPlus size={16} /> Add User
+		</button>
+	</form>
+
 	<div class=" overflow-x-auto space-y-4">
 		<!-- Header -->
 		<header class="flex justify-between gap-4">
@@ -81,7 +93,15 @@
 						<td>{row.first_name}</td>
 						<td>{row.last_name}</td>
 						<td>{row.email}</td>
-					</tr>
+						<td>
+							<form method="POST" action="?/remove" use:enhance>
+								<input type="hidden" name="first_id" value={row.first_name} />
+								<button type="submit" class="bg-red-500 text-white px-2 py-1 rounded flex items-center gap-1 p-2">
+									<Trash size={16} /> Remove
+								</button>
+							</form>
+						</td>
+						</tr>
 				{/each}
 			</tbody>
 		</table>
