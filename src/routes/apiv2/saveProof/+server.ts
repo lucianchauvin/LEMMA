@@ -29,6 +29,7 @@ export const POST: RequestHandler = async ({ request, params, locals: { safeQuer
     }
 
     try {
+        console.log(proofId);
         const filePath = path.join(BASE_PROOF_DIR, proofId);
         const { data: result_statements, error: err_statements } = await safeQuery('SELECT * FROM student_proofs where proof_id = $1', [proofId]);
         if(err_statements || result_statements!.length <= 0) throw error(500, { message: 'SAVEPROOF: Proof doesnt exist in db or cannot connect to db' });

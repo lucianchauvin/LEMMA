@@ -107,7 +107,12 @@
         <ul class="flex flex-col gap-1 p-1">
             {#each data.problems as problem, i}
             <li>
-                <button on:click={() => activeProblem = i} 
+                <button on:click={async () => {
+                        await save();
+                        activeProblem = i; 
+                        leanMonacoEditor.editor.setValue(await load());
+                    } 
+                }
                 class="w-full flex justify-between
                 {(i == activeProblem) ? '!variant-filled-surface' : ''}">
                 <span class="flex-auto">
