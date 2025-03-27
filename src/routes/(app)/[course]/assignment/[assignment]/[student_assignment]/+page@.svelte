@@ -34,7 +34,7 @@
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({problemId: data.problems[activeProblem].problem_id, proofId: data.problems[activeProblem].proof_id})
+            body: JSON.stringify({courseId: data.course.course_id, proofId: data.problems[activeProblem].proof_id, problemId: data.problems[activeProblem].problem_id})
         });
         let value = await response.json();
         return value['content'];
@@ -47,14 +47,14 @@
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({proofId: data.problems[activeProblem].proof_id, content: leanMonacoEditor.editor.getValue()})
+            body: JSON.stringify({courseId: data.course.course_id, proofId: data.problems[activeProblem].proof_id, problemId: data.problems[activeProblem].problem_id, content: leanMonacoEditor.editor.getValue()})
         });
     }
     
     onMount(async () => {
         activeTheoremCategory = (theorems.map(theorem => theorem.statement_category))[0];
 
-        saveInterval = setInterval(save, 15000); // Fetch every 15 seconds
+        saveInterval = setInterval(save, 5000); // Fetch every 5 seconds
 
         const socketUrl = ((window.location.protocol === "https:") ? "wss://" : "ws://") +
         window.location.host + "/websocket/" + project;
