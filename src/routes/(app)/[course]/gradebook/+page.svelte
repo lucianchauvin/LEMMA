@@ -71,11 +71,22 @@
                                 <form method="POST" action="?/editGrades" use:enhance class="flex items-center gap-4">
                                     <input type="hidden" name="student_id" value={student.user_id} />
                                     <input type="hidden" name="assignment_id" value={assignments.assignment_id} />
-                                    <input type="" name="grade" value={fetchGrade(student.user_id, assignments.assignment_id)}
-                                    class="w-16 text-center border rounded px-2 py-1"  />
-                                    <button type="submit" class="bg-blue-500 text-white px-2 py-1 rounded flex items-center gap-1 p-2">
-                                        <Save size={16} />
-                                    </button>
+                                    {#if student.editing === assignments.assignment_id}
+                                        <!-- Editable Input -->
+                                        <input type="" name="grade" value={fetchGrade(student.user_id, assignments.assignment_id)}
+                                        class = "w-16 text-center border rounded px-2 py-1" autofocus />
+                                        <button type="submit" class="bg-blue-500 text-white px-2 py-1 rounded flex items-center gap-1">
+                                            <Save size={16} />
+                                        </button>
+                                    {:else}
+                                        <!-- Display Mode -->
+                                        <span class="editable-cell" on:click={() => {
+                                            student.editing = assignments.assignment_id;
+                                            student.grade = fetchGrade(student.user_id, assignments.assignment_id);
+                                        }}>
+                                            {fetchGrade(student.user_id, assignments.assignment_id)}
+                                        </span>
+                                    {/if}
                                 </form>
                             </div>
                         </td>
