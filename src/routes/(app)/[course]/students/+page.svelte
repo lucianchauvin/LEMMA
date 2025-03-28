@@ -8,6 +8,10 @@
         return data.user_roles.some((role) => role.user_id === user.user_id && role.role_name === 'student')
     });
 
+    // Filter users who are students and are not assigned to the course
+    $: nonAssignedStudents = data.users.filter((user) => {
+        return !data.user_roles.some((role) => role.user_id === user.user_id && role.role_name !== 'student') && !user.is_super_admin;
+    });
 </script>
 
 <div class ="table-container">
@@ -16,8 +20,13 @@
     </h1>
 
     <form method="POST" action="?/add" class="mt-4 flex gap-2" use:enhance>
-        <input type="text" name="first_name" placeholder="First Name" required class="p-2 border rounded" />
-        <input type="text" name="last_name" placeholder="Last Name" required class="p-2 border rounded" />
+        <!-- Dropdown to select student (showing non-assigned students) -->
+        <select name="user_id" required class="p-2 border rounded">
+            <option value="" disabled selected>Select a student</option>
+            {#each nonAssignedStudents as student}
+                <option value={student.user_id}>{student.first_name} {student.last_name}</option>
+            {/each}
+        </select>
         <button type="submit" class="p-2 bg-green-500 text-white rounded flex items-center gap-1">
             <UserPlus size={16} /> Add Student
         </button>

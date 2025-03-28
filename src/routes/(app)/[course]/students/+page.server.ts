@@ -4,8 +4,8 @@ import { error, fail } from "@sveltejs/kit";
 
 export const load = (async ({ parent, params, locals: { safeQuery } }) => {
     const { course } = await parent();
-    const { data: userResult, error: userErr } 
-    = await safeQuery<User>("SELECT u.* FROM users u JOIN user_roles ur ON u.user_id = ur.user_id WHERE ur.course_id = $1", [params.course]);
+    // Fetch all users
+    const { data: userResult, error: userErr } = await safeQuery<User>("SELECT u.* FROM users u");
     const {data: userRoleResult, error: userRoleErr} 
     = await safeQuery<UserRole>("SELECT ur.*, r.display_name FROM user_roles ur JOIN roles r ON ur.role_name = r.role_name WHERE ur.course_id = $1", [params.course]); 
 
@@ -35,10 +35,14 @@ export const load = (async ({ parent, params, locals: { safeQuery } }) => {
 export const actions: Actions = {
     add: async ({ request, params, locals: { safeQuery } }) => {
         const formData = await request.formData();
-        const firstName = formData.get("first_name") as string;
-        const lastName = formData.get("last_name") as string;
+        const selectedUserId = formData.get("user_id") as string;
 
-        const {data: user, error: userErr} = await safeQuery("SELECT * FROM users WHERE LOWER(first_name) = LOWER($1) AND LOWER(last_name) = LOWER($2)", [firstName, lastName]);
+        if (!selectedUserId) {
+            console.error("ERROR: No user selected");
+            return fail(400, { message: "No student selected" });
+        }
+
+        const {data: user, error: userErr} = await safeQuery("SELECT * FROM users WHERE user_id = $1", [selectedUserId]);
 
         if (userErr || !user || user.length === 0)
         {
@@ -58,6 +62,7 @@ export const actions: Actions = {
         }
 
         if (userRole.length > 0) {
+            console.error("ERROR: Student is already in the course");
             fail(400, { message: "Student is already in the course" });
         }
 
