@@ -21,7 +21,7 @@
 
     <form method="POST" action="?/add" class="mt-4 flex gap-2" use:enhance>
         <!-- Dropdown to select student (showing non-assigned students) -->
-        <select name="user_id" required class="p-2 border rounded">
+        <select name="user_id" required class="p-2 border rounded w-48">
             <option value="" disabled selected>Select a student</option>
             {#each nonAssignedStudents as student}
                 <option value={student.user_id}>{student.first_name} {student.last_name}</option>
