@@ -59,20 +59,24 @@
 
 <!-- Render table when data is ready -->
 {#if !isLoading && data.length > 0 && handler}
-	<form method="POST" action="?/add" class="mt-4 flex gap-2" use:enhance>
-		<input type="text" name="first_name" placeholder="First Name" required class="p-2 border rounded" />
-		<input type="text" name="last_name" placeholder="Last Name" required class="p-2 border rounded" />
-		<button type="submit" class="p-2 bg-green-500 text-white rounded flex items-center gap-1">
-			<UserPlus size={16} /> Add User
-		</button>
-	</form>
-
 	<div class=" overflow-x-auto space-y-4">
 		<!-- Header -->
 		<header class="flex justify-between gap-4">
 			<Search {handler} />
 			<RowsPerPage {handler} />
 		</header>
+
+		<h1 class="text-xl font-bold flex items-center gap-2">
+			<Users size={24} /> Users
+		</h1>
+	
+		<form method="POST" action="?/add" class="mt-4 flex gap-2" use:enhance>
+			<input type="text" name="first_name" placeholder="First Name" required class="p-2 border rounded" />
+			<input type="text" name="last_name" placeholder="Last Name" required class="p-2 border rounded" />
+			<button type="submit" class="p-2 bg-green-500 text-white rounded flex items-center gap-1">
+				<UserPlus size={16} /> Add Student
+			</button>
+		</form>
 		<!-- Table -->
 		<table class="table table-hover table-compact w-full table-auto">
 			<thead>
