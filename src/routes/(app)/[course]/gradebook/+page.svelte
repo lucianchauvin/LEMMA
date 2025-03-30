@@ -1,4 +1,9 @@
 <script>
+    /**
+     * @module Gradebook
+     * @description This module handles the gradebook display and editing functionality in Svelte.
+     */
+
     import {Book, KeyRound, Save} from 'lucide-svelte';
     import {enhance} from '$app/forms';
 
@@ -6,11 +11,20 @@
     const assignmentsData = data.assignments ?? [];
     $:studentAssignmentsData = data.student_assignments ?? [];
     
-    //filter users who are students
+    /**
+     * Retrieves a list of students by filtering users based on their assigned roles.
+     * @returns {Object[]} An array of student user objects.
+     */
     const students = data.users.filter((user) => {
         return data.user_roles.some((role) => role.user_id === user.user_id && role.role_name === 'student')
     });
 
+    /**
+     * Searches for and fetches the grade for a specific student and assignment.
+     * @param {number} studentID - The ID of the student
+     * @param {number} assignmentID - The ID of the assignment
+     * @returns {number|string} - The grade or '-' if not found
+     */
     function fetchGrade(studentID, assignmentID)    {
         const studentAssignment = studentAssignmentsData.find(sa => sa.student_id === studentID && sa.assignment_id === assignmentID);
     
@@ -20,11 +34,18 @@
         return '-';
     }
 
+    /**
+     * Determines the letter grade based on an array of grades.
+     * @param {number[]} grades - An array of numerical grades
+     * @returns {string} - The letter grade ('A' to 'F') or 'N/A' if no grades exist
+     * 
+     * @example 
+     * determineLetterGrade([85, 90, 78]); // returns 'B'
+     */
     function determineLetterGrade(grades)   {
         if (grades.length === 0)    
             return 'N/A';
         
-        //parameter a is accumulator while parameter b is the current element
         const avg = grades.reduce((a, b) => a + b, 0) / grades.length; 
         if (avg < 60)
             return 'F';

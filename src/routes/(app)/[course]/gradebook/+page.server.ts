@@ -2,14 +2,33 @@ import type { PageServerLoad, Actions } from './$types'; //data fetching from se
 import type { Assignment, User, UserRole, StudentAssignment } from '$lib/types'; 
 import { error } from '@sveltejs/kit'; 
 
+/**
+ * Loads data required for the gradebook page.
+ * Queries assignments, users, user roles, and student assignments for a given course.
+ * 
+ * @param {Object} context - The SvelteKit server load context.
+ * @param {Function} context.parent - Fetches parent data.
+ * @param {Object} context.params - Route parameters.
+ * @param {Object} context.locals.safeQuery - Function for safely querying the database.
+ * @returns {Promise<Object>} The course details and related data.
+ * @throws {Error} Throws an error if any database query fails.
+ */
 export const load = (async ({parent, params, locals: { safeQuery }}) => {
     const { course } = await parent();
+    
+    // Query assignments related to the course
     const {data: assignmentResult, error: assignmentErr} 
     = await safeQuery<Assignment>("SELECT * FROM assignments WHERE assignments.course_id=$1", [params.course]);
+    
+    // Query users associated with the course
     const {data: userResult, error: userErr } 
     = await safeQuery<User>("SELECT u.* FROM users u JOIN user_roles ur ON u.user_id = ur.user_id WHERE ur.course_id = $1", [params.course ]);
+    
+    // Query user roles within the course
     const {data: userRoleResult, error: userRoleErr} 
     = await safeQuery<UserRole>("SELECT ur.*, r.display_name FROM user_roles ur JOIN roles r ON ur.role_name = r.role_name WHERE ur.course_id = $1", [params.course]); 
+    
+    // Query student assignments linked to the course
     const {data: studentAssignmentResult, error: studentAssignmentErr} 
     = await safeQuery<StudentAssignment>("SELECT sa.*  FROM student_assignments sa JOIN assignments a ON sa.assignment_id = a.assignment_id WHERE a.course_id = $1", [params.course]);
     
@@ -52,7 +71,18 @@ export const load = (async ({parent, params, locals: { safeQuery }}) => {
     };
 }) satisfies PageServerLoad;
 
+/**
+ * Handles actions related to grade editing.
+ */
 export const actions: Actions = {
+    /**
+     * Updates a student's grade for a specific assignment.
+     * 
+     * @param {Object} context - The SvelteKit action context.
+     * @param {Request} context.request - The request object containing form data.
+     * @param {Object} context.locals.safeQuery - Function for safely querying the database.
+     * @returns {Promise<Object>} An object indicating success or failure.
+     */
     editGrades: async ({ request, locals: { safeQuery } }) => {
         const formData = await request.formData();
         const studentId = formData.get('student_id');
@@ -69,6 +99,7 @@ export const actions: Actions = {
             return { error: 'Invalid grade. Grade must be a number in between between 0 and 100 inclusive' };
         }
 
+        // Update the grade in the database
         const { error: updateError } = await safeQuery(
             "UPDATE student_assignments SET grade = $1 WHERE student_id = $2 AND assignment_id = $3",
             [numericGrade, studentId, assignmentId]
