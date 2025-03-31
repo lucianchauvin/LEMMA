@@ -25,13 +25,3 @@ export default async function run(file: string)
     });
 }
 
-
-/* Testing code
-async function main()
-{
-    let { stdout } = await run("../../test.lean");
-}
-
-main();
-/*
-

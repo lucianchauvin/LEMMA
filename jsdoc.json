@@ -1,0 +1,14 @@
+{
+    "plugins": ["plugins/markdown"],
+    "source": {
+      "include": ["src/lib"],
+      "includePattern": ".ts$"
+    },
+    "opts": {
+      "destination": "./jsdoc",
+      "recurse": true
+    },
+    "typescript": {
+      "enabled": true
+    }
+}
