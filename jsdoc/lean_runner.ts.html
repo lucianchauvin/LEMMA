@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: db.ts</title>
+    <title>JSDoc: Source: lean_runner.ts</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: db.ts</h1>
+    <h1 class="page-title">Source: lean_runner.ts</h1>
 
     
 
@@ -26,33 +26,45 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>import fs from 'fs';
-import pg from 'pg';
-import { PGUSER, PGDATABASE, PGPASSWORD, PGPORT } from '$env/static/private';
+            <pre class="prettyprint source linenums"><code>import { LEANBIN } from "$env/static/private"
+import { exec } from "child_process";
 
-// const PGHOST = fs.readFileSync('/data/IP', 'utf-8').trim();
-const PGHOST = "18.225.72.236";
 
 /**
- * Creates a Postgres client pool for managing connections to the PostgreSQL database.
- * The pool manages multiple client connections and reuses them to optimize database access.
- *
- * @constant
- * @type {pg.Pool}
- * @property {string} host - The IP address or hostname of the PostgreSQL server.
- * @property {string} user - The username for authentication to the database.
- * @property {string} password - The password used for authentication, decoded from base64.
- * @property {number} port - The port on which the PostgreSQL server is listening.
- * @property {number} connectionTimeoutMillis - The timeout duration (in milliseconds) for establishing a connection to the server.
+ * Executes a Lean file using the specified Lean binary.
  * 
+ * This function runs a Lean file and returns the standard output and error output.
+ * The execution is performed using the `exec` function from Node.js.
+ * 
+ * @param {string} file - The file path of the Lean script to be executed.
+ * @returns {Promise&lt;{ stdout: string, stderr: string }>} - A promise resolving with the standard output and error output.
+ * 
+ * @example
+ * run("example.lean")
+ *   .then(result => console.log(result.stdout))
+ *   .catch(error => console.error(error));
  */
-export const pool = new pg.Pool({
-    host: PGHOST,
-    user: PGUSER,
-    password: Buffer.from(PGPASSWORD, 'base64').toString('utf-8').trim().replace(/(\r\n|\n|\r)/gm, ""),
-    port: parseInt(PGPORT),
-    connectionTimeoutMillis: 5000, // 5 sec timeout
-})
+export default async function run(file: string)
+{
+    return new Promise(function (resolve, reject)
+    {
+        const path = LEANBIN + " --run ";
+        exec(path + file, (err, stdout, stderr) =>
+        {
+            if (err)
+            {
+                reject(err);
+            }
+            else
+            {
+                console.log(stdout);
+                //console.log(stderr);
+                resolve({ stdout, stderr });
+            }
+        });
+    });
+}
+
 </code></pre>
         </article>
     </section>

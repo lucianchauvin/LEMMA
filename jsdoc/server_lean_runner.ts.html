@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Home</title>
+    <title>JSDoc: Source: server/lean_runner.ts</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,32 +17,57 @@
 
 <div id="main">
 
-    <h1 class="page-title">Home</h1>
+    <h1 class="page-title">Source: server/lean_runner.ts</h1>
 
     
 
 
 
     
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import { LEANBIN } from "$env/static/private"
+import { exec } from "child_process";
 
 
-    <h3> </h3>
+/**
+ * Executes a Lean file using the specified Lean binary.
+ * 
+ * This function runs a Lean file and returns the standard output and error output.
+ * The execution is performed using the `exec` function from Node.js.
+ * 
+ * @param {string} file - The file path of the Lean script to be executed.
+ * @returns {Promise&lt;{ stdout: string, stderr: string }>} - A promise resolving with the standard output and error output.
+ * 
+ * @example
+ * run("example.lean")
+ *   .then(result => console.log(result.stdout))
+ *   .catch(error => console.error(error));
+ */
+export default async function run(file: string)
+{
+    return new Promise(function (resolve, reject)
+    {
+        const path = LEANBIN + " --run ";
+        exec(path + file, (err, stdout, stderr) =>
+        {
+            if (err)
+            {
+                reject(err);
+            }
+            else
+            {
+                console.log(stdout);
+                //console.log(stderr);
+                resolve({ stdout, stderr });
+            }
+        });
+    });
+}
 
-
-
-
-
-
-
-
-
-
-    
-
-
-
-
-
+</code></pre>
+        </article>
+    </section>
 
 
 

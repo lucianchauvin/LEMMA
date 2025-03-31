@@ -1,14 +1,17 @@
 {
-    "plugins": ["plugins/markdown"],
+    "plugins": [
+      "node_modules/better-docs/typescript",
+      "plugins/markdown"],
     "source": {
       "include": ["src/lib"],
-      "includePattern": ".ts$"
+      "includePattern": "\\.(ts|tsx)$"
     },
     "opts": {
       "destination": "./jsdoc",
       "recurse": true
     },
     "typescript": {
-      "enabled": true
+      "enabled": true,
+      "moduleRoot": "src/lib"
     }
 }
