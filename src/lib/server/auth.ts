@@ -1,10 +1,12 @@
 /**
- * Authentication module using Lucia and Drizzle ORM.
+ * @fileoverview Authentication Module
  * 
- * This module initializes authentication with Lucia, configures session cookies,
- * and defines user and session tables using Drizzle ORM for PostgreSQL.
+ * This module handles user authentication using Lucia and Drizzle ORM. It configures
+ * the session management and user tables for the authentication process and sets
+ * up cookies for session persistence.
+ * 
+ * @module authentication
  */
-
 import { Lucia } from "lucia";
 import { dev } from "$app/environment";
 

@@ -1,23 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    
     <meta charset="utf-8">
-    <title>JSDoc: Global</title>
-
-    <script src="scripts/prettify/prettify.js"> </script>
-    <script src="scripts/prettify/lang-css.js"> </script>
+    <title>Global - Documentation</title>
+    
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
     <!--[if lt IE 9]>
       <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
-    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
-    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <script src="scripts/nav.js" defer></script>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
-
 <body>
 
-<div id="main">
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
 
+<label for="nav-trigger" class="overlay"></label>
+
+<nav >
+    
+    
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-authentication.html">authentication</a><ul class='methods'><li data-type='method'><a href="module-authentication.html#~getUserAttributes">getUserAttributes</a></li></ul></li></ul><h3>Interfaces</h3><ul><li><a href="DatabaseUserAttributes.html">DatabaseUserAttributes</a></li></ul><h3>Global</h3><ul><li><a href="global.html#pool">pool</a></li></ul>
+    
+</nav>
+
+<div id="main">
+    
     <h1 class="page-title">Global</h1>
+    
 
     
 
@@ -28,20 +47,23 @@
 
 <header>
     
-        <h2></h2>
+        <h2>
+        
+            
+        
+        </h2>
         
     
 </header>
 
 <article>
-    <div class="container-overview">
     
+        <div class="container-overview">
         
-
-        
-
+            
 
 <dl class="details">
+    
 
     
 
@@ -77,10 +99,13 @@
 </dl>
 
 
+
+
+            
+
+            
         
-    
-    </div>
-
+        </div>
     
 
     
@@ -88,8 +113,10 @@
     
 
     
-
     
+    
+
+     
 
     
 
@@ -98,61 +125,23 @@
 
         
             
-<h4 class="name" id="adapter"><span class="type-signature">(constant) </span>adapter<span class="type-signature"> :DrizzlePostgreSQLAdapter</span></h4>
-
-
-
-
-<div class="description">
-    <p>Adapter instance for Lucia authentication using Drizzle ORM.</p>
-</div>
-
-
-
-    <h5>Type:</h5>
-    <ul>
-        <li>
-            
-<span class="param-type">DrizzlePostgreSQLAdapter</span>
-
-
-        </li>
-    </ul>
+<h4 class="name" id="pool"><span class="type-signature type-signature-constant">(constant) </span>pool<span class="type-signature"> :pg.Pool</span></h4>
 
 
 
 
 
 <dl class="details">
-
     
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>Creates a Postgres client pool for managing connections to the PostgreSQL database.
+The pool manages multiple client connections and reuses them to optimize database access.</p></li></ul></dd>
     
 
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="server_auth.ts.html">server/auth.ts</a>, <a href="server_auth.ts.html#line50">line 50</a>
+        <a href="server_db.ts.html">server/db.ts</a>, <a href="server_db.ts.html#line19">line 19</a>
     </li></ul></dd>
     
 
@@ -161,31 +150,6 @@
     
 
     
-</dl>
-
-
-
-
-
-
-        
-            
-<h4 class="name" id="db"><span class="type-signature">(constant) </span>db<span class="type-signature"></span></h4>
-
-
-
-
-<div class="description">
-    <p>Database connection instance</p>
-</div>
-
-
-
-
-
-
-
-<dl class="details">
 
     
 
@@ -203,19 +167,6 @@
 
     
 
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="server_auth.ts.html">server/auth.ts</a>, <a href="server_auth.ts.html#line15">line 15</a>
-    </li></ul></dd>
     
 
     
@@ -224,281 +175,6 @@
 
     
 </dl>
-
-
-
-
-
-
-        
-            
-<h4 class="name" id="expiresAt"><span class="type-signature"></span>expiresAt<span class="type-signature"></span></h4>
-
-
-
-
-<div class="description">
-    <p>Expiration timestamp for session</p>
-</div>
-
-
-
-
-
-
-
-    <h5 class="subsection-title">Properties:</h5>
-
-    
-
-<table class="props">
-    <thead>
-    <tr>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Date</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="server_auth.ts.html">server/auth.ts</a>, <a href="server_auth.ts.html#line41">line 41</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-        
-            
-<h4 class="name" id="id"><span class="type-signature"></span>id<span class="type-signature"></span></h4>
-
-
-
-
-<div class="description">
-    <p>Unique session ID</p>
-</div>
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="server_auth.ts.html">server/auth.ts</a>, <a href="server_auth.ts.html#line29">line 29</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-        
-            
-<h4 class="name" id="lucia"><span class="type-signature">(constant) </span>lucia<span class="type-signature"> :Lucia</span></h4>
-
-
-
-
-<div class="description">
-    <p>Lucia authentication instance.</p>
-</div>
-
-
-
-    <h5>Type:</h5>
-    <ul>
-        <li>
-            
-<span class="param-type">Lucia</span>
-
-
-        </li>
-    </ul>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="server_auth.ts.html">server/auth.ts</a>, <a href="server_auth.ts.html#line55">line 55</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-        
-            
-<h4 class="name" id="pool"><span class="type-signature">(constant) </span>pool<span class="type-signature"> :pg.Pool</span></h4>
-
-
-
-
-<div class="description">
-    <p>Creates a Postgres client pool for managing connections to the PostgreSQL database.
-The pool manages multiple client connections and reuses them to optimize database access.</p>
-</div>
-
-
-
-    <h5>Type:</h5>
-    <ul>
-        <li>
-            
-<span class="param-type">pg.Pool</span>
-
-
-        </li>
-    </ul>
-
-
 
 
 
@@ -537,6 +213,7 @@ The pool manages multiple client connections and reuses them to optimize databas
 <span class="param-type">string</span>
 
 
+
             
             </td>
 
@@ -558,6 +235,7 @@ The pool manages multiple client connections and reuses them to optimize databas
             
                 
 <span class="param-type">string</span>
+
 
 
             
@@ -583,6 +261,7 @@ The pool manages multiple client connections and reuses them to optimize databas
 <span class="param-type">string</span>
 
 
+
             
             </td>
 
@@ -604,6 +283,7 @@ The pool manages multiple client connections and reuses them to optimize databas
             
                 
 <span class="param-type">number</span>
+
 
 
             
@@ -629,6 +309,7 @@ The pool manages multiple client connections and reuses them to optimize databas
 <span class="param-type">number</span>
 
 
+
             
             </td>
 
@@ -646,69 +327,21 @@ The pool manages multiple client connections and reuses them to optimize databas
 
 
 
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="server_db.ts.html">server/db.ts</a>, <a href="server_db.ts.html#line19">line 19</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
 
 
-
-
-
-
-        
-            
-<h4 class="name" id="sessionTable"><span class="type-signature">(constant) </span>sessionTable<span class="type-signature"> :object</span></h4>
-
-
-
-
-<div class="description">
-    <p>Defines the sessions table schema.</p>
+<div class="description usertext">
+    <p>Creates a Postgres client pool for managing connections to the PostgreSQL database.
+The pool manages multiple client connections and reuses them to optimize database access.</p>
 </div>
 
 
 
-    <h5>Type:</h5>
+    <h5 class="h5-types">Type:</h5>
     <ul>
         <li>
             
-<span class="param-type">object</span>
+<span class="param-type">pg.Pool</span>
+
 
 
         </li>
@@ -718,401 +351,10 @@ The pool manages multiple client connections and reuses them to optimize databas
 
 
 
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="server_auth.ts.html">server/auth.ts</a>, <a href="server_auth.ts.html#line27">line 27</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
 
         
-            
-<h4 class="name" id="userId"><span class="type-signature"></span>userId<span class="type-signature"></span></h4>
-
-
-
-
-<div class="description">
-    <p>Foreign key referencing user ID</p>
-</div>
-
-
-
-
-
-
-
-    <h5 class="subsection-title">Properties:</h5>
-
-    
-
-<table class="props">
-    <thead>
-    <tr>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="server_auth.ts.html">server/auth.ts</a>, <a href="server_auth.ts.html#line34">line 34</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-        
-            
-<h4 class="name" id="userTable"><span class="type-signature">(constant) </span>userTable<span class="type-signature"> :object</span></h4>
-
-
-
-
-<div class="description">
-    <p>Defines the users table schema.</p>
-</div>
-
-
-
-    <h5>Type:</h5>
-    <ul>
-        <li>
-            
-<span class="param-type">object</span>
-
-
-        </li>
-    </ul>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="server_auth.ts.html">server/auth.ts</a>, <a href="server_auth.ts.html#line20">line 20</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-        
-    
-
-    
-        <h3 class="subsection-title">Methods</h3>
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="getUserAttributes"><span class="type-signature"></span>getUserAttributes<span class="signature">(attributes)</span><span class="type-signature"> &rarr; {Object}</span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    <p>Retrieves user attributes from the database.</p>
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>attributes</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="DatabaseUserAttributes.html">DatabaseUserAttributes</a></span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>The user attributes from the database.</p></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
     
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="server_auth.ts.html">server/auth.ts</a>, <a href="server_auth.ts.html#line70">line 70</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    <ul>
-<li>The extracted username.</li>
-</ul>
-</div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">Object</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-
 
-        
     
 
     
@@ -1125,23 +367,50 @@ The pool manages multiple client connections and reuses them to optimize databas
 
 
 
-<div class="description">
-    <p>Represents an assignment within a course.</p>
-</div>
 
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>Represents an assignment within a course.</p></li></ul></dd>
+    
 
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="types.ts.html">types.ts</a>, <a href="types.ts.html#line72">line 72</a>
+    </li></ul></dd>
+    
 
-    <h5>Type:</h5>
-    <ul>
-        <li>
-            
-<span class="param-type">object</span>
+    
 
+    
 
-        </li>
-    </ul>
+    
 
+    
 
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
 
 
 
@@ -1182,6 +451,7 @@ The pool manages multiple client connections and reuses them to optimize databas
 <span class="param-type"><a href="global.html#UUID">UUID</a></span>
 
 
+
             
             </td>
 
@@ -1209,6 +479,7 @@ The pool manages multiple client connections and reuses them to optimize databas
             
                 
 <span class="param-type"><a href="global.html#UUID">UUID</a></span>
+
 
 
             
@@ -1240,6 +511,7 @@ The pool manages multiple client connections and reuses them to optimize databas
 <span class="param-type">string</span>
 
 
+
             
             </td>
 
@@ -1267,6 +539,7 @@ The pool manages multiple client connections and reuses them to optimize databas
             
                 
 <span class="param-type">string</span>
+
 
 
             
@@ -1300,6 +573,7 @@ The pool manages multiple client connections and reuses them to optimize databas
 <span class="param-type">boolean</span>
 
 
+
             
             </td>
 
@@ -1329,6 +603,7 @@ The pool manages multiple client connections and reuses them to optimize databas
 <span class="param-type">Date</span>
 
 
+
             
             </td>
 
@@ -1354,45 +629,24 @@ The pool manages multiple client connections and reuses them to optimize databas
 
 
 
-<dl class="details">
 
-    
 
-    
+<div class="description usertext">
+    <p>Represents an assignment within a course.</p>
+</div>
 
-    
 
-    
 
-    
+    <h5 class="h5-types">Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">object</span>
 
-    
 
-    
 
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="types.ts.html">types.ts</a>, <a href="types.ts.html#line69">line 69</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
+        </li>
+    </ul>
 
 
 
@@ -1406,23 +660,50 @@ The pool manages multiple client connections and reuses them to optimize databas
 
 
 
-<div class="description">
-    <p>Represents a course with associated metadata.</p>
-</div>
 
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>Represents a course with associated metadata.</p></li></ul></dd>
+    
 
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="types.ts.html">types.ts</a>, <a href="types.ts.html#line62">line 62</a>
+    </li></ul></dd>
+    
 
-    <h5>Type:</h5>
-    <ul>
-        <li>
-            
-<span class="param-type">object</span>
+    
 
+    
 
-        </li>
-    </ul>
+    
 
+    
 
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
 
 
 
@@ -1463,6 +744,7 @@ The pool manages multiple client connections and reuses them to optimize databas
 <span class="param-type"><a href="global.html#UUID">UUID</a></span>
 
 
+
             
             </td>
 
@@ -1490,6 +772,7 @@ The pool manages multiple client connections and reuses them to optimize databas
             
                 
 <span class="param-type">string</span>
+
 
 
             
@@ -1521,6 +804,7 @@ The pool manages multiple client connections and reuses them to optimize databas
 <span class="param-type">string</span>
 
 
+
             
             </td>
 
@@ -1550,6 +834,7 @@ The pool manages multiple client connections and reuses them to optimize databas
 <span class="param-type"><a href="global.html#CourseStatus">CourseStatus</a></span>
 
 
+
             
             </td>
 
@@ -1577,6 +862,7 @@ The pool manages multiple client connections and reuses them to optimize databas
             
                 
 <span class="param-type">string</span>
+
 
 
             
@@ -1610,6 +896,7 @@ The pool manages multiple client connections and reuses them to optimize databas
 <span class="param-type">Date</span>
 
 
+
             
             </td>
 
@@ -1639,6 +926,7 @@ The pool manages multiple client connections and reuses them to optimize databas
 <span class="param-type">Date</span>
 
 
+
             
             </td>
 
@@ -1662,45 +950,24 @@ The pool manages multiple client connections and reuses them to optimize databas
 
 
 
-<dl class="details">
 
-    
 
-    
+<div class="description usertext">
+    <p>Represents a course with associated metadata.</p>
+</div>
 
-    
 
-    
 
-    
+    <h5 class="h5-types">Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">object</span>
 
-    
 
-    
 
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="types.ts.html">types.ts</a>, <a href="types.ts.html#line59">line 59</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
+        </li>
+    </ul>
 
 
 
@@ -1714,63 +981,42 @@ The pool manages multiple client connections and reuses them to optimize databas
 
 
 
-<div class="description">
-    <p>Status of a course in the system.</p>
-</div>
-
-
-
-    <h5>Type:</h5>
-    <ul>
-        <li>
-            
-<span class="param-type">"active"</span>
-|
-
-<span class="param-type">"inactive"</span>
-|
-
-<span class="param-type">"archived"</span>
-
-
-        </li>
-    </ul>
-
-
-
-
 
 <dl class="details">
-
     
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>Status of a course in the system.</p></li></ul></dd>
     
 
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="types.ts.html">types.ts</a>, <a href="types.ts.html#line10">line 10</a>
+        <a href="types.ts.html">types.ts</a>, <a href="types.ts.html#line13">line 13</a>
     </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
     
 
     
@@ -1784,6 +1030,33 @@ The pool manages multiple client connections and reuses them to optimize databas
 
 
 
+<div class="description usertext">
+    <p>Status of a course in the system.</p>
+</div>
+
+
+
+    <h5 class="h5-types">Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">"active"</span>
+|
+
+<span class="param-type">"inactive"</span>
+|
+
+<span class="param-type">"archived"</span>
+
+
+
+        </li>
+    </ul>
+
+
+
+
+
 
             
                 
@@ -1792,13 +1065,62 @@ The pool manages multiple client connections and reuses them to optimize databas
 
 
 
-<div class="description">
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>Permissions assigned to roles for controlling access within the system.</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="types.ts.html">types.ts</a>, <a href="types.ts.html#line19">line 19</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
     <p>Permissions assigned to roles for controlling access within the system.</p>
 </div>
 
 
 
-    <h5>Type:</h5>
+    <h5 class="h5-types">Type:</h5>
     <ul>
         <li>
             
@@ -1886,52 +1208,9 @@ The pool manages multiple client connections and reuses them to optimize databas
 <span class="param-type">"change_course_grades"</span>
 
 
+
         </li>
     </ul>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="types.ts.html">types.ts</a>, <a href="types.ts.html#line16">line 16</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
 
 
 
@@ -1945,23 +1224,50 @@ The pool manages multiple client connections and reuses them to optimize databas
 
 
 
-<div class="description">
-    <p>Defines a permission flag, determining if a role can target another role.</p>
-</div>
 
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>Defines a permission flag, determining if a role can target another role.</p></li></ul></dd>
+    
 
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="types.ts.html">types.ts</a>, <a href="types.ts.html#line39">line 39</a>
+    </li></ul></dd>
+    
 
-    <h5>Type:</h5>
-    <ul>
-        <li>
-            
-<span class="param-type">object</span>
+    
 
+    
 
-        </li>
-    </ul>
+    
 
+    
 
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
 
 
 
@@ -2000,6 +1306,7 @@ The pool manages multiple client connections and reuses them to optimize databas
 <span class="param-type"><a href="global.html#Permission">Permission</a></span>
 
 
+
             
             </td>
 
@@ -2023,6 +1330,7 @@ The pool manages multiple client connections and reuses them to optimize databas
 <span class="param-type">boolean</span>
 
 
+
             
             </td>
 
@@ -2040,45 +1348,24 @@ The pool manages multiple client connections and reuses them to optimize databas
 
 
 
-<dl class="details">
 
-    
 
-    
+<div class="description usertext">
+    <p>Defines a permission flag, determining if a role can target another role.</p>
+</div>
 
-    
 
-    
 
-    
+    <h5 class="h5-types">Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">object</span>
 
-    
 
-    
 
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="types.ts.html">types.ts</a>, <a href="types.ts.html#line36">line 36</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
+        </li>
+    </ul>
 
 
 
@@ -2092,23 +1379,50 @@ The pool manages multiple client connections and reuses them to optimize databas
 
 
 
-<div class="description">
-    <p>Represents a problem linked to an assignment.</p>
-</div>
 
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>Represents a problem linked to an assignment.</p></li></ul></dd>
+    
 
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="types.ts.html">types.ts</a>, <a href="types.ts.html#line89">line 89</a>
+    </li></ul></dd>
+    
 
-    <h5>Type:</h5>
-    <ul>
-        <li>
-            
-<span class="param-type">object</span>
+    
 
+    
 
-        </li>
-    </ul>
+    
 
+    
 
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
 
 
 
@@ -2145,6 +1459,7 @@ The pool manages multiple client connections and reuses them to optimize databas
             
                 
 <span class="param-type"><a href="global.html#UUID">UUID</a></span>
+
 
 
             
@@ -2170,6 +1485,7 @@ The pool manages multiple client connections and reuses them to optimize databas
 <span class="param-type"><a href="global.html#UUID">UUID</a></span>
 
 
+
             
             </td>
 
@@ -2187,45 +1503,24 @@ The pool manages multiple client connections and reuses them to optimize databas
 
 
 
-<dl class="details">
 
-    
 
-    
+<div class="description usertext">
+    <p>Represents a problem linked to an assignment.</p>
+</div>
 
-    
 
-    
 
-    
+    <h5 class="h5-types">Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">object</span>
 
-    
 
-    
 
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="types.ts.html">types.ts</a>, <a href="types.ts.html#line86">line 86</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
+        </li>
+    </ul>
 
 
 
@@ -2239,23 +1534,50 @@ The pool manages multiple client connections and reuses them to optimize databas
 
 
 
-<div class="description">
-    <p>Links a statement to a problem.</p>
-</div>
 
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>Links a statement to a problem.</p></li></ul></dd>
+    
 
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="types.ts.html">types.ts</a>, <a href="types.ts.html#line123">line 123</a>
+    </li></ul></dd>
+    
 
-    <h5>Type:</h5>
-    <ul>
-        <li>
-            
-<span class="param-type">object</span>
+    
 
+    
 
-        </li>
-    </ul>
+    
 
+    
 
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
 
 
 
@@ -2294,6 +1616,7 @@ The pool manages multiple client connections and reuses them to optimize databas
 <span class="param-type"><a href="global.html#UUID">UUID</a></span>
 
 
+
             
             </td>
 
@@ -2317,6 +1640,7 @@ The pool manages multiple client connections and reuses them to optimize databas
 <span class="param-type"><a href="global.html#UUID">UUID</a></span>
 
 
+
             
             </td>
 
@@ -2334,45 +1658,24 @@ The pool manages multiple client connections and reuses them to optimize databas
 
 
 
-<dl class="details">
 
-    
 
-    
+<div class="description usertext">
+    <p>Links a statement to a problem.</p>
+</div>
 
-    
 
-    
 
-    
+    <h5 class="h5-types">Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">object</span>
 
-    
 
-    
 
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="types.ts.html">types.ts</a>, <a href="types.ts.html#line120">line 120</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
+        </li>
+    </ul>
 
 
 
@@ -2386,23 +1689,50 @@ The pool manages multiple client connections and reuses them to optimize databas
 
 
 
-<div class="description">
-    <p>Represents a reading assigned to a course.</p>
-</div>
 
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>Represents a reading assigned to a course.</p></li></ul></dd>
+    
 
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="types.ts.html">types.ts</a>, <a href="types.ts.html#line81">line 81</a>
+    </li></ul></dd>
+    
 
-    <h5>Type:</h5>
-    <ul>
-        <li>
-            
-<span class="param-type">object</span>
+    
 
+    
 
-        </li>
-    </ul>
+    
 
+    
 
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
 
 
 
@@ -2443,6 +1773,7 @@ The pool manages multiple client connections and reuses them to optimize databas
 <span class="param-type"><a href="global.html#UUID">UUID</a></span>
 
 
+
             
             </td>
 
@@ -2470,6 +1801,7 @@ The pool manages multiple client connections and reuses them to optimize databas
             
                 
 <span class="param-type"><a href="global.html#UUID">UUID</a></span>
+
 
 
             
@@ -2501,6 +1833,7 @@ The pool manages multiple client connections and reuses them to optimize databas
 <span class="param-type">string</span>
 
 
+
             
             </td>
 
@@ -2528,6 +1861,7 @@ The pool manages multiple client connections and reuses them to optimize databas
             
                 
 <span class="param-type">string</span>
+
 
 
             
@@ -2561,6 +1895,7 @@ The pool manages multiple client connections and reuses them to optimize databas
 <span class="param-type">boolean</span>
 
 
+
             
             </td>
 
@@ -2584,45 +1919,24 @@ The pool manages multiple client connections and reuses them to optimize databas
 
 
 
-<dl class="details">
 
-    
 
-    
+<div class="description usertext">
+    <p>Represents a reading assigned to a course.</p>
+</div>
 
-    
 
-    
 
-    
+    <h5 class="h5-types">Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">object</span>
 
-    
 
-    
 
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="types.ts.html">types.ts</a>, <a href="types.ts.html#line78">line 78</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
+        </li>
+    </ul>
 
 
 
@@ -2636,23 +1950,50 @@ The pool manages multiple client connections and reuses them to optimize databas
 
 
 
-<div class="description">
-    <p>Links a statement to a reading.</p>
-</div>
 
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>Links a statement to a reading.</p></li></ul></dd>
+    
 
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="types.ts.html">types.ts</a>, <a href="types.ts.html#line118">line 118</a>
+    </li></ul></dd>
+    
 
-    <h5>Type:</h5>
-    <ul>
-        <li>
-            
-<span class="param-type">object</span>
+    
 
+    
 
-        </li>
-    </ul>
+    
 
+    
 
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
 
 
 
@@ -2691,6 +2032,7 @@ The pool manages multiple client connections and reuses them to optimize databas
 <span class="param-type"><a href="global.html#UUID">UUID</a></span>
 
 
+
             
             </td>
 
@@ -2714,6 +2056,7 @@ The pool manages multiple client connections and reuses them to optimize databas
 <span class="param-type"><a href="global.html#UUID">UUID</a></span>
 
 
+
             
             </td>
 
@@ -2731,45 +2074,24 @@ The pool manages multiple client connections and reuses them to optimize databas
 
 
 
-<dl class="details">
 
-    
 
-    
+<div class="description usertext">
+    <p>Links a statement to a reading.</p>
+</div>
 
-    
 
-    
 
-    
+    <h5 class="h5-types">Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">object</span>
 
-    
 
-    
 
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="types.ts.html">types.ts</a>, <a href="types.ts.html#line115">line 115</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
+        </li>
+    </ul>
 
 
 
@@ -2783,23 +2105,50 @@ The pool manages multiple client connections and reuses them to optimize databas
 
 
 
-<div class="description">
-    <p>Represents a role in the system.</p>
-</div>
 
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>Represents a role in the system.</p></li></ul></dd>
+    
 
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="types.ts.html">types.ts</a>, <a href="types.ts.html#line57">line 57</a>
+    </li></ul></dd>
+    
 
-    <h5>Type:</h5>
-    <ul>
-        <li>
-            
-<span class="param-type">object</span>
+    
 
+    
 
-        </li>
-    </ul>
+    
 
+    
 
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
 
 
 
@@ -2838,6 +2187,7 @@ The pool manages multiple client connections and reuses them to optimize databas
 <span class="param-type">string</span>
 
 
+
             
             </td>
 
@@ -2861,6 +2211,7 @@ The pool manages multiple client connections and reuses them to optimize databas
 <span class="param-type">string</span>
 
 
+
             
             </td>
 
@@ -2878,45 +2229,24 @@ The pool manages multiple client connections and reuses them to optimize databas
 
 
 
-<dl class="details">
 
-    
 
-    
+<div class="description usertext">
+    <p>Represents a role in the system.</p>
+</div>
 
-    
 
-    
 
-    
+    <h5 class="h5-types">Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">object</span>
 
-    
 
-    
 
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="types.ts.html">types.ts</a>, <a href="types.ts.html#line54">line 54</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
+        </li>
+    </ul>
 
 
 
@@ -2930,23 +2260,50 @@ The pool manages multiple client connections and reuses them to optimize databas
 
 
 
-<div class="description">
-    <p>Defines which permissions a role has and, optionally, which role it can target.</p>
-</div>
 
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>Defines which permissions a role has and, optionally, which role it can target.</p></li></ul></dd>
+    
 
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="types.ts.html">types.ts</a>, <a href="types.ts.html#line44">line 44</a>
+    </li></ul></dd>
+    
 
-    <h5>Type:</h5>
-    <ul>
-        <li>
-            
-<span class="param-type">object</span>
+    
 
+    
 
-        </li>
-    </ul>
+    
 
+    
 
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
 
 
 
@@ -2987,6 +2344,7 @@ The pool manages multiple client connections and reuses them to optimize databas
 <span class="param-type">string</span>
 
 
+
             
             </td>
 
@@ -3014,6 +2372,7 @@ The pool manages multiple client connections and reuses them to optimize databas
             
                 
 <span class="param-type"><a href="global.html#Permission">Permission</a></span>
+
 
 
             
@@ -3045,6 +2404,7 @@ The pool manages multiple client connections and reuses them to optimize databas
 <span class="param-type">string</span>
 
 
+
             
             </td>
 
@@ -3070,45 +2430,24 @@ The pool manages multiple client connections and reuses them to optimize databas
 
 
 
-<dl class="details">
 
-    
 
-    
+<div class="description usertext">
+    <p>Defines which permissions a role has and, optionally, which role it can target.</p>
+</div>
 
-    
 
-    
 
-    
+    <h5 class="h5-types">Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">object</span>
 
-    
 
-    
 
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="types.ts.html">types.ts</a>, <a href="types.ts.html#line41">line 41</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
+        </li>
+    </ul>
 
 
 
@@ -3122,26 +2461,50 @@ The pool manages multiple client connections and reuses them to optimize databas
 
 
 
-<div class="description">
-    <p>Represents a query result that ensures safety by either returning data or an error.</p>
-</div>
 
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>Represents a query result that ensures safety by either returning data or an error.</p></li></ul></dd>
+    
 
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="types.ts.html">types.ts</a>, <a href="types.ts.html#line128">line 128</a>
+    </li></ul></dd>
+    
 
-    <h5>Type:</h5>
-    <ul>
-        <li>
-            
-<span class="param-type">object</span>
-|
+    
 
-<span class="param-type">object</span>
+    
 
+    
 
-        </li>
-    </ul>
+    
 
+    
 
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
 
 
 
@@ -3180,6 +2543,7 @@ The pool manages multiple client connections and reuses them to optimize databas
 <span class="param-type">Array</span>
 
 
+
             
             </td>
 
@@ -3201,6 +2565,7 @@ The pool manages multiple client connections and reuses them to optimize databas
             
                 
 <span class="param-type">null</span>
+
 
 
             
@@ -3226,6 +2591,7 @@ The pool manages multiple client connections and reuses them to optimize databas
 <span class="param-type">null</span>
 
 
+
             
             </td>
 
@@ -3249,6 +2615,7 @@ The pool manages multiple client connections and reuses them to optimize databas
 <span class="param-type">string</span>
 
 
+
             
             </td>
 
@@ -3266,45 +2633,27 @@ The pool manages multiple client connections and reuses them to optimize databas
 
 
 
-<dl class="details">
 
-    
 
-    
+<div class="description usertext">
+    <p>Represents a query result that ensures safety by either returning data or an error.</p>
+</div>
 
-    
 
-    
 
-    
+    <h5 class="h5-types">Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">object</span>
+|
 
-    
+<span class="param-type">object</span>
 
-    
 
-    
 
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="types.ts.html">types.ts</a>, <a href="types.ts.html#line125">line 125</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
+        </li>
+    </ul>
 
 
 
@@ -3318,23 +2667,50 @@ The pool manages multiple client connections and reuses them to optimize databas
 
 
 
-<div class="description">
-    <p>Represents an active session for a user.</p>
-</div>
 
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>Represents an active session for a user.</p></li></ul></dd>
+    
 
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="types.ts.html">types.ts</a>, <a href="types.ts.html#line33">line 33</a>
+    </li></ul></dd>
+    
 
-    <h5>Type:</h5>
-    <ul>
-        <li>
-            
-<span class="param-type">object</span>
+    
 
+    
 
-        </li>
-    </ul>
+    
 
+    
 
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
 
 
 
@@ -3373,6 +2749,7 @@ The pool manages multiple client connections and reuses them to optimize databas
 <span class="param-type">string</span>
 
 
+
             
             </td>
 
@@ -3394,6 +2771,7 @@ The pool manages multiple client connections and reuses them to optimize databas
             
                 
 <span class="param-type"><a href="global.html#UUID">UUID</a></span>
+
 
 
             
@@ -3419,6 +2797,7 @@ The pool manages multiple client connections and reuses them to optimize databas
 <span class="param-type">Date</span>
 
 
+
             
             </td>
 
@@ -3436,45 +2815,24 @@ The pool manages multiple client connections and reuses them to optimize databas
 
 
 
-<dl class="details">
 
-    
 
-    
+<div class="description usertext">
+    <p>Represents an active session for a user.</p>
+</div>
 
-    
 
-    
 
-    
+    <h5 class="h5-types">Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">object</span>
 
-    
 
-    
 
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="types.ts.html">types.ts</a>, <a href="types.ts.html#line30">line 30</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
+        </li>
+    </ul>
 
 
 
@@ -3488,13 +2846,62 @@ The pool manages multiple client connections and reuses them to optimize databas
 
 
 
-<div class="description">
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>Types of statements that can exist in the system.</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="types.ts.html">types.ts</a>, <a href="types.ts.html#line16">line 16</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
     <p>Types of statements that can exist in the system.</p>
 </div>
 
 
 
-    <h5>Type:</h5>
+    <h5 class="h5-types">Type:</h5>
     <ul>
         <li>
             
@@ -3510,52 +2917,9 @@ The pool manages multiple client connections and reuses them to optimize databas
 <span class="param-type">"problem"</span>
 
 
+
         </li>
     </ul>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="types.ts.html">types.ts</a>, <a href="types.ts.html#line13">line 13</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
 
 
 
@@ -3569,23 +2933,50 @@ The pool manages multiple client connections and reuses them to optimize databas
 
 
 
-<div class="description">
-    <p>Represents a logical statement used in readings or problems.</p>
-</div>
 
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>Represents a logical statement used in readings or problems.</p></li></ul></dd>
+    
 
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="types.ts.html">types.ts</a>, <a href="types.ts.html#line109">line 109</a>
+    </li></ul></dd>
+    
 
-    <h5>Type:</h5>
-    <ul>
-        <li>
-            
-<span class="param-type">object</span>
+    
 
+    
 
-        </li>
-    </ul>
+    
 
+    
 
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
 
 
 
@@ -3626,6 +3017,7 @@ The pool manages multiple client connections and reuses them to optimize databas
 <span class="param-type"><a href="global.html#UUID">UUID</a></span>
 
 
+
             
             </td>
 
@@ -3653,6 +3045,7 @@ The pool manages multiple client connections and reuses them to optimize databas
             
                 
 <span class="param-type">string</span>
+
 
 
             
@@ -3684,6 +3077,7 @@ The pool manages multiple client connections and reuses them to optimize databas
 <span class="param-type"><a href="global.html#Statement">Statement</a></span>
 
 
+
             
             </td>
 
@@ -3711,6 +3105,7 @@ The pool manages multiple client connections and reuses them to optimize databas
             
                 
 <span class="param-type">string</span>
+
 
 
             
@@ -3744,6 +3139,7 @@ The pool manages multiple client connections and reuses them to optimize databas
 <span class="param-type">string</span>
 
 
+
             
             </td>
 
@@ -3773,6 +3169,7 @@ The pool manages multiple client connections and reuses them to optimize databas
 <span class="param-type">string</span>
 
 
+
             
             </td>
 
@@ -3798,45 +3195,24 @@ The pool manages multiple client connections and reuses them to optimize databas
 
 
 
-<dl class="details">
 
-    
 
-    
+<div class="description usertext">
+    <p>Represents a logical statement used in readings or problems.</p>
+</div>
 
-    
 
-    
 
-    
+    <h5 class="h5-types">Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">object</span>
 
-    
 
-    
 
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="types.ts.html">types.ts</a>, <a href="types.ts.html#line106">line 106</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
+        </li>
+    </ul>
 
 
 
@@ -3850,23 +3226,50 @@ The pool manages multiple client connections and reuses them to optimize databas
 
 
 
-<div class="description">
-    <p>Tracks student progress on an assignment.</p>
-</div>
 
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>Tracks student progress on an assignment.</p></li></ul></dd>
+    
 
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="types.ts.html">types.ts</a>, <a href="types.ts.html#line94">line 94</a>
+    </li></ul></dd>
+    
 
-    <h5>Type:</h5>
-    <ul>
-        <li>
-            
-<span class="param-type">object</span>
+    
 
+    
 
-        </li>
-    </ul>
+    
 
+    
 
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
 
 
 
@@ -3905,6 +3308,7 @@ The pool manages multiple client connections and reuses them to optimize databas
 <span class="param-type"><a href="global.html#UUID">UUID</a></span>
 
 
+
             
             </td>
 
@@ -3926,6 +3330,7 @@ The pool manages multiple client connections and reuses them to optimize databas
             
                 
 <span class="param-type"><a href="global.html#UUID">UUID</a></span>
+
 
 
             
@@ -3951,6 +3356,7 @@ The pool manages multiple client connections and reuses them to optimize databas
 <span class="param-type"><a href="global.html#UUID">UUID</a></span>
 
 
+
             
             </td>
 
@@ -3972,6 +3378,7 @@ The pool manages multiple client connections and reuses them to optimize databas
             
                 
 <span class="param-type">boolean</span>
+
 
 
             
@@ -3997,6 +3404,7 @@ The pool manages multiple client connections and reuses them to optimize databas
 <span class="param-type">number</span>
 
 
+
             
             </td>
 
@@ -4014,45 +3422,24 @@ The pool manages multiple client connections and reuses them to optimize databas
 
 
 
-<dl class="details">
 
-    
 
-    
+<div class="description usertext">
+    <p>Tracks student progress on an assignment.</p>
+</div>
 
-    
 
-    
 
-    
+    <h5 class="h5-types">Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">object</span>
 
-    
 
-    
 
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="types.ts.html">types.ts</a>, <a href="types.ts.html#line91">line 91</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
+        </li>
+    </ul>
 
 
 
@@ -4066,23 +3453,50 @@ The pool manages multiple client connections and reuses them to optimize databas
 
 
 
-<div class="description">
-    <p>Tracks student solutions to problems in assignments.</p>
-</div>
 
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>Tracks student solutions to problems in assignments.</p></li></ul></dd>
+    
 
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="types.ts.html">types.ts</a>, <a href="types.ts.html#line102">line 102</a>
+    </li></ul></dd>
+    
 
-    <h5>Type:</h5>
-    <ul>
-        <li>
-            
-<span class="param-type">object</span>
+    
 
+    
 
-        </li>
-    </ul>
+    
 
+    
 
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
 
 
 
@@ -4121,6 +3535,7 @@ The pool manages multiple client connections and reuses them to optimize databas
 <span class="param-type"><a href="global.html#UUID">UUID</a></span>
 
 
+
             
             </td>
 
@@ -4142,6 +3557,7 @@ The pool manages multiple client connections and reuses them to optimize databas
             
                 
 <span class="param-type"><a href="global.html#UUID">UUID</a></span>
+
 
 
             
@@ -4167,6 +3583,7 @@ The pool manages multiple client connections and reuses them to optimize databas
 <span class="param-type">boolean</span>
 
 
+
             
             </td>
 
@@ -4190,6 +3607,7 @@ The pool manages multiple client connections and reuses them to optimize databas
 <span class="param-type">string</span>
 
 
+
             
             </td>
 
@@ -4207,45 +3625,24 @@ The pool manages multiple client connections and reuses them to optimize databas
 
 
 
-<dl class="details">
 
-    
 
-    
+<div class="description usertext">
+    <p>Tracks student solutions to problems in assignments.</p>
+</div>
 
-    
 
-    
 
-    
+    <h5 class="h5-types">Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">object</span>
 
-    
 
-    
 
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="types.ts.html">types.ts</a>, <a href="types.ts.html#line99">line 99</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
+        </li>
+    </ul>
 
 
 
@@ -4259,52 +3656,13 @@ The pool manages multiple client connections and reuses them to optimize databas
 
 
 
-<div class="description">
-    <p>Database Type Definitions
-This file defines TypeScript types used for database entities and permissions.
-It includes user roles, courses, assignments, statements, and access control.</p>
-</div>
-
-
-
-    <h5>Type:</h5>
-    <ul>
-        <li>
-            
-<span class="param-type">string</span>
-
-
-        </li>
-    </ul>
-
-
-
-
 
 <dl class="details">
-
     
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>Database Type Definitions</p>
+<p>This file defines TypeScript types used for database entities and permissions.
+It includes user roles, courses, assignments, statements, and access control.</p></li></ul></dd>
     
 
     
@@ -4319,7 +3677,54 @@ It includes user roles, courses, assignments, statements, and access control.</p
     
 
     
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
 </dl>
+
+
+
+
+
+<div class="description usertext">
+    <p>Database Type Definitions</p>
+<p>This file defines TypeScript types used for database entities and permissions.
+It includes user roles, courses, assignments, statements, and access control.</p>
+</div>
+
+
+
+    <h5 class="h5-types">Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">string</span>
+
+
+
+        </li>
+    </ul>
 
 
 
@@ -4333,23 +3738,50 @@ It includes user roles, courses, assignments, statements, and access control.</p
 
 
 
-<div class="description">
-    <p>Represents a user in the system.</p>
-</div>
 
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>Represents a user in the system.</p></li></ul></dd>
+    
 
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="types.ts.html">types.ts</a>, <a href="types.ts.html#line22">line 22</a>
+    </li></ul></dd>
+    
 
-    <h5>Type:</h5>
-    <ul>
-        <li>
-            
-<span class="param-type">object</span>
+    
 
+    
 
-        </li>
-    </ul>
+    
 
+    
 
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
 
 
 
@@ -4390,6 +3822,7 @@ It includes user roles, courses, assignments, statements, and access control.</p
 <span class="param-type"><a href="global.html#UUID">UUID</a></span>
 
 
+
             
             </td>
 
@@ -4417,6 +3850,7 @@ It includes user roles, courses, assignments, statements, and access control.</p
             
                 
 <span class="param-type">string</span>
+
 
 
             
@@ -4450,6 +3884,7 @@ It includes user roles, courses, assignments, statements, and access control.</p
 <span class="param-type">string</span>
 
 
+
             
             </td>
 
@@ -4481,6 +3916,7 @@ It includes user roles, courses, assignments, statements, and access control.</p
 <span class="param-type">string</span>
 
 
+
             
             </td>
 
@@ -4508,6 +3944,7 @@ It includes user roles, courses, assignments, statements, and access control.</p
             
                 
 <span class="param-type">string</span>
+
 
 
             
@@ -4539,6 +3976,7 @@ It includes user roles, courses, assignments, statements, and access control.</p
 <span class="param-type">string</span>
 
 
+
             
             </td>
 
@@ -4566,6 +4004,7 @@ It includes user roles, courses, assignments, statements, and access control.</p
             
                 
 <span class="param-type">boolean</span>
+
 
 
             
@@ -4597,6 +4036,7 @@ It includes user roles, courses, assignments, statements, and access control.</p
 <span class="param-type">boolean</span>
 
 
+
             
             </td>
 
@@ -4620,45 +4060,24 @@ It includes user roles, courses, assignments, statements, and access control.</p
 
 
 
-<dl class="details">
 
-    
 
-    
+<div class="description usertext">
+    <p>Represents a user in the system.</p>
+</div>
 
-    
 
-    
 
-    
+    <h5 class="h5-types">Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">object</span>
 
-    
 
-    
 
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="types.ts.html">types.ts</a>, <a href="types.ts.html#line19">line 19</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
+        </li>
+    </ul>
 
 
 
@@ -4672,23 +4091,50 @@ It includes user roles, courses, assignments, statements, and access control.</p
 
 
 
-<div class="description">
-    <p>Defines the association of a user with a specific role in a course.</p>
-</div>
 
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>Defines the association of a user with a specific role in a course.</p></li></ul></dd>
+    
 
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="types.ts.html">types.ts</a>, <a href="types.ts.html#line50">line 50</a>
+    </li></ul></dd>
+    
 
-    <h5>Type:</h5>
-    <ul>
-        <li>
-            
-<span class="param-type">object</span>
+    
 
+    
 
-        </li>
-    </ul>
+    
 
+    
 
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
 
 
 
@@ -4727,6 +4173,7 @@ It includes user roles, courses, assignments, statements, and access control.</p
 <span class="param-type"><a href="global.html#UUID">UUID</a></span>
 
 
+
             
             </td>
 
@@ -4748,6 +4195,7 @@ It includes user roles, courses, assignments, statements, and access control.</p
             
                 
 <span class="param-type"><a href="global.html#UUID">UUID</a></span>
+
 
 
             
@@ -4773,6 +4221,7 @@ It includes user roles, courses, assignments, statements, and access control.</p
 <span class="param-type"><a href="global.html#UUID">UUID</a></span>
 
 
+
             
             </td>
 
@@ -4796,6 +4245,7 @@ It includes user roles, courses, assignments, statements, and access control.</p
 <span class="param-type">string</span>
 
 
+
             
             </td>
 
@@ -4813,45 +4263,24 @@ It includes user roles, courses, assignments, statements, and access control.</p
 
 
 
-<dl class="details">
 
-    
 
-    
+<div class="description usertext">
+    <p>Defines the association of a user with a specific role in a course.</p>
+</div>
 
-    
 
-    
 
-    
+    <h5 class="h5-types">Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">object</span>
 
-    
 
-    
 
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="types.ts.html">types.ts</a>, <a href="types.ts.html#line47">line 47</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
+        </li>
+    </ul>
 
 
 
@@ -4869,19 +4298,21 @@ It includes user roles, courses, assignments, statements, and access control.</p
 
 
 
+    
+    
 </div>
-
-<nav>
-    <h2><a href="index.html">Home</a></h2><h3>Interfaces</h3><ul><li><a href="DatabaseUserAttributes.html">DatabaseUserAttributes</a></li></ul><h3>Global</h3><ul><li><a href="global.html#adapter">adapter</a></li><li><a href="global.html#db">db</a></li><li><a href="global.html#expiresAt">expiresAt</a></li><li><a href="global.html#getUserAttributes">getUserAttributes</a></li><li><a href="global.html#id">id</a></li><li><a href="global.html#lucia">lucia</a></li><li><a href="global.html#pool">pool</a></li><li><a href="global.html#sessionTable">sessionTable</a></li><li><a href="global.html#userId">userId</a></li><li><a href="global.html#userTable">userTable</a></li></ul>
-</nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Mon Mar 31 2025 18:04:25 GMT-0500 (Central Daylight Time)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.4</a> on Mon Mar 31 2025 18:09:09 GMT-0500 (Central Daylight Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
-<script> prettyPrint(); </script>
-<script src="scripts/linenumber.js"> </script>
+<script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+
+
 </body>
 </html>

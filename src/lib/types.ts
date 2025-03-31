@@ -1,7 +1,10 @@
 /**
- * Database Type Definitions
+ * @fileoverview Database Type Definitions
+ * 
  * This file defines TypeScript types used for database entities and permissions.
  * It includes user roles, courses, assignments, statements, and access control.
+ * 
+ * @module db-types
  */
 export type UUID = string;
 

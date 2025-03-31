@@ -29,6 +29,7 @@
 		"@tailwindcss/typography": "^0.5.14",
 		"autoprefixer": "^10.4.20",
 		"better-docs": "^2.7.3",
+		"docdash": "^2.0.2",
 		"jsdoc": "^4.0.4",
 		"svelte": "^5.0.0",
 		"svelte-check": "^4.0.0",

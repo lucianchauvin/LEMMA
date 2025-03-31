@@ -1,3 +1,11 @@
+/**
+ * @fileoverview Database Connection Module
+ * 
+ * This module sets up a connection to the PostgreSQL database using the `pg` library
+ * and initializes a connection pool for managing database connections.
+ * 
+ * @module db-connection
+ */
 import fs from 'fs';
 import pg from 'pg';
 import { PGUSER, PGDATABASE, PGPASSWORD, PGPORT } from '$env/static/private';
