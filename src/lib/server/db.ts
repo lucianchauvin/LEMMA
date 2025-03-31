@@ -6,8 +6,18 @@ import { PGUSER, PGDATABASE, PGPASSWORD, PGPORT } from '$env/static/private';
 const PGHOST = "18.225.72.236";
 
 /**
-* Creates a Postgres client specific to this server request.
-*/
+ * Creates a Postgres client pool for managing connections to the PostgreSQL database.
+ * The pool manages multiple client connections and reuses them to optimize database access.
+ *
+ * @constant
+ * @type {pg.Pool}
+ * @property {string} host - The IP address or hostname of the PostgreSQL server.
+ * @property {string} user - The username for authentication to the database.
+ * @property {string} password - The password used for authentication, decoded from base64.
+ * @property {number} port - The port on which the PostgreSQL server is listening.
+ * @property {number} connectionTimeoutMillis - The timeout duration (in milliseconds) for establishing a connection to the server.
+ * 
+ */
 export const pool = new pg.Pool({
     host: PGHOST,
     user: PGUSER,
