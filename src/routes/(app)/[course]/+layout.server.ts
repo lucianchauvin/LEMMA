@@ -22,7 +22,7 @@ export const load = (async ({parent, params, locals: { safeQuery, permCheck }}) 
     const course = courseResult[0];
 
     let student = false;
-    if(user) {
+    if(user && !user.isAdmin) {
         const {data: courseRole, error: roleErr} = await safeQuery(`SELECT * FROM user_roles WHERE user_id=$1 AND course_id=$2`, [user.id, course.course_id]);
 
         if(roleErr) {
