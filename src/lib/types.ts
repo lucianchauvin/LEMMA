@@ -188,3 +188,6 @@ export type ProblemStatement = {
 export type SafeQueryResult<T> = 
     | { data: T[]; error: null }
     | { data: null; error: string }
+
+export type PermCheckResult = 
+    { data: {access: boolean; target_roles?: string[]}; error: string | null }

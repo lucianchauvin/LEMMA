@@ -1,5 +1,5 @@
 import type { PageServerLoad } from './$types';
-import type { Course, Assignment, Reading } from '$lib/types';
+import type { Assignment, Reading } from '$lib/types';
 import { error } from '@sveltejs/kit';
 
 export const load = (async ({parent, params, locals: { safeQuery }}) => {
@@ -17,7 +17,6 @@ export const load = (async ({parent, params, locals: { safeQuery }}) => {
     }
 
     return {
-        title: `${course.course_number}: ${course.course_name}`,
         course: {
             id: course.course_id,
             name: course.course_name,

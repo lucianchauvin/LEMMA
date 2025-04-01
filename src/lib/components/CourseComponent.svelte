@@ -21,17 +21,17 @@
   <footer>
       <div class="inline-block flex flex-wrap gap-5 align-center justify-center">
           <button type="button" class="btn-icon">
-              <a href="/{course_id}">
+              <a href="/{course_id}" id="assignments">
                   <BookMarked />
               </a>
           </button>
           <button type="button" class="btn-icon">
-              <a href="/{course_id}/grades">
+              <a href="/{course_id}/grades" id="grades">
                   <BookCheck />
               </a>
           </button>
           <button type="button" class="btn-icon">
-              <a href="/{course_id}/statements">
+              <a href="/{course_id}/statements" id="statements">
                   <SquareFunction />
               </a>
           </button>

@@ -1,5 +1,9 @@
 // See https://svelte.dev/docs/kit/types#app.d.ts
 // for information about these interfaces
+
+import type { QueryResultRow } from 'pg';
+import type { Permission, UUID, SafeQueryResult, PermCheckResult } from '$lib/types';
+
 declare global {
 	namespace App {
 		// interface Error {}
@@ -9,9 +13,15 @@ declare global {
             params?: any[]
         ) => Promise<SafeQueryResult<T>>;
         getSession: () => Promise<{
-            user: import("lucia").User | null; 
+            user: import("lucia").User & {isAdmin: boolean} | null; 
             session: import("lucia").Session | null
-        }>
+        }>;
+        permCheck: (
+            permission: Permission,
+            courseId?: UUID,
+            targetRoles?: string[]
+        ) => Promise<PermCheckResult>
+
     }
 		// interface PageData {}
 		// interface PageState {}

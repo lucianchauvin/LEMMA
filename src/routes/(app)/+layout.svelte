@@ -7,13 +7,6 @@
 
     import { goto } from '$app/navigation'; 
     import { onMount } from 'svelte';
-
-    const excludeChecks = ['/login', '/logout', '/signup'];
-
-    onMount(() => {
-        if(!data.session && !excludeChecks.includes(page.url.pathname))
-            goto('/login');
-    })
 </script>
 
 <div class="h-screen">
@@ -28,16 +21,18 @@
     </div>
 
     <div class="flex items-center gap-4">
+    {#if data.user && data.user.isAdmin}
     <a id="admin" href="/admin" class="btn btn-sm border-2 border-error-600 bg-surface-100 hover:variant-filled-error shadow-lg shadow-surface-900 text-error-600" data-sveltekit-reload>
         Admin Panel
     </a>
+    {/if}
 
     <!-- <div id="pfp"> -->
     <!--     <Avatar initials="AZ" background="bg-secondary-200"/> -->
     <!-- </div> -->
 
     {#if data.session}
-    <form method="GET" action="/logout" data-sveltekit-reload>
+    <form method="GET" action="/logout">
       <button id="logout" class="btn btn-sm border-2 border-surface-600 bg-surface-100 hover:variant-filled-surface shadow-lg shadow-surface-900 text-surface-600">Logout</button>
     </form>
     {:else}

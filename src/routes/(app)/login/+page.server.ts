@@ -34,7 +34,8 @@ export const actions: Actions = {
             });
         }
 
-        const {data: [existingUser], error: userErr} = await safeQuery<User>(`SELECT * FROM users WHERE username=$1`, [username]);
+        const {data: userData, error: userErr} = await safeQuery<User>(`SELECT * FROM users WHERE username=$1`, [username]);
+        let existingUser = userData ? userData[0]: null;
 
         if (userErr) {
             console.error("ERROR: Database failed to query user:", userErr);
