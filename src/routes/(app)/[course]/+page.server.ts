@@ -7,6 +7,7 @@ export const load = (async ({parent, params, locals: { safeQuery, permCheck }}) 
     const {course, permissions} = await parent();
     const {data: assignmentResult, error: assignmentErr} = await safeQuery<Assignment>("SELECT * FROM assignments WHERE assignments.course_id=$1", [params.course]);
     const {data: createAssignments, error: createAssignmentErr} = await permCheck('create_assignments', course.course_id);
+    const {data: deleteAssignments, error: deleteAssignmentErr} = await permCheck('delete_assignments', course.course_id);
 
     if(assignmentErr) {
         console.error('ERROR: Database failed to query assignments for course:', assignmentErr);
@@ -15,6 +16,10 @@ export const load = (async ({parent, params, locals: { safeQuery, permCheck }}) 
     if(createAssignmentErr) {
         console.error('ERROR: Failed to determine permission for creating assignments:', createAssignmentErr);
         error(500, {message: 'Failed to determine permission for creating assignments'})
+    }
+    if(createAssignmentErr) {
+        console.error('ERROR: Failed to determine permission for deleting assignments:', deleteAssignmentErr);
+        error(500, {message: 'Failed to determine permission for deleting assignments'})
     }
 
     return {
@@ -27,7 +32,8 @@ export const load = (async ({parent, params, locals: { safeQuery, permCheck }}) 
         assignments: assignmentResult,
         permissions: {
             ...permissions,
-            create_assignments: createAssignments
+            create_assignments: createAssignments,
+            delete_assignments: deleteAssignments,
         }
     };
 }) satisfies PageServerLoad;
@@ -44,7 +50,7 @@ export const actions: Actions = {
 
         const {data: assignmentData, error: assignmentErr} = await permCheck('create_assignments', courseId as UUID);
         if(assignmentErr) {
-            console.error('Failed to check permission of user for creating assignments:', assignmentErr)
+            console.error('ERROR: Failed to check permission of user for creating assignments:', assignmentErr)
             throw error(500, {message: "Failed to check permission of user for creating assignments"})
         }
         if(!assignmentData.access) {
@@ -66,37 +72,37 @@ export const actions: Actions = {
         [courseId, name, description, active, new Date(dueDate)]);
 
         if(insertErr) {
-            console.error('Failed to insert assignment:', assignmentErr)
+            console.error('ERROR: Failed to insert assignment:', assignmentErr)
             throw error(500, {message: "Failed to insert assignment"})
         }
     },
     delete: async ({ request, locals: { safeQuery, permCheck } }) => {
         const formData = await request.formData();
-        const courseId = formData.get("courseId");
+        const courseId = formData.get('courseId');
+        const assignmentId = formData.get('assignmentId');
 
         if(!courseId || typeof courseId !== 'string' || !isUUID(courseId)){
             return fail(400, {message: "Course id is incorrect"});
         }
+        if(!assignmentId || typeof assignmentId !== 'string' || !isUUID(assignmentId)){
+            return fail(400, {message: "Assignment id is incorrect"});
+        }
 
         const {data: assignmentData, error: assignmentErr} = await permCheck('delete_assignments', courseId as UUID);
         if(assignmentErr) {
-            console.error('Failed to check permission of user for deleting assignments:', assignmentErr)
+            console.error('ERROR: Failed to check permission of user for deleting assignments:', assignmentErr)
             throw error(500, {message: "Failed to check permission of user for deleting assignments"})
         }
         if(!assignmentData.access) {
             return fail(403, {message: "Do not have permission to delete an assignment"});
         }
 
-        const assignmentId = formData.get("assignmentId");
-
-        if(typeof assignmentId !== 'string' || !isUUID(assignmentId)) return fail(400, {message: "Assignment id is incorrecrt"});
-
         const {error: deleteErr} = await safeQuery(
             `DELETE FROM assignments WHERE assignment_id=$1`, 
         [assignmentId]);
 
         if(deleteErr) {
-            console.error('Failed to delete assignment:', assignmentErr)
+            console.error('ERROR: Failed to delete assignment:', assignmentErr)
             throw error(500, {message: "Failed to delete assignment"})
         }
     },
