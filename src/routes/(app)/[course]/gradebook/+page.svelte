@@ -6,7 +6,6 @@
     const assignmentsData = data.assignments ?? [];
     $:studentAssignmentsData = data.student_assignments ?? [];
     
-    //filter users who are students
     const students = data.users.filter((user) => {
         return data.user_roles.some((role) => role.user_id === user.user_id && role.role_name === 'student')
     });
