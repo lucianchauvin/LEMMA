@@ -7,7 +7,8 @@
 
 <h2 class="h2 pb-3 ml-2 font-semibold border-b-2 border-surface-200">Course Assignments</h2>
 
-<div >
+{#if data.permissions.create_assignments.access}
+<div>
     <form method="post" action="?/create" enctype="multipart/form-data" class="flex flex-col gap-2" 
     use:enhance={({formData}) => formData.append('courseId', data.course.id)}
     >
@@ -16,9 +17,9 @@
         <label for="description">Description:</label>
         <textarea name="description" id="assignment-description"></textarea>
         <label for="active">Active:</label>
-        <input type="checkbox" name="active" value="yes">
+        <input type="checkbox" name="active" value="yes" checked>
         <label for="dueDate">Due Date:</label>
-        <input type="date" name="dueDate" value={Date.now()}>
+        <input type="date" name="dueDate" value={new Date().toISOString().split('T')[0]}>
         <button class="btn btn-sm border-2 border-surface-600 bg-surface-100 hover:variant-filled-surface text-surface-600" id="submit">Submit</button>
     </form>
 
@@ -29,6 +30,7 @@
       <p>{form.error}</p>
     {/if}
 </div>
+{/if}
 
 <div class="table-wrapper pt-8 pr-3">
     <table class="table border border-gray-200 shadow-lg rounded-lg">

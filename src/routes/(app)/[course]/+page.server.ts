@@ -1,6 +1,6 @@
 import type { PageServerLoad, Actions } from './$types';
 import { isUUID } from '$lib/util';
-import type { UUID, Assignment, Reading } from '$lib/types';
+import type { UUID, Assignment } from '$lib/types';
 import { error, fail } from '@sveltejs/kit';
 
 export const load = (async ({parent, params, locals: { safeQuery, permCheck }}) => {
@@ -56,8 +56,6 @@ export const actions: Actions = {
         const active = formData.get("active") == "yes";
         const dueDate = formData.get("dueDate");
 
-        console.log(name, description, active, dueDate);
-
         if(typeof name !== 'string') return fail(400, {message: "Assignment name isn't a string"});
         if(typeof description !== 'string') return fail(400, {message: "Assignment description isn't a string"});
         if(typeof active !== 'boolean') return fail(400, {message: "Active isn't a boolean"});
@@ -72,6 +70,34 @@ export const actions: Actions = {
             throw error(500, {message: "Failed to insert assignment"})
         }
     },
-    delete: async ({ request, locals: { safeQuery } }) => {
-    }
+    delete: async ({ request, locals: { safeQuery, permCheck } }) => {
+        const formData = await request.formData();
+        const courseId = formData.get("courseId");
+
+        if(!courseId || typeof courseId !== 'string' || !isUUID(courseId)){
+            return fail(400, {message: "Course id is incorrect"});
+        }
+
+        const {data: assignmentData, error: assignmentErr} = await permCheck('delete_assignments', courseId as UUID);
+        if(assignmentErr) {
+            console.error('Failed to check permission of user for deleting assignments:', assignmentErr)
+            throw error(500, {message: "Failed to check permission of user for deleting assignments"})
+        }
+        if(!assignmentData.access) {
+            return fail(403, {message: "Do not have permission to delete an assignment"});
+        }
+
+        const assignmentId = formData.get("assignmentId");
+
+        if(typeof assignmentId !== 'string' || !isUUID(assignmentId)) return fail(400, {message: "Assignment id is incorrecrt"});
+
+        const {error: deleteErr} = await safeQuery(
+            `DELETE FROM assignments WHERE assignment_id=$1`, 
+        [assignmentId]);
+
+        if(deleteErr) {
+            console.error('Failed to delete assignment:', assignmentErr)
+            throw error(500, {message: "Failed to delete assignment"})
+        }
+    },
 }

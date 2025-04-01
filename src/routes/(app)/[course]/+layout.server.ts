@@ -1,6 +1,6 @@
 import type { LayoutServerLoad } from './$types';
 import type { Course } from '$lib/types';
-import { error } from '@sveltejs/kit';
+import { error, fail } from '@sveltejs/kit';
 
 export const load = (async ({parent, params, locals: { safeQuery, permCheck }}) => {
     const {user, session} = await parent();
@@ -26,8 +26,12 @@ export const load = (async ({parent, params, locals: { safeQuery, permCheck }}) 
         const {data: courseRole, error: roleErr} = await safeQuery(`SELECT * FROM user_roles WHERE user_id=$1 AND course_id=$2`, [user.id, course.course_id]);
 
         if(roleErr) {
-            console.log(`ERROR: Database failed to query user roles for ${user.id} and ${course.course_id} pair:`, roleErr);
+            console.error(`ERROR: Database failed to query user roles for ${user.id} and ${course.course_id} pair:`, roleErr);
             throw error(500, {message: 'Database failed to query user roles'});
+        }
+        if(courseRole!.length == 0) {
+            console.error(`ERROR: User trying to access course but don't have a role for it`);
+            throw error(500, {message: 'User trying to access course but don\'t have a role for it'});
         }
 
         student = courseRole![0].role_name === 'student';
