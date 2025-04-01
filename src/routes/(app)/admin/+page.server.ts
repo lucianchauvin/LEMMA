@@ -1,11 +1,7 @@
-import { json } from '@sveltejs/kit';
-import type { RequestHandler } from './$types';
+import type { PageServerLoad, Actions } from "./$types";
 
-export const GET: RequestHandler = async ({request, locals: { safeQuery } }) => {
-    console.log('[API] received GET request at /components/data');
-        console.log('[API] running database query...');
-
-    const { data, error } = await safeQuery(`
+export const load: PageServerLoad = async ({locals: { safeQuery }}) => {
+    const { data: userData, error: userErr } = await safeQuery(`
     SELECT
         users.first_name,
         users.last_name,
@@ -16,25 +12,27 @@ export const GET: RequestHandler = async ({request, locals: { safeQuery } }) => 
     LEFT JOIN user_roles ON users.user_id = user_roles.user_id;
     `);
 
-    if(error) {
-        console.error('[API] Databse query failed:', error);
+    if(userErr) {
+        console.error('[API] Databse query failed:', userErr);
         error(500, {message: '[API] Databse query failed'})
-
     }
 
-    console.log('Fetched users:', data);
-    return json(data);
+    return {
+        userData
+    }
 }
-
-import type { PageServerLoad, Actions } from "../$types";
 
 export const actions: Actions = {
     add: async ({ request, params, locals: { safeQuery } }) => {
         const formData = await request.formData();
-        const firstName = formData.get("first_name") as string;
-        const lastName = formData.get("last_name") as string;
+        const selectedUserId = formData.get("user_id") as string;
 
-        const {data: user, error: userErr} = await safeQuery("SELECT * FROM users WHERE LOWER(first_name) = LOWER($1) AND LOWER(last_name) = LOWER($2)", [firstName, lastName]);
+        if (!selectedUserId) {
+            console.error("ERROR: No user selected");
+            return fail(400, { message: "No student selected" });
+        }
+
+        const {data: user, error: userErr} = await safeQuery("SELECT * FROM users WHERE user_id = $1", [selectedUserId]);
 
         if (userErr || !user || user.length === 0)
         {
@@ -54,6 +52,7 @@ export const actions: Actions = {
         }
 
         if (userRole.length > 0) {
+            console.error("ERROR: Student is already in the course");
             fail(400, { message: "Student is already in the course" });
         }
 
