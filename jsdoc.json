@@ -9,7 +9,8 @@
     "opts": {
       "destination": "./jsdoc",
       "recurse": true,
-      "template": "node_modules/docdash"  
+      "template": "node_modules/docdash",  
+      "readme": "README.md"
     },
     "typescript": {
       "enabled": true,
