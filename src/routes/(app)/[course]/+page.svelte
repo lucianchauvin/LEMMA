@@ -43,7 +43,7 @@
             {#each (data.assignments ?? []) as assignment}
                 <tr class="border-t border-gray-300 text-center">
                     <td class="p-3 {!assignment.active && 'bg-error-100'}"> 
-                        <a class="anchor" href="/{data.course.id}/assignment/{assignment.assignment_id}">
+                        <a class="anchor" href="/{data.course.id}/assignment/{assignment.assignment_id}/{data.studentAssignments.find(sa => sa.assignment_id === assignment.assignment_id)?.student_assignment_id ?? ''}">
                             {assignment.assignment_name}
                         </a>
                     </td>

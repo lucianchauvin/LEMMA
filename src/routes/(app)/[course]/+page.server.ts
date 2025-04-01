@@ -1,13 +1,30 @@
 import type { PageServerLoad, Actions } from './$types';
 import { isUUID } from '$lib/util';
-import type { UUID, Assignment } from '$lib/types';
+import type { UUID, Assignment, StudentAssignment } from '$lib/types';
 import { error, fail } from '@sveltejs/kit';
 
 export const load = (async ({parent, params, locals: { safeQuery, permCheck }}) => {
-    const {course, permissions} = await parent();
+    const {user, course, permissions} = await parent();
     const {data: assignmentResult, error: assignmentErr} = await safeQuery<Assignment>("SELECT * FROM assignments WHERE assignments.course_id=$1", [params.course]);
     const {data: createAssignments, error: createAssignmentErr} = await permCheck('create_assignments', course.course_id);
     const {data: deleteAssignments, error: deleteAssignmentErr} = await permCheck('delete_assignments', course.course_id);
+
+    let studentAssignments: StudentAssignment[] = [];
+    if(user.student) {
+        const {data: tmpData, error: studentAssignmentErr} = await safeQuery<StudentAssignment>(
+            `SELECT 
+                sa.*
+            FROM student_assignments sa
+            JOIN assignments a ON sa.assignment_id = a.assignment_id
+            WHERE a.course_id = $1 AND sa.student_id = $2`,
+        [params.course, user.id]);
+        
+        if(studentAssignmentErr) {
+            console.error('ERROR: Database failed to query student assignments for course:', studentAssignmentErr);
+            error(500, {message: 'Database failed to query student assignments for course'})
+        }
+        studentAssignments = tmpData!;
+    }
 
     if(assignmentErr) {
         console.error('ERROR: Database failed to query assignments for course:', assignmentErr);
@@ -30,6 +47,7 @@ export const load = (async ({parent, params, locals: { safeQuery, permCheck }}) 
             description: course.course_description,
         },
         assignments: assignmentResult,
+        studentAssignments,
         permissions: {
             ...permissions,
             create_assignments: createAssignments,

@@ -7,7 +7,7 @@
     import Circle from '@lucide/svelte/icons/circle';
     import CircleCheckBig from '@lucide/svelte/icons/circle-check-big';
 
-    const urlBase = `/${data.course.course_id}/assignment/${data.assignment.assignment_id}`;
+    const urlBase = `/${data.course.course_id}` + ((data.user.student) ? `/assignment/${data.assignment.assignment_id}`: '');
 
     $: activeProblem = (data.problems.length > 0) ? 0 : null;
 
