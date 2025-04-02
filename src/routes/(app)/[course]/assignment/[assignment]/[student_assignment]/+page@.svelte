@@ -11,12 +11,12 @@
 
     $: activeProblem = (data.problems.length > 0) ? 0 : null;
 
-    $: problemFile = data.problems[activeProblem].problem_filepath;
-    $: proofFile = data.problems[activeProblem].proof_filepath;
-    $: tactics = data.problems[activeProblem].statements.filter((s) => s.statement_type === 'tactic');
-    $: definitions = data.problems[activeProblem].statements.filter((s) => s.statement_type === 'definition');
-    $: theorems = data.problems[activeProblem].statements.filter((s) => s.statement_type === 'theorem');
-    $: theoremCategories = new Set(theorems.map(theorem => theorem.statement_category));
+    $: problemFile = data.problems[activeProblem]?.problem_filepath;
+    $: proofFile = data.problems[activeProblem]?.proof_filepath;
+    $: tactics = data.problems[activeProblem]?.statements.filter((s) => s.statement_type === 'tactic');
+    $: definitions = data.problems[activeProblem]?.statements.filter((s) => s.statement_type === 'definition');
+    $: theorems = data.problems[activeProblem]?.statements.filter((s) => s.statement_type === 'theorem');
+    $: theoremCategories = new Set(theorems?.map(theorem => theorem.statement_category));
 
     let activeTheoremCategory;
 
@@ -29,6 +29,9 @@
     const project = "mathlib-demo";
 
     async function load() {
+        if(data.problems.length == 0)
+            return '';
+
         const response = await fetch('/apiv2/loadProof', {
             method: 'POST',
             headers: {
@@ -41,6 +44,9 @@
     }
 
     async function save() {
+        if(data.problems.length == 0)
+            return;
+
         console.log(`[Lean4web] Saving proof...`);
         const response = await fetch('/apiv2/saveProof', {
             method: 'POST',
@@ -167,7 +173,7 @@
                 {/each}
 
                 <div class="flex flex-wrap gap-1" slot="panel">
-                {#each theorems.filter((s) => s.statement_category === activeTheoremCategory) as theorem}
+                {#each theorems?.filter((s) => s.statement_category === activeTheoremCategory) as theorem}
                     <span class="chip variant-ringed">
                     {theorem.statement_name}
                     </span>

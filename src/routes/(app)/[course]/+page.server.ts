@@ -85,13 +85,67 @@ export const actions: Actions = {
         if(typeof active !== 'boolean') return fail(400, {message: "Active isn't a boolean"});
         if(typeof dueDate !== 'string') return fail(400, {message: "Date isn't a string"});
 
-        const {error: insertErr} = await safeQuery(
-            `INSERT INTO assignments (course_id, assignment_name, assignment_description, active, due_date) VALUES ($1, $2, $3, $4, $5)`, 
+        const {data: assignmentRet, error: insertErr} = await safeQuery<{assignment_id: UUID}>(
+            `INSERT INTO assignments (course_id, assignment_name, assignment_description, active, due_date) VALUES ($1, $2, $3, $4, $5) RETURNING assignment_id`, 
         [courseId, name, description, active, new Date(dueDate)]);
 
         if(insertErr) {
             console.error('ERROR: Failed to insert assignment:', assignmentErr)
             throw error(500, {message: "Failed to insert assignment"})
+        }
+        if(assignmentRet!.length == 0) {
+            console.error('ERROR: Failed to get an assignment id from inserting an assignment');
+            throw error(500, {message: "Failed to get an assignment id from inserting an assignment"})
+        }
+        const assignmentId = assignmentRet![0].assignment_id;
+
+        // insert edit assignment
+        const {error: insertEditStudentErr} = await safeQuery(
+            `INSERT INTO student_assignments (assignment_id, edit)
+            VALUES ($1, true)`,
+        [assignmentId]);
+
+        if(insertEditStudentErr) {
+            console.error('ERROR: Failed to insert edit student assignment to newly created course:', insertEditStudentErr);
+
+            const {error: deleteErr} = await safeQuery(
+                `DELETE FROM assignments WHERE assignment_id=$1`, 
+            [assignmentId]);
+            
+            if(deleteErr) {
+                console.error('ERROR: Failed to delete newly created assignment:', deleteErr);
+            }
+
+            throw error(500, {message: "Failed to insert edit student assignment to newly created course"})
+        }
+
+        // add student assignments 
+        const {error: insertStudentErr} = await safeQuery(
+            `INSERT INTO student_assignments (assignment_id, student_id)
+            SELECT $1, user_roles.user_id
+            FROM user_roles
+            WHERE user_roles.course_id=$2 AND user_roles.role_name='student'`,
+        [assignmentId, courseId]);
+
+        if(insertStudentErr) {
+            console.error('ERROR: Failed to insert student assignments to newly created course:', insertStudentErr);
+
+            const {error: deleteErr} = await safeQuery(
+                `DELETE FROM assignments WHERE assignment_id=$1`, 
+            [assignmentId]);
+
+            const {error: deleteEditErr} = await safeQuery<{assignment_id: UUID}>(
+                `DELETE FROM student_assignments WHERE assignment_id=$1`, 
+            [assignmentId]);
+            
+            if(deleteErr) {
+                console.error('ERROR: Failed to delete newly created assignment:', deleteErr);
+            }
+            if(deleteEditErr) {
+                console.error('ERROR: Failed to delete newly created assignment edit page:', deleteEditErr);
+            }
+
+            throw error(500, {message: "Failed to insert student assignments to newly created course"});
         }
     },
     delete: async ({ request, locals: { safeQuery, permCheck } }) => {
