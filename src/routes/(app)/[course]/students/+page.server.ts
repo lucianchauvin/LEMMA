@@ -2,10 +2,9 @@ import type { PageServerLoad, Actions } from "../$types";
 import type { User, UserRole} from "$lib/types";
 import { error, fail } from "@sveltejs/kit";
 
-export const load = (async ({ parent, params, locals: { safeQuery } }) => {
-    const { course } = await parent();
-    // Fetch all users
-    const { data: userResult, error: userErr } = await safeQuery<User>("SELECT u.* FROM users u");
+export const load = (async ({params, locals: { safeQuery } }) => {
+    // Fetch all non admin users
+    const { data: userResult, error: userErr } = await safeQuery<User>("SELECT u.* FROM users u WHERE u.is_super_admin=false");
     const {data: userRoleResult, error: userRoleErr} 
     = await safeQuery<UserRole>("SELECT ur.*, r.display_name FROM user_roles ur JOIN roles r ON ur.role_name = r.role_name WHERE ur.course_id = $1", [params.course]); 
 
@@ -20,13 +19,6 @@ export const load = (async ({ parent, params, locals: { safeQuery } }) => {
     }
 
     return {
-        title: `${course.number}: ${course.name}`,
-        course: {
-            id: course.id, 
-            name: course.name,
-            number: course.number,
-            description: course.description,
-        },
         users: userResult,
         user_roles: userRoleResult,
     };
@@ -53,7 +45,7 @@ export const actions: Actions = {
         //Check if user is already in course
         const {data: userRole, error: roleErr} = await safeQuery(
             "SELECT * FROM user_roles WHERE user_id = $1 AND course_id = $2", 
-            [user.user_id, params.course]
+            [selectedUserId, params.course]
         );
 
         if (roleErr) {
@@ -61,7 +53,7 @@ export const actions: Actions = {
             fail(500, { message: "Unable to check if student is added" });
         }
 
-        if (userRole.length > 0) {
+        if (userRole!.length > 0) {
             console.error("ERROR: Student is already in the course");
             fail(400, { message: "Student is already in the course" });
         }

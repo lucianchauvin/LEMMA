@@ -6,13 +6,13 @@
     export let data;
 
     // Filter users who are students
-    $:students = data.users.filter((user) => {
+    $: students = data.users.filter((user) => {
         return data.user_roles.some((role) => role.user_id === user.user_id && role.role_name === 'student')
     });
 
     // Filter users who are students and are not assigned to the course
     $: nonAssignedStudents = data.users.filter((user) => {
-        return !data.user_roles.some((role) => role.user_id === user.user_id && role.role_name !== 'student') && !user.is_super_admin;
+        return !data.user_roles.some((role) => role.user_id === user.user_id && role.role_name);
     });
 </script>
 
