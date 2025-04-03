@@ -34,6 +34,7 @@ export const POST: RequestHandler = async ({ request, locals: { safeQuery, permC
         const { data: proofRes, error: proofErr} = await safeQuery(`INSERT INTO student_proofs (problem_id, student_assignment_id) VALUES ($1, $2) RETURNING proof_id`, [problemId, studentAssignmentId]);
 
         if(proofErr) {
+            console.log(error)
             throw error(400, { message: 'Bad Request'})
         }
 
@@ -45,7 +46,7 @@ export const POST: RequestHandler = async ({ request, locals: { safeQuery, permC
         const content = await fs.readFile(filePath, 'utf-8');
         return json({ content });
     } catch (err) {
-        console.error('Error loading proof, attempting to load problem file:', err);
+        console.error('Proof doesnt exist, attempting to load problem file proofId: ', proofId, ' problemId: ', problemId);
         try {
             const problemFilePath = path.join(BASE_PROBLEM_DIR, problemId);
             const content = await fs.readFile(problemFilePath, 'utf-8');

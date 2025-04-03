@@ -12,8 +12,6 @@
 
     $: activeProblem = (data.problems.length > 0) ? 0 : null;
 
-    $: problemFile = data.problems[activeProblem].problem_filepath;
-    $: proofFile = data.problems[activeProblem].proof_filepath;
     $: tactics = data.problems[activeProblem].statements.filter((s) => s.statement_type === 'tactic');
     $: definitions = data.problems[activeProblem].statements.filter((s) => s.statement_type === 'definition');
     $: theorems = data.problems[activeProblem].statements.filter((s) => s.statement_type === 'theorem');
@@ -26,10 +24,15 @@
     let leanMonaco;
     let leanMonacoEditor;
     let saveInterval;
+    let interval = 5000;
+    let isProcessing = false;
     
     const project = "mathlib-demo";
 
     async function load() {
+        while (isProcessing) await new Promise(resolve => setTimeout(resolve, 50));
+        isProcessing = true;
+
         const response = await fetch('/apiv2/loadProof', {
             method: 'POST',
             headers: {
@@ -39,28 +42,36 @@
                 courseId: data.course.course_id, 
                 proofId: data.problems[activeProblem].proof_id, 
                 problemId: data.problems[activeProblem].problem_id,
-                studentAssignment: $page.params.student_assignment
+                studentAssignmentId: $page.params.student_assignment
             })
         });
         let value = await response.json();
+        isProcessing = false;
         return value['content'];
     }
 
     async function save() {
+        while (isProcessing) await new Promise(resolve => setTimeout(resolve, 50));
+        isProcessing = true;
         console.log(`[Lean4web] Saving proof...`);
         const response = await fetch('/apiv2/saveProof', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({courseId: data.course.course_id, proofId: data.problems[activeProblem].proof_id, problemId: data.problems[activeProblem].problem_id, content: leanMonacoEditor.editor.getValue()})
+            body: JSON.stringify({
+                courseId: data.course.course_id, 
+                proofId: data.problems[activeProblem].proof_id, 
+                problemId: data.problems[activeProblem].problem_id, 
+                content: leanMonacoEditor.editor.getValue()
+            })
         });
+        isProcessing = false;
     }
     
     onMount(async () => {
         activeTheoremCategory = (theorems.map(theorem => theorem.statement_category))[0];
 
-        saveInterval = setInterval(save, 5000); // Fetch every 5 seconds
 
         const socketUrl = ((window.location.protocol === "https:") ? "wss://" : "ws://") +
         window.location.host + "/websocket/" + project;
@@ -83,6 +94,8 @@
                 leanMonacoEditor.start(editorRef, `/project/scratch.lean`, proofCont);
             });
         });
+
+        saveInterval = setInterval(save, interval);
     });
 
     onDestroy(() => {
@@ -143,7 +156,6 @@
             <div id="editor" bind:this={editorRef} class="h-full"></div>
             <div id="goal">
                 <h3 class="h3">Current Goal</h3>
-                {problemFile}
             </div>
             <div id="editor-output" bind:this={infoviewRef} class="h-full"></div>
         </div>
