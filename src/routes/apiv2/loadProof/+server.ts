@@ -34,7 +34,7 @@ export const POST: RequestHandler = async ({ request, locals: { safeQuery, permC
         const { data: proofRes, error: proofErr} = await safeQuery(`INSERT INTO student_proofs (problem_id, student_assignment_id) VALUES ($1, $2) RETURNING proof_id`, [problemId, studentAssignmentId]);
 
         if(proofErr) {
-            console.log(error)
+            console.log(proofErr)
             throw error(400, { message: 'Bad Request'})
         }
 
