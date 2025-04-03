@@ -33,3 +33,6 @@ Projects/mathlib-demo/lake-manifest.json
 /playwright-report/
 /blob-report/
 /playwright/.cache/
+
+# Jsdoc
+/jsdoc/

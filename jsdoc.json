@@ -1,0 +1,19 @@
+{
+    "plugins": [
+      "node_modules/better-docs/typescript",
+      "plugins/markdown"],
+    "source": {
+      "include": ["src/lib"],
+      "includePattern": "\\.(ts|tsx)$"
+    },
+    "opts": {
+      "destination": "./jsdoc",
+      "recurse": true,
+      "template": "node_modules/docdash",  
+      "readme": "README.md"
+    },
+    "typescript": {
+      "enabled": true,
+      "moduleRoot": "src/lib"
+    }
+}

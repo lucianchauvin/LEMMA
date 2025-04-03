@@ -54,7 +54,6 @@ export const load = (async ({parent, params, locals: { safeQuery, permCheck }}) 
         error(500, {message: 'Failed to determine permission for viewing course statements'})
     }
 
-
     return {
         course,
         permissions: {

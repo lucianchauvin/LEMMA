@@ -8,6 +8,7 @@
 	},
 	"scripts": {
 		"dev": "cross-env NODE_ENV=development vite",
+		"jsdoc": "jsdoc -c jsdoc.json",
 		"build_client": "cross-env NODE_ENV=production vite build",
 		"build_server": "cross-env NODE_ENV=production server/build.sh",
 		"build": "concurrently \"npm run build_client\" \"npm run build_server\" -n client,server -c \"bgBlue.bold,bgMagenta.bold\"",
@@ -29,6 +30,9 @@
 		"@tailwindcss/forms": "^0.5.10",
 		"@tailwindcss/typography": "^0.5.14",
 		"autoprefixer": "^10.4.20",
+		"better-docs": "^2.7.3",
+		"docdash": "^2.0.2",
+		"jsdoc": "^4.0.4",
 		"svelte": "^5.0.0",
 		"svelte-check": "^4.0.0",
 		"tailwindcss": "^3.4.9",
