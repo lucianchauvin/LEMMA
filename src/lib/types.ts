@@ -6,7 +6,6 @@
  * 
  * @module db-types
  */
-
 export type UUID = string;
 
 /** Status of a course in the system. */

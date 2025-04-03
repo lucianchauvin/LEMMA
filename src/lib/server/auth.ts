@@ -1,3 +1,12 @@
+import { Lucia } from "lucia";
+import { dev } from "$app/environment";
+
+import { DrizzlePostgreSQLAdapter } from "@lucia-auth/adapter-drizzle";
+
+import { pool } from "./db";
+import { pgTable, text, timestamp } from "drizzle-orm/pg-core";
+import { drizzle } from "drizzle-orm/node-postgres";
+
 /**
  * @fileoverview Authentication Module
  * 
@@ -7,14 +16,6 @@
  * 
  * @module authentication
  */
-import { Lucia } from "lucia";
-import { dev } from "$app/environment";
-
-import { DrizzlePostgreSQLAdapter } from "@lucia-auth/adapter-drizzle";
-
-import { pool } from "./db";
-import { pgTable, text, timestamp } from "drizzle-orm/pg-core";
-import { drizzle } from "drizzle-orm/node-postgres";
 
 /** Database connection instance */
 const db = drizzle(pool);
