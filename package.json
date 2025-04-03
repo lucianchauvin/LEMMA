@@ -18,7 +18,7 @@
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
 		"test": "playwright test",
-        "postinstall": "npx patch-package"
+		"postinstall": "npx patch-package"
 	},
 	"devDependencies": {
 		"@playwright/test": "^1.51.1",
