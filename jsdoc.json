@@ -3,7 +3,7 @@
       "node_modules/better-docs/typescript",
       "plugins/markdown"],
     "source": {
-      "include": ["src/lib", "src/lib/server"],
+      "include": ["src/lib"],
       "includePattern": "\\.(ts|tsx)$"
     },
     "opts": {
