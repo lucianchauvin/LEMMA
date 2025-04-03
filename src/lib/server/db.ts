@@ -1,3 +1,7 @@
+import fs from 'fs';
+import pg from 'pg';
+import { PGUSER, PGDATABASE, PGPASSWORD, PGPORT } from '$env/static/private';
+
 /**
  * @fileoverview Database Connection Module
  * 
@@ -6,9 +10,6 @@
  * 
  * @module db-connection
  */
-import fs from 'fs';
-import pg from 'pg';
-import { PGUSER, PGDATABASE, PGPASSWORD, PGPORT } from '$env/static/private';
 
 // const PGHOST = fs.readFileSync('/data/IP', 'utf-8').trim();
 const PGHOST = "18.225.72.236";
