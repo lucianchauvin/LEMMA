@@ -8,10 +8,6 @@
     const assignmentsData = data.assignments ?? [];
     $:studentAssignmentsData = data.student_assignments ?? [];
     
-    const students = data.users.filter((user) => {
-        return data.user_roles.some((role) => role.user_id === user.user_id && role.role_name === 'student')
-    });
-
     function fetchGrade(studentID, assignmentID)    {
         const studentAssignment = studentAssignmentsData.find(sa => sa.student_id === studentID && sa.assignment_id === assignmentID);
     
@@ -55,7 +51,7 @@
             </tr>
         </thead>
         <tbody>
-            {#each students as student}
+            {#each data.students as student}
                 <tr>
                     <td class="p-3 text-center">{student.first_name} {student.last_name}</td>
                     {#each assignmentsData as assignments}
