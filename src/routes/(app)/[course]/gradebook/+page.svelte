@@ -1,5 +1,7 @@
 <script>
-    import {Book, KeyRound, Save} from 'lucide-svelte';
+    import Book from '@lucide/svelte/icons/book';
+    import Keyround from '@lucide/svelte/icons/key-round';
+    import Save from '@lucide/svelte/icons/save';
     import {enhance} from '$app/forms';
 
     export let data;

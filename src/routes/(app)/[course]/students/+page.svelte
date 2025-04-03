@@ -1,6 +1,8 @@
 <script>
     import { enhance } from '$app/forms';
-    import {Users, UserPlus, Trash} from '@lucide/svelte'; 
+    import Users from '@lucide/svelte/icons/user';
+    import UserPlus from '@lucide/svelte/icons/user-plus';
+    import Trash from '@lucide/svelte/icons/trash';
     export let data;
 
     // Filter users who are students
