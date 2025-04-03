@@ -60,8 +60,10 @@
                                 <form method="POST" action="?/editGrades" use:enhance class="flex items-center gap-4">
                                     <input type="hidden" name="student_id" value={student.user_id} />
                                     <input type="hidden" name="assignment_id" value={assignments.assignment_id} />
-                                    <input type="" name="grade" value={fetchGrade(student.user_id, assignments.assignment_id)}
-                                    class = "w-16 text-center border rounded px-2 py-1" />
+                                    <input type="number" name="grade" value={fetchGrade(student.user_id, assignments.assignment_id)}
+                                    class="w-16 text-center border rounded px-2 py-1"
+                                    on:input={(e) => student.grade = e.target.value} />
+                                
                                     <button type="submit" class="bg-blue-500 text-white px-2 py-1 rounded flex items-center gap-1">
                                         <Save size={16} />
                                     </button>
