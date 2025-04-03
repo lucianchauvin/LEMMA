@@ -6,7 +6,9 @@
     export let form;
 
     // Import trash button
-    import {Users, UserPlus, Trash} from '@lucide/svelte';
+    import Users from '@lucide/svelte/icons/users';
+
+    $: console.log(data.userData);
 
 </script>
 

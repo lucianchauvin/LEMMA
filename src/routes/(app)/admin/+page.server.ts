@@ -110,6 +110,6 @@ export const actions: Actions = {
             fail(500, { message: "Failed to remove student" });
         }
 
-        return { success: true }; 
+        return { success: true, message: "User removed successfully!"}; 
     }
 };

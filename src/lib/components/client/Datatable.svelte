@@ -21,11 +21,12 @@
 	export let data = [];
 	export let columns = [];
 	export let display_columns = [];
+
 	let handler;
 	let isLoading = true;
 	let rows = [];
 
-	onMount(async () => {
+	onMount(() => {
 		try {
 			handler = new DataHandler(data, { rowsPerPage: 5 });
 
