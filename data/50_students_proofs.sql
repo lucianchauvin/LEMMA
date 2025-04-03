@@ -1,4 +1,4 @@
-INSERT INTO student_proofs (problem_id, student_assignment_id, complete, proof_filepath)
+INSERT INTO student_proofs (problem_id, student_assignment_id, complete)
 VALUES
     (
         (SELECT problem_id FROM problems WHERE problems.problem_name='Simplify 1'),
@@ -7,8 +7,7 @@ VALUES
         ) AND student_assignments.student_id=(
             SELECT user_id FROM users WHERE users.username='marfung'
         )),
-        true,
-        '/path/to/example/student/problem'
+        true
     ),
     (
         (SELECT problem_id FROM problems WHERE problems.problem_name='Simplify 2'),
@@ -17,8 +16,7 @@ VALUES
         ) AND student_assignments.student_id=(
             SELECT user_id FROM users WHERE users.username='marfung'
         )),
-        false,
-        '/path/to/example/student/problem'
+        false
     ),
     (
         (SELECT problem_id FROM problems WHERE problems.problem_name='Simplify 1'),
@@ -27,6 +25,5 @@ VALUES
         ) AND student_assignments.student_id=(
             SELECT user_id FROM users WHERE users.username='lucian'
         )),
-        false,
-        '/path/to/example/student/problem'
+        false
     );
