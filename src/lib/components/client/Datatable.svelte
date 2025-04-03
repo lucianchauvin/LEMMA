@@ -68,19 +68,23 @@
 					{#each columns as col, i}
 					<ThSort {handler} orderBy={col}>{display_columns[i]}</ThSort>
 					{/each}
+					<th scope="col">Remove Users</th>
 				</tr>
+					
 				<tr>
 					{#each columns as col}
 					<ThFilter {handler} filterBy={col} />
 					{/each}
+					<th></th>
 				</tr>
 			</thead>
 			<tbody>
-				{#each rows as row}
+				{#each rows as row, i}
 					<tr>
 						{#each columns as col}
 						<td>{row[col]}</td>
 						{/each}
+						<td><slot name="remove" {i}></slot></td>
 					</tr>
 				{/each}
 			</tbody>

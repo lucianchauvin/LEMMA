@@ -47,4 +47,11 @@
 
 
 <!-- <pre>{JSON.stringify(data, null, 2)}</pre> -->
-<DatatableClient data={data.userData} columns={["first_name", "last_name", "email"]} display_columns={["First Name", "Last Name", "Email"]}/>
+<DatatableClient data={data.userData} columns={["first_name", "last_name", "email"]} display_columns={["First Name", "Last Name", "Email"]}>
+    <svelte:fragment slot="remove" let:i>
+    <form method="post" action="/admin?/remove" use:enhance>
+        <input type="hidden" name="user_id" value={data.userData[i].user_id}/>
+        <button type="submit">Remove</button>
+    </form>
+    </svelte:fragment>
+</DatatableClient>

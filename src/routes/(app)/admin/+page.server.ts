@@ -88,5 +88,28 @@ export const actions: Actions = {
         }
 
         return { success: true, message: "User added successfully!" };
+    },
+
+    remove: async ({ request, params, locals: { safeQuery } }) => {
+
+        const formData = await request.formData();
+        const user_id = formData.get("user_id") as string;
+        // console.log("user_id:", user_id);
+
+        if(!user_id) {
+            fail(400, { message: "User ID is required" });
+        }
+
+        const {error: deleteErr} = await safeQuery(
+            "DELETE FROM users WHERE user_id = $1",
+            [user_id]
+        );
+
+        if (deleteErr) {
+            console.error("ERROR: Failed to remove student:", deleteErr);
+            fail(500, { message: "Failed to remove student" });
+        }
+
+        return { success: true }; 
     }
 };
