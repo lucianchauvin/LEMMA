@@ -1,8 +1,8 @@
 /**
  * @fileoverview Database Connection Module
  * 
- * This module sets up a connection to the PostgreSQL database using the `pg` library
- * and initializes a connection pool for managing database connections.
+ * This module sets up the connection to the PostgreSQL database using the `pg` library 
+ * and creates a pool for managing multiple database connections.
  * 
  * @module db-connection
  */

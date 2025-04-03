@@ -1,18 +1,10 @@
 import { LEANBIN } from "$env/static/private"
 import { exec } from "child_process";
 
-/** 
- * @fileoverview
- * This module provides functionality to execute Lean files using a specified Lean binary.
- * It includes a function to run Lean scripts and capture the standard output and error output.
- * The function uses Node.js's `exec` method to invoke the Lean binary with the provided script.
+/**
+ * @fileoverview Lean Script Runner
  * 
- * This is part of a Learning Management System (LMS) for students to work on mathematical proofs
- * using Lean programming. The `run` function helps execute Lean files dynamically and retrieve
- * the results for further processing or display.
- *
- * Dependencies:
- * - Node.js child_process module (exec) for executing the Lean binary.
+ * This module provides functionality for dynamically executing Lean files using a specified Lean binary.
  * 
  * @module lean_runner
  */
