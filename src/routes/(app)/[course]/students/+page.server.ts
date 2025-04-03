@@ -2,7 +2,13 @@ import type { PageServerLoad, Actions } from "../$types";
 import type { User, UserRole} from "$lib/types";
 import { error, fail } from "@sveltejs/kit";
 
-export const load = (async ({params, locals: { safeQuery } }) => {
+export const load = (async ({parent, params, locals: { safeQuery } }) => {
+    const {permissions} = await parent();
+
+    if(!permissions.view_course_users.access || !permissions.view_course_users.target_roles!.includes('student')) {
+        throw error(403, { message: "Forbidden" } )
+    }
+
     // Fetch all non admin users
     const { data: userResult, error: userErr } = await safeQuery<User>("SELECT u.* FROM users u WHERE u.is_super_admin=false");
     const {data: userRoleResult, error: userRoleErr} 
@@ -10,12 +16,12 @@ export const load = (async ({params, locals: { safeQuery } }) => {
 
     if (userErr) {
         console.error("ERROR: Database failed to query users for course:", userErr);
-        error(500, { message: "Database failed to query users for course" });
+        throw error(500, { message: "Database failed to query users for course" });
     }
 
     if (userRoleErr) {
         console.error("ERROR: Database failed to query user roles for course:", userRoleErr);
-        error(500, { message: "Database failed to query for user roles for course" });  
+        throw error(500, { message: "Database failed to query for user roles for course" });  
     }
 
     return {
@@ -25,7 +31,18 @@ export const load = (async ({params, locals: { safeQuery } }) => {
 }) satisfies PageServerLoad;
 
 export const actions: Actions = {
-    add: async ({ request, params, locals: { safeQuery } }) => {
+    add: async ({ request, params, locals: { safeQuery, permCheck } }) => {
+        const {data: permData, error: permErr} = await permCheck('update_course_users', params.course);
+        if(permErr) {
+            console.error("ERROR: Failed to determine permission for updating course users:", permErr);
+            throw error(500, { message: "Failed to determine permission for updating course users" })
+        }
+
+        if(!permData.access) {
+            throw error(403, { message: "Forbidden"})
+        }
+
+
         const formData = await request.formData();
         const selectedUserId = formData.get("user_id") as string;
 
@@ -42,7 +59,7 @@ export const actions: Actions = {
             return fail(500, { message: "Student not found or database failed to query" });
         }
 
-        //Check if user is already in course
+        // Check if user is already in course
         const {data: userRole, error: roleErr} = await safeQuery(
             "SELECT * FROM user_roles WHERE user_id = $1 AND course_id = $2", 
             [selectedUserId, params.course]
@@ -72,7 +89,17 @@ export const actions: Actions = {
         return { success: true }; 
     },
 
-    remove: async ({ request, params, locals: { safeQuery } }) => {
+    remove: async ({ request, params, locals: { safeQuery, permCheck } }) => {
+        const {data: permData, error: permErr} = await permCheck('update_course_users', params.course);
+        if(permErr) {
+            console.error("ERROR: Failed to determine permission for updating course users:", permErr);
+            throw error(500, { message: "Failed to determine permission for updating course users" })
+        }
+
+        if(!permData.access) {
+            throw error(403, { message: "Forbidden"})
+        }
+
         const formData = await request.formData();
         const user_id = formData.get("user_id") as string;
 

@@ -1,8 +1,13 @@
 import type { PageServerLoad, Actions } from './$types'; //data fetching from server side
 import type { Assignment, User, UserRole, StudentAssignment } from '$lib/types'; 
-import { error } from '@sveltejs/kit'; 
+import { error, fail } from '@sveltejs/kit'; 
 
-export const load = (async ({parent, params, locals: { safeQuery }}) => {
+export const load = (async ({parent, params, locals: { safeQuery, permCheck }}) => {
+    const {permissions} = await parent();
+
+    if(!permissions.view_course_grades.access)
+        throw error(403, { message: "Forbidden" })
+
     const {data: assignmentResult, error: assignmentErr} 
     = await safeQuery<Assignment>("SELECT * FROM assignments WHERE assignments.course_id=$1", [params.course]);
     const {data: userResult, error: userErr } 
@@ -36,7 +41,17 @@ export const load = (async ({parent, params, locals: { safeQuery }}) => {
 }) satisfies PageServerLoad;
 
 export const actions: Actions = {
-    editGrades: async ({ request, locals: { safeQuery } }) => {
+    editGrades: async ({ request, params, locals: { safeQuery, permCheck } }) => {
+        const {data: permData, error: permErr} = await permCheck('change_course_grades', params.course);
+        if(permErr) {
+            console.error("ERROR: Failed to determine permission for changing course grades:", permErr);
+            throw error(500, { message: "Failed to determine permission for changing course grades" })
+        }
+
+        if(!permData.access) {
+            return fail(403, { message: "Forbidden"})
+        }
+
         const formData = await request.formData();
         const studentId = formData.get('student_id');
         const assignmentId = formData.get('assignment_id');

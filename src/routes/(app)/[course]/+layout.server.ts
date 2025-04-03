@@ -26,7 +26,7 @@ export const load = (async ({parent, params, locals: { safeQuery, permCheck }}) 
         const {data: courseRole, error: roleErr} = await safeQuery(`SELECT * FROM user_roles WHERE user_id=$1 AND course_id=$2`, [user.id, course.course_id]);
 
         if(roleErr) {
-            console.log(`ERROR: Database failed to query user roles for ${user.id} and ${course.course_id} pair:`, roleErr);
+            console.error(`ERROR: Database failed to query user roles for ${user.id} and ${course.course_id} pair:`, roleErr);
             throw error(500, {message: 'Database failed to query user roles'});
         }
 
@@ -49,7 +49,6 @@ export const load = (async ({parent, params, locals: { safeQuery, permCheck }}) 
         console.error('ERROR: Failed to determine permission for viewing course statements:', viewCourseStatementsErr);
         error(500, {message: 'Failed to determine permission for viewing course statements'})
     }
-
 
     return {
         course,

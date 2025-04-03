@@ -61,7 +61,7 @@
     </AppRailAnchor>
     {/if}
 
-    {#if data.permissions.view_course_users.access}
+    {#if data.permissions.view_course_users.access && data.permissions.view_course_users.target_roles.includes('student')}
     <AppRailAnchor href="/{data.course.course_id}/students" title="Students" selected={$page.url.pathname === `/${data.course.course_id}/students`}>
         <svelte:fragment slot="lead">
             <Users />
