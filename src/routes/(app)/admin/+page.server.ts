@@ -1,4 +1,6 @@
 import type { PageServerLoad, Actions } from "./$types";
+import { fail, redirect } from "@sveltejs/kit";
+import { hash } from "@node-rs/argon2";
 
 export const load: PageServerLoad = async ({locals: { safeQuery }}) => {
     const { data: userData, error: userErr } = await safeQuery(`
@@ -23,71 +25,50 @@ export const load: PageServerLoad = async ({locals: { safeQuery }}) => {
 }
 
 export const actions: Actions = {
-    add: async ({ request, params, locals: { safeQuery } }) => {
+    add: async ({ request, locals: { safeQuery } }) => {
         const formData = await request.formData();
-        const selectedUserId = formData.get("user_id") as string;
+        
+        const username = formData.get("username") as string;
+        const password = formData.get("password") as string;
+        const first_name = formData.get("first_name") as string;
+        const last_name = formData.get("last_name") as string;
+        const email = formData.get("email") as string;
 
-        if (!selectedUserId) {
-            console.error("ERROR: No user selected");
-            return fail(400, { message: "No student selected" });
+        if (!username || !password || !first_name || !last_name) {
+            return fail(400, { message: "All fields except email are required"});
         }
 
-        const {data: user, error: userErr} = await safeQuery("SELECT * FROM users WHERE user_id = $1", [selectedUserId]);
-
-        if (userErr || !user || user.length === 0)
-        {
-            console.error("ERROR: Student not found or database failed to query:", userErr);
-            return fail(500, { message: "Student not found or database failed to query" });
-        }
-
-        //Check if user is already in course
-        const {data: userRole, error: roleErr} = await safeQuery(
-            "SELECT * FROM user_roles WHERE user_id = $1 AND course_id = $2", 
-            [user.user_id, params.course]
+        const {data: existingUser, error: checkError } = await safeQuery(
+            "SELECT * FROM users WHERE username = $1", [username]
         );
 
-        if (roleErr) {
-            console.error("ERROR: Unable to check whether a student is added:", roleErr);
-            fail(500, { message: "Unable to check if student is added" });
+        if (checkError) {
+            console.error("Database query failed:", checkError);
+            return fail(500, { message: "Database query failed" });
         }
 
-        if (userRole.length > 0) {
-            console.error("ERROR: Student is already in the course");
-            fail(400, { message: "Student is already in the course" });
+        if (existingUser.length > 0) {
+            return fail(400, { message: "Username already exists"});
         }
 
-        const {error: insertErr} = await safeQuery(
-            "INSERT INTO user_roles (user_id, course_id, role_name) VALUES ($1, $2, 'student')",
-            [user[0].user_id, params.course] 
+        const passwordHash = await hash(password, {
+            // recommended minimum parameters
+            memoryCost: 19456,
+            timeCost: 2,
+            outputLen: 32,
+            parallelism: 1
+        });
 
+        const { error: insertError } = await safeQuery(
+            "INSERT INTO users (username, password, first_name, last_name, email) VALUES ($1, $2, $3, $4, $5)",
+            [username, passwordHash, first_name, last_name, email]
         );
 
-        if (insertErr) {
-            console.error("ERROR: Database failed to add student:", insertErr);
-            fail(500, { message: "Database failed to add student" });
+        if (insertError) {
+            console.error("Database insert failed:", insertError);
+            return fail(500, { message: "Failed to add user" });
         }
 
-        return { success: true }; 
-    },
-
-    remove: async ({ request, params, locals: { safeQuery } }) => {
-        const formData = await request.formData();
-        const user_id = formData.get("user_id") as string;
-
-        if(!user_id) {
-            fail(400, { message: "User ID is required" });
-        }
-
-        const {error: deleteErr} = await safeQuery(
-            "DELETE FROM user_roles WHERE user_id = $1 AND course_id = $2",
-            [user_id, params.course]
-        );
-
-        if (deleteErr) {
-            console.error("ERROR: Failed to remove student:", deleteErr);
-            fail(500, { message: "Failed to remove student" });
-        }
-
-        return { success: true }; 
+        return { success: true, message: "User added successfully!" };
     }
 };

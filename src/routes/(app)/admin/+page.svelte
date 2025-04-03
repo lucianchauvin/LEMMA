@@ -6,20 +6,37 @@
     export let form;
 
     // Import trash button
-    import {Users, UserPlus, Trash} from '@lucide/svelte'; 
+    import {Users, UserPlus, Trash} from '@lucide/svelte';
+
 </script>
 
 
 
-<!-- <form method="post" action="?/add" class="flex flex-col gap-2" use:enhance>
+
+
+
+<h1 class="text-xl font-bold flex items-center gap-2">
+			<Users size={24} /> Users
+</h1>
+
+<form method="post" action="?/add" class="flex flex-col gap-2" use:enhance>
     <label for="username">Username
-        <input name="username" id="username" /><br />
+        <input name="username" id="username" required/><br />
     </label>
     <label for="password">Password
-        <input type="password" name="password" id="password" /><br />
+        <input type="password" name="password" id="password" required/><br />
     </label>
-    <button class="btn btn-sm border-2 border-surface-600 bg-surface-100 hover:variant-filled-surface text-surface-600" id="login">Login</button>
-</form> -->
+    <label for="first_name">First Name
+        <input name="first_name" id="first_name" required/><br />
+    </label>
+    <label for="last_name">Last Name
+        <input name="last_name" id="last_name" required/><br />
+    </label>
+    <label for="email">Email
+        <input type="email" name="email" id="email" /><br />
+    </label>
+    <button type="submit">Submit</button>
+</form>
 
 {#if form?.message}
 	<p>{form.message}</p>
@@ -28,8 +45,6 @@
 	<p>{form.error}</p>
 {/if}
 
-<h1 class="text-xl font-bold flex items-center gap-2">
-			<Users size={24} /> Users
-</h1>
+
 <!-- <pre>{JSON.stringify(data, null, 2)}</pre> -->
 <DatatableClient data={data.userData} columns={["first_name", "last_name", "email"]} display_columns={["First Name", "Last Name", "Email"]}/>

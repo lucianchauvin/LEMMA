@@ -15,9 +15,7 @@
 	import { DataHandler } from '@vincjo/datatables/legacy';
     import { onMount } from 'svelte';
 
-	// Import trash button
-	import { enhance } from '$app/forms';
-    import {Users, UserPlus, Trash} from '@lucide/svelte'; 
+
 
 	// Initialize data, handler, and loading state
 	export let data = [];
@@ -62,9 +60,7 @@
 			<RowsPerPage {handler} />
 		</header>
 
-		<!-- <h1 class="text-xl font-bold flex items-center gap-2">
-			<Users size={24} /> Users
-		</h1> -->
+		
 
 		<table class="table table-hover table-compact w-full table-auto">
 			<thead>
