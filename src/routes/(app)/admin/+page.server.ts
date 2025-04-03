@@ -47,12 +47,30 @@ export const actions: Actions = {
             return fail(500, { message: "Database query failed" });
         }
 
+        // Don't allow duplicate user
         if (existingUser.length > 0) {
             return fail(400, { message: "Username already exists"});
         }
 
+        // Make sure usernames and passwords are appropriate length
+        if (
+            typeof username !== "string" ||
+            username.length < 3 ||
+            username.length > 31 ||
+            !/^[a-z0-9_-]+$/.test(username)
+        ) {
+            return fail(400, {
+                message: "Invalid username"
+            });
+        }
+        if (typeof password !== "string" || password.length < 6 || password.length > 255) {
+            return fail(400, {
+                message: "Invalid password"
+            });
+        }
+
+        // Hash passwords
         const passwordHash = await hash(password, {
-            // recommended minimum parameters
             memoryCost: 19456,
             timeCost: 2,
             outputLen: 32,
