@@ -3,13 +3,12 @@ import * as path from 'path';
 import { json, error } from '@sveltejs/kit';
 import { DATAROOT } from '$env/static/private';
 import type { RequestHandler } from './$types';
-import { warn } from 'console';
 
 const BASE_PROOF_DIR = DATAROOT + '/proofs'; // Change this to your actual proof storage directory
 const BASE_PROBLEM_DIR = DATAROOT + '/problems';
 
-export const POST: RequestHandler = async ({ request, params, locals: { safeQuery, permCheck } }) => {
-    const { courseId, proofId, problemId } = await request.json();
+export const POST: RequestHandler = async ({ request, locals: { safeQuery, permCheck } }) => {
+    let { courseId, proofId, problemId, studentAssignmentId } = await request.json();
     const { data: res, error: err } = await permCheck('update_assignments', courseId);
 
     if(err) {
@@ -29,6 +28,16 @@ export const POST: RequestHandler = async ({ request, params, locals: { safeQuer
             await fs.writeFile(problemFilePath, '', 'utf-8');
             return json({ content: "" });
         }
+    }
+
+    if(!proofId) {
+        const { data: proofRes, error: proofErr} = await safeQuery(`INSERT INTO student_proofs (problem_id, student_assignment_id) VALUES ($1, $2) RETURNING proof_id`, [problemId, studentAssignmentId]);
+
+        if(proofErr) {
+            throw error(400, { message: 'Bad Request'})
+        }
+
+        proofId = proofRes![0].proof_id;
     }
 
     try {
