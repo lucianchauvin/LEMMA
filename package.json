@@ -17,7 +17,8 @@
 		"start": "concurrently \"npm run start_server\" \"npm run start_client\" -n client,server -c \"bgBlue.bold,bgMagenta.bold\"",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
-		"test": "playwright test"
+		"test": "playwright test",
+		"postinstall": "npx patch-package"
 	},
 	"devDependencies": {
 		"@playwright/test": "^1.51.1",
