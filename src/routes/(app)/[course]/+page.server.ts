@@ -5,9 +5,33 @@ import { error, fail } from '@sveltejs/kit';
 
 export const load = (async ({parent, params, locals: { safeQuery, permCheck }}) => {
     const {user, course, permissions} = await parent();
-    const {data: assignmentResult, error: assignmentErr} = await safeQuery<Assignment>("SELECT * FROM assignments WHERE assignments.course_id=$1", [params.course]);
+    const {data: viewInactiveAssignments, error: viewInactiveAssignmentsErr} = await permCheck('view_inactive_assigned_course_assignments', course.course_id);
     const {data: createAssignments, error: createAssignmentErr} = await permCheck('create_assignments', course.course_id);
     const {data: deleteAssignments, error: deleteAssignmentErr} = await permCheck('delete_assignments', course.course_id);
+
+    if(viewInactiveAssignmentsErr) {
+        console.error('ERROR: Failed to determine permission for view inactive assignments:', viewInactiveAssignmentsErr);
+        throw error(500, {message: 'Failed to determine permission for view inactive assignments'})
+    }
+    if(createAssignmentErr) {
+        console.error('ERROR: Failed to determine permission for creating assignments:', createAssignmentErr);
+        throw error(500, {message: 'Failed to determine permission for creating assignments'})
+    }
+    if(createAssignmentErr) {
+        console.error('ERROR: Failed to determine permission for deleting assignments:', deleteAssignmentErr);
+        throw error(500, {message: 'Failed to determine permission for deleting assignments'})
+    }
+
+    const actives = ['true'];
+    if(viewInactiveAssignments!.access)
+        actives.push('false');
+
+    const {data: assignmentResult, error: assignmentErr} = await safeQuery<Assignment>("SELECT * FROM assignments WHERE assignments.course_id=$1 AND assignments.active=ANY($2)", [params.course, actives]);
+
+    if(assignmentErr) {
+        console.error('ERROR: Database failed to query assignments for course:', assignmentErr);
+        throw error(500, {message: 'Database failed to query assignments for course'})
+    }
 
     let studentAssignments: StudentAssignment[] = [];
     if(user.student) {
@@ -21,22 +45,9 @@ export const load = (async ({parent, params, locals: { safeQuery, permCheck }}) 
         
         if(studentAssignmentErr) {
             console.error('ERROR: Database failed to query student assignments for course:', studentAssignmentErr);
-            error(500, {message: 'Database failed to query student assignments for course'})
+            throw error(500, {message: 'Database failed to query student assignments for course'})
         }
         studentAssignments = tmpData!;
-    }
-
-    if(assignmentErr) {
-        console.error('ERROR: Database failed to query assignments for course:', assignmentErr);
-        error(500, {message: 'Database failed to query assignments for course'})
-    }
-    if(createAssignmentErr) {
-        console.error('ERROR: Failed to determine permission for creating assignments:', createAssignmentErr);
-        error(500, {message: 'Failed to determine permission for creating assignments'})
-    }
-    if(createAssignmentErr) {
-        console.error('ERROR: Failed to determine permission for deleting assignments:', deleteAssignmentErr);
-        error(500, {message: 'Failed to determine permission for deleting assignments'})
     }
 
     return {

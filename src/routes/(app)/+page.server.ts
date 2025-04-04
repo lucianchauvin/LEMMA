@@ -15,13 +15,32 @@ export const load: PageServerLoad = async ({parent, locals: { safeQuery, permChe
         console.error("ERROR: Failed to determine permission of user to view courses:", viewAllCoursesErr);
         throw error(500, { message: "Failed to determine permission of user to view courses" })
     }
+    const {data: viewInactiveCourses, error: viewInactiveCoursesErr} = await permCheck('view_inactive_assigned_courses');
+    if(viewInactiveCoursesErr) {
+        console.error("ERROR: Failed to determine permission of user to view inactive courses:", viewAllCoursesErr);
+        throw error(500, { message: "Failed to determine permission of user to view inactive courses" })
+    }
+    const {data: viewArchivedCourses, error: viewArchivedCoursesErr} = await permCheck('view_inactive_assigned_courses');
+    if(viewInactiveCoursesErr) {
+        console.error("ERROR: Failed to determine permission of user to view archived courses:", viewAllCoursesErr);
+        throw error(500, { message: "Failed to determine permission of user to view archived courses" })
+    }
 
     let courseQuery = 'SELECT * FROM courses';
-    let courseQueryParams = [];
+    let courseQueryParams: any[] = [];
     if(!viewAllCourses.access) {
-        courseQuery += ' JOIN user_roles ur ON ur.course_id = courses.course_id WHERE ur.user_id=$1';
-        courseQueryParams.push(user!.id)
+        courseQuery = 'SELECT * FROM courses JOIN user_roles ur ON ur.course_id = courses.course_id WHERE ur.user_id=$1 AND courses.status=ANY($2)';
+        courseQueryParams.push(user!.id);
+        courseQueryParams.push(['active']);
+
+        if(viewInactiveCourses.access) {
+            courseQueryParams[1].push('inactive');
+        }
+        if(viewArchivedCourses.access) {
+            courseQueryParams[1].push('archived');
+        }
     }
+
     // get courses
     const {data: result_courses, error: err_courses} = await safeQuery<Course>(courseQuery, courseQueryParams);
     if (err_courses) {
