@@ -5,7 +5,7 @@ import { error, fail } from "@sveltejs/kit";
 export const load = (async ({parent, params, locals: { safeQuery } }) => {
     const {permissions} = await parent();
 
-    if(!permissions.view_course_users.access || !permissions.view_course_users.target_roles!.includes('student')) {
+    if(!permissions.view_course_users.access || (permissions.view_course_users.target_roles !== undefined && !permissions.view_course_users.target_roles!.includes('student'))) {
         throw error(403, { message: "Forbidden" } )
     }
 
@@ -42,7 +42,6 @@ export const actions: Actions = {
             throw error(403, { message: "Forbidden"})
         }
 
-
         const formData = await request.formData();
         const selectedUserId = formData.get("user_id") as string;
 
@@ -51,15 +50,7 @@ export const actions: Actions = {
             return fail(400, { message: "No student selected" });
         }
 
-        const {data: user, error: userErr} = await safeQuery("SELECT * FROM users WHERE user_id = $1", [selectedUserId]);
-
-        if (userErr || !user || user.length === 0)
-        {
-            console.error("ERROR: Student not found or database failed to query:", userErr);
-            return fail(500, { message: "Student not found or database failed to query" });
-        }
-
-        // Check if user is already in course
+       // Check if user is already in course
         const {data: userRole, error: roleErr} = await safeQuery(
             "SELECT * FROM user_roles WHERE user_id = $1 AND course_id = $2", 
             [selectedUserId, params.course]
@@ -67,23 +58,36 @@ export const actions: Actions = {
 
         if (roleErr) {
             console.error("ERROR: Unable to check whether a student is added:", roleErr);
-            fail(500, { message: "Unable to check if student is added" });
+            return fail(500, { message: "Unable to check if student is added" });
         }
 
         if (userRole!.length > 0) {
             console.error("ERROR: Student is already in the course");
-            fail(400, { message: "Student is already in the course" });
+            return fail(400, { message: "Student is already in the course" });
         }
 
         const {error: insertErr} = await safeQuery(
             "INSERT INTO user_roles (user_id, course_id, role_name) VALUES ($1, $2, 'student')",
-            [user[0].user_id, params.course] 
+            [selectedUserId, params.course] 
 
         );
 
         if (insertErr) {
             console.error("ERROR: Database failed to add student:", insertErr);
-            fail(500, { message: "Database failed to add student" });
+            return fail(500, { message: "Database failed to add student" });
+        }
+
+        // add student assignments for student
+        const {error: insertStudentAssignmentErr} = await safeQuery(
+            `INSERT INTO student_assignments (assignment_id, student_id)
+            SELECT a.assignment_id, $1
+            FROM assignments a
+            WHERE a.course_id=$2`,
+        [selectedUserId, params.course]);
+
+        if(insertStudentAssignmentErr) {
+            console.error("ERROR: Database failed to add student assignments for student:", insertStudentAssignmentErr);
+            return fail(500, { message: "Database failed to add student assignments for student" });
         }
 
         return { success: true }; 
@@ -115,6 +119,22 @@ export const actions: Actions = {
         if (deleteErr) {
             console.error("ERROR: Failed to remove student:", deleteErr);
             fail(500, { message: "Failed to remove student" });
+        }
+
+        // remove student assignments for student
+        const {error: deleteStudentAssignmentErr} = await safeQuery(
+            `DELETE FROM student_assignments sa
+            WHERE sa.student_id=$1
+            AND assignment_id IN (
+                SELECT a.assignment_id 
+                FROM assignments a 
+                WHERE a.course_id=$2
+            )`,
+        [user_id, params.course]);
+
+        if(deleteStudentAssignmentErr) {
+            console.error("ERROR: Database failed to delete student assignments for student:", deleteStudentAssignmentErr);
+            return fail(500, { message: "Database failed to delete student assignments for student" });
         }
 
         return { success: true }; 

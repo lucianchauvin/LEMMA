@@ -120,6 +120,7 @@ export const actions: Actions = {
         }
 
         // add student assignments 
+        // add student assignments for student
         const {error: insertStudentErr} = await safeQuery(
             `INSERT INTO student_assignments (assignment_id, student_id)
             SELECT $1, user_roles.user_id
