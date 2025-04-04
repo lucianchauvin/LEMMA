@@ -4,16 +4,34 @@ import { error } from '@sveltejs/kit';
 
 const colors = ["darkgreen", "maroon"];
 
-export const load: PageServerLoad = async ({locals: { safeQuery, permCheck }}) => {
+export const load: PageServerLoad = async ({parent, locals: { safeQuery, permCheck }}) => {
+    const {user} = await parent();
+    if(!user) {
+        console.error("ERROR: No user found");
+    }
+
+    const {data: viewAllCourses, error: viewAllCoursesErr} = await permCheck('view_courses');
+    if(viewAllCoursesErr) {
+        console.error("ERROR: Failed to determine permission of user to view courses:", viewAllCoursesErr);
+        throw error(500, { message: "Failed to determine permission of user to view courses" })
+    }
+
+    let courseQuery = 'SELECT * FROM courses';
+    let courseQueryParams = [];
+    if(!viewAllCourses.access) {
+        courseQuery += ' JOIN user_roles ur ON ur.course_id = courses.course_id WHERE ur.user_id=$1';
+        courseQueryParams.push(user!.id)
+    }
     // get courses
-    const {data: result_courses, error: err_courses} = await safeQuery<Course>('SELECT * FROM courses');
+    const {data: result_courses, error: err_courses} = await safeQuery<Course>(courseQuery, courseQueryParams);
     if (err_courses) {
         console.error('ERROR: Database failed to query for courses:', err_courses);
         error(500, {message: 'Database failed to query for courses'})
     }
+
     let i = 0;
     for (let course of result_courses!) {
-        course.color = colors[i];
+        course.color = colors[i % colors.length];
         i++;
     }
 
@@ -52,7 +70,6 @@ export const load: PageServerLoad = async ({locals: { safeQuery, permCheck }}) =
     }
 
     return {
-        title: "Home Page",
         courses: result_courses,
         assignments: result_assignments
     };
