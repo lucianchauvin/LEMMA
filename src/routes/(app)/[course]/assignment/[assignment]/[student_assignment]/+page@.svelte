@@ -30,6 +30,9 @@
     const project = "mathlib-demo";
 
     async function load() {
+        if(data.problems.length == 0)
+            return '';
+
         while (isProcessing) await new Promise(resolve => setTimeout(resolve, 50));
         isProcessing = true;
 
@@ -51,8 +54,12 @@
     }
 
     async function save() {
+        if(data.problems.length == 0)
+            return;
+
         while (isProcessing) await new Promise(resolve => setTimeout(resolve, 50));
         isProcessing = true;
+
         console.log(`[Lean4web] Saving proof...`);
         const response = await fetch('/apiv2/saveProof', {
             method: 'POST',
@@ -190,7 +197,7 @@
                 {/each}
 
                 <div class="flex flex-wrap gap-1" slot="panel">
-                {#each theorems.filter((s) => s.statement_category === activeTheoremCategory) as theorem}
+                {#each theorems?.filter((s) => s.statement_category === activeTheoremCategory) as theorem}
                     <span class="chip variant-ringed">
                     {theorem.statement_name}
                     </span>
