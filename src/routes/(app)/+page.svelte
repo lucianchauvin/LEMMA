@@ -14,9 +14,6 @@
     import Users from '@lucide/svelte/icons/users'; 
     import SquareFunction from '@lucide/svelte/icons/square-function'; 
 
-    // import * as DataTables from '@vincjo/datatables/legacy';
-    // console.log(DataTables);
-
 </script>
 
 <div class="all flex flex-nowrap">
