@@ -1,5 +1,5 @@
 import type { QueryResult, QueryResultRow } from 'pg';
-import type { User, Permission, RolePermission, PermissionFlag, UserRole, UUID, SafeQueryResult, PermCheckResult } from '$lib/types';
+import type { Permission, UUID, SafeQueryResult, PermCheckResult } from '$lib/types';
 import { type Handle } from '@sveltejs/kit';
 import { pool } from "$lib/server/db";
 import { lucia } from "$lib/server/auth";
@@ -74,36 +74,37 @@ export const handle: Handle = async ({ event, resolve }) => {
         const {user} = await getSession()
         
         if(!user) return {data: {access: false}, error: null};
-        if(user.isAdmin) return {data: {access: true}, error: null};
 
-        const {data: userRoleData, error: userRoleErr} = await safeQuery<{role_name: string}>(
-            `SELECT DISTINCT role_name FROM user_roles WHERE user_id=$1` + ((courseId) ? ` AND course_id=$2`: ''), 
-        [user.id, ...((courseId) ? [courseId]: [])]);
+        const {data: permData, error: permErr} = await safeQuery<{has_permission: boolean}>(
+            `SELECT * FROM has_permission($1, $2, $3)`, 
+        [user.id, permission, courseId]);
 
-        if(userRoleErr) {
-            return {data: {access: false}, error: `Failed to query for user roles of ${user.id}: ${userRoleErr}`}
+        if(permErr) {
+            console.error(`ERROR: Failed to get permission ${permission} from database:`, permErr);
+            return {data: {access: false}, error: `Failed to get permission ${permission} from database`};
         }
-        const roles = userRoleData!.map((role) => role.role_name);
+        if(permData!.length == 0) {
+            console.error(`ERROR: Checked permission return nothing`);
+            return {data: {access: false}, error: `Checked permission return nothing`};
+        }
 
-        const {data: targetsRoleData, error: flagErr} = await safeQuery<PermissionFlag>(
-            `SELECT * FROM permission_flags WHERE permission_name=$1`,
-        [permission]);
+        if(permData![0].has_permission) {
+            const {data: roleData, error: roleErr} = await safeQuery<{target_role: string}>(
+                `SELECT * FROM get_target_roles_for_permission($1, $2, $3)`, 
+            [user.id, permission, courseId]);
+            
+            if(roleErr) {
+                console.error(`ERROR: Failed to get target roles for permission ${permission} from database:`, roleErr);
+                return {data: {access: false}, error: `Failed to get target roles for permission ${permission} from database`};
+            }
 
-        if(flagErr) return {data: {access: false}, error: `Failed to query for permission flags of ${permission}: ${flagErr}`}
-        if(targetsRoleData!.length == 0) return {data: {access: false}, error: `Permission ${permission} not found`}
-        const targetsRole = targetsRoleData![0].targets_role;
+            return {data: {
+                access: true, 
+                target_roles: roleData!.map(r => r.target_role)
+            }, error: null}
+        }
 
-        const {data: permFound, error: permErr} = await safeQuery<RolePermission>(
-            `SELECT *
-            FROM role_permissions
-            WHERE role_name=ANY($1) AND permission_name=$2`,
-        [roles, permission])
-
-        if(permErr) return {data: {access: false}, error: `Failed to query for permission of the user`}
-        return {data: {
-            access: permFound!.length > 0, 
-            ...((targetsRole) ? {target_roles: permFound!.map((perm) => perm.target_role as string)}: {})
-        }, error: null};
+        return {data: {access: false}, error: null};
     }
 
     return resolve(event);
