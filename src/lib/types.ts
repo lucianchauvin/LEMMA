@@ -1,9 +1,20 @@
-// types for the database
-
+/**
+ * @fileoverview Database Type Definitions
+ * 
+ * This file defines TypeScript types used for database entities and permissions.
+ * It includes user roles, courses, assignments, statements, and access control.
+ * 
+ * @module db-types
+ */
 export type UUID = string;
 
+/** Status of a course in the system. */
 export type CourseStatus = "active" | "inactive" | "archived";
+
+/** Types of statements that can exist in the system. */
 export type Statement = "tactic" | "definition" | "theorem" | "problem";
+
+/** Permissions assigned to roles for controlling access within the system. */
 export type Permission = 
   | "view_users" // targets role
   | "create_users"
@@ -11,7 +22,6 @@ export type Permission =
   | "update_users" // targets role
 
   | "view_courses" // all courses
-  // can always view active courses assigned
   | "view_inactive_assigned_courses" // assigned
   | "view_archived_assigned_courses" // assigned
   
@@ -48,6 +58,7 @@ export type Permission =
   | "view_course_grades"
   | "change_course_grades"
 
+/** Represents a user in the system. */
 export type User = {
     user_id: UUID,
     first_name?: string,
@@ -59,23 +70,27 @@ export type User = {
     active: boolean // default false
 }
 
+/** Represents an active session for a user. */
 export type Session = {
     session_id: string,
     user_id: UUID,
     expires_at: Date
 }
 
+/** Defines a permission flag, determining if a role can target another role. */
 export type PermissionFlag = {
     name: Permission,
     targets_role: boolean
 }
 
+/** Defines which permissions a role has and, optionally, which role it can target. */
 export type RolePermission = {
     role_name: string,
     permission_name: Permission
     target_role?: string
 }
 
+/** Defines the association of a user with a specific role in a course. */
 export type UserRole = {
     user_role_id: UUID,
     user_id: UUID
@@ -83,11 +98,13 @@ export type UserRole = {
     role_name: string
 }
 
+/** Represents a role in the system. */
 export type Role = {
     role_name: string,
     display_name: string
 }
 
+/** Represents a course with associated metadata. */
 export type Course = {
     course_id: UUID,
     course_number: string,
@@ -98,6 +115,7 @@ export type Course = {
     end_date: Date
 }
 
+/** Represents an assignment within a course. */
 export type Assignment = {
     assignment_id: UUID,
     course_id: UUID,
@@ -107,6 +125,8 @@ export type Assignment = {
     due_date?: Date
 }
 
+
+/** Represents a reading assigned to a course. */
 export type Reading = {
     reading_id: UUID,
     course_id: UUID,
@@ -115,11 +135,13 @@ export type Reading = {
     active: boolean
 }
 
+/** Represents a problem linked to an assignment. */
 export type Problem = {
     problem_id: UUID,
     assignment_id: UUID
 }
 
+/** Tracks student progress on an assignment. */
 export type StudentAssignment = {
     student_assignment_id: UUID,
     assignment_id: UUID,
@@ -128,32 +150,42 @@ export type StudentAssignment = {
     grade: number
 }
 
+/** Tracks student solutions to problems in assignments. */
 export type StudentProof = {
     problem_id: UUID,
     student_assignment_id: UUID,
     complete: boolean,
-    student_problem_filepath: string,
 }
 
+/** Represents a logical statement used in readings or problems. */
 export type Statements = {
     statement_id: UUID,
     statement_name: string,
     statement_type: Statement,
     statement_description?: string,
-    statement_filepath: string,
     statement_category?: string
 }
 
+/** Links a statement to a reading. */
 export type ReadingStatement = {
     reading_id: UUID,
     statement_id: UUID
 }
 
+
+/** Links a statement to a problem. */
 export type ProblemStatement = {
     problem_id: UUID,
     statement_id: UUID
 }
 
+/**
+ * Represents a query result that ensures safety by either returning data or an error.
+ * @template T The type of data expected in the query result.
+ */
 export type SafeQueryResult<T> = 
     | { data: T[]; error: null }
     | { data: null; error: string }
+
+export type PermCheckResult = 
+    { data: {access: boolean; target_roles?: string[]}; error: string | null }

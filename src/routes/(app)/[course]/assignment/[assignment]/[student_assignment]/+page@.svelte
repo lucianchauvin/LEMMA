@@ -2,7 +2,7 @@
     let { data, form }: PageProps = $props();
 
     import { enhance } from "$app/forms";
-    import { onMount } from 'svelte';
+    import { onDestroy, onMount } from 'svelte';
 
     import { AppBar, Tab, TabGroup } from '@skeletonlabs/skeleton';
     import ArrowLeft from '@lucide/svelte/icons/arrow-left';
@@ -10,13 +10,10 @@
     import Circle from '@lucide/svelte/icons/circle';
     import CircleCheckBig from '@lucide/svelte/icons/circle-check-big';
 
-    const urlBase = `/${data.course.course_id}/assignment/${data.assignment.assignment_id}`;
+    const urlBase = `/${data.course.course_id}` + ((data.user.student) ? `/assignment/${data.assignment.assignment_id}`: '');
 
     const edit = data.studentAssignment.edit;
 
-    let activeProblem = $state((data.problems.length > 0) ? 0 : null);
-    const problemFile = $derived(data.problems[activeProblem].problem_filepath);
-    const proofFile = $derived(data.problems[activeProblem].proof_filepath);
     const tactics = $derived(data.problems[activeProblem].statements.filter((s) => s.statement_type === 'tactic'));
     const definitions = $derived(data.problems[activeProblem].statements.filter((s) => s.statement_type === 'definition'));
     const theorems = $derived(data.problems[activeProblem].statements.filter((s) => s.statement_type === 'theorem'));
@@ -31,38 +28,98 @@
     let editorRef;
     let infoviewRef;
 
+    let leanMonaco;
+    let leanMonacoEditor;
+    let saveInterval;
+    let interval = 5000;
+    let isProcessing = false;
+    
+    const project = "mathlib-demo";
+
     $effect(() => {
         activeTheoremCategory = (theorems.map(theorem => theorem.statement_category))[0];
         tempNewCategory = [];
     })
-   
-    const project = "mathlib-demo";
+
+    async function load() {
+        if(data.problems.length == 0)
+            return '';
+
+        while (isProcessing) await new Promise(resolve => setTimeout(resolve, 50));
+        isProcessing = true;
+
+        const response = await fetch('/apiv2/loadProof', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                courseId: data.course.course_id, 
+                proofId: data.problems[activeProblem].proof_id, 
+                problemId: data.problems[activeProblem].problem_id,
+                studentAssignmentId: $page.params.student_assignment
+            })
+        });
+        let value = await response.json();
+        isProcessing = false;
+        return value['content'];
+    }
+
+    async function save() {
+        if(data.problems.length == 0)
+            return;
+
+        while (isProcessing) await new Promise(resolve => setTimeout(resolve, 50));
+        isProcessing = true;
+
+        console.log(`[Lean4web] Saving proof...`);
+        const response = await fetch('/apiv2/saveProof', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                courseId: data.course.course_id, 
+                proofId: data.problems[activeProblem].proof_id, 
+                problemId: data.problems[activeProblem].problem_id, 
+                content: leanMonacoEditor.editor.getValue()
+            })
+        });
+        isProcessing = false;
+    }
     
-    onMount(() => {
+    onMount(async () => {
         activeTheoremCategory = (theorems.map(theorem => theorem.statement_category))[0];
+
 
         const socketUrl = ((window.location.protocol === "https:") ? "wss://" : "ws://") +
         window.location.host + "/websocket/" + project;
 
         console.log(`[Lean4web] Socket url is ${socketUrl}`);
 
-        import("lean4monaco").then(({ LeanMonaco, LeanMonacoEditor }) => {
+        import("lean4monaco").then(async ({ LeanMonaco, LeanMonacoEditor }) => {
             const options = {
                 websocket: { url: socketUrl },
                 htmlElement: editorRef,
                 vscode: { "editor.wordWrap": true }
             };
 
-            const leanMonaco = new LeanMonaco();
-            const leanMonacoEditor = new LeanMonacoEditor();
+            leanMonaco = new LeanMonaco();
+            leanMonacoEditor = new LeanMonacoEditor();
 
             leanMonaco.setInfoviewElement(infoviewRef);
-
+            const proofCont = await load();
             leanMonaco.start(options).then(() => {
-                leanMonacoEditor.start(editorRef, `/project/0.lean`, "");
+                leanMonacoEditor.start(editorRef, `/project/scratch.lean`, proofCont);
             });
         });
+
+        saveInterval = setInterval(save, interval);
     });
+
+    onDestroy(() => {
+        clearInterval(saveInterval);
+    })
 </script>
 
 <div class="h-screen flex flex-col">
@@ -88,8 +145,13 @@
         <ul class="flex flex-col gap-1 p-1">
             {#each data.problems as problem, i}
             <li>
-                <button onclick={() => activeProblem = i} 
-                class="w-full flex justify-between p-1 rounded-full
+                <button on:click={async () => {
+                        await save();
+                        activeProblem = i; 
+                        leanMonacoEditor.editor.setValue(await load());
+                    } 
+                }
+                class="w-full flex justify-between
                 {(i == activeProblem) ? '!variant-filled-surface' : ''}">
                 <span class="flex-auto text-xl">
                     {problem.problem_name}
@@ -188,7 +250,7 @@
                 {/if}
 
                 <div class="flex flex-wrap gap-1" slot="panel">
-                {#each theorems.filter((s) => s.statement_category === activeTheoremCategory) as theorem}
+                {#each theorems?.filter((s) => s.statement_category === activeTheoremCategory) as theorem}
                     <span class="chip variant-ringed">
                     {theorem.statement_name}
                     </span>

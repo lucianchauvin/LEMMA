@@ -14,7 +14,6 @@
 	//Import handler from SSD
 	import { DataHandler } from '@vincjo/datatables/legacy';
     import { onMount } from 'svelte';
-    import { RpcSessionAtPos } from 'lean4monaco/dist/vscode-lean4/vscode-lean4/src/infoview';
 	import { getData } from '$lib/components/data';
 
 	// Initialize data, handler, and loading state

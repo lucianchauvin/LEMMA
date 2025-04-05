@@ -7,16 +7,11 @@ import * as stream from 'stream';
 import * as fsStream from 'fs';
 import * as path from 'path';
 
-type ProblemStatementProofs = Problem & {complete: boolean, proof_filepath: string, statements: Statement[]};
+type ProblemStatementProofs = Problem & {complete: boolean, statements: Statement[]};
 
 const BASE_DIR = path.join("data", "problems");
 
 export const load = (async ({params, locals: { safeQuery, getSession }}) => {
-    const { session } = await getSession();
-
-    if (!session)
-        redirect(302, '/login')
-
     const {data: courseResult, error: courseErr} = await safeQuery<Course>("SELECT * FROM courses WHERE course_id=$1", [params.course]);
 
     if(courseErr) {
@@ -55,15 +50,15 @@ export const load = (async ({params, locals: { safeQuery, getSession }}) => {
     const {data: problemStatementProofs, error: problemStatementProofErr} = await safeQuery<ProblemStatementProofs>(`
         SELECT 
             p.*, 
+            pr.proof_id,
             COALESCE(pr.complete, false) AS complete,  -- Default to false if no proof
-            pr.proof_filepath,
             COALESCE(jsonb_agg(to_jsonb(s)) FILTER (WHERE s.statement_id IS NOT NULL), '[]'::jsonb) AS statements
         FROM problems p
         LEFT JOIN problem_statements ps ON p.problem_id = ps.problem_id
         LEFT JOIN statements s ON s.statement_id = ps.statement_id
         LEFT JOIN student_proofs pr ON pr.problem_id = p.problem_id AND pr.student_assignment_id = $1
         WHERE p.assignment_id = (SELECT assignment_id FROM student_assignments WHERE student_assignment_id = $1)
-        GROUP BY p.problem_id, pr.complete, pr.proof_filepath
+        GROUP BY p.problem_id, pr.complete, pr.proof_id
         ORDER BY p.problem_number;
     `, [params.student_assignment]);
     if(problemStatementProofErr){

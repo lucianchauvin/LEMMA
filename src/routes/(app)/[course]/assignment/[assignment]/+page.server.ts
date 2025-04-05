@@ -11,8 +11,23 @@ type StudentAssignmentData = {
     grade: number
 }
 
-export const load = (async ({params, locals: { safeQuery }}) => {
-    const {data: [editAssignment], error: err} = await safeQuery<StudentAssignment>("SELECT * FROM student_assignments WHERE assignment_id=$1 AND edit=true", [params.assignment]);
+export const load = (async ({parent, params, locals: { safeQuery, permCheck }}) => {
+    const {user, course} = await parent();
+
+    if(!user)
+        throw error(403, {message: 'Forbidden'});
+
+    const {data: viewAssignments, error: viewAssignmentsErr} = await permCheck('view_course_student_assignments', course.course_id);
+
+    if(viewAssignmentsErr){
+        console.error('ERROR: Database failed to check if user has permission view all student assignments:', viewAssignmentsErr);
+        error(500, {message: 'Database failed to check if user has permission view all student assignments'})
+    }
+
+    if(!viewAssignments.access)
+        throw error(403, {message: 'Forbidden'});
+
+    const {data: editAssignment, error: err} = await safeQuery<StudentAssignment>("SELECT * FROM student_assignments WHERE assignment_id=$1 AND edit=true", [params.assignment]);
     if(err){
         console.error('ERROR: Database failed to query student assignments for assignment:', err);
         error(500, {message: 'Database failed to query student assignments for assignment'})
@@ -41,7 +56,7 @@ export const load = (async ({params, locals: { safeQuery }}) => {
 
     return {
         students,
-        edit: editAssignment
+        edit: editAssignment![0]
     };
         
 }) satisfies PageServerLoad;

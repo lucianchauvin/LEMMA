@@ -25,4 +25,14 @@ vite.config.ts.timestamp-*
 # Database
 data/init_db.sql
 
+Projects/mathlib-demo/lake-manifest.json
 .lake
+
+# Playwright
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+
+# Jsdoc
+/jsdoc/

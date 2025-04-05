@@ -12,7 +12,7 @@
     <input name="username" id="username" /><br />
     <label for="password">Password</label>
     <input type="password" name="password" id="password" /><br />
-    <button class="btn btn-sm border-2 border-surface-600 bg-surface-100 hover:variant-filled-surface text-surface-600">Login</button>
+    <button class="btn btn-sm border-2 border-surface-600 bg-surface-100 hover:variant-filled-surface text-surface-600" id="login">Login</button>
 </form>
 <a id="signup" href="/signup" class="btn btn-sm border-2 border-surface-600 bg-surface-100 hover:variant-filled-surface text-surface-600">Signup</a>
 
@@ -24,5 +24,4 @@
 {/if}
 </div>
 </div>
-
 

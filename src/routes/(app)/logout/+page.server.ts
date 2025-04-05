@@ -7,7 +7,7 @@ export const load: PageServerLoad = async ({ cookies, locals: { getSession } }) 
     const { session } = await getSession();
 
     if (!session) {
-        return fail(401);
+        throw redirect(303, "/login");
     }
     await lucia.invalidateSession(session.id);
     const sessionCookie = lucia.createBlankSessionCookie();
@@ -15,6 +15,5 @@ export const load: PageServerLoad = async ({ cookies, locals: { getSession } }) 
         path: ".",
         ...sessionCookie.attributes
     });
-    redirect(302, "/login");
+    throw redirect(303, "/login");
 };
-

@@ -95,7 +95,6 @@ CREATE TABLE "problems" (
   "assignment_id" uuid NOT NULL,
   "problem_name" varchar(100) NOT NULL,
   "problem_description" text,
-  "problem_filepath" text NOT NULL,
   "problem_number" smallint NOT NULL DEFAULT 0
 );
 
@@ -109,7 +108,6 @@ CREATE TABLE "statements" (
   "statement_name" varchar(100) NOT NULL,
   "statement_type" statement NOT NULL,
   "statement_description" text,
-  "statement_filepath" text NOT NULL,
   "statement_category" varchar(100)
 );
 
@@ -125,8 +123,7 @@ CREATE TABLE "student_proofs" (
   "proof_id" uuid PRIMARY KEY DEFAULT (gen_random_uuid()),
   "problem_id" uuid NOT NULL,
   "student_assignment_id" uuid NOT NULL,
-  "complete" bool NOT NULL DEFAULT false,
-  "proof_filepath" text NOT NULL
+  "complete" bool NOT NULL DEFAULT false
 );
 
 CREATE TABLE "roles" (
