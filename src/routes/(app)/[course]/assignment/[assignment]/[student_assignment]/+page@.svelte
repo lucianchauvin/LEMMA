@@ -242,13 +242,14 @@
                 <div id="editor" bind:this={editorRef} class="flex-1"></div>
                 <div id="editor-output" bind:this={infoviewRef} class="flex-1"></div>
             </div>
-            {#if edit}
             <div class="w-full absolute bottom-0 p-2">
                 <div class="flex justify-between">
                 <p>{form?.message ?? ''}</p>
                 {#if form?.error}
                   <p>{form.error}</p>
                 {/if}
+                <div class="flex">
+                {#if edit}
                 <form 
                 method="post" 
                 action="?/saveProblem" 
@@ -259,9 +260,17 @@
                 <input type="hidden" name="problemId" value={data.problems[activeProblem].problem_id} />
                 <button class="btn variant-filled" type="submit">Save as Problem</button>
                 </form>
+                {/if}
+                <button 
+                class="btn variant-filled"
+                onclick={async () => {
+                    data.problems[activeProblem].proof_id = null;
+                    leanMonacoEditor.editor.setValue(await load());
+                    await save();
+                }}>Reset</button>
+                </div>
                 </div>
             </div>
-            {/if}
         </div>
         <div class="h-full p-2 bg-surface-100 grid grid-rows-[1fr_1fr_3fr]">
             <div>
