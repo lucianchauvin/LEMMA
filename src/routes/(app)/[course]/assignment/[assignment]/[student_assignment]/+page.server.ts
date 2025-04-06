@@ -1,8 +1,10 @@
 import type { PageServerLoad, Actions } from './$types';
 import type { UUID, Course, Assignment, StudentAssignment, StudentProof, Problem, Statement } from '$lib/types';
 import { isUUID } from '$lib/util';
-import { DATAROOT } from '$env/static/private';
 import { fail, error, redirect } from '@sveltejs/kit';
+import { BASE_PROBLEM_DIR } from '$lib/constants';
+import {promises as fs} from 'zlib';
+import * as path from 'node:path';
 
 type ProblemStatementProofs = Problem & {complete: boolean, statements: Statement[]};
 
@@ -139,7 +141,7 @@ export const actions: Actions = {
         const formData = await request.formData();
         const problemId = formData.get("problemId");
 
-        if(!problemId || !isUUID(problemId as string)) return fail(400, {message: "Expected description"});
+        if(!problemId || !isUUID(problemId as string)) return fail(400, {message: "Expected problem id"});
 
         const {error: deleteErr} = await safeQuery(
             `DELETE FROM problems WHERE problem_id=$1`, 
@@ -150,43 +152,30 @@ export const actions: Actions = {
             throw error(500, {message: "Failed to delete problem"});
         }
 
+    },
+
+    saveProblem: async({ request, params, locals: { safeQuery, permCheck } }) => {
+        const {data: perm, error: permErr} = await permCheck('update_assignments', params.course);
+        if(permErr) {
+            console.error("ERROR: Failed to determine permission for updating assignments:", permErr);
+            throw error(500, {message: "Failed to determine permission for updating assignments"})
+        }
+        if(!perm.access) {
+            return fail(403, {message: "Forbidden"});
+        }
+
+        const formData = await request.formData();
+        const problemId = formData.get("problemId");
+        const content = formData.get("content");
+
+        if(!problemId || !isUUID(problemId as string)) return fail(400, {message: "Expected problem id"});
+        if(!content) return fail(400, {message: "Expected content"});
+
+        const problemFilePath = path.join(BASE_PROBLEM_DIR, problemId as UUID);
+
+        const { data: result_statements, error: err_statements } = await safeQuery('SELECT 1 FROM problems where problem_id = $1', [problemId]);
+        if(err_statements || result_statements!.length <= 0) throw error(400, { message: 'Problem not found in database' });
+
+        await fs.writeFile(problemFilePath, content as string, 'utf-8');
     }
-
-
-
-    // problem: async({ request, locals: { safeQuery } }) => {
-    //     const formData = await request.formData();
-    //    
-    //     const problemId: UUID = formData.get("problem_id") as UUID;
-    //     const file: File = formData.get("file") as File;
-    //
-    //     if (!file || !(file instanceof File)) {
-    //       throw error(400, "Invalid file");
-    //     }
-    //
-    //     const filePath = path.join(DATAROOT, BASE_DIR, problemId + '.lean');
-    //
-    //
-    //     // Use a writable stream to write directly to the file
-    //     const writableStream = fsStream.createWriteStream(filePath);
-    //
-    //     // Pipe the incoming file stream to the writable stream
-    //     const readableStream = file.stream();
-    //     readableStream.pipe(writableStream);
-    //
-    //     // Wait for the file to be written completely
-    //     await new Promise<void>((resolve, reject) => {
-    //       writableStream.on('finish', resolve);
-    //       writableStream.on('error', reject);
-    //     });
-    //
-    //     try {
-    //       await fs.writeFile(filePath, file, "utf-8");
-    //     } catch (err) {
-    //       console.error("File write error:", err);
-    //       throw error(500, "Failed to write file");
-    //     }
-    //
-    //     return { type: "success" };
-    // }
 }

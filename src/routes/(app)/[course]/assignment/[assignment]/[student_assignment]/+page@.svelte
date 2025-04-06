@@ -56,21 +56,27 @@
         while (isProcessing) await new Promise(resolve => setTimeout(resolve, 50));
         isProcessing = true;
 
-        const response = await fetch('/apiv2/loadProof', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                courseId: data.course.course_id, 
-                proofId: data.problems[activeProblem].proof_id, 
-                problemId: data.problems[activeProblem].problem_id,
-                studentAssignmentId: $page.params.student_assignment
-            })
-        });
-        let value = await response.json();
-        isProcessing = false;
-        return value['content'];
+        try {
+            const response = await fetch('/apiv2/loadProof', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    courseId: data.course.course_id, 
+                    proofId: data.problems[activeProblem].proof_id, 
+                    problemId: data.problems[activeProblem].problem_id,
+                    studentAssignmentId: $page.params.student_assignment
+                })
+            });
+            let value = await response.json();
+            isProcessing = false;
+            return value['content'];
+        } catch (e) {
+            console.error("Failed to load file:", (e as Error).message);
+            isProcessing = false;
+            return '';
+        }
     }
 
     async function save() {
@@ -81,18 +87,22 @@
         isProcessing = true;
 
         console.log(`[Lean4web] Saving proof...`);
-        const response = await fetch('/apiv2/saveProof', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                courseId: data.course.course_id, 
-                proofId: data.problems[activeProblem].proof_id, 
-                problemId: data.problems[activeProblem].problem_id, 
-                content: leanMonacoEditor.editor.getValue()
-            })
-        });
+        try {
+            const response = await fetch('/apiv2/saveProof', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    courseId: data.course.course_id, 
+                    proofId: data.problems[activeProblem].proof_id, 
+                    problemId: data.problems[activeProblem].problem_id, 
+                    content: leanMonacoEditor.editor.getValue()
+                })
+            });
+        } catch (e) {
+            console.error("Failed to save file:", (e as Error).message);
+        }
         isProcessing = false;
     }
     
@@ -227,31 +237,31 @@
     </div>
     
     <div class="h-full grid grid-cols-[3fr_1fr]">
-        <div class="h-full bg-surface-50 grid grid-rows-3">
-            <div id="editor" bind:this={editorRef} class="h-full"></div>
-            <div id="goal">
-                <h3 class="h3">Current Goal</h3>
-                {#if edit}
-                <form 
-                    action="?/problem" 
-                    enctype="multipart/form-data" 
-                    method="post" 
-                    use:enhance={async ({formData, cancel}) => {
-                        formData.set("problem_id", data.problems[activeProblem].problem_id);
-                    }}
-                >
-                    <input type="file" name="file" accept=".lean" class="btn variant-filled" />
-                    <button type="submit" class="btn variant-filled">Upload</button>
-                </form>
-                {#if form?.message}
-                  <p>{form.message}</p>
-                {/if}
+        <div class="h-full bg-surface-50 relative">
+            <div class="h-full flex flex-col">
+                <div id="editor" bind:this={editorRef} class="flex-1"></div>
+                <div id="editor-output" bind:this={infoviewRef} class="flex-1"></div>
+            </div>
+            {#if edit}
+            <div class="w-full absolute bottom-0 p-2">
+                <div class="flex justify-between">
+                <p>{form?.message ?? ''}</p>
                 {#if form?.error}
                   <p>{form.error}</p>
                 {/if}
-                {/if}
+                <form 
+                method="post" 
+                action="?/saveProblem" 
+                enc="multipart/form-data" 
+                use:enhance={(formData) => {
+                    formData.set('content', leanMonacoEditor.editor.getValue());
+                }}>
+                <input type="hidden" name="problemId" value={data.problems[activeProblem].problem_id} />
+                <button class="btn variant-filled" type="submit">Save as Problem</button>
+                </form>
+                </div>
             </div>
-            <div id="editor-output" bind:this={infoviewRef} class="h-full"></div>
+            {/if}
         </div>
         <div class="h-full p-2 bg-surface-100 grid grid-rows-[1fr_1fr_3fr]">
             <div>
