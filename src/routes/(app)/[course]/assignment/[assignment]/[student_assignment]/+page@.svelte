@@ -10,6 +10,8 @@
     import ArrowLeft from '@lucide/svelte/icons/arrow-left';
     import Plus from '@lucide/svelte/icons/plus';
     import Circle from '@lucide/svelte/icons/circle';
+    import Save from '@lucide/svelte/icons/save';
+    import Trash from '@lucide/svelte/icons/trash';
     import CircleCheckBig from '@lucide/svelte/icons/circle-check-big';
 
     const urlBase = `/${data.course.course_id}` + ((data.user.student) ? `/assignment/${data.assignment.assignment_id}`: '');
@@ -25,9 +27,11 @@
 
     let activeTheoremCategory;
 
-    let addCategory = false;
+    let addingCategory = false;
     let addCategoryName = '';
     let tempNewCategory = [];
+
+    let addingProblem = false;
 
     let editorRef;
     let infoviewRef;
@@ -140,38 +144,86 @@
 </AppBar>
 
 <main class="h-full grid grid-cols-[1fr_4fr]">
-    <div class="h-full bg-surface-100 flex flex-col">
+    <div class="h-full bg-surface-100 relative">
+    <div class="flex flex-col">
     <div id="assignment-description" class="p-2">
-        <p>{(data?.assignment) ? data?.assignment?.assignment_description : ''}</p>
+        {#if edit}
+        <form method="post" action="?/description" enctype="multipart/form-data" use:enhance class="flex flex-col">
+        <textarea id="description-textarea" name="description" rows="10">{data?.assignment?.assignment_description ?? ''}</textarea>
+        <button type="submit" class="btn variant-filled">Save</button>
+        </form>
+        {:else}
+        <p>{data?.assignment?.assignment_description ?? ''}</p>
+        {/if}
     </div>
 
     <nav id="problem-selection" class="list-nav">
         <ul class="flex flex-col gap-1 p-1">
             {#each data.problems as problem, i}
-            <li>
+            <li class="flex items-center">
                 <button onclick={async () => {
                         await save();
                         activeProblem = i; 
                         leanMonacoEditor.editor.setValue(await load());
                     } 
                 }
-                class="w-full flex justify-between
+                class="flex-1 flex justify-between
                 {(i == activeProblem) ? '!variant-filled-surface' : ''}">
                 <span class="flex-auto text-xl">
                     {problem.problem_name}
                 </span>
                 <span>
-                    {#if problem.complete}
-                    <CircleCheckBig/>
-                    {:else}
-                    <Circle/>
+                    {#if !edit}
+                        {#if problem.complete}
+                        <CircleCheckBig/>
+                        {:else}
+                        <Circle/>
+                        {/if}
                     {/if}
                 </span>
                 </button>
+                {#if edit}
+                    <form method="post" action="?/deleteProblem" enctype="multipart/form-data">
+                        <input type="hidden" name="problemId" value={problem.problem_id} />
+                        <button type="submit" class="bg-red-500 text-white px-2 py-1 rounded flex items-center gap-1 p-2">
+                            <Trash size={16} />
+                        </button>
+                    </form>
+                {/if}
             </li>
             {/each}
-        </ul>        
+            {#if edit & addingProblem}
+            <li class="w-full">
+                <form 
+                method="post" 
+                action="?/problemName" 
+                enctype="multipart/form-data"
+                class="flex justify-center gap-2" 
+                use:enhance={() => {
+                return async ({ update }) => {
+                    await update();
+                    addingProblem = false;
+                }}}
+                >
+                <input id="problem-field" name="problemName" class="w-2/3"/>
+                <button type="submit" class="bg-blue-500 text-white px-2 py-1 rounded flex items-center gap-1">
+                    <Save size={20} />
+                </button>
+                </form>
+            </li>
+            {/if}
+        </ul>
     </nav>
+    </div>
+    {#if edit}
+    <div class="w-full absolute bottom-0 p-2">
+    <div class="flex flex-row-reverse">
+        <button onclick={() => addingProblem = !addingProblem}>
+            <Plus size={36}/>
+        </button>
+    </div>
+    </div>
+    {/if}
     </div>
     
     <div class="h-full grid grid-cols-[3fr_1fr]">
@@ -231,13 +283,13 @@
                 </Tab>
                 {/each}
                 {#if edit}
-                {#if addCategory}
+                {#if addingCategory}
                 <form onsubmit={(e) => {
                     e.preventDefault();
                     if(addCategoryName)
                         tempNewCategory = [addCategoryName];
                 
-                    addCategory = false;
+                    addingCategory = false;
                     addCategoryName = '';
                 }}
                     class="flex"
@@ -246,7 +298,7 @@
                     <button class="btn" type="submit">Submit</button>
                 </form>
                 {:else}
-                <button onclick={() => addCategory = true} class="btn">
+                <button onclick={() => addingCategory = true} class="btn">
                     <Plus />
                 </button>
                 {/if}
