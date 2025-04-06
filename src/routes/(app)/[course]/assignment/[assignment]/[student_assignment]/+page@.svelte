@@ -1,6 +1,8 @@
 <script lang="ts">
-    let { data, form }: PageProps = $props();
+    export let data;
+    export let form;
 
+    import { page } from '$app/stores';
     import { enhance } from "$app/forms";
     import { onDestroy, onMount } from 'svelte';
 
@@ -14,16 +16,18 @@
 
     const edit = data.studentAssignment.edit;
 
-    const tactics = $derived(data.problems[activeProblem].statements.filter((s) => s.statement_type === 'tactic'));
-    const definitions = $derived(data.problems[activeProblem].statements.filter((s) => s.statement_type === 'definition'));
-    const theorems = $derived(data.problems[activeProblem].statements.filter((s) => s.statement_type === 'theorem'));
-    const theoremCategories = $derived(new Set(theorems.map(theorem => theorem.statement_category)));
+    $: activeProblem = (data.problems.length > 0) ? 0 : null;
 
-    let activeTheoremCategory = $state();
+    $: tactics = data.problems[activeProblem].statements.filter((s) => s.statement_type === 'tactic');
+    $: definitions = data.problems[activeProblem].statements.filter((s) => s.statement_type === 'definition');
+    $: theorems = data.problems[activeProblem].statements.filter((s) => s.statement_type === 'theorem');
+    $: theoremCategories = new Set(theorems.map(theorem => theorem.statement_category));
 
-    let addCategory = $state(false);
-    let addCategoryName = $state('');
-    let tempNewCategory = $state([]);
+    let activeTheoremCategory;
+
+    let addCategory = false;
+    let addCategoryName = '';
+    let tempNewCategory = [];
 
     let editorRef;
     let infoviewRef;
@@ -36,10 +40,10 @@
     
     const project = "mathlib-demo";
 
-    $effect(() => {
+    $: () => {
         activeTheoremCategory = (theorems.map(theorem => theorem.statement_category))[0];
         tempNewCategory = [];
-    })
+    }
 
     async function load() {
         if(data.problems.length == 0)
@@ -145,7 +149,7 @@
         <ul class="flex flex-col gap-1 p-1">
             {#each data.problems as problem, i}
             <li>
-                <button on:click={async () => {
+                <button onclick={async () => {
                         await save();
                         activeProblem = i; 
                         leanMonacoEditor.editor.setValue(await load());
@@ -194,7 +198,6 @@
                   <p>{form.error}</p>
                 {/if}
                 {/if}
-                {problemFile}
             </div>
             <div id="editor-output" bind:this={infoviewRef} class="h-full"></div>
         </div>
