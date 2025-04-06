@@ -8,7 +8,7 @@ import * as path from 'node:path';
 
 type ProblemStatementProofs = Problem & {complete: boolean, statements: Statement[]};
 
-export const load = (async ({params, locals: { safeQuery, getSession }}) => {
+export const load = (async ({params, locals: { safeQuery, permCheck }}) => {
     const {data: courseResult, error: courseErr} = await safeQuery<Course>("SELECT * FROM courses WHERE course_id=$1", [params.course]);
 
     if(courseErr) {
@@ -68,11 +68,22 @@ export const load = (async ({params, locals: { safeQuery, getSession }}) => {
         error(500, {message: 'Database failed to query for all the statements for each problem:'})
     }
 
+    const {data: viewStudentAssignments, error: viewStudentAssignmentsErr} = await permCheck('view_course_student_assignments', params.course);
+
+    if(viewStudentAssignmentsErr) {
+        console.error('ERROR: Failed to determine permission for view all student assignments:', viewStudentAssignmentsErr);
+        throw error(500, {message: 'Failed to determine permission for view all student assignments'})
+    }
+
+
     return {
         course: courseResult[0],
-        assignment: assignmentResult[0],
+        assignment: assignmentResult![0],
         studentAssignment,
-        problems: problemStatementProofs
+        problems: problemStatementProofs,
+        permissions: {
+            view_course_student_assignments: viewStudentAssignments
+        }
     };
         
 }) satisfies PageServerLoad;

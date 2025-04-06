@@ -14,7 +14,7 @@
     import Trash from '@lucide/svelte/icons/trash';
     import CircleCheckBig from '@lucide/svelte/icons/circle-check-big';
 
-    const urlBase = `/${data.course.course_id}` + ((data.user.student) ? `/assignment/${data.assignment.assignment_id}`: '');
+    const urlBase = `/${data.course.course_id}` + ((data.permissions.view_course_student_assignments.access) ? `/assignment/${data.assignment.assignment_id}`: '');
 
     const edit = data.studentAssignment.edit;
 
