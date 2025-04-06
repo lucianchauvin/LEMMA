@@ -20,10 +20,10 @@
 
     $: activeProblem = (data.problems.length > 0) ? 0 : null;
 
-    $: tactics = data.problems[activeProblem].statements.filter((s) => s.statement_type === 'tactic');
-    $: definitions = data.problems[activeProblem].statements.filter((s) => s.statement_type === 'definition');
-    $: theorems = data.problems[activeProblem].statements.filter((s) => s.statement_type === 'theorem');
-    $: theoremCategories = new Set(theorems.map(theorem => theorem.statement_category));
+    $: tactics = data.problems[activeProblem]?.statements?.filter((s) => s.statement_type === 'tactic') ?? [];
+    $: definitions = data.problems[activeProblem]?.statements?.filter((s) => s.statement_type === 'definition') ?? [];
+    $: theorems = data.problems[activeProblem]?.statements?.filter((s) => s.statement_type === 'theorem') ?? [];
+    $: theoremCategories = new Set(theorems.map(theorem => theorem.statement_category)) ?? new Set();
 
     let activeTheoremCategory;
 
@@ -50,7 +50,7 @@
     }
 
     async function load() {
-        if(data.problems.length == 0)
+        if(!data.problems || data.problems.length == 0)
             return '';
 
         while (isProcessing) await new Promise(resolve => setTimeout(resolve, 50));
@@ -249,18 +249,19 @@
                   <p>{form.error}</p>
                 {/if}
                 <div class="flex">
-                {#if edit}
+                {#if edit && activeProblem !== null}
                 <form 
                 method="post" 
                 action="?/saveProblem" 
                 enc="multipart/form-data" 
-                use:enhance={(formData) => {
+                use:enhance={({formData}) => {
                     formData.set('content', leanMonacoEditor.editor.getValue());
                 }}>
-                <input type="hidden" name="problemId" value={data.problems[activeProblem].problem_id} />
+                <input type="hidden" name="problemId" value={data.problems[activeProblem]?.problem_id ?? ''} />
                 <button class="btn variant-filled" type="submit">Save as Problem</button>
                 </form>
                 {/if}
+                {#if activeProblem !== null}
                 <button 
                 class="btn variant-filled"
                 onclick={async () => {
@@ -268,6 +269,7 @@
                     leanMonacoEditor.editor.setValue(await load());
                     await save();
                 }}>Reset</button>
+                {/if}
                 </div>
                 </div>
             </div>
