@@ -14,22 +14,21 @@
 	//Import handler from SSD
 	import { DataHandler } from '@vincjo/datatables/legacy';
     import { onMount } from 'svelte';
-	import { getData } from '$lib/components/data';
+
+
 
 	// Initialize data, handler, and loading state
-	let data = [];
+	export let data = [];
+	export let columns = [];
+	export let display_columns = [];
+
 	let handler;
 	let isLoading = true;
 	let rows = [];
 
-	onMount(async () => {
+	onMount(() => {
 		try {
-			data = await getData();
-			console.log('Fetched data:', data);
-
 			handler = new DataHandler(data, { rowsPerPage: 5 });
-			console.log('Handler intialized with rows:', handler.getRows());
-			// const rows = handler.getRows();
 
 			const unsubscribe = handler.getRows().subscribe(($rows) => {
 				rows = $rows;
@@ -61,26 +60,32 @@
 			<Search {handler} />
 			<RowsPerPage {handler} />
 		</header>
-		<!-- Table -->
+
+		
+
 		<table class="table table-hover table-compact w-full table-auto">
 			<thead>
 				<tr>
-					<ThSort {handler} orderBy="first_name">First name</ThSort>
-					<ThSort {handler} orderBy="last_name">Last name</ThSort>
-					<ThSort {handler} orderBy="email">Email</ThSort>
+					{#each columns as col, i}
+					<ThSort {handler} orderBy={col}>{display_columns[i]}</ThSort>
+					{/each}
+					<th scope="col">Remove Users</th>
 				</tr>
+					
 				<tr>
-					<ThFilter {handler} filterBy="first_name" />
-					<ThFilter {handler} filterBy="last_name" />
-					<ThFilter {handler} filterBy="email" />
+					{#each columns as col}
+					<ThFilter {handler} filterBy={col} />
+					{/each}
+					<th></th>
 				</tr>
 			</thead>
 			<tbody>
-				{#each rows as row}
+				{#each rows as row, i}
 					<tr>
-						<td>{row.first_name}</td>
-						<td>{row.last_name}</td>
-						<td>{row.email}</td>
+						{#each columns as col}
+						<td>{row[col]}</td>
+						{/each}
+						<td><slot name="remove" {i}></slot></td>
 					</tr>
 				{/each}
 			</tbody>
