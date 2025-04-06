@@ -56,7 +56,7 @@
     </table>
 </div> -->
 
-<DatatableClient data={data.assignments} columns={["assignment_name", "grade"]} display_columns={[ "Assignment", "Grade"]}>
+<DatatableClient showSlot={false} data={data.assignments} columns={["assignment_name", "grade"]} display_columns={[ "Assignment", "Grade"]}>
     <!-- <svelte:fragment slot="remove" let:i>
     <form method="post" action="/admin?/remove" use:enhance>
         <input type="hidden" name="user_id" value={data.userData[i].user_id}/>

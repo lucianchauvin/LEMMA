@@ -7,7 +7,8 @@
 	import RowCount from '$lib/components/client/RowCount.svelte';
 	import Pagination from '$lib/components/client/Pagination.svelte';
 
-	
+	// Enable slot
+	export let showSlot = true;
 
 	// import data from '$lib/components/data';
 
@@ -69,7 +70,9 @@
 					{#each columns as col, i}
 					<ThSort {handler} orderBy={col}>{display_columns[i]}</ThSort>
 					{/each}
-					<th scope="col">Remove Users</th>
+					{#if showSlot}
+						<th scope="col">Remove</th>
+					{/if}
 				</tr>
 					
 				<tr>
@@ -85,7 +88,9 @@
 						{#each columns as col}
 						<td>{row[col]}</td>
 						{/each}
-						<td><slot name="remove" {i}></slot></td>
+						{#if showSlot}
+							<td><slot name="remove" {i}></slot></td>
+						{/if}
 					</tr>
 				{/each}
 			</tbody>
