@@ -182,8 +182,5 @@
 		{headers}
 		{days}
 		{items}
-		on:dayClick={(e)=>dayClick(e.detail)}
-		on:itemClick={(e)=>itemClick(e.detail)}
-		on:headerClick={(e)=>headerClick(e.detail)}
 		/>
 </div>
