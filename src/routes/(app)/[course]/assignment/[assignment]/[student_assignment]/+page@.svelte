@@ -116,7 +116,16 @@
         isProcessing = false;
     }
 
-    function complete(){
+    async function complete(){
+        const response = await fetch('/apiv2/completeProof', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                proofId: data.problems[activeProblem].proof_id
+            })
+        });
         data.problems[activeProblem].complete = true;
     }
 
@@ -153,10 +162,10 @@
             goalCheckActive = true;
 
             if (goalCheckTimeout) clearTimeout(goalCheckTimeout);
-            goalCheckTimeout = setTimeout(() => {
+            goalCheckTimeout = setTimeout(async () => {
                 if (!lastDiagnosticHadError) {
                     console.log(`[Lean4web] Goal passed! No errors after empty goals.`);
-                    complete();
+                    await complete();
                 } else {
                     console.log(`[Lean4web] Goal check failed: Diagnostics had errors`);
                 }
