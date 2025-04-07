@@ -2,6 +2,7 @@ import { json, error } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 export const POST: RequestHandler = async ({ request, locals: { safeQuery } }) => {
 	const { proofId } = await request.json();
 
@@ -49,11 +50,18 @@ export const POST: RequestHandler = async ({ request, locals: { safeQuery, permC
 
 	// Step 4: Update proof to complete
 >>>>>>> 9c23bbf (LEAN: add `/apiv2/completeProof` that takes proofId and updates db and)
+=======
+export const POST: RequestHandler = async ({ request, locals: { safeQuery } }) => {
+	const { proofId } = await request.json();
+
+  // set the proof as completed
+>>>>>>> 455605f (Uses a trigger to update grades rather than multiple queries)
 	const { error: updateProofErr } = await safeQuery(
 		`UPDATE student_proofs SET complete = true WHERE proof_id = $1`,
 		[proofId]
 	);
 	if (updateProofErr) {
+<<<<<<< HEAD
 <<<<<<< HEAD
 		console.error('ERROR: Failed to mark proof complete', updateProofErr);
 		throw error(500, { message: 'Failed to mark proof as complete' });
@@ -75,5 +83,11 @@ export const POST: RequestHandler = async ({ request, locals: { safeQuery, permC
 	}
 
 >>>>>>> 9c23bbf (LEAN: add `/apiv2/completeProof` that takes proofId and updates db and)
+=======
+		console.error('ERROR: Failed to mark proof complete', updateProofErr);
+		throw error(500, { message: 'Failed to mark proof as complete' });
+	}
+
+>>>>>>> 455605f (Uses a trigger to update grades rather than multiple queries)
 	return json({ message: 'Proof completed and grade updated' });
 };
