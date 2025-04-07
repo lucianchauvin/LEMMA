@@ -1,5 +1,6 @@
 <script lang="ts">
     export let data;
+    import { page } from '$app/stores';
     import { onDestroy, onMount } from 'svelte';
 
     import { AppBar, Tab, TabGroup } from '@skeletonlabs/skeleton';
@@ -7,12 +8,10 @@
     import Circle from '@lucide/svelte/icons/circle';
     import CircleCheckBig from '@lucide/svelte/icons/circle-check-big';
 
-    const urlBase = `/${data.course.course_id}/assignment/${data.assignment.assignment_id}`;
+    const urlBase = `/${data.course.course_id}` + ((data.user.student) ? `/assignment/${data.assignment.assignment_id}`: '');
 
     $: activeProblem = (data.problems.length > 0) ? 0 : null;
 
-    $: problemFile = data.problems[activeProblem].problem_filepath;
-    $: proofFile = data.problems[activeProblem].proof_filepath;
     $: tactics = data.problems[activeProblem].statements.filter((s) => s.statement_type === 'tactic');
     $: definitions = data.problems[activeProblem].statements.filter((s) => s.statement_type === 'definition');
     $: theorems = data.problems[activeProblem].statements.filter((s) => s.statement_type === 'theorem');
@@ -25,36 +24,61 @@
     let leanMonaco;
     let leanMonacoEditor;
     let saveInterval;
+    let interval = 5000;
+    let isProcessing = false;
     
     const project = "mathlib-demo";
 
     async function load() {
+        if(data.problems.length == 0)
+            return '';
+
+        while (isProcessing) await new Promise(resolve => setTimeout(resolve, 50));
+        isProcessing = true;
+
         const response = await fetch('/apiv2/loadProof', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({problemId: data.problems[activeProblem].problem_id, proofId: data.problems[activeProblem].proof_id})
+            body: JSON.stringify({
+                courseId: data.course.course_id, 
+                proofId: data.problems[activeProblem].proof_id, 
+                problemId: data.problems[activeProblem].problem_id,
+                studentAssignmentId: $page.params.student_assignment
+            })
         });
         let value = await response.json();
+        isProcessing = false;
         return value['content'];
     }
 
     async function save() {
+        if(data.problems.length == 0)
+            return;
+
+        while (isProcessing) await new Promise(resolve => setTimeout(resolve, 50));
+        isProcessing = true;
+
         console.log(`[Lean4web] Saving proof...`);
         const response = await fetch('/apiv2/saveProof', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({proofId: data.problems[activeProblem].proof_id, content: leanMonacoEditor.editor.getValue()})
+            body: JSON.stringify({
+                courseId: data.course.course_id, 
+                proofId: data.problems[activeProblem].proof_id, 
+                problemId: data.problems[activeProblem].problem_id, 
+                content: leanMonacoEditor.editor.getValue()
+            })
         });
+        isProcessing = false;
     }
     
     onMount(async () => {
         activeTheoremCategory = (theorems.map(theorem => theorem.statement_category))[0];
 
-        saveInterval = setInterval(save, 15000); // Fetch every 15 seconds
 
         const socketUrl = ((window.location.protocol === "https:") ? "wss://" : "ws://") +
         window.location.host + "/websocket/" + project;
@@ -77,6 +101,8 @@
                 leanMonacoEditor.start(editorRef, `/project/scratch.lean`, proofCont);
             });
         });
+
+        saveInterval = setInterval(save, interval);
     });
 
     onDestroy(() => {
@@ -107,7 +133,12 @@
         <ul class="flex flex-col gap-1 p-1">
             {#each data.problems as problem, i}
             <li>
-                <button on:click={() => activeProblem = i} 
+                <button on:click={async () => {
+                        await save();
+                        activeProblem = i; 
+                        leanMonacoEditor.editor.setValue(await load());
+                    } 
+                }
                 class="w-full flex justify-between
                 {(i == activeProblem) ? '!variant-filled-surface' : ''}">
                 <span class="flex-auto">
@@ -132,7 +163,6 @@
             <div id="editor" bind:this={editorRef} class="h-full"></div>
             <div id="goal">
                 <h3 class="h3">Current Goal</h3>
-                {problemFile}
             </div>
             <div id="editor-output" bind:this={infoviewRef} class="h-full"></div>
         </div>
@@ -167,7 +197,7 @@
                 {/each}
 
                 <div class="flex flex-wrap gap-1" slot="panel">
-                {#each theorems.filter((s) => s.statement_category === activeTheoremCategory) as theorem}
+                {#each theorems?.filter((s) => s.statement_category === activeTheoremCategory) as theorem}
                     <span class="chip variant-ringed">
                     {theorem.statement_name}
                     </span>

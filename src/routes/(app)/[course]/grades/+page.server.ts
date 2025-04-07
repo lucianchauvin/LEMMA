@@ -31,7 +31,6 @@ export const load: PageServerLoad = async ({url, locals: { safeQuery, getSession
         console.error('ERROR: Database failed to query for assignments');
         error(500, {message: 'Database failed to query for assignments'})
     }
-    console.log(result);
 
     // let i = 0;
     // for(let course of result){

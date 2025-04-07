@@ -1,9 +1,14 @@
 import type { PageServerLoad, Actions } from "./$types";
-import { fail, redirect } from "@sveltejs/kit";
+import { fail, redirect, error } from "@sveltejs/kit";
 import { hash } from "@node-rs/argon2";
 
-export const load: PageServerLoad = async ({locals: { safeQuery }}) => {
+export const load: PageServerLoad = async ({locals: { getSession, safeQuery }}) => {
+    const {user} = await getSession();
+
+    if(!user || !user.isAdmin)
+        throw error(403, {message: 'Forbidden'});
     const { data: userData, error: userErr } = await safeQuery(`
+    
     SELECT
         users.first_name,
         users.last_name,
