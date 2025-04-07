@@ -33,7 +33,7 @@
 {/if}
 
 
-<DatatableClient data={data.userData} columns={["first_name", "last_name", "email"]} display_columns={["First Name", "Last Name", "Email"]}>
+<DatatableClient showSlot={true} data={data.userData} columns={["first_name", "last_name", "email"]} display_columns={["First Name", "Last Name", "Email"]}>
     <svelte:fragment slot="remove" let:i>
     <form method="post" action="/admin?/remove" use:enhance>
         <input type="hidden" name="user_id" value={data.userData[i].user_id}/>
@@ -49,9 +49,13 @@
     <label for="course_name">Course Name
         <input name="course_name" id="course_name" required/><br />
     </label>
-    <!-- <label for="status">Status
-        <input name="status" id="status" required/><br />
-    </label> -->
+    <label for="status">Status
+        <select name="status" id="status" required>
+          {#each ["active", "inactive", "archived"] as status}
+          <option value={status}>{status}</option>
+          {/each}
+        </select>
+    </label>
     <label for="start_date">Start Date
         <input type="date" name="start_date" id="start_date" /><br />
     </label>
@@ -68,7 +72,7 @@
 	<p>{form.error}</p>
 {/if}
 
-<DatatableClient data={data.courseData} columns={["course_number", "course_name", "status"]} display_columns={["Course Number", "Course Name", "Status"]}>
+<DatatableClient showSlot={true} data={data.courseData} columns={["course_number", "course_name", "status"]} display_columns={["Course Number", "Course Name", "Status"]}>
     <svelte:fragment slot="remove" let:i>
     <form method="post" action="/admin?/remove_course" use:enhance>
         <input type="hidden" name="course_id" value={data.courseData[i].course_id}/>

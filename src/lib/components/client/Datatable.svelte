@@ -13,35 +13,24 @@
 	// import data from '$lib/components/data';
 
 	//Import handler from SSD
-	import { DataHandler } from '@vincjo/datatables/legacy';
-    import { onMount } from 'svelte';
-
-
+  import { DataHandler } from '@vincjo/datatables/legacy';
+  import { onMount } from 'svelte';
 
 	// Initialize data, handler, and loading state
 	export let data = [];
 	export let columns = [];
 	export let display_columns = [];
 
-	let handler;
-	let isLoading = true;
+  $: console.log(data);
+
+	$: handler = new DataHandler(data, { rowsPerPage: 5 });
 	let rows = [];
-
-	onMount(() => {
-		try {
-			handler = new DataHandler(data, { rowsPerPage: 5 });
-
-			const unsubscribe = handler.getRows().subscribe(($rows) => {
-				rows = $rows;
-				console.log('Updated rows:', rows);
-			});
-		} catch (error) {
-			console.error('Error fetching data:', error);
-		} finally {
-			isLoading = false; // Data fetching done
-		}
-	});
-
+  $: {
+    handler.getRows().subscribe(($rows) => {
+		  rows = $rows;
+		  console.log('Updated rows:', rows);
+		})
+  }
 
 	// $: console.log('Fetched data (reactive log):', data);
 	$: {
@@ -53,56 +42,49 @@
 	
 </script>
 
-<!-- Render table when data is ready -->
-{#if !isLoading && data.length > 0 && handler}
-	<div class=" overflow-x-auto space-y-4">
-		<!-- Header -->
-		<header class="flex justify-between gap-4">
-			<Search {handler} />
-			<RowsPerPage {handler} />
-		</header>
+<div class=" overflow-x-auto space-y-4">
+<!-- Header -->
+<header class="flex justify-between gap-4">
+  <Search {handler} />
+  <RowsPerPage {handler} />
+</header>
 
-		
-
-		<table class="table table-hover table-compact w-full table-auto">
-			<thead>
-				<tr>
-					{#each columns as col, i}
-					<ThSort {handler} orderBy={col}>{display_columns[i]}</ThSort>
-					{/each}
-					{#if showSlot}
-						<th scope="col">Remove</th>
-					{/if}
-				</tr>
-					
-				<tr>
-					{#each columns as col}
-					<ThFilter {handler} filterBy={col} />
-					{/each}
-          {#if showSlot}
-					<th></th>
-          {/if}
-				</tr>
-			</thead>
-			<tbody>
-				{#each rows as row, i}
-					<tr>
-						{#each columns as col}
-						<td>{row[col]}</td>
-						{/each}
-						{#if showSlot}
-							<td><slot name="remove" {i}></slot></td>
-						{/if}
-					</tr>
-				{/each}
-			</tbody>
-		</table>
-		<!-- Footer -->
-		<footer class="flex justify-between">
-			<RowCount {handler} />
-			<Pagination {handler} />
-		</footer>
-	</div>
-{:else}
-	<p>Loading data...</p>
-{/if}
+<table class="table table-hover table-compact w-full table-auto">
+  <thead>
+    <tr>
+      {#each columns as col, i}
+      <ThSort {handler} orderBy={col}>{display_columns[i]}</ThSort>
+      {/each}
+      {#if showSlot}
+        <th scope="col">Remove</th>
+      {/if}
+    </tr>
+      
+    <tr>
+      {#each columns as col}
+      <ThFilter {handler} filterBy={col} />
+      {/each}
+      {#if showSlot}
+      <th></th>
+      {/if}
+    </tr>
+  </thead>
+  <tbody>
+    {#each rows as row, i}
+      <tr>
+        {#each columns as col}
+        <td>{row[col]}</td>
+        {/each}
+        {#if showSlot}
+          <td><slot name="remove" {i}></slot></td>
+        {/if}
+      </tr>
+    {/each}
+  </tbody>
+</table>
+<!-- Footer -->
+<footer class="flex justify-between">
+  <RowCount {handler} />
+  <Pagination {handler} />
+</footer>
+</div>
