@@ -4,23 +4,7 @@
 
     export let data;
     export let form;
-
-    // Import trash button
-    // import Users from '@lucide/svelte/icons/users';
-
-    $: console.log(data.userData);
-    $: console.log(data.courseData);
-
 </script>
-
-
-
-
-
-
-<!-- <h1 class="text-xl font-bold flex items-center gap-2">
-			<Users size={24} /> Users
-</h1> -->
 
 <form method="post" action="?/add" class="flex flex-col gap-2" use:enhance>
     <label for="username">Username
@@ -49,7 +33,6 @@
 {/if}
 
 
-<!-- <pre>{JSON.stringify(data, null, 2)}</pre> -->
 <DatatableClient data={data.userData} columns={["first_name", "last_name", "email"]} display_columns={["First Name", "Last Name", "Email"]}>
     <svelte:fragment slot="remove" let:i>
     <form method="post" action="/admin?/remove" use:enhance>

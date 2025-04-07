@@ -1,14 +1,9 @@
-
 import type { PageServerLoad } from './$types';
-import type { Course } from '$lib/types';
 import { error } from '@sveltejs/kit';
 
-// const colors = ["darkgreen", "maroon"];
-
-export const load: PageServerLoad = async ({url, locals: { safeQuery, getSession }}) => {
-    const {user, session} = await getSession();
-    console.log("user_id:", user.id);
-    const {data: result, error: err} = await safeQuery<Assignment>(`
+export const load: PageServerLoad = async ({parent, locals: { safeQuery }}) => {
+    const {user} = await parent();
+    const {data: result, error: err} = await safeQuery(`
     SELECT
         assignments.assignment_id,
         assignments.assignment_name,
@@ -28,18 +23,11 @@ export const load: PageServerLoad = async ({url, locals: { safeQuery, getSession
     ORDER BY assignments.course_id, assignments.assignment_id;
     `, [user.id]);
     if(err) {
-        console.error('ERROR: Database failed to query for assignments');
-        error(500, {message: 'Database failed to query for assignments'})
+        console.error('ERROR: Database failed to query for student assignments for grades:', err);
+        throw error(500, {message: 'Database failed to query for student assignments for grades'});
     }
 
-    // let i = 0;
-    // for(let course of result){
-    //     course.color = colors[i];
-    //     i++;
-    // }
-
     return {
-        title: "Grades Page",
         assignments: result
     };
 }

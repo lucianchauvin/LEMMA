@@ -8,7 +8,7 @@
 	import Pagination from '$lib/components/client/Pagination.svelte';
 
 	// Enable slot
-	export let showSlot = true;
+	export let showSlot = false;
 
 	// import data from '$lib/components/data';
 
@@ -79,7 +79,9 @@
 					{#each columns as col}
 					<ThFilter {handler} filterBy={col} />
 					{/each}
+          {#if showSlot}
 					<th></th>
+          {/if}
 				</tr>
 			</thead>
 			<tbody>
