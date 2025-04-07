@@ -131,15 +131,16 @@ export const actions: Actions = {
         
         const course_number = formData.get("course_number") as string;
         const course_name = formData.get("course_name") as string;
+        const status = formData.get("status") as string;
         const start_date = formData.get("start_date") as string;
         const end_date = formData.get("end_date") as string;
 
-        if (!course_number || !course_name || !start_date || !end_date) {
+        if (!course_number || !course_name || !status || !start_date || !end_date) {
             return fail(400, { message: "All fields are required"});
         }
         const { error: insertError } = await safeQuery(
-            "INSERT INTO courses (course_number, course_name, start_date, end_date) VALUES ($1, $2, $3, $4)",
-            [course_number, course_name, start_date, end_date]
+            "INSERT INTO courses (course_number, course_name, status, start_date, end_date) VALUES ($1, $2, $3, $4, $5)",
+            [course_number, course_name, status, start_date, end_date]
         );
 
         if (insertError) {
