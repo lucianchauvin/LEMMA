@@ -1,11 +1,8 @@
 import {promises as fs} from 'zlib';
 import * as path from 'path';
 import { json, error } from '@sveltejs/kit';
-import { DATAROOT } from '$env/static/private';
+import { BASE_PROOF_DIR, BASE_PROBLEM_DIR } from '$lib/constants';
 import type { RequestHandler } from './$types';
-
-const BASE_PROOF_DIR = DATAROOT + '/proofs'; // Change this to your actual proof storage directory
-const BASE_PROBLEM_DIR = DATAROOT + '/problems';
 
 export const POST: RequestHandler = async ({ request, locals: { safeQuery, permCheck } }) => {
     let { courseId, proofId, problemId, studentAssignmentId } = await request.json();
