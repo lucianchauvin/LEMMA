@@ -12,9 +12,11 @@
 	let year = now.getFullYear();		//	this is the month & year displayed
 	let month = now.getMonth();
 	let eventText="Click an item or date";
+	let items = [];
 
 	var days = [];	//	The days to display in each box
 
+	console.log("data.courses:", data.courses);
 	function randInt(max) {
 		return Math.floor(Math.random()*max)+1;
 	}
@@ -23,61 +25,74 @@
 	//	The items[] below are placed (by you) in a specified row & column of the calendar.
 	//	You need to call findRowCol() to calc the row/col based on each items start date. Each date box has a Date() property.
 	//	And, if an item overlaps rows, then you need to add a 2nd item on the subsequent row.
-	var items = [];
+	// var items = [];
 
-		// <h1>Assignments</h1>
 
-	// {#if assignments.length > 0}
-	// 	<ul>
-	// 		{#each assignments as assignment (assignment.assignment_id)}
-	// 		<li>
-	// 			<strong>{assignment.title}</strong><br>
-	// 			Due: {assignment.due_date}
-	// 		</li>
-	// 		{/each}
-	// 	</ul>
-	// 	{:else}
-	// 		<p>No assignments available.</p>
-	// {/if}
+	function initMonthItemsFromData() {
+		items = [];
+		
+		for (const course of data.courses) {
+			if (!course.assignments || course.assignments.length === 0) continue;
 
-	function initMonthItems() {
-		let y = year;
-		let m = month;
-		let d1=new Date(y,m,randInt(7)+7);
-		// let d1=new Date(2024,12,31);
-		items=[
-			// {title:"11:00 Task Early in month",className:"task--primary",date:new Date(y,m,randInt(6)),len:randInt(4)+1},
-			{title:"Basics of LEAN",className:"task--primary",date:new Date(y,m,31),len:1, detailHeader:"CSCE 222", isTop: true},
-			{title:"Induction",className:"task--primary",date:new Date(y,m,31),len:1, detailHeader:"CSCE 222"},
-			{title:"Basic Propositions",className:"task--primary",date:new Date(y,m,31),len:1, detailHeader:"CSCE 222", isBottom: true},
-			// {title:"7:30 Wk 2 tasks",className:"task--warning",date:d1,len:randInt(4)+2},
-			// {title:"Overlapping Stuff (isBottom:true)",date:d1,className:"task--info",len:4,isBottom:true},
-			// {title:"10:00 More Stuff to do",date:new Date(y,m,randInt(7)+14),className:"task--info",len:randInt(4)+1,detailHeader:"Difficult",detailContent:"But not especially so"},
-			// {title:"All day task",date:new Date(y,m,randInt(7)+21),className:"task--danger",len:1,vlen:2},
-		];
+			for (const assignment of course.assignments) {
+				if (!assignment.due_date) continue;
 
-		//This is where you calc the row/col to put each dated item
-		for (let i of items) {
-			let rc = findRowCol(i.date);
-			if (rc == null) {
-				console.log('didn`t find date for ',i);
-				console.log(i.date);
-				console.log(days);
-				i.startCol = i.startRow = 0;
-			} else {
-				i.startCol = rc.col;
-				i.startRow = rc.row;
+				const date = new Date(assignment.due_date);
+				const rc = findRowCol(date);
+
+				if (!rc) {
+					console.warn('Could not locate calendar position for', date);
+					continue;
+				}
+
+				items.push({
+					title: assignment.assignment_name || "Untitled Assignment",
+					className: "task--primary",
+					date,
+					len: 1,
+					detailHeader: course.course_name,
+					startCol: rc.col,
+					startRow: rc.row
+				});
 			}
 		}
+		// let y = year;
+		// let m = month;
+		// let d1=new Date(y,m,randInt(7)+7);
+		// // let d1=new Date(2024,12,31);
+		// items=[
+		// 	{title:"11:00 Task Early in month",className:"task--primary",date:new Date(y,m,randInt(6)),len:randInt(4)+1},
+		// 	// {title:"Basics of LEAN",className:"task--primary",date:new Date(y,m,31),len:1, detailHeader:"CSCE 222", isTop: true},
+		// 	// {title:"Induction",className:"task--primary",date:new Date(y,m,31),len:1, detailHeader:"CSCE 222"},
+		// 	// {title:"Basic Propositions",className:"task--primary",date:new Date(y,m,31),len:1, detailHeader:"CSCE 222", isBottom: true},
+		// 	{title:"7:30 Wk 2 tasks",className:"task--warning",date:d1,len:randInt(4)+2},
+		// 	{title:"Overlapping Stuff (isBottom:true)",date:d1,className:"task--info",len:4,isBottom:true},
+		// 	{title:"10:00 More Stuff to do",date:new Date(y,m,randInt(7)+14),className:"task--info",len:randInt(4)+1,detailHeader:"Difficult",detailContent:"But not especially so"},
+		// 	{title:"All day task",date:new Date(y,m,randInt(7)+21),className:"task--danger",len:1,vlen:2},
+		// ];
+
+		// //This is where you calc the row/col to put each dated item
+		// for (let i of items) {
+		// 	let rc = findRowCol(i.date);
+		// 	if (rc == null) {
+		// 		console.log('didn`t find date for ',i);
+		// 		console.log(i.date);
+		// 		console.log(days);
+		// 		i.startCol = i.startRow = 0;
+		// 	} else {
+		// 		i.startCol = rc.col;
+		// 		i.startRow = rc.row;
+		// 	}
+		// }
 	}
 
-	$: month,year,initContent();
+	$: month, year, initContent();
 
 	// choose what date/day gets displayed in each date box.
 	function initContent() {
 		headers = dayNames;
 		initMonth();
-		initMonthItems();
+		initMonthItemsFromData();
 	}
 
 	function initMonth() {
@@ -148,20 +163,6 @@
 	}
 	
 </script>
-
-{#if data.courses.length > 0}
-<ul class=“assignments>
-	{#each data.courses as {assignment_id, assignment_name, due_date }}
-	<li>
-		<strong>{assignment_name}</strong><br>
-		Due: {due_date}
-	</li>
-	{/each}
-</ul>
-{:else}
-	<p>No assignments available.</p>
-{/if}
-
 
 <style>
 	.calendar-container {
