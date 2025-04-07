@@ -1,6 +1,7 @@
 <script lang="ts">
     import { enhance } from '$app/forms';
     import DatatableClient from '$lib/components/client/Datatable.svelte';
+    import Trash from '@lucide/svelte/icons/trash';
 
     export let data;
     export let form;
@@ -34,10 +35,12 @@
 
 
 <DatatableClient showSlot={true} data={data.userData} columns={["first_name", "last_name", "email"]} display_columns={["First Name", "Last Name", "Email"]}>
-    <svelte:fragment slot="remove" let:i>
+    <svelte:fragment slot="remove" let:row>
     <form method="post" action="/admin?/remove" use:enhance>
-        <input type="hidden" name="user_id" value={data.userData[i].user_id}/>
-        <button type="submit">Remove</button>
+        <input type="hidden" name="user_id" value={row.user_id}/>
+        <button type="submit" class="bg-red-500 text-white px-2 py-1 rounded flex items-center gap-1 p-2">
+            <Trash size={16} /> Remove
+        </button>
     </form>
     </svelte:fragment>
 </DatatableClient>
@@ -73,10 +76,12 @@
 {/if}
 
 <DatatableClient showSlot={true} data={data.courseData} columns={["course_number", "course_name", "status"]} display_columns={["Course Number", "Course Name", "Status"]}>
-    <svelte:fragment slot="remove" let:i>
+    <svelte:fragment slot="remove" let:row>
     <form method="post" action="/admin?/remove_course" use:enhance>
-        <input type="hidden" name="course_id" value={data.courseData[i].course_id}/>
-        <button type="submit">Remove</button>
+        <input type="hidden" name="course_id" value={row.course_id}/>
+        <button type="submit" class="bg-red-500 text-white px-2 py-1 rounded flex items-center gap-1 p-2">
+            <Trash size={16} /> Remove
+        </button>
     </form>
     </svelte:fragment>
 </DatatableClient>

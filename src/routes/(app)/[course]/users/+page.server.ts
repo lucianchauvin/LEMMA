@@ -35,9 +35,11 @@ export const load = (async ({parent, params, locals: { safeQuery, permCheck } })
     }
 
     // get all course users the current user should see and always include self
-    const {data: courseUsers, error: courseUsersErr} = await safeQuery<User & {role_name: string}>(
+    const {data: courseUsers, error: courseUsersErr} = await safeQuery(
         `SELECT 
-          u.*,
+          u.user_id,
+          CONCAT(first_name, ' ', last_name) AS name,
+          u.email,
           ur.role_name
         FROM users u
         JOIN user_roles ur ON ur.user_id = u.user_id
