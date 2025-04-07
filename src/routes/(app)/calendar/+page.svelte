@@ -56,34 +56,6 @@
 				});
 			}
 		}
-		// let y = year;
-		// let m = month;
-		// let d1=new Date(y,m,randInt(7)+7);
-		// // let d1=new Date(2024,12,31);
-		// items=[
-		// 	{title:"11:00 Task Early in month",className:"task--primary",date:new Date(y,m,randInt(6)),len:randInt(4)+1},
-		// 	// {title:"Basics of LEAN",className:"task--primary",date:new Date(y,m,31),len:1, detailHeader:"CSCE 222", isTop: true},
-		// 	// {title:"Induction",className:"task--primary",date:new Date(y,m,31),len:1, detailHeader:"CSCE 222"},
-		// 	// {title:"Basic Propositions",className:"task--primary",date:new Date(y,m,31),len:1, detailHeader:"CSCE 222", isBottom: true},
-		// 	{title:"7:30 Wk 2 tasks",className:"task--warning",date:d1,len:randInt(4)+2},
-		// 	{title:"Overlapping Stuff (isBottom:true)",date:d1,className:"task--info",len:4,isBottom:true},
-		// 	{title:"10:00 More Stuff to do",date:new Date(y,m,randInt(7)+14),className:"task--info",len:randInt(4)+1,detailHeader:"Difficult",detailContent:"But not especially so"},
-		// 	{title:"All day task",date:new Date(y,m,randInt(7)+21),className:"task--danger",len:1,vlen:2},
-		// ];
-
-		// //This is where you calc the row/col to put each dated item
-		// for (let i of items) {
-		// 	let rc = findRowCol(i.date);
-		// 	if (rc == null) {
-		// 		console.log('didn`t find date for ',i);
-		// 		console.log(i.date);
-		// 		console.log(days);
-		// 		i.startCol = i.startRow = 0;
-		// 	} else {
-		// 		i.startCol = rc.col;
-		// 		i.startRow = rc.row;
-		// 	}
-		// }
 	}
 
 	$: month, year, initContent();

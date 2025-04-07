@@ -2,8 +2,6 @@ import type { PageServerLoad } from './$types';
 import type { Course } from '$lib/types';
 import { error } from '@sveltejs/kit';
 
-const colors = ["darkgreen", "maroon"];
-
 export const load: PageServerLoad = async ({locals: { safeQuery }}) => {
     const {data: result, error: err} = await safeQuery<Course>(`
         SELECT
@@ -29,11 +27,6 @@ export const load: PageServerLoad = async ({locals: { safeQuery }}) => {
         error(500, {message: 'Database failed to query for courses'})
     }
 
-    // let i = 0;
-    // for(let course of result){
-    //     course.color = colors[i];
-    //     i++;
-    // }
     const courseMap = new Map();
     const colors = ["darkgreen", "maroon", "navy", "teal", "purple"];
     let colorIndex = 0;
