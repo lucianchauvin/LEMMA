@@ -117,6 +117,10 @@
     }
 
     async function complete(){
+        // don't go to database if already seen as complete client side
+        if(data.problems[activeProblem].complete)
+            return;
+
         const response = await fetch('/apiv2/completeProof', {
             method: 'POST',
             headers: {
@@ -126,6 +130,7 @@
                 proofId: data.problems[activeProblem].proof_id
             })
         });
+
         data.problems[activeProblem].complete = true;
     }
 
