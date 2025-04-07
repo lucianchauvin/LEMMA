@@ -4,7 +4,7 @@
 	export let handler: DataHandler;
 	export let orderBy: string;
 
-	const sorted = handler.getSort();
+	$: sorted = handler.getSort();
 </script>
 
 <th on:click={() => handler.sort(orderBy)} class="cursor-pointer select-none">

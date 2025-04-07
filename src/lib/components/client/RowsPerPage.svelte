@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { DataHandler } from '@vincjo/datatables/legacy';
 	export let handler: DataHandler;
-	const rowsPerPage = handler.getRowsPerPage();
+	$: rowsPerPage = handler.getRowsPerPage();
 	const options = [5, 10, 20, 50, 100];
 </script>
 
