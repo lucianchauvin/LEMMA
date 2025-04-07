@@ -26,6 +26,16 @@
     let saveInterval;
     let interval = 5000;
     let isProcessing = false;
+
+    let messageQueue: any[] = [];
+    let isHandlingQueue = false;
+
+    let goalCheckActive = false;
+    let currentGoalId: number | null = null;
+    let goalCheckTimeout: ReturnType<typeof setTimeout> | null = null;
+
+    let pendingGoalCheck = false;
+    let lastDiagnosticHadError = false;
     
     const project = "mathlib-demo";
 
@@ -75,6 +85,73 @@
         });
         isProcessing = false;
     }
+
+    function complete(){
+        data.problems[activeProblem].complete = true;
+    }
+
+    function enqueueMessage(msg) {
+        messageQueue.push(msg);
+        if (!isHandlingQueue) {
+            handleQueue();
+        }
+    }
+
+    async function handleQueue() {
+        isHandlingQueue = true;
+        while (messageQueue.length > 0) {
+            const msg = messageQueue.shift();
+            await processMessage(msg);
+        }
+        isHandlingQueue = false;
+    }
+
+    function hasUnsolvedGoals(diagnostics: any[]): boolean {
+        return diagnostics.some((d) => d.message?.includes('unsolved goals'));
+    }
+
+    async function processMessage(msg: any) {
+        const id = msg.id ?? -1;
+        const diagnostics = msg?.params?.diagnostics;
+        const goals = msg?.result?.goals;
+
+        if (Array.isArray(goals) && goals.length === 0) {
+            console.log(`[Lean4web] Empty goals at id ${id}, waiting for clean diagnostics...`);
+            pendingGoalCheck = true;
+            currentGoalId = id;
+            lastDiagnosticHadError = false;
+            goalCheckActive = true;
+
+            if (goalCheckTimeout) clearTimeout(goalCheckTimeout);
+            goalCheckTimeout = setTimeout(() => {
+                if (!lastDiagnosticHadError) {
+                    console.log(`[Lean4web] Goal passed! No errors after empty goals.`);
+                    complete();
+                } else {
+                    console.log(`[Lean4web] Goal check failed: Diagnostics had errors`);
+                }
+                // Reset everything
+                goalCheckActive = false;
+                pendingGoalCheck = false;
+                currentGoalId = null;
+                lastDiagnosticHadError = false;
+            }, 1000); // Adjust delay as needed
+        }
+
+        if (diagnostics) {
+            const hadErrors = diagnostics.some((d) => d.severity >= 1 || hasUnsolvedGoals([d]));
+
+            if (goalCheckActive) {
+                if (hadErrors) {
+                    lastDiagnosticHadError = true;
+                    console.log(`[Lean4web] Received diagnostic with error during goal check`);
+                } else {
+                    console.log(`[Lean4web] Clean diagnostics received during goal check`);
+                    lastDiagnosticHadError = false;
+                }
+            }
+        }
+    }
     
     onMount(async () => {
         activeTheoremCategory = (theorems.map(theorem => theorem.statement_category))[0];
@@ -97,7 +174,7 @@
 
             leanMonaco.setInfoviewElement(infoviewRef);
             const proofCont = await load();
-            leanMonaco.start(options).then(() => {
+            leanMonaco.start(options, enqueueMessage).then(() => {
                 leanMonacoEditor.start(editorRef, `/project/scratch.lean`, proofCont);
             });
         });
