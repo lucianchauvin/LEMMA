@@ -61,12 +61,12 @@
     </AppRailAnchor>
     {/if}
 
-    {#if data.permissions.view_course_users.access && (data.permissions.view_course_users.target_roles === undefined || data.permissions.view_course_users.target_roles.includes('student'))}
-    <AppRailAnchor href="/{data.course.course_id}/students" title="Students" selected={$page.url.pathname === `/${data.course.course_id}/students`}>
+    {#if data.permissions.view_course_users.access}
+    <AppRailAnchor href="/{data.course.course_id}/users" title="Students" selected={$page.url.pathname === `/${data.course.course_id}/users`}>
         <svelte:fragment slot="lead">
             <Users />
         </svelte:fragment>
-        <div>Course Students</div>
+        <div>Course Users</div>
     </AppRailAnchor>
     {/if}
 
