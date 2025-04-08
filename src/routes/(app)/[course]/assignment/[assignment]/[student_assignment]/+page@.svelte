@@ -293,7 +293,7 @@
                 {/if}
             </li>
             {/each}
-            {#if edit & addingProblem}
+            {#if edit && addingProblem}
             <li class="w-full">
                 <form 
                 method="post" 
@@ -312,19 +312,17 @@
                 </button>
                 </form>
             </li>
+            {:else if edit}
+            <li class="w-full flex justify-center">
+                <button onclick={() => addingProblem = true} class="flex items-center gap-2 text-blue-600 hover:text-blue-800 font-semibold">
+                    <Plus size={20}/>
+                    Add Problem
+                </button>
+            </li>
             {/if}
         </ul>
     </nav>
     </div>
-    {#if edit}
-    <div class="w-full absolute bottom-0 p-2">
-    <div class="flex flex-row-reverse">
-        <button onclick={() => addingProblem = !addingProblem}>
-            <Plus size={36}/>
-        </button>
-    </div>
-    </div>
-    {/if}
     </div>
     
     <div class="h-full grid grid-cols-[3fr_1fr]">
