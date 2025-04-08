@@ -149,8 +149,6 @@
                     studentLines[i].trim() !== "" &&
                     originalLines[i].trim() !== ""
                 ) {
-                    <!-- console.log(studentLines[i]); -->
-                    <!-- console.log(originalLines[i]); -->
                     return false;
                 }
             }
