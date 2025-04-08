@@ -1,6 +1,6 @@
-import type { PageServerLoad } from './$types';
+import type { PageServerLoad, Actions } from './$types';
 import type { Statements } from '$lib/types';
-import { error } from '@sveltejs/kit';
+import { error, fail } from '@sveltejs/kit';
 
 const colors = ["darkgreen", "maroon"];
 
@@ -14,5 +14,31 @@ export const load: PageServerLoad = async ({locals: { safeQuery }}) => {
     
     return {
         statements: result_statements
+    }
+}
+
+export const actions: Actions = {
+    remove: async ({ request, params, locals: { safeQuery, permCheck } }) => {
+        const formData = await request.formData();
+        const statement_id = formData.get("statement_id") as string;
+
+        if(!statement_id) {
+            fail(400, { message: "User ID is required" });
+        }
+        else {
+            console.error(statement_id);
+        }
+
+        const {error: deleteErr} = await safeQuery(
+            "DELETE FROM course_statements WHERE statement_id = $1",
+            [statement_id]
+        );
+
+        if (deleteErr) {
+            console.error("ERROR: Failed to remove statement:", deleteErr);
+            fail(500, { message: "Failed to remove statement" });
+        }
+
+        return { success: true }; 
     }
 }

@@ -1,34 +1,26 @@
 <script>
-    import forms from "@tailwindcss/forms";
+    import { enhance } from '$app/forms';
+    import BookKey from '@lucide/svelte/icons/book-key';
+    import Trash from '@lucide/svelte/icons/trash';
+    import DatatableClient from '$lib/components/client/Datatable.svelte';
     export let data;
 </script>
 
-<h2 class="h2 pb-3 ml-2 font-semibold border-b-2 border-surface-200">Course Statements</h2>
+<div class="flex flex-col gap-2">
+    <h1 class="h1 text-xl font-bold flex items-center">
+        <BookKey size={24} /> Course Statements
+    </h1>
 
-<div class="table-wrapper pt-8 pr-3">
-    <table class="table border border-gray-200 shadow-lg rounded-lg">
-        <thead class="bg-gray-100">
-            <tr>
-                <th class="p-3 "><center> Statement ID </center></th>
-                <th class="p-3 "><center> Statement Name </center></th>
-                <th class="p-3 "><center> Statement Type </center></th>
-                <th class="p-3 "><center> Statement Description </center></th>
-                <th class="p-3 "><center> Statement Category </center></th>
-            </tr>
-        </thead>
-        <tbody>
-            {#each data.statements as { statement_id, statement_name, statement_type, statement_description, statement_category }}
-                <tr class="border-t border-gray-300">
-                    <td class="p-3"> <center> {statement_id} </center> </td>
-                    <td class="p-3"> <center> {statement_name} </center></td>
-                    <td class="p-3"> <center> {statement_type} </center></td>
-                    <td class="p-3"> <center> {statement_description} </td>
-                    <td class="p-3"> <center> {statement_category} </center></td>
-                </tr>
-            {/each}
-        </tbody>
-    </table>
-</div>
+<DatatableClient showSlot={true} data={data.statements} columns={["statement_name", "statement_type", "statement_description", "statement_category"]} display_columns={["Statement Name", "Statement Type", "Statement Description", "Statement Category"]}>
+    <svelte:fragment slot="remove" let:row>
+        <form class="flex justify-center" method="POST" action="?/remove" use:enhance>
+            <input type="hidden" name="statement_id" value={row.statement_id} />
+            <button type="submit" class="bg-red-500 text-white px-2 py-1 rounded flex items-center gap-1 p-2">
+                <Trash size={16} /> Remove
+            </button>
+        </form>
+    </svelte:fragment>
+</DatatableClient>
 
 <h2 class="h2 pt-8 pb-3 ml-2 font-semibold border-b-2 border-surface-200">Add A Statement</h2>
 
@@ -64,3 +56,5 @@
 
 <button type="button" class="btn variant-filled-primary mt-8">Submit</button>
 <button type="button" class="btn variant-filled-error mt-8">Clear All Fields</button>
+
+</div>

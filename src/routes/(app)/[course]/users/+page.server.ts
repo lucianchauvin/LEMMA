@@ -1,5 +1,5 @@
 import type { PageServerLoad, Actions } from "../$types";
-import type { User} from "$lib/types";
+import type { User } from "$lib/types";
 import { error, fail } from "@sveltejs/kit";
 
 export const load = (async ({parent, params, locals: { safeQuery, permCheck } }) => {
