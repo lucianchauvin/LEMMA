@@ -23,9 +23,9 @@ export const load = (async ({parent, params, locals: { safeQuery, permCheck } })
                 u.* 
             FROM users u
             LEFT JOIN user_roles ur ON ur.user_id = u.user_id
-            WHERE ur.user_id IS NULL AND is_super_admin=ANY($1)
+            WHERE (ur.course_id<>$1 OR ur.user_id IS NULL) AND u.is_super_admin=ANY($2)
             `,
-        [[false, user.isAdmin]]);
+        [params.course, [false, user.isAdmin]]);
         
         if(allUsersErr) {
             console.error("ERROR: Database failed to query all users:", allUsersErr);
