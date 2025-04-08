@@ -6,7 +6,6 @@
  * 
  * @module db-connection
  */
-import fs from 'fs';
 import pg from 'pg';
 import { PGUSER, PGDATABASE, PGPASSWORD, PGPORT } from '$env/static/private';
 
