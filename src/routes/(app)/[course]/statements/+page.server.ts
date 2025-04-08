@@ -26,21 +26,24 @@ export const actions: Actions = {
         const statement_category = formData.get("statement_category") as string;
         const statement_file = formData.get("statement_file") as string;
 
-        console.log(statement_name, statement_type, statement_description, statement_category);
+        console.log(statement_name, statement_type, statement_description, statement_category, statement_file);
         if (!statement_name) {
-            return fail(400, { error: "No statement name chosen" });
+            return fail(400, { error: "Error: No statement name chosen!" });
         }
         if (!statement_type) {
-            return fail(400, { error: "No statement type chosen" });
+            return fail(400, { error: "Error: No statement type chosen!" });
         }
         if (!statement_description) {
-            return fail(400, { error: "No statement description chosen" });
+            return fail(400, { error: "Error: No statement description chosen!" });
         }
         if (!statement_category) {
-            return fail(400, { error: "No statement category chosen" });
+            return fail(400, { error: "Error: No statement category chosen!" });
         }
-        if (!statement_file) {
-            return fail(400, { error: "No statement file chosen" });
+        if (!statement_file.name) {
+            return fail(400, { error: "Error: No statement file chosen!" });
+        }
+        if (!statement_file.name.endsWith(".lean")) {
+            return fail(400, { error: "Error: Statement file must be a .lean file!"})
         }
 
         const {error: insertErr} = await safeQuery(
