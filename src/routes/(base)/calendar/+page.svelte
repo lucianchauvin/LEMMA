@@ -11,7 +11,7 @@
 	let now = new Date();
 	let year = now.getFullYear();		//	this is the month & year displayed
 	let month = now.getMonth();
-	let eventText="Click an item or date";
+	let items = [];
 
 	var days = [];	//	The days to display in each box
 
@@ -23,61 +23,46 @@
 	//	The items[] below are placed (by you) in a specified row & column of the calendar.
 	//	You need to call findRowCol() to calc the row/col based on each items start date. Each date box has a Date() property.
 	//	And, if an item overlaps rows, then you need to add a 2nd item on the subsequent row.
-	var items = [];
+	// var items = [];
 
-		// <h1>Assignments</h1>
 
-	// {#if assignments.length > 0}
-	// 	<ul>
-	// 		{#each assignments as assignment (assignment.assignment_id)}
-	// 		<li>
-	// 			<strong>{assignment.title}</strong><br>
-	// 			Due: {assignment.due_date}
-	// 		</li>
-	// 		{/each}
-	// 	</ul>
-	// 	{:else}
-	// 		<p>No assignments available.</p>
-	// {/if}
+	function initMonthItemsFromData() {
+		items = [];
+		
+		for (const course of data.courses) {
+			if (!course.assignments || course.assignments.length === 0) continue;
 
-	function initMonthItems() {
-		let y = year;
-		let m = month;
-		let d1=new Date(y,m,randInt(7)+7);
-		// let d1=new Date(2024,12,31);
-		items=[
-			// {title:"11:00 Task Early in month",className:"task--primary",date:new Date(y,m,randInt(6)),len:randInt(4)+1},
-			{title:"Basics of LEAN",className:"task--primary",date:new Date(y,m,31),len:1, detailHeader:"CSCE 222", isTop: true},
-			{title:"Induction",className:"task--primary",date:new Date(y,m,31),len:1, detailHeader:"CSCE 222"},
-			{title:"Basic Propositions",className:"task--primary",date:new Date(y,m,31),len:1, detailHeader:"CSCE 222", isBottom: true},
-			// {title:"7:30 Wk 2 tasks",className:"task--warning",date:d1,len:randInt(4)+2},
-			// {title:"Overlapping Stuff (isBottom:true)",date:d1,className:"task--info",len:4,isBottom:true},
-			// {title:"10:00 More Stuff to do",date:new Date(y,m,randInt(7)+14),className:"task--info",len:randInt(4)+1,detailHeader:"Difficult",detailContent:"But not especially so"},
-			// {title:"All day task",date:new Date(y,m,randInt(7)+21),className:"task--danger",len:1,vlen:2},
-		];
+			for (const assignment of course.assignments) {
+				if (!assignment.due_date) continue;
 
-		//This is where you calc the row/col to put each dated item
-		for (let i of items) {
-			let rc = findRowCol(i.date);
-			if (rc == null) {
-				console.log('didn`t find date for ',i);
-				console.log(i.date);
-				console.log(days);
-				i.startCol = i.startRow = 0;
-			} else {
-				i.startCol = rc.col;
-				i.startRow = rc.row;
+				const date = new Date(assignment.due_date);
+				const rc = findRowCol(date);
+
+				if (!rc) {
+					console.warn('Could not locate calendar position for', date);
+					continue;
+				}
+
+				items.push({
+					title: assignment.assignment_name || "Untitled Assignment",
+					className: "task--primary",
+					date,
+					len: 1,
+					href: `/${course.course_id}/assignment/${assignment.assignment_id}/` + (assignment.student_assignment_id ?? ''),
+					startCol: rc.col,
+					startRow: rc.row
+				});
 			}
 		}
 	}
 
-	$: month,year,initContent();
+	$: month, year, initContent();
 
 	// choose what date/day gets displayed in each date box.
 	function initContent() {
 		headers = dayNames;
 		initMonth();
-		initMonthItems();
+		initMonthItemsFromData();
 	}
 
 	function initMonth() {
@@ -149,24 +134,9 @@
 	
 </script>
 
-{#if data.courses.length > 0}
-<ul class=“assignments>
-	{#each data.courses as {assignment_id, assignment_name, due_date }}
-	<li>
-		<strong>{assignment_name}</strong><br>
-		Due: {due_date}
-	</li>
-	{/each}
-</ul>
-{:else}
-	<p>No assignments available.</p>
-{/if}
-
-
 <style>
 	.calendar-container {
-		width: 90%;
-		margin: auto;
+		width: 100%;
 		overflow: hidden;
 		box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
 		border-radius: 10px;
@@ -179,10 +149,6 @@
 		background: #eef;
 		border-bottom: 1px solid rgba(166, 168, 179, 0.12);
   }
-  .calendar-header h1 {
-		margin: 0;
-		font-size: 18px;
-  }
   .calendar-header button {
 		background: #eef;
 		border: 1px ;
@@ -193,24 +159,28 @@
   }
 </style>
 
+<div class="flex-1 flex justify-center">
 <div class="calendar-container">
-  <div class="calendar-header">
-    <h1>
+  <div class="calendar-header flex justify-center">
+    <div class="w-1/4 flex justify-between items-center text-3xl">
+    <div>
       <button on:click={()=>year--}>&Lt;</button>
       <button on:click={()=>prev()}>&lt;</button>
-       {monthNames[month]} {year}
+    </div>
+    <h2 class="text-xl">
+      {monthNames[month]} {year}
+    </h2>
+    <div>
       <button on:click={()=>next()}>&gt;</button>
       <button on:click={()=>year++}>&Gt;</button>
-    </h1>
-		{eventText}
+    </div>
+    </div>
 	</div>
 
 	<Calendar
 		{headers}
 		{days}
 		{items}
-		on:dayClick={(e)=>dayClick(e.detail)}
-		on:itemClick={(e)=>itemClick(e.detail)}
-		on:headerClick={(e)=>headerClick(e.detail)}
 		/>
+</div>
 </div>

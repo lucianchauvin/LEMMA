@@ -96,6 +96,12 @@ export const actions: Actions = {
         if(typeof active !== 'boolean') return fail(400, {message: "Active isn't a boolean"});
         if(typeof dueDate !== 'string') return fail(400, {message: "Date isn't a string"});
 
+        const date = new Date(dueDate);
+        if(isNaN(date.getTime())) {
+            return fail(400, {message: "Invalid due date"});
+        }
+
+
         const {data: assignmentRet, error: insertErr} = await safeQuery<{assignment_id: UUID}>(
             `INSERT INTO assignments (course_id, assignment_name, assignment_description, active, due_date) VALUES ($1, $2, $3, $4, $5) RETURNING assignment_id`, 
         [courseId, name, description, active, new Date(dueDate)]);

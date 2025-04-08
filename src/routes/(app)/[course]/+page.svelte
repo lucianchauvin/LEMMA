@@ -9,6 +9,7 @@
     import { onMount } from "svelte";
 
     let inputDatetime;
+    let localMessage = '';
 
     const options: Intl.DateTimeFormatOptions = {
       month: '2-digit',
@@ -19,11 +20,16 @@
       hour12: true
     };
 
+    function validateDate() {
+        const val = inputDatetime.value;
+        const date = new Date(val);
+        return val && !isNaN(date.getTime());
+    }
+
     onMount(() => {
         flatpickr(inputDatetime, {
             enableTime: true,
-            dateFormat: "Y-m-d H:i",
-            defaultDate: new Date()
+            dateFormat: "Y-m-d H:i"
         });
     });
 </script>
@@ -32,7 +38,14 @@
 
 {#if data.permissions.create_assignments.access}
 <div>
-    <form method="post" action="?/create" enctype="multipart/form-data" class="flex flex-col gap-2" use:enhance>
+    <form method="post" action="?/create" enctype="multipart/form-data" class="flex flex-col gap-2" use:enhance={({cancel}) => {
+        if (!validateDate()) {
+            localMessage = 'Please enter a valid date and time.'
+            cancel();
+            return;
+        }
+        localMessage = '';
+    }}>
         <input type="hidden" name="courseId" value={data.course.id} />
         <label for="name">Name:</label>
         <input name="name" id="assignment-name" required/>
@@ -47,8 +60,8 @@
 </div>
 {/if}
 
-{#if form?.message}
-  <p>{form.message}</p>
+{#if localMessage || form?.message}
+  <p>{localMessage || form.message}</p>
 {/if}
 {#if form?.error}
   <p>{form.error}</p>

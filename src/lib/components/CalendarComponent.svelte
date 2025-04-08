@@ -1,35 +1,3 @@
-<div class="calendar">
-	{#each headers as header}
-	<span class="day-name" on:click={()=>dispatch('headerClick',header)}>{header}</span>
-	{/each}
-
-	{#each days as day}
-		{#if day.enabled}
-			<span class="day" on:click={()=>dispatch('dayClick',day)}>{day.name}</span>
-		{:else}
-			<span class="day day-disabled" on:click={()=>dispatch('dayClick',day)}>{day.name}</span>
-		{/if}
-	{/each}
-		
-	{#each items as item}
-		<section
-			on:click={()=>dispatch('itemClick',item)} 
-			class="task {item.className}"
-      style="grid-column: {item.startCol} / span {item.len};      
-      grid-row: {item.startRow};  
-      align-self: {item.isBottom?'end':'center'};"
-			>
-			{item.title}
-			{#if item.detailHeader}
-			<div class="task-detail">
-				<h2>{item.detailHeader}</h2>
-				<p>{item.detailContent}</p>
-			</div>
-			{/if}
-		</section>
-	{/each}
-</div>
-
 <script>
 	import {createEventDispatcher, onMount} from 'svelte';
 
@@ -38,8 +6,40 @@
 	export let items = [];
 	
 	let dispatch = createEventDispatcher();
-	
 </script>
+
+<div class="calendar">
+	{#each headers as header}
+	<span class="day-name">{header}</span>
+	{/each}
+
+  {#each days as day}
+    <div
+      class="day-wrapper"
+      style="grid-column: {day.col}; grid-row: {day.row};"
+    >
+      <div
+        class="day {day.enabled ? '' : 'day-disabled'}"
+      >
+        {day.name}
+    </div>
+
+    {#each items.filter(item =>
+      item.date.getFullYear() === day.date.getFullYear() &&
+      item.date.getMonth() === day.date.getMonth() &&
+      item.date.getDate() === day.date.getDate()
+    ) as item}
+      <a
+      href={item.href}
+      class="task {item.className}"
+      style="align-self: {item.isBottom ? 'end' : 'center'};">
+      {item.title}
+      </a>
+    {/each}
+    </div>
+  {/each}
+		
+</div>
 
 <style>
 .calendar {
@@ -47,20 +47,14 @@
   width: 100%;
   grid-template-columns: repeat(7, minmax(120px, 1fr));
   grid-template-rows: 50px;
-  grid-auto-rows: 120px;
-  overflow: auto;
+  grid-auto-rows: minmax(120px, auto);
+  overflow-y: auto;
 }
 .day {
-  border-bottom: 1px solid rgba(166, 168, 179, 0.12);
-  border-right: 1px solid rgba(166, 168, 179, 0.12);
   text-align: right;
-  padding: 14px 20px;
-  letter-spacing: 1px;
   font-size: 14px;
-  box-sizing: border-box;
   color: #98a0a6;
-  position: relative;
-  z-index: 1;
+  margin-bottom: 6px;
 }
 .day:nth-of-type(7n + 7) {
   border-right: 0;
@@ -121,15 +115,13 @@
 }
 
 .task {
-  border-left-width: 3px;
-  padding: 8px 12px;
-  margin: 10px;
-  border-left-style: solid;
-  font-size: 14px;
-  position: relative;
-  align-self: center;
-	z-index:2;
-	border-radius: 15px;
+  margin-bottom: 4px;
+  padding: 4px 6px;
+  font-size: 13px;
+  border-left: 3px solid #ccc;
+  border-radius: 4px;
+  background-color: #fff;
+  cursor: pointer;
 }
 .task--warning {
   border-left-color: #fdb44d;
@@ -155,53 +147,24 @@
   background: #4786ff;
   border: 0;
   border-radius: 14px;
-  color: #f00;
+  color: #fff;
   box-shadow: 0 10px 14px rgba(71, 134, 255, 0.4);
 }
-.task-detail {
-  position: absolute;
-  left: 0;
-  top: calc(100% + 8px);
-  background: #efe;
-  border: 1px solid rgba(166, 168, 179, 0.2);
-  color: #100;
-  padding: 20px;
-  box-sizing: border-box;
-  border-radius: 14px;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+.task-container {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 4px;
   z-index: 2;
+  overflow: visible;
 }
-.task-detail:after, .task-detail:before {
-  bottom: 100%;
-  left: 30%;
-  border: solid transparent;
-  content: " ";
-  height: 0;
-  width: 0;
-  position: absolute;
-  pointer-events: none;
+.day-wrapper {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid rgba(166, 168, 179, 0.12);
+  padding: 6px;
+  overflow: hidden;
+  height: 100%;
+  box-sizing: border-box;
 }
-.task-detail:before {
-  border-bottom-color: rgba(166, 168, 179, 0.2);
-  border-width: 8px;
-  margin-left: -8px;
-}
-.task-detail:after {
-  border-bottom-color: #fff;
-  border-width: 6px;
-  margin-left: -6px;
-}
-.task-detail h2 {
-  font-size: 15px;
-  margin: 0;
-  color: #91565d;
-}
-.task-detail p {
-  margin-top: 4px;
-  font-size: 12px;
-  margin-bottom: 0;
-  font-weight: 500;
-  color: rgba(81, 86, 93, 0.7);
-}
-
 </style>
