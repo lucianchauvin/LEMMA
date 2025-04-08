@@ -136,8 +136,7 @@
 
 <style>
 	.calendar-container {
-		width: 90%;
-		margin: auto;
+		width: 100%;
 		overflow: hidden;
 		box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
 		border-radius: 10px;
@@ -160,6 +159,7 @@
   }
 </style>
 
+<div class="flex-1 flex justify-center">
 <div class="calendar-container">
   <div class="calendar-header flex justify-center">
     <div class="w-1/4 flex justify-between items-center text-3xl">
@@ -182,4 +182,5 @@
 		{days}
 		{items}
 		/>
+</div>
 </div>
