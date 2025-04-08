@@ -2,7 +2,7 @@ import type { PageServerLoad, Actions } from './$types';
 import type { Statements } from '$lib/types';
 import { error, fail } from '@sveltejs/kit';
 import { BASE_STATEMENT_DIR } from '$lib/constants';
-import { writeFile, unlink } from 'fs';
+import { writeFile, unlink } from 'zlib';
 import * as path from 'node:path';
 
 export const load: PageServerLoad = async ({parent, locals: { safeQuery }}) => {
