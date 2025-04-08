@@ -4,6 +4,21 @@ import { error } from '@sveltejs/kit';
 
 const colors = ["darkgreen", "maroon"];
 
+function isWithinThisWeek(date: Date): boolean {
+  const now = new Date();
+
+  const startOfWeek = new Date(now);
+  const day = startOfWeek.getDay(); 
+  const diffToMonday = (day + 6) % 7; 
+  startOfWeek.setDate(now.getDate() - diffToMonday);
+  startOfWeek.setHours(0, 0, 0, 0);
+
+  const endOfWeek = new Date(startOfWeek);
+  endOfWeek.setDate(startOfWeek.getDate() + 7);
+
+  return date >= startOfWeek && date < endOfWeek;
+}
+
 export const load: PageServerLoad = async ({parent, locals: { safeQuery, permCheck }}) => {
     const {user} = await parent();
     if(!user) {
@@ -56,21 +71,14 @@ export const load: PageServerLoad = async ({parent, locals: { safeQuery, permChe
 
     // get assignments
     const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-    const {data: result_assignments, error: err_assignments} = await safeQuery<Assignment>('SELECT * FROM assignments');
+    const {data: result_assignments, error: err_assignments} = await safeQuery<Assignment>('SELECT a.*, c.course_number FROM assignments a JOIN courses c ON a.course_id = c.course_id JOIN user_roles ur ON a.course_id = ur.course_id WHERE $1 OR ur.user_id = $2', [user?.isAdmin, user?.id]);
     if (err_assignments) {
         console.error('ERROR: Database failed to query for assignments:', err_assignments);
         error(500, {message: 'Database failed to query for assignments'})
     }
     i = 0;
     for (let assignment of result_assignments!) {
-        if (assignment.course_id === '6baedc0e-72e5-4674-9ab8-e96db38446eb') {
-            assignment.course_number = 'CSCE222';
-            assignment.color = 'darkgreen';
-        }
-        else {
-            assignment.course_number = 'MATH415';
-            assignment.color = 'maroon';
-        }
+        assignment.color = colors[i % colors.length];
         const current_date = new Date();
         if (assignment.due_date < current_date) {
             assignment.date_color = 'crimson';
@@ -78,7 +86,7 @@ export const load: PageServerLoad = async ({parent, locals: { safeQuery, permChe
         else if (assignment.due_date === current_date) {
             assignment.date_color = 'darkorange';
         }
-        else if (assignment.due_date < current_date.getDate() + 7) {
+        else if (isWithinThisWeek(assignment.due_date as Date)) {
             assignment.date_color = 'black';
         }
         else {
@@ -86,6 +94,8 @@ export const load: PageServerLoad = async ({parent, locals: { safeQuery, permChe
         }
         const temp_date = new Date(assignment.due_date);
         assignment.due_date = months[temp_date.getMonth()] + ' ' + temp_date.getDate();
+
+        i++;
     }
 
     return {
