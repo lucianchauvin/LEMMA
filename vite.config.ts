@@ -44,7 +44,7 @@ export default defineConfig({
         })
     ],
     preview: {
-        allowedHosts: ['lemma-lean.org', 'hal9000'],
+        allowedHosts: ['lemma-lean.org'],
     },
     resolve: {
         alias: {

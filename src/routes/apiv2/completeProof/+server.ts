@@ -1,9 +1,9 @@
 import { json, error } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
 
-// set the proof as completed
+  // set the proof as completed
 export const POST: RequestHandler = async ({ request, locals: { safeQuery, permCheck } }) => {
-	const { proofId, remove } = await request.json();
+	const { proofId } = await request.json();
 
 	// Step 1: Fetch student_proof to get student_assignment_id and problem_id
 	const { data: proofs, error: proofErr } = await safeQuery(
@@ -44,7 +44,7 @@ export const POST: RequestHandler = async ({ request, locals: { safeQuery, permC
 
 	// Step 4: Update proof to complete
 	const { error: updateProofErr } = await safeQuery(
-		`UPDATE student_proofs SET complete = ${remove ? "true" : "false"} WHERE proof_id = $1`,
+		`UPDATE student_proofs SET complete = true WHERE proof_id = $1`,
 		[proofId]
 	);
 	if (updateProofErr) {
@@ -54,7 +54,7 @@ export const POST: RequestHandler = async ({ request, locals: { safeQuery, permC
 
 	// Step 5: Increment grade
 	const { error: gradeUpdateErr } = await safeQuery(
-		`UPDATE student_assignments SET grade = grade ${remove ? "-" : "+"} $1 WHERE student_assignment_id = $2`,
+		`UPDATE student_assignments SET grade = grade + $1 WHERE student_assignment_id = $2`,
 		[100 / numProblems, student_assignment_id]
 	);
 	if (gradeUpdateErr) {
