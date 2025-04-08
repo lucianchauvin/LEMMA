@@ -7,13 +7,18 @@ export const POST: RequestHandler = async ({ request, locals: { safeQuery, permC
 
 	// Step 1: Fetch student_proof to get student_assignment_id and problem_id
 	const { data: proofs, error: proofErr } = await safeQuery(
-		`SELECT proof_id, student_assignment_id, problem_id FROM student_proofs WHERE proof_id = $1`,
+		`SELECT proof_id, student_assignment_id, problem_id, complete FROM student_proofs WHERE proof_id = $1`,
 		[proofId]
 	);
+
 	if (proofErr || proofs.length === 0) {
 		console.error('COMPLETEPROOF: Failed to find student_proof', proofErr);
 		throw error(404, { message: 'Proof not found' });
 	}
+
+    if (proofs[0].complete) {
+        return json({ message: 'Proof already completed. No changes made.' });
+    }
 
 	const { student_assignment_id, problem_id } = proofs[0];
 
