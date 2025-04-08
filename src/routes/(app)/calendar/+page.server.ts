@@ -12,12 +12,16 @@ export const load: PageServerLoad = async ({parent, locals: { safeQuery }}) => {
                 (
                   SELECT json_agg(DISTINCT jsonb_build_object(
                     'assignment_id', a.assignment_id,
+                    'student_assignment_id', sa.student_assignment_id,
                     'assignment_name', a.assignment_name,
                     'assignment_description', a.assignment_description,
                     'active', a.active,
                     'due_date', a.due_date
                   ))
                   FROM assignments a
+                  LEFT JOIN student_assignments sa 
+                    ON sa.assignment_id = a.assignment_id 
+                    AND sa.student_id = $2
                   WHERE a.course_id = c.course_id
                 ), '[]'
             ) AS assignments

@@ -48,7 +48,7 @@
 					className: "task--primary",
 					date,
 					len: 1,
-					detailHeader: course.course_name,
+					href: `/${course.course_id}/assignment/${assignment.assignment_id}/` + (assignment.student_assignment_id ?? ''),
 					startCol: rc.col,
 					startRow: rc.row
 				});
