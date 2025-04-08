@@ -150,10 +150,6 @@
 		background: #eef;
 		border-bottom: 1px solid rgba(166, 168, 179, 0.12);
   }
-  .calendar-header h1 {
-		margin: 0;
-		font-size: 18px;
-  }
   .calendar-header button {
 		background: #eef;
 		border: 1px ;
