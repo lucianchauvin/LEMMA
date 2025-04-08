@@ -5,6 +5,7 @@
     import BookPlus from '@lucide/svelte/icons/book-plus';
     import DatatableClient from '$lib/components/client/Datatable.svelte';
     export let data;
+    export let form;
 </script>
 
 <div class="gap-2">
@@ -58,5 +59,11 @@
         </label>
 
         <button type="submit" class="btn variant-filled-primary mt-8">Submit</button>
+        {#if form?.message}
+            <p>{form.message}</p>
+        {/if}
+        {#if form?.error}
+            <p>{form.error}</p>
+        {/if}
     </form>
 </div>

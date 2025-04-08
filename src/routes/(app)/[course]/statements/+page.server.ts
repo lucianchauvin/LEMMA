@@ -53,7 +53,7 @@ export const actions: Actions = {
             return fail(500, { message: "Database failed to course statement" });
         }
 
-        return { success: true }; 
+        return { success: true, message: "Successfully added statement!" }; 
     },
 
     remove: async ({ request, params, locals: { safeQuery, permCheck } }) => {
@@ -74,6 +74,6 @@ export const actions: Actions = {
             fail(500, { message: "Failed to remove statement" });
         }
 
-        return { success: true }; 
+        return { success: true, message: "Successfully removed statement!" }; 
     }
 }
