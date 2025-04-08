@@ -6,7 +6,7 @@ export const load: PageServerLoad = async ({parent, locals: { safeQuery }}) => {
     const {user} = await parent();
 
     const {data: result, error: err} = await safeQuery<Course & {assignments: Assignment[]}>(`
-        SELECT
+        SELECT DISTINCT ON (course_id) 
             c.*,
             COALESCE(
                 (
@@ -25,8 +25,8 @@ export const load: PageServerLoad = async ({parent, locals: { safeQuery }}) => {
                   WHERE a.course_id = c.course_id
                 ), '[]'
             ) AS assignments
-        FROM user_roles ur
-        JOIN courses c ON ur.course_id = c.course_id
+        FROM courses c
+        LEFT JOIN user_roles ur ON ur.course_id = c.course_id
         LEFT JOIN assignments a ON c.course_id = a.course_id
         WHERE $1 OR ur.user_id=$2
         GROUP BY c.course_id, a.due_date
