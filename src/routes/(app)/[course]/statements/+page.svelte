@@ -54,8 +54,8 @@
         </label>
 
         <label class="label pt-4">
-            <span>Upload Lean File for Statement</span>
-            <input class="input" name="statement_file" type="file" />
+            <span>Type Statement File here</span>
+            <textarea class="textarea" name="statement_file" rows="4" placeholder="Statement File"></textarea>
         </label>
 
         <button type="submit" class="btn variant-filled-primary mt-8">Submit</button>

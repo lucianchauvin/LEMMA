@@ -1,6 +1,9 @@
 import type { PageServerLoad, Actions } from './$types';
 import type { Statements } from '$lib/types';
 import { error, fail } from '@sveltejs/kit';
+import { BASE_STATEMENT_DIR } from '$lib/constants';
+import { writeFile, unlink } from 'fs';
+import * as path from 'node:path';
 
 const colors = ["darkgreen", "maroon"];
 
@@ -39,15 +42,12 @@ export const actions: Actions = {
         if (!statement_category) {
             return fail(400, { error: "Error: No statement category chosen!" });
         }
-        if (!statement_file.name) {
-            return fail(400, { error: "Error: No statement file chosen!" });
-        }
-        if (!statement_file.name.endsWith(".lean")) {
-            return fail(400, { error: "Error: Statement file must be a .lean file!"})
+        if (!statement_file) {
+            return fail(400, { error: "Error: No statement file typed out!" });
         }
 
-        const {error: insertErr} = await safeQuery(
-            "INSERT INTO statements (statement_name, statement_type, statement_description, statement_category) VALUES ($1, $2, $3, $4)",
+        const {data: statement_id, error: insertErr} = await safeQuery(
+            "INSERT INTO statements (statement_name, statement_type, statement_description, statement_category) VALUES ($1, $2, $3, $4) RETURNING statement_id",
             [statement_name, statement_type, statement_description, statement_category] 
         );
 
@@ -55,6 +55,14 @@ export const actions: Actions = {
             console.error("ERROR: Database failed to add course statement:", insertErr);
             return fail(500, { message: "Database failed to course statement" });
         }
+        
+        const statement_file_path = path.join(BASE_STATEMENT_DIR, statement_id[0].statement_id);
+        await writeFile(statement_file_path, statement_file, function (err) {
+            if (err) {
+                console.error("ERROR: Failed to upload file:", err);
+                return fail(500, { message: "Failed to upload file" });
+            }
+        });
 
         return { success: true, message: "Successfully added statement!" }; 
     },
@@ -76,6 +84,14 @@ export const actions: Actions = {
             console.error("ERROR: Failed to remove statement:", deleteErr);
             fail(500, { message: "Failed to remove statement" });
         }
+
+        const statement_file_path = path.join(BASE_STATEMENT_DIR, statement_id);
+        await unlink(statement_file_path, function (err) {
+            if (err) {
+                console.error("ERROR: Failed to remove file:", err);
+                return fail(500, { message: "Failed to remove file" });
+            }
+        });
 
         return { success: true, message: "Successfully removed statement!" }; 
     }
