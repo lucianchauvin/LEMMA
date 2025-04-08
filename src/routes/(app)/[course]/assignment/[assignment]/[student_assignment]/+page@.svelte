@@ -13,6 +13,7 @@
     import Save from '@lucide/svelte/icons/save';
     import Trash from '@lucide/svelte/icons/trash';
     import CircleCheckBig from '@lucide/svelte/icons/circle-check-big';
+    import { invalidateAll } from '$app/navigation';
 
     const urlBase = `/${data.course.course_id}` + ((data.permissions.view_course_student_assignments.access) ? `/assignment/${data.assignment.assignment_id}`: '');
 
@@ -179,7 +180,7 @@
                 })
             });
 
-            data.problems[activeProblem].complete = true;
+            invalidateAll();
         } else {
             alert("You have finished all goals but have changed the original statment. Please save your work locally and reset your workspace.")
         }
@@ -201,7 +202,7 @@
             })
         });
 
-        data.problems[activeProblem].complete = false;
+        invalidateAll();
     }
 
     function enqueueMessage(msg) {
