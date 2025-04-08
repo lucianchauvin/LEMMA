@@ -5,10 +5,13 @@ import { BASE_STATEMENT_DIR } from '$lib/constants';
 import { writeFile, unlink } from 'fs';
 import * as path from 'node:path';
 
-const colors = ["darkgreen", "maroon"];
+export const load: PageServerLoad = async ({parent, locals: { safeQuery }}) => {
+    const {permissions} = await parent();
 
-export const load: PageServerLoad = async ({locals: { safeQuery }}) => {
-    // get courses
+    if(!permissions.view_course_statements.access) {
+        throw error(403, { message: "Forbidden" });
+    }
+
     const {data: result_statements, error: err_statements} = await safeQuery<Statements>('SELECT * FROM statements');
     if (err_statements) {
         console.error('ERROR: Database failed to query for statements:', err_statements);
@@ -29,7 +32,6 @@ export const actions: Actions = {
         const statement_category = formData.get("statement_category") as string;
         const statement_file = formData.get("statement_file") as string;
 
-        console.log(statement_name, statement_type, statement_description, statement_category, statement_file);
         if (!statement_name) {
             return fail(400, { error: "Error: No statement name chosen!" });
         }
@@ -56,8 +58,8 @@ export const actions: Actions = {
             return fail(500, { message: "Database failed to course statement" });
         }
         
-        const statement_file_path = path.join(BASE_STATEMENT_DIR, statement_id[0].statement_id);
-        await writeFile(statement_file_path, statement_file, function (err) {
+        const statement_file_path = path.join(BASE_STATEMENT_DIR, statement_id![0].statement_id);
+        writeFile(statement_file_path, statement_file, function (err) {
             if (err) {
                 console.error("ERROR: Failed to upload file:", err);
                 return fail(500, { message: "Failed to upload file" });
@@ -86,7 +88,7 @@ export const actions: Actions = {
         }
 
         const statement_file_path = path.join(BASE_STATEMENT_DIR, statement_id);
-        await unlink(statement_file_path, function (err) {
+        unlink(statement_file_path, function (err) {
             if (err) {
                 console.error("ERROR: Failed to remove file:", err);
                 return fail(500, { message: "Failed to remove file" });
