@@ -59,7 +59,7 @@
         tempNewCategory = [];
     }
 
-    async function load() {
+    async function load(orig=false) {
         if(!data.problems || data.problems.length == 0)
             return '';
 
@@ -76,7 +76,8 @@
                     courseId: data.course.course_id, 
                     proofId: data.problems[activeProblem].proof_id, 
                     problemId: data.problems[activeProblem].problem_id,
-                    studentAssignmentId: $page.params.student_assignment
+                    studentAssignmentId: $page.params.student_assignment,
+                    orig: orig
                 })
             });
             let value = await response.json();
@@ -173,14 +174,34 @@
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    proofId: data.problems[activeProblem].proof_id
+                    proofId: data.problems[activeProblem].proof_id,
+                    val: true
                 })
             });
 
             data.problems[activeProblem].complete = true;
         } else {
-            alert("You have finished all goals but have changed the origional statment. Please save your work locally and reset your workspace.")
+            alert("You have finished all goals but have changed the original statment. Please save your work locally and reset your workspace.")
         }
+    }
+
+    async function unComplete() {
+        // don't go to database if already seen as unComplete client side
+        if(!data.problems[activeProblem].complete)
+            return;
+
+        const response = await fetch('/apiv2/completeProof', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                proofId: data.problems[activeProblem].proof_id,
+                val: false
+            })
+        });
+
+        data.problems[activeProblem].complete = false;
     }
 
     function enqueueMessage(msg) {
@@ -403,10 +424,15 @@
                 <button 
                 class="btn variant-filled"
                 onclick={async () => {
-                    data.problems[activeProblem].proof_id = null;
-                    leanMonacoEditor.editor.setValue(await load());
+                    leanMonacoEditor.editor.setValue(await load(true));
+                    unComplete();
                     await save();
                 }}>Reset</button>
+                <button 
+                class="btn variant-filled"
+                onclick={async () => {
+                    await save();
+                }}>Save</button>
                 {/if}
                 </div>
                 </div>
