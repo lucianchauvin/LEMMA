@@ -11,7 +11,6 @@
 	let now = new Date();
 	let year = now.getFullYear();		//	this is the month & year displayed
 	let month = now.getMonth();
-	let eventText="Click an item or date";
 	let items = [];
 
 	var days = [];	//	The days to display in each box
@@ -166,15 +165,20 @@
 </style>
 
 <div class="calendar-container">
-  <div class="calendar-header">
-    <h1>
+  <div class="calendar-header flex justify-center">
+    <div class="w-1/4 flex justify-between items-center text-3xl">
+    <div>
       <button on:click={()=>year--}>&Lt;</button>
       <button on:click={()=>prev()}>&lt;</button>
-       {monthNames[month]} {year}
+    </div>
+    <h2 class="text-xl">
+      {monthNames[month]} {year}
+    </h2>
+    <div>
       <button on:click={()=>next()}>&gt;</button>
       <button on:click={()=>year++}>&Gt;</button>
-    </h1>
-		{eventText}
+    </div>
+    </div>
 	</div>
 
 	<Calendar
