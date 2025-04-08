@@ -20,26 +20,15 @@
 	export let data = [];
 	export let columns = [];
 	export let display_columns = [];
+  export let rowsPerPage = 5;
 
-  $: console.log(data);
-
-	$: handler = new DataHandler(data, { rowsPerPage: 5 });
+	$: handler = new DataHandler(data, { rowsPerPage });
 	let rows = [];
   $: {
     handler.getRows().subscribe(($rows) => {
 		  rows = $rows;
-		  console.log('Updated rows:', rows);
 		})
   }
-
-	// $: console.log('Fetched data (reactive log):', data);
-	$: {
-		if (handler) {
-			console.log('Handler rows:', rows);
-		}
-	}
-	//Init data handler - CLIENT
-	
 </script>
 
 <div class=" overflow-x-auto space-y-4">
@@ -56,7 +45,7 @@
       <ThSort {handler} orderBy={col}>{display_columns[i]}</ThSort>
       {/each}
       {#if showSlot}
-        <th scope="col">Remove</th>
+        <th scope="col"></th>
       {/if}
     </tr>
       
@@ -70,13 +59,13 @@
     </tr>
   </thead>
   <tbody>
-    {#each rows as row, i}
+    {#each rows as row}
       <tr>
         {#each columns as col}
         <td>{row[col]}</td>
         {/each}
         {#if showSlot}
-          <td><slot name="remove" {i}></slot></td>
+          <td><slot name="remove" {row}></slot></td>
         {/if}
       </tr>
     {/each}
