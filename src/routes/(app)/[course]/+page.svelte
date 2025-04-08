@@ -1,10 +1,31 @@
-<script>
+<script lang="ts">
     export let data;
     export let form;
 
     import Trash from '@lucide/svelte/icons/trash';
 
+    import flatpickr from "flatpickr";
     import { enhance } from "$app/forms";
+    import { onMount } from "svelte";
+
+    let inputDatetime;
+
+    const options: Intl.DateTimeFormatOptions = {
+      month: '2-digit',
+      day: '2-digit',
+      year: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: true
+    };
+
+    onMount(() => {
+        flatpickr(inputDatetime, {
+            enableTime: true,
+            dateFormat: "Y-m-d H:i",
+            defaultDate: new Date()
+        });
+    });
 </script>
 
 <h2 class="h2 pb-3 ml-2 font-semibold border-b-2 border-surface-200">Course Assignments</h2>
@@ -14,17 +35,25 @@
     <form method="post" action="?/create" enctype="multipart/form-data" class="flex flex-col gap-2" use:enhance>
         <input type="hidden" name="courseId" value={data.course.id} />
         <label for="name">Name:</label>
-        <input name="name" id="assignment-name" />
+        <input name="name" id="assignment-name" required/>
         <label for="description">Description:</label>
         <textarea name="description" id="assignment-description"></textarea>
         <label for="active">Active:</label>
         <input type="checkbox" name="active" value="yes" checked>
         <label for="dueDate">Due Date:</label>
-        <input type="date" name="dueDate" value={new Date().toISOString().split('T')[0]}>
+        <input name="dueDate" bind:this={inputDatetime}>
         <button class="btn btn-sm border-2 border-surface-600 bg-surface-100 hover:variant-filled-surface text-surface-600" id="submit">Submit</button>
     </form>
 </div>
 {/if}
+
+{#if form?.message}
+  <p>{form.message}</p>
+{/if}
+{#if form?.error}
+  <p>{form.error}</p>
+{/if}
+
 
 <div class="table-wrapper pt-8 pr-3">
     <table class="table border border-gray-200 shadow-lg rounded-lg">
@@ -48,7 +77,7 @@
                         </a>
                     </td>
                     <td class="p-3 {!assignment.active && 'bg-error-100'}"> {assignment.assignment_description}</td>
-                    <td class="p-3 {!assignment.active && 'bg-error-100'}"> {assignment.due_date?.toLocaleDateString() ?? 'None'}</td>
+                    <td class="p-3 {!assignment.active && 'bg-error-100'}"> {assignment.due_date?.toLocaleString('en-US', options).replace(',','') ?? 'None'}</td>
                     {#if assignment.active === true}
                         <td class="p-3"> Yes </td>
                     {:else}
@@ -70,11 +99,4 @@
         </tbody>
     </table>
 </div>
-
-{#if form?.message}
-  <p>{form.message}</p>
-{/if}
-{#if form?.error}
-  <p>{form.error}</p>
-{/if}
 

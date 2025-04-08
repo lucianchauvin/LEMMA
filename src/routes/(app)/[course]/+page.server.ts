@@ -101,7 +101,7 @@ export const actions: Actions = {
         [courseId, name, description, active, new Date(dueDate)]);
 
         if(insertErr) {
-            console.error('ERROR: Failed to insert assignment:', assignmentErr)
+            console.error('ERROR: Failed to insert assignment:', insertErr)
             throw error(500, {message: "Failed to insert assignment"})
         }
         if(assignmentRet!.length == 0) {
