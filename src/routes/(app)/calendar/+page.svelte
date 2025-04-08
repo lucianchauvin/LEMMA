@@ -16,7 +16,6 @@
 
 	var days = [];	//	The days to display in each box
 
-	console.log("data.courses:", data.courses);
 	function randInt(max) {
 		return Math.floor(Math.random()*max)+1;
 	}

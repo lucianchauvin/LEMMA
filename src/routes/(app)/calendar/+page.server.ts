@@ -61,7 +61,6 @@ export const load: PageServerLoad = async ({locals: { safeQuery }}) => {
 
     const structuredCourses = Array.from(courseMap.values());
 
-    console.log("Structured courses:", structuredCourses);
     return {
         title: "Home Page",
         courses: structuredCourses

@@ -25,7 +25,7 @@
       class="task {item.className}"
       style="align-self: {item.isBottom ? 'end' : 'center'};">
       {item.title}
-      {#if item.detailheader}
+      {#if item.detailHeader}
         <div class="task-detail">
             <h2>{item.detailHeader}</h2>
             <p>{item.detailContent}</p>
@@ -127,7 +127,7 @@
   font-size: 13px;
   border-left: 3px solid #ccc;
   border-radius: 4px;
-  background-color: #f8f9fa;
+  background-color: #fff;
   cursor: pointer;
 }
 .task--warning {
@@ -154,7 +154,7 @@
   background: #4786ff;
   border: 0;
   border-radius: 14px;
-  color: #f00;
+  color: #fff;
   box-shadow: 0 10px 14px rgba(71, 134, 255, 0.4);
 }
 .task-detail {
@@ -163,7 +163,7 @@
   top: calc(100% + 8px);
   background: #efe;
   border: 1px solid rgba(166, 168, 179, 0.2);
-  color: #100;
+  color: #fff;
   padding: 20px;
   box-sizing: border-box;
   border-radius: 14px;
