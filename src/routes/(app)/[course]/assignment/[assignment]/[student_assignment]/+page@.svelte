@@ -116,29 +116,6 @@
         isProcessing = false;
     }
 
-    async function complete(){
-        // don't go to database if already seen as complete client side
-        if(data.problems[activeProblem].complete)
-            return;
-
-        const isCorrect = await checkAssm();
-        if (isCorrect) {
-            const response = await fetch('/apiv2/completeProof', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    proofId: data.problems[activeProblem].proof_id
-                })
-            });
-
-            data.problems[activeProblem].complete = true;
-        } else {
-            alert("You have finished all goals but have changed the origional statment. Please save your work locally and reset your workspace.")
-        }
-    }
-
     async function checkAssm(): Promise<boolean> {
         const studentProof = leanMonacoEditor.editor.getValue().trim();
 
@@ -172,8 +149,8 @@
                     studentLines[i].trim() !== "" &&
                     originalLines[i].trim() !== ""
                 ) {
-                    console.log(studentLines[i]);
-                    console.log(originalLines[i]);
+                    <!-- console.log(studentLines[i]); -->
+                    <!-- console.log(originalLines[i]); -->
                     return false;
                 }
             }
@@ -182,6 +159,29 @@
         } catch (err) {
             console.error('Error checking assumption:', err);
             return false;
+        }
+    }
+
+    async function complete() {
+        // don't go to database if already seen as complete client side
+        if(data.problems[activeProblem].complete)
+            return;
+
+        const isCorrect = await checkAssm();
+        if (isCorrect) {
+            const response = await fetch('/apiv2/completeProof', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    proofId: data.problems[activeProblem].proof_id
+                })
+            });
+
+            data.problems[activeProblem].complete = true;
+        } else {
+            alert("You have finished all goals but have changed the origional statment. Please save your work locally and reset your workspace.")
         }
     }
 
