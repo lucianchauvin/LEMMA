@@ -116,22 +116,73 @@
         isProcessing = false;
     }
 
-    async function complete(){
+    async function checkAssm(): Promise<boolean> {
+        const studentProof = leanMonacoEditor.editor.getValue().trim();
+
+        if (!data.problems[activeProblem]?.problem_id || !studentProof) return false;
+
+        try {
+            const response = await fetch('/apiv2/loadProof', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    courseId: data.course_id,
+                    problemId: data.problems[activeProblem].problem_id,
+                    orig: true
+                })
+            });
+
+            if (!response.ok) return false;
+
+            const { content: originalProblem } = await response.json();
+
+            if (!originalProblem) return false;
+
+            const studentLines = studentProof.split('\n').map(line => line.trim());
+            const originalLines = originalProblem.split('\n').map(line => line.trim());
+
+            for (let i = 0; i < originalLines.length; i++) {
+                if (
+                    studentLines[i] !== originalLines[i] &&
+                    studentLines[i].trim() !== "" &&
+                    originalLines[i].trim() !== ""
+                ) {
+                    <!-- console.log(studentLines[i]); -->
+                    <!-- console.log(originalLines[i]); -->
+                    return false;
+                }
+            }
+
+            return true;
+        } catch (err) {
+            console.error('Error checking assumption:', err);
+            return false;
+        }
+    }
+
+    async function complete() {
         // don't go to database if already seen as complete client side
         if(data.problems[activeProblem].complete)
             return;
 
-        const response = await fetch('/apiv2/completeProof', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                proofId: data.problems[activeProblem].proof_id
-            })
-        });
+        const isCorrect = await checkAssm();
+        if (isCorrect) {
+            const response = await fetch('/apiv2/completeProof', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    proofId: data.problems[activeProblem].proof_id
+                })
+            });
 
-        data.problems[activeProblem].complete = true;
+            data.problems[activeProblem].complete = true;
+        } else {
+            alert("You have finished all goals but have changed the origional statment. Please save your work locally and reset your workspace.")
+        }
     }
 
     function enqueueMessage(msg) {
