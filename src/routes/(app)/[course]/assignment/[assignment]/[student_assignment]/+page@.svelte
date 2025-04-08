@@ -175,7 +175,7 @@
                 },
                 body: JSON.stringify({
                     proofId: data.problems[activeProblem].proof_id,
-                    remove: false
+                    val: true
                 })
             });
 
@@ -197,7 +197,7 @@
             },
             body: JSON.stringify({
                 proofId: data.problems[activeProblem].proof_id,
-                remove: true
+                val: false
             })
         });
 
