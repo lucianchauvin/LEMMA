@@ -14,8 +14,8 @@
     import SquareFunction from '@lucide/svelte/icons/square-function'; 
 </script>
 
-<div class="flex">
-<AppRail class="float-left -ml-5 mr-16 -mt-5 h-screen shadow-lg shadow-surface-900">
+<div class="h-full flex">
+<AppRail class="h-full float-left shadow-lg shadow-surface-900">
     <AppRailAnchor>
         <svelte:fragment slot="lead">
             <Menu />
@@ -80,9 +80,9 @@
     {/if}
 </AppRail>
 
-<div class="body flex-1 mr-5">
+<div class="body flex-1 flex flex-nowrap p-10">
     {#key data.url}
-        <div in:fade|global={{ delay: 300, duration: 300 }} out:fade={{ duration: 300 }}>
+        <div in:fade|global={{ delay: 300, duration: 300 }} out:fade={{ duration: 300 }} class="flex-1">
             <slot/>
         </div>
     {/key}

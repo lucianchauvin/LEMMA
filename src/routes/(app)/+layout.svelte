@@ -9,7 +9,7 @@
     import { onMount } from 'svelte';
 </script>
 
-<div class="h-screen">
+<div class="h-screen flex flex-col">
 <header class="header bg-surface-700 p-2 flex justify-between shadow-md shadow-surface-900">
     <div class="home flex items-center">
         <button type="button" class="btn bg-initial drop-shadow-xl text-primary-400">
@@ -41,7 +41,7 @@
     </div>
 </header>
 
-<main class="h-full p-5">
+<main class="flex-1">
     <slot></slot>
 </main>
 </div>
