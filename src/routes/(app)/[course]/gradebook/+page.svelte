@@ -8,6 +8,42 @@
     const assignmentsData = data.assignments ?? [];
     $:studentAssignmentsData = data.student_assignments ?? [];
     
+    function handleSubmit(event) {
+        // Prevent default form submission if using custom handling
+        event.preventDefault();
+
+        // Submit the form via the enhance directive
+        const form = event.target;
+        // Disable the submit button to avoid multiple submissions
+        const submitButton = form.querySelector('button[type="submit"]');
+        if (submitButton) submitButton.disabled = true;
+
+        // Use fetch to submit the form asynchronously
+        fetch(form.action, {
+            method: 'POST',
+            body: new FormData(form)
+        })
+        .then(response => {
+            if (response.ok || response.status === 204) {
+                // Wait a bit to ensure the server has processed the form before reloading
+                setTimeout(() => {
+                    window.location.reload();
+                }, 500); 
+            } else {
+                // If the response is not OK, show a message (but don't reload)
+                console.error('Error saving grades:', response);
+            }
+        })
+        .catch(error => {
+            // Handle fetch network error (e.g., connection issue)
+            console.error('Network error:', error);
+        })
+        .finally(() => {
+            // Enable the submit button again
+            if (submitButton) submitButton.disabled = false;
+        });
+    }
+
     function fetchGrade(studentID, assignmentID)    {
         const studentAssignment = studentAssignmentsData.find(sa => sa.student_id === studentID && sa.assignment_id === assignmentID);
     
@@ -40,7 +76,7 @@
         <Book size={24} /> Gradebook
     </h1>
 
-    <form method="POST" action="?/editGrades" use:enhance class="flex flex-col">
+    <form method="POST" action="?/editGrades" use:enhance class="flex flex-col" on:submit={handleSubmit}>
         <table class="table table-hover mt-4">
             <thead>
                 <tr>
