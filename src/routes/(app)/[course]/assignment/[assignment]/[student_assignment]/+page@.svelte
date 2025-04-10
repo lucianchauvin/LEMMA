@@ -410,8 +410,11 @@
         </ul>
 
     </nav>
-    <div class="absolute bottom-0 p-2">
-        <a class="btn variant-filled" href="https://lean-lang.org/doc/reference/latest/">LEAN Offical Reference</a>
+    <div class="absolute w-full bottom-0 p-2">
+        <div class="flex justify-between">
+        <a class="btn variant-filled block" href="https://lean-lang.org/doc/reference/latest/">LEAN Reference</a>
+        <a class="btn variant-filled block" href="https://adam.math.hhu.de/#/g/leanprover-community/nng4">Natural Number Game</a>
+        </div>
     </div>
     </div>
     </div>
