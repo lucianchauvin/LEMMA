@@ -408,7 +408,11 @@
             </li>
             {/if}
         </ul>
+
     </nav>
+    <div class="absolute bottom-0 p-2">
+        <a class="btn variant-filled" href="https://lean-lang.org/doc/reference/latest/">LEAN Offical Reference</a>
+    </div>
     </div>
     </div>
     
