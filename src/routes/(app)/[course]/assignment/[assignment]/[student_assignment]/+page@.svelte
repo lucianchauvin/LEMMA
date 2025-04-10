@@ -305,7 +305,7 @@
 
             leanMonaco.setInfoviewElement(infoviewRef);
             const proofCont = await load();
-            leanMonaco.start(options, enqueueMessage).then(() => {
+            leanMonaco.start(options, edit ? (() => {}): enqueueMessage).then(() => {
                 leanMonacoEditor.start(editorRef, `/project/scratch.lean`, proofCont);
             });
         });
