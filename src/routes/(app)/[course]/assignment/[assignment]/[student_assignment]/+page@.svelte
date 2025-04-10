@@ -74,7 +74,6 @@
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    courseId: data.course.course_id, 
                     proofId: data.problems[activeProblem].proof_id, 
                     problemId: data.problems[activeProblem].problem_id,
                     studentAssignmentId: $page.params.student_assignment,
@@ -106,9 +105,7 @@
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    courseId: data.course.course_id, 
                     proofId: data.problems[activeProblem].proof_id, 
-                    problemId: data.problems[activeProblem].problem_id, 
                     content: leanMonacoEditor.editor.getValue()
                 })
             });
@@ -116,6 +113,25 @@
             console.error("Failed to save file:", (e as Error).message);
         }
         isProcessing = false;
+    }
+
+    async function saveProblem() {
+        try {
+            const response = await fetch('/apiv2/saveProblem', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    courseId: data.course.course_id, 
+                    problemId: data.problems[activeProblem].problem_id, 
+                    content: leanMonacoEditor.editor.getValue()
+                })
+            });
+        } catch (e) {
+            console.error("Failed to save problem:", (e as Error).message);
+        }
+
     }
 
     async function checkAssm(): Promise<boolean> {
@@ -392,7 +408,14 @@
             </li>
             {/if}
         </ul>
+
     </nav>
+    <div class="absolute w-full bottom-0 p-2">
+        <div class="flex justify-between">
+        <a class="btn variant-filled block" href="https://lean-lang.org/doc/reference/latest/">LEAN Reference</a>
+        <a class="btn variant-filled block" href="https://adam.math.hhu.de/#/g/leanprover-community/nng4">Natural Number Game</a>
+        </div>
+    </div>
     </div>
     </div>
     
@@ -410,16 +433,8 @@
                 {/if}
                 <div class="flex">
                 {#if edit && activeProblem !== null}
-                <form 
-                method="post" 
-                action="?/saveProblem" 
-                enc="multipart/form-data" 
-                use:enhance={({formData}) => {
-                    formData.set('content', leanMonacoEditor.editor.getValue());
-                }}>
-                <input type="hidden" name="problemId" value={data.problems[activeProblem]?.problem_id ?? ''} />
-                <button class="btn variant-filled" type="submit">Save as Problem</button>
-                </form>
+                <button onclick={async () => await saveProblem()}
+                class="btn variant-filled">Save as Problem</button>
                 {/if}
                 {#if activeProblem !== null}
                 <button 

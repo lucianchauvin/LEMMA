@@ -50,7 +50,7 @@ export const load = (async ({params, locals: { safeQuery, permCheck }}) => {
     }
     const studentAssignment = studentAssignmentData![0];
     const {data: problemStatementProofs, error: problemStatementProofErr} = await safeQuery<ProblemStatementProofs>(`
-        SELECT 
+        SELECT DISTINCT ON (problem_number)
             p.*, 
             pr.proof_id,
             COALESCE(pr.complete, false) AS complete,  -- Default to false if no proof
