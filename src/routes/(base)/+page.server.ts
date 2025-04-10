@@ -4,6 +4,14 @@ import { error } from '@sveltejs/kit';
 
 const colors = ["darkgreen", "maroon"];
 
+function isSameDate(date1, date2) {
+  return (
+    date1.getFullYear() === date2.getFullYear() &&
+    date1.getMonth() === date2.getMonth() &&
+    date1.getDate() === date2.getDate()
+  );
+}
+
 function isWithinThisWeek(date: Date): boolean {
   const now = new Date();
 
@@ -83,7 +91,7 @@ export const load: PageServerLoad = async ({parent, locals: { safeQuery, permChe
         if (assignment.due_date < current_date) {
             assignment.date_color = 'crimson';
         }
-        else if (assignment.due_date === current_date) {
+        else if (isSameDate(assignment.due_date, current_date)) {
             assignment.date_color = 'darkorange';
         }
         else if (isWithinThisWeek(assignment.due_date as Date)) {
