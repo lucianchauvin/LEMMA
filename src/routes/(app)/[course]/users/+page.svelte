@@ -6,6 +6,27 @@
     export let data;
 
     import DatatableClient from '$lib/components/client/Datatable.svelte';
+
+    let confirmationMessage = '';  // Store confirmation message
+    function handleRemove(event, user_id) {
+        event.preventDefault(); // Prevent default form submission
+
+        const user = data.users.find(user => user.user_id === user_id);
+        // Ensure user exists
+        if (!user) {
+            console.error('User not found');
+            return;
+        } 
+
+        const form = event.target.closest('form');
+        form.submit();
+
+        // Set the confirmation message
+        confirmationMessage = `${user.name } has been removed from the course.`;
+        setTimeout(() => {
+            confirmationMessage = ''; // Display confirmation message after 3 seconds
+        }, 5000);
+    }
 </script>
 
 <div class="flex flex-col gap-2">
@@ -33,13 +54,21 @@
 </form>
 {/if}
 
+<!-- Display the confirmation message if it exists -->
+{#if confirmationMessage}
+    <div class="mt-2 p-4 bg-green-100 text-green-800 rounded">
+        {confirmationMessage}
+    </div>
+{/if}
+
 <DatatableClient showSlot={data.permissions.update_course_users.access} data={data.users} columns={["name", "email", "role_name"]} display_columns={[ "Name", "Email", "Role"]}>
     <svelte:fragment slot="remove" let:row>
         {#if data.permissions.update_course_users.target_roles?.includes(row.role_name)}
         <form class="flex justify-center" method="POST" action="?/remove" use:enhance>
             <input type="hidden" name="user_id" value={row.user_id} />
             <input type="hidden" name="role" value={row.role_name} />
-            <button type="submit" class="bg-red-500 text-white px-2 py-1 rounded flex items-center gap-1 p-2">
+            <button type="submit" class="bg-red-500 text-white px-2 py-1 rounded flex items-center gap-1 p-2"
+                on:click={(e) => handleRemove(e, row.user_id)}>
                 <Trash size={16} /> Remove
             </button>
         </form>
