@@ -306,7 +306,7 @@
             leanMonaco.setInfoviewElement(infoviewRef);
             const proofCont = await load();
             leanMonaco.start(options, edit ? (() => {}): enqueueMessage).then(() => {
-                leanMonacoEditor.start(editorRef, `/project/scratch.lean`, proofCont);
+                leanMonacoEditor.start(editorRef, `/project/scratch${data.problems[activeProblem].proof_id}.lean`, proofCont);
             });
         });
 
@@ -315,6 +315,8 @@
 
     onDestroy(() => {
         clearInterval(saveInterval);
+        leanMonacoEditor?.dispose?.();
+        leanMonaco?.dispose?.();
     })
 </script>
 
