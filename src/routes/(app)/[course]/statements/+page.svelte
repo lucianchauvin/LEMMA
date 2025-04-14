@@ -1,66 +1,69 @@
 <script>
-    import forms from "@tailwindcss/forms";
+    import { enhance } from '$app/forms';
+    import BookKey from '@lucide/svelte/icons/book-key';
+    import Trash from '@lucide/svelte/icons/trash';
+    import BookPlus from '@lucide/svelte/icons/book-plus';
+    import DatatableClient from '$lib/components/client/Datatable.svelte';
     export let data;
+    export let form;
 </script>
 
-<h2 class="h2 pb-3 ml-2 font-semibold border-b-2 border-surface-200">Course Statements</h2>
+<div class="gap-2">
+    <h1 class="h1 text-xl font-bold flex items-center pb-2">
+        <BookKey size={24} /> Course Statements
+    </h1>
 
-<div class="table-wrapper pt-8 pr-3">
-    <table class="table border border-gray-200 shadow-lg rounded-lg">
-        <thead class="bg-gray-100">
-            <tr>
-                <th class="p-3 "><center> Statement ID </center></th>
-                <th class="p-3 "><center> Statement Name </center></th>
-                <th class="p-3 "><center> Statement Type </center></th>
-                <th class="p-3 "><center> Statement Description </center></th>
-                <th class="p-3 "><center> Statement Category </center></th>
-            </tr>
-        </thead>
-        <tbody>
-            {#each data.statements as { statement_id, statement_name, statement_type, statement_description, statement_category }}
-                <tr class="border-t border-gray-300">
-                    <td class="p-3"> <center> {statement_id} </center> </td>
-                    <td class="p-3"> <center> {statement_name} </center></td>
-                    <td class="p-3"> <center> {statement_type} </center></td>
-                    <td class="p-3"> <center> {statement_description} </td>
-                    <td class="p-3"> <center> {statement_category} </center></td>
-                </tr>
-            {/each}
-        </tbody>
-    </table>
+    <DatatableClient showSlot={true} data={data.statements} columns={["statement_name", "statement_type", "statement_description", "statement_category"]} display_columns={["Statement Name", "Statement Type", "Statement Description", "Statement Category"]}>
+        <svelte:fragment slot="remove" let:row>
+            <form class="flex justify-center" method="POST" action="?/remove" use:enhance>
+                <input type="hidden" name="statement_id" value={row.statement_id} />
+                <button type="submit" class="bg-red-500 text-white px-2 py-1 rounded flex items-center gap-1 p-2">
+                    <Trash size={16} /> Remove
+                </button>
+            </form>
+        </svelte:fragment>
+    </DatatableClient>
+
+    <h1 class="h1 text-xl font-bold flex items-center">
+        <BookPlus size={24} /> Add Course Statement
+    </h1>
+
+    <form method="POST" action="?/add" enctype="multipart/form-data" use:enhance>
+        <label class="label pt-4">
+            <span>Statement Name</span>
+            <input class="input" name="statement_name" type="text" placeholder="Statement Name" />
+        </label>
+
+        <label class="label pt-2">
+            <span>Statement Type</span>
+            <select class="select" name="statement_type">
+                <option value="tactic">Tactic</option>
+                <option value="definition">Definition</option>
+                <option value="theorem">Theorem</option>
+            </select>
+        </label>
+
+        <label class="label pt-2">
+            <span>Statement Description</span>
+            <textarea class="textarea" name="statement_description" rows="4" placeholder="Statement Description"></textarea>
+        </label>		
+
+        <label class="label pt-4">
+            <span>Statement Category</span>
+            <input class="input" name="statement_category" type="text" placeholder="Statement Category" />
+        </label>
+
+        <label class="label pt-4">
+            <span>Type Statement File here</span>
+            <textarea class="textarea" name="statement_file" rows="4" placeholder="Statement File"></textarea>
+        </label>
+
+        <button type="submit" class="btn variant-filled-primary mt-8">Submit</button>
+        {#if form?.message}
+            <p>{form.message}</p>
+        {/if}
+        {#if form?.error}
+            <p>{form.error}</p>
+        {/if}
+    </form>
 </div>
-
-<h2 class="h2 pt-8 pb-3 ml-2 font-semibold border-b-2 border-surface-200">Add A Statement</h2>
-
-<label class="label pt-4">
-    <span>Statement Name</span>
-    <input class="input" type="text" placeholder="Statement Name" />
-</label>
-
-
-<label class="label pt-2">
-	<span>Statement Type</span>
-	<select class="select">
-		<option value="1">Tactic</option>
-		<option value="2">Definition</option>
-		<option value="3">Theorem</option>
-	</select>
-</label>
-
-<label class="label pt-2">
-	<span>Statement Description</span>
-	<textarea class="textarea" rows="4" placeholder="Statement Description"></textarea>
-</label>		
-
-<label class="label pt-4">
-    <span>Statement Category</span>
-    <input class="input" type="text" placeholder="Statement Category" />
-</label>
-
-<label class="label pt-4">
-    <span>Upload Lean File for Statement</span>
-    <input class="input" type="file" />
-</label>
-
-<button type="button" class="btn variant-filled-primary mt-8">Submit</button>
-<button type="button" class="btn variant-filled-error mt-8">Clear All Fields</button>

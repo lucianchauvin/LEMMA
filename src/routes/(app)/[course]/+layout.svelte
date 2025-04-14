@@ -14,8 +14,8 @@
     import SquareFunction from '@lucide/svelte/icons/square-function'; 
 </script>
 
-<div class="flex">
-<AppRail class="float-left -ml-5 mr-16 -mt-5 h-screen shadow-lg shadow-surface-900">
+<div class="h-full flex">
+<AppRail class="h-full float-left shadow-lg shadow-surface-900">
     <AppRailAnchor>
         <svelte:fragment slot="lead">
             <Menu />
@@ -43,38 +43,46 @@
         <div>Course Assignments</div>
     </AppRailAnchor>
 
+    {#if data.user.student}
     <AppRailAnchor href="/{data.course.course_id}/grades" title="Grades" selected={$page.url.pathname === `/${data.course.course_id}/grades`}>
         <svelte:fragment slot="lead">
             <BookCheck />
         </svelte:fragment>
         <div>Course Grades</div>
     </AppRailAnchor>
+    {/if}
 
+    {#if data.permissions.view_course_grades.access}
     <AppRailAnchor href="/{data.course.course_id}/gradebook" title="Gradebook" selected={$page.url.pathname === `/${data.course.course_id}/gradebook`}>
         <svelte:fragment slot="lead">
             <BookOpenCheck />
         </svelte:fragment>
         <div>Course Gradebook</div>
     </AppRailAnchor>
+    {/if}
 
-    <AppRailAnchor href="/{data.course.course_id}/students" title="Students" selected={$page.url.pathname === `/${data.course.course_id}/students`}>
+    {#if data.permissions.view_course_users.access}
+    <AppRailAnchor href="/{data.course.course_id}/users" title="Students" selected={$page.url.pathname === `/${data.course.course_id}/users`}>
         <svelte:fragment slot="lead">
             <Users />
         </svelte:fragment>
-        <div>Course Students</div>
+        <div>Course Users</div>
     </AppRailAnchor>
+    {/if}
 
+    {#if data.permissions.view_course_statements.access}
     <AppRailAnchor href="/{data.course.course_id}/statements" title="Statements" selected={$page.url.pathname === `/${data.course.course_id}/statements`}>
         <svelte:fragment slot="lead">    
             <SquareFunction />
         </svelte:fragment>
         <div>Course Statements</div>
     </AppRailAnchor>
+    {/if}
 </AppRail>
 
-<div class="body flex-1 mr-5">
+<div class="body flex-1 flex flex-nowrap p-10">
     {#key data.url}
-        <div in:fade|global={{ delay: 300, duration: 300 }} out:fade={{ duration: 300 }}>
+        <div in:fade|global={{ delay: 300, duration: 300 }} out:fade={{ duration: 300 }} class="flex-1">
             <slot/>
         </div>
     {/key}

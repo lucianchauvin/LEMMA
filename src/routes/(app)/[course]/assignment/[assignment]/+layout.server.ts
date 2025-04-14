@@ -20,6 +20,7 @@ export const load = (async ({parent, params, locals: { safeQuery }}) => {
 
     return {
         assignment: assignmentResult[0],
+        ...(await parent())
     }
         
 }) satisfies LayoutServerLoad;
