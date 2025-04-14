@@ -5,6 +5,7 @@
 
     export let data;
     export let form;
+    export let form2;
 
     // Import trash button
     import Users from '@lucide/svelte/icons/users';
@@ -47,8 +48,8 @@
     <button type="submit" class="btn variant-filled-primary mt-8">Submit</button>
 </form>
 
-{#if form?.message}
-	<p>{form.message}</p>
+{#if form?.user_message}
+	<p>{form.user_message}</p>
 {/if}
 {#if form?.error}
 	<p>{form.error}</p>
@@ -99,8 +100,8 @@
     <button type="submit" class="btn variant-filled-primary mt-8">Submit</button>
 </form>
 
-{#if form?.message}
-	<p>{form.message}</p>
+{#if form?.course_message}
+	<p>{form.course_message}</p>
 {/if}
 {#if form?.error}
 	<p>{form.error}</p>
