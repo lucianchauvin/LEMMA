@@ -9,9 +9,11 @@ export const load: PageServerLoad = async ({locals: { safeQuery }}) => {
         users.last_name,
         users.user_id,
         users.email,
-        user_roles.role_name
+        STRING_AGG(user_roles.role_name, ', ') AS roles
     FROM users
-    LEFT JOIN user_roles ON users.user_id = user_roles.user_id;
+    LEFT JOIN user_roles ON users.user_id = user_roles.user_id
+    WHERE is_super_admin = 'f'
+    GROUP BY users.first_name, users.last_name, users.user_id, users.email;
     `);
 
     if(userErr) {

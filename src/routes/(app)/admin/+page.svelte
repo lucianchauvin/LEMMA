@@ -9,7 +9,7 @@
     // import Users from '@lucide/svelte/icons/users';
 
     $: console.log(data.userData);
-    $: console.log(data.courseData);
+    // $: console.log(data.courseData);
 
 </script>
 
