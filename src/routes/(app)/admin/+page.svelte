@@ -38,7 +38,7 @@
     <label for="email">Email
         <input type="email" name="email" id="email" /><br />
     </label>
-    <button type="submit">Submit</button>
+    <button type="submit" class="btn variant-filled-primary mt-8">Submit</button>
 </form>
 
 {#if form?.message}
@@ -75,7 +75,7 @@
     <label for="end_date">End Date
         <input type="date" name="end_date" id="end_date" /><br />
     </label>
-    <button type="submit">Submit</button>
+    <button type="submit" class="btn variant-filled-primary mt-8">Submit</button>
 </form>
 
 {#if form?.message}
