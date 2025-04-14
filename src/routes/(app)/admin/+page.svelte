@@ -6,38 +6,43 @@
     export let form;
 
     // Import trash button
-    // import Users from '@lucide/svelte/icons/users';
+    import Users from '@lucide/svelte/icons/users';
+    import BookPlus from '@lucide/svelte/icons/book-plus';
 
     $: console.log(data.userData);
     // $: console.log(data.courseData);
 
 </script>
 
-
-
-
-
-
-<!-- <h1 class="text-xl font-bold flex items-center gap-2">
-			<Users size={24} /> Users
-</h1> -->
-
-<form method="post" action="?/add" class="flex flex-col gap-2" use:enhance>
-    <label for="username">Username
-        <input name="username" id="username" required/><br />
+<h1 class="text-xl font-bold flex items-center gap-2">
+			<Users size={24} /> Add Users
+</h1>
+<form method="post" action="?/add" enctype="multipart/form-data" use:enhance>
+    <label class="label pt-4">
+        <span>Username</span>
+        <input class="input" name="username" id = username type="text" placeholder="Username" />
     </label>
-    <label for="password">Password
-        <input type="password" name="password" id="password" required/><br />
+
+    <label class="label pt-4">
+        <span>Password</span>
+        <input class="input" name="password" id = password type="text" placeholder="Password" />
     </label>
-    <label for="first_name">First Name
-        <input name="first_name" id="first_name" required/><br />
+
+    <label class="label pt-4">
+        <span>First Name</span>
+        <input class="input" name="first_name" id = first_name type="text" placeholder="First Name" />
     </label>
-    <label for="last_name">Last Name
-        <input name="last_name" id="last_name" required/><br />
+
+    <label class="label pt-4">
+        <span>Last Name</span>
+        <input class="input" name="last_name" id = last_name type="text" placeholder="Last Name" />
     </label>
-    <label for="email">Email
-        <input type="email" name="email" id="email" /><br />
+
+    <label class="label pt-4">
+        <span>Email</span>
+        <input type = "email" class="input" name="email" id = email placeholder="email@example.com" />
     </label>
+    
     <button type="submit" class="btn variant-filled-primary mt-8">Submit</button>
 </form>
 
@@ -47,7 +52,7 @@
 {#if form?.error}
 	<p>{form.error}</p>
 {/if}
-
+<br>
 
 <!-- <pre>{JSON.stringify(data, null, 2)}</pre> -->
 <DatatableClient data={data.userData} columns={["first_name", "last_name", "email"]} display_columns={["First Name", "Last Name", "Email"]}>
@@ -59,21 +64,33 @@
     </svelte:fragment>
 </DatatableClient>
 
-<form method="post" action="?/add_course" class="flex flex-col gap-2" use:enhance>
-    <label for="course_number">Course Number
-        <input name="course_number" id="course_number" required/><br />
+<h1 class="h1 text-xl font-bold flex items-center">
+    <BookPlus size={24} /> Add Courses
+</h1>
+<form method="post" action="?/add_course" enctype="multipart/form-data" use:enhance>
+    <label class="label pt-4">
+        <span>Course Number</span>
+        <input class="input" name="course_number" id = course_number type="text" placeholder="CSCE101" />
     </label>
-    <label for="course_name">Course Name
-        <input name="course_name" id="course_name" required/><br />
+    <label class="label pt-4">
+        <span>Course Name</span>
+        <input class="input" name="course_name" id = course_name type="text" placeholder="Intro to Computing" />
     </label>
-    <!-- <label for="status">Status
-        <input name="status" id="status" required/><br />
-    </label> -->
-    <label for="start_date">Start Date
-        <input type="date" name="start_date" id="start_date" /><br />
+    <label class="label pt-4">
+        <span>Status</span>
+        <select name="status" id="status" required>
+          {#each ["active", "inactive", "archived"] as status}
+          <option value={status}>{status}</option>
+          {/each}
+        </select>
     </label>
-    <label for="end_date">End Date
-        <input type="date" name="end_date" id="end_date" /><br />
+    <label class="label pt-4">
+        <span>Start Date</span>
+        <input type="date" class="input" name="start_date" id = start_date />
+    </label>
+    <label class="label pt-4">
+        <span>End Date</span>
+        <input type="date" class="input" name="end_date" id = end_date/>
     </label>
     <button type="submit" class="btn variant-filled-primary mt-8">Submit</button>
 </form>
@@ -84,6 +101,8 @@
 {#if form?.error}
 	<p>{form.error}</p>
 {/if}
+
+<br>
 
 <DatatableClient data={data.courseData} columns={["course_number", "course_name", "status"]} display_columns={["Course Number", "Course Name", "Status"]}>
     <svelte:fragment slot="remove" let:i>
