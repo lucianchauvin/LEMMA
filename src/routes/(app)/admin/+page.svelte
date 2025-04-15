@@ -7,7 +7,7 @@
     export let form;
 </script>
 
-<form method="post" action="?/add" class="flex flex-col gap-2" use:enhance>
+<form method="post" action="?/add" class="flex flex-col gap-2 mb-4 mt-4" use:enhance>
     <label for="username">Username
         <input name="username" id="username" required/><br />
     </label>
@@ -23,7 +23,9 @@
     <label for="email">Email
         <input type="email" name="email" id="email" /><br />
     </label>
-    <button type="submit">Submit</button>
+    <button type="submit" class="bg-green-600 text-white text-base px-4 py-2 rounded hover:bg-green-700 w-fit ml-1">
+        Submit
+    </button>
 </form>
 
 {#if form?.message}
@@ -65,7 +67,9 @@
     <label for="end_date">End Date
         <input type="date" name="end_date" id="end_date" /><br />
     </label>
-    <button type="submit">Submit</button>
+    <button type="submit" style="background-color: green; color: white; border: none; padding: 4px 8px; font-size: 16px; border-radius: 4px;cursor: pointer;">
+        Submit
+    </button>
 </form>
 
 {#if form?.message}
