@@ -65,7 +65,7 @@ export const actions: Actions = {
         if (existingUser && existingUser.length > 0) {
             return fail(400, { message: "Username already exists: Please choose a different username." });
         }
-        
+
         // Make sure usernames and passwords are appropriate length
         if (
             typeof username !== "string" ||
@@ -74,7 +74,7 @@ export const actions: Actions = {
             !/^[a-z0-9_-]+$/.test(username)
         ) {
             return fail(400, {
-                message: "Invalid username: : Username must be between 3 and 31 characters long and contain only lowercase letters, numbers, underscores, and dashes."
+                message: "Invalid username: Username must be between 3 and 31 characters long and contain only lowercase letters, numbers, underscores, and dashes."
             });
         }
 
