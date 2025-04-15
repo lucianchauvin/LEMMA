@@ -15,10 +15,10 @@ export const load: PageServerLoad = async ({locals: { getSession, safeQuery }}) 
         users.last_name,
         users.user_id,
         users.email,
+        users.is_super_admin,
         STRING_AGG(user_roles.role_name, ', ') AS roles
     FROM users
     LEFT JOIN user_roles ON users.user_id = user_roles.user_id
-    WHERE is_super_admin = 'f'
     GROUP BY users.first_name, users.last_name, users.user_id, users.email;
     `);
 
@@ -49,6 +49,7 @@ export const actions: Actions = {
         const first_name = formData.get("first_name") as string;
         const last_name = formData.get("last_name") as string;
         const email = formData.get("email") as string;
+        const is_admin = formData.get("is_admin") as string;
 
         if (!username || !password || !first_name || !last_name) {
             return fail(400, { user_message: "All fields except email are required"});
@@ -93,9 +94,14 @@ export const actions: Actions = {
             parallelism: 1
         });
 
+        let assign_admin = 'f';
+        if (is_admin == "yes") {
+            assign_admin = 't';
+        }
+
         const { error: insertError } = await safeQuery(
-            "INSERT INTO users (username, password, first_name, last_name, email) VALUES ($1, $2, $3, $4, $5)",
-            [username, passwordHash, first_name, last_name, email]
+            "INSERT INTO users (username, password, first_name, last_name, email, is_super_admin) VALUES ($1, $2, $3, $4, $5, $6)",
+            [username, passwordHash, first_name, last_name, email, assign_admin]
         );
 
         if (insertError) {

@@ -7,6 +7,8 @@
     export let form;
     export let form2;
 
+    let no = false;
+
     // Import trash button
     import Users from '@lucide/svelte/icons/users';
     import BookPlus from '@lucide/svelte/icons/book-plus';
@@ -15,7 +17,8 @@
     // $: console.log(data.courseData);
 
 </script>
-
+<div class="p-4">
+<br>
 <h1 class="text-xl font-bold flex items-center gap-2">
 			<Users size={24} /> Add Users
 </h1>
@@ -44,6 +47,11 @@
         <span>Email</span>
         <input type = "email" class="input" name="email" id = email placeholder="email@example.com" />
     </label>
+
+    <label class="label pt-4">
+        <input type = "checkbox" value="yes" name="is_admin"/>
+        <span>Admin?</span>
+    </label>
     
     <button type="submit" class="btn variant-filled-primary mt-8">Submit</button>
 </form>
@@ -60,9 +68,11 @@
     <svelte:fragment slot="remove" let:row>
     <form method="post" action="/admin?/remove" use:enhance>
         <input type="hidden" name="user_id" value={row.user_id}/>
+        {#if data.user.id != row.user_id}
         <button type="submit" class="bg-red-500 text-white px-2 py-1 rounded flex items-center gap-1 p-2">
-            <Trash size={16} /> Remove
+                <Trash size={16} /> Remove
         </button>
+        {/if}
     </form>
     </svelte:fragment>
 </DatatableClient>
@@ -120,3 +130,4 @@
     </form>
     </svelte:fragment>
 </DatatableClient>
+</div>
