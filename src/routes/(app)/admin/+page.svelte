@@ -47,7 +47,7 @@
     </svelte:fragment>
 </DatatableClient>
 
-<form method="post" action="?/add_course" class="flex flex-col gap-2" use:enhance>
+<form method="post" action="?/add_course" class="flex flex-col gap-2 mb-4" use:enhance>
     <label for="course_number">Course Number
         <input name="course_number" id="course_number" required/><br />
     </label>
@@ -67,7 +67,7 @@
     <label for="end_date">End Date
         <input type="date" name="end_date" id="end_date" /><br />
     </label>
-    <button type="submit" style="background-color: green; color: white; border: none; padding: 4px 8px; font-size: 16px; border-radius: 4px;cursor: pointer;">
+    <button type="submit" class="bg-green-600 text-white text-base px-4 py-2 rounded hover:bg-green-700 w-fit ml-1">
         Submit
     </button>
 </form>

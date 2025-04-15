@@ -61,11 +61,11 @@ export const actions: Actions = {
             return fail(500, { message: "Database failed to determine if username already exists on admin page" });
         }
 
-        // Don't allow duplicate user
-        if (existingUser!.length > 0) {
-            return fail(400, { message: "Username already exists"});
+        // Don't allow duplicate username
+        if (existingUser && existingUser.length > 0) {
+            return fail(400, { message: "Username already exists: Please choose a different username." });
         }
-
+        
         // Make sure usernames and passwords are appropriate length
         if (
             typeof username !== "string" ||
@@ -74,7 +74,7 @@ export const actions: Actions = {
             !/^[a-z0-9_-]+$/.test(username)
         ) {
             return fail(400, {
-                message: "Invalid username"
+                message: "Invalid username: : Username must be between 3 and 31 characters long and contain only lowercase letters, numbers, underscores, and dashes."
             });
         }
 
