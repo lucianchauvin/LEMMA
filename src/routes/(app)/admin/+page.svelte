@@ -5,7 +5,6 @@
 
     export let data;
     export let form;
-    export let form2;
 
     let no = false;
 
@@ -13,7 +12,7 @@
     import Users from '@lucide/svelte/icons/users';
     import BookPlus from '@lucide/svelte/icons/book-plus';
 
-    $: console.log(data.userData);
+    // $: console.log(data.userData);
     // $: console.log(data.courseData);
 
 </script>
