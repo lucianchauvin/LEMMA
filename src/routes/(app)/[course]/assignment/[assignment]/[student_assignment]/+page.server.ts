@@ -89,28 +89,30 @@ export const load = (async ({params, locals: { safeQuery, permCheck }}) => {
 }) satisfies PageServerLoad;
 
 export const actions: Actions = {
-    description: async({ request, params, locals: { safeQuery, permCheck } }) => {
+    problemDescription: async({ request, params, locals: { safeQuery, permCheck } }) => {
         const {data: perm, error: permErr} = await permCheck('update_assignments', params.course);
         if(permErr) {
             console.error("ERROR: Failed to determine permission for updating assignments:", permErr);
             throw error(500, {message: "Failed to determine permission for updating assignments"})
         }
         if(!perm.access) {
-            return fail(403, {message: "Forbidden"});
+            return fail(403, {error: "Forbidden"});
         }
 
         const formData = await request.formData();
-        const description = formData.get("description");
+        const description = formData.get("description") as string;
+        const problemId = formData.get("problemId") as string;
 
-        if(!description) return fail(400, {message: "Expected description"});
+        if(!description) return fail(400, {error: "Expected description"});
+        if(!problemId || !isUUID(problemId)) return fail(400, {error: "Expected problem id"});
 
         const {error: updateErr} = await safeQuery(
-            `UPDATE assignments SET assignment_description=$1 WHERE assignment_id=$2`, 
-        [description, params.assignment]);
+            `UPDATE problems SET problem_description=$1 WHERE problem_id=$2`, 
+        [description, problemId]);
 
         if(updateErr) {
-            console.error("ERROR: Failed to update assignment description:", updateErr);
-            throw error(500, {message: "Failed to update assignment description"});
+            console.error("ERROR: Failed to update problem description:", updateErr);
+            throw error(500, {message: "Failed to update problem description"});
         }
     },
 
