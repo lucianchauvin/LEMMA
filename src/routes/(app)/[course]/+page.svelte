@@ -1,7 +1,8 @@
 <script lang="ts">
     export let data;
     export let form;
-
+    
+    import DatatableClient from '$lib/components/client/Datatable.svelte';
     import Trash from '@lucide/svelte/icons/trash';
 
     import flatpickr from "flatpickr";
@@ -10,6 +11,10 @@
 
     let inputDatetime;
     let localMessage = '';
+
+    const columns = [...["assignment_name", "assignment_description", "due_date"], ...((data.permissions.view_inactive_assigned_course_assignments.access) ? ['active'] : []) ];
+    const display_columns = [...["Assignment Name", "Assignment Description", "Due Date"], ...((data.permissions.view_inactive_assigned_course_assignments.access) ? ['Active'] : []) ];
+    const rowClass = (row) => !row.active && 'bg-error-100';
 
     const options: Intl.DateTimeFormatOptions = {
       month: '2-digit',
@@ -67,49 +72,34 @@
   <p>{form.error}</p>
 {/if}
 
+<DatatableClient rowsPerPage={10} removeSlot={data.permissions.delete_assignments.access} data={data.assignments ?? []} columns={columns} display_columns={display_columns} rowClass={rowClass}>
+    <svelte:fragment slot="cell" let:row let:col>
+    {#if col === "assignment_name"}
+        <a 
+            class="anchor" 
+            href="/{data.course.id}/assignment/{row.assignment_id}/{data.studentAssignments.find(sa => sa.assignment_id === row.assignment_id)?.student_assignment_id ?? ''}">
+            {row.assignment_name}
+        </a>
+    {:else if col === "due_date"}
+        {row.due_date?.toLocaleString('en-US', options).replace(',','') ?? 'None'}
+    {:else if col === "active"}
+        {#if row.active}
+        <span>Yes</span>
+        {:else}
+        <span class="bg-error-100">No</span>
+        {/if}
+    {:else}
+        {row[col] ?? ''}
+    {/if}
+    </svelte:fragment>
 
-<div class="table-wrapper pt-8 pr-3">
-    <table class="table border border-gray-200 shadow-lg rounded-lg">
-        <thead class="bg-gray-100">
-            <tr class="!text-center">
-                <th class="p-3"> Assignment Name </th>
-                <th class="p-3"> Assignment Description </th>
-                <th class="p-3"> Due Date </th>
-                <th class="p-3"> Open? </th>
-                {#if data.permissions.delete_assignments.access}
-                <th class="p-3"> Remove </th>
-                {/if}
-            </tr>
-        </thead>
-        <tbody>
-            {#each (data.assignments ?? []) as assignment}
-                <tr class="border-t border-gray-300 text-center">
-                    <td class="p-3 {!assignment.active && 'bg-error-100'}"> 
-                        <a class="anchor" href="/{data.course.id}/assignment/{assignment.assignment_id}/{data.studentAssignments.find(sa => sa.assignment_id === assignment.assignment_id)?.student_assignment_id ?? ''}">
-                            {assignment.assignment_name}
-                        </a>
-                    </td>
-                    <td class="p-3 {!assignment.active && 'bg-error-100'}"> {assignment.assignment_description}</td>
-                    <td class="p-3 {!assignment.active && 'bg-error-100'}"> {assignment.due_date?.toLocaleString('en-US', options).replace(',','') ?? 'None'}</td>
-                    {#if assignment.active === true}
-                        <td class="p-3"> Yes </td>
-                    {:else}
-                        <td class="p-3 bg-error-100"> No </td>
-                    {/if}
-                    {#if data.permissions.delete_assignments.access}
-                    <td>
-                    <form method="POST" action="?/delete" enctype="multipart/form-data" use:enhance>
-                        <input type="hidden" name="courseId" value={data.course.id} />
-                        <input type="hidden" name="assignmentId" value={assignment.assignment_id} />
-                        <button type="submit" class="bg-red-500 text-white px-2 py-1 rounded flex items-center gap-1 p-2">
-                            <Trash size={16} /> Remove
-                        </button>
-                    </form>
-                    </td>
-                    {/if}
-                </tr>
-            {/each}
-        </tbody>
-    </table>
-</div>
-
+    <svelte:fragment slot="remove" let:row>
+        <form method="POST" action="?/delete" enctype="multipart/form-data" use:enhance>
+            <input type="hidden" name="courseId" value={data.course.id} />
+            <input type="hidden" name="assignmentId" value={row.assignment_id} />
+            <button type="submit" class="bg-red-500 text-white px-2 py-1 rounded flex items-center gap-1 p-2">
+                <Trash size={16} /> Remove
+            </button>
+        </form>
+    </svelte:fragment>
+</DatatableClient>

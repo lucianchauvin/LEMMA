@@ -13,7 +13,7 @@
         <BookKey size={24} /> Course Statements
     </h1>
 
-    <DatatableClient showSlot={true} data={data.statements} columns={["statement_name", "statement_type", "statement_description", "statement_category"]} display_columns={["Statement Name", "Statement Type", "Statement Description", "Statement Category"]}>
+    <DatatableClient removeSlot={true} data={data.statements} columns={["statement_name", "statement_type", "statement_description", "statement_category"]} display_columns={["Statement Name", "Statement Type", "Statement Description", "Statement Category"]}>
         <svelte:fragment slot="remove" let:row>
             <form class="flex justify-center" method="POST" action="?/remove" use:enhance>
                 <input type="hidden" name="statement_id" value={row.statement_id} />

@@ -34,7 +34,7 @@
 {/if}
 
 
-<DatatableClient showSlot={true} data={data.userData} columns={["first_name", "last_name", "email"]} display_columns={["First Name", "Last Name", "Email"]}>
+<DatatableClient removeSlot={true} data={data.userData} columns={["first_name", "last_name", "email"]} display_columns={["First Name", "Last Name", "Email"]}>
     <svelte:fragment slot="remove" let:row>
     <form method="post" action="/admin?/remove" use:enhance>
         <input type="hidden" name="user_id" value={row.user_id}/>
@@ -75,7 +75,7 @@
 	<p>{form.error}</p>
 {/if}
 
-<DatatableClient showSlot={true} data={data.courseData} columns={["course_number", "course_name", "status"]} display_columns={["Course Number", "Course Name", "Status"]}>
+<DatatableClient removeSlot={true} data={data.courseData} columns={["course_number", "course_name", "status"]} display_columns={["Course Number", "Course Name", "Status"]}>
     <svelte:fragment slot="remove" let:row>
     <form method="post" action="/admin?/remove_course" use:enhance>
         <input type="hidden" name="course_id" value={row.course_id}/>

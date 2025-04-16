@@ -63,6 +63,7 @@ export const load = (async ({parent, params, locals: { safeQuery, permCheck }}) 
             ...permissions,
             create_assignments: createAssignments,
             delete_assignments: deleteAssignments,
+            view_inactive_assigned_course_assignments: viewInactiveAssignments
         }
     };
 }) satisfies PageServerLoad;
