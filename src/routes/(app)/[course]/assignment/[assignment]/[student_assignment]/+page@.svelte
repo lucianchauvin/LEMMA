@@ -6,6 +6,7 @@
     import { enhance } from "$app/forms";
     import { onDestroy, onMount } from 'svelte';
     import { marked } from 'marked';
+    import { generateIdFromEntropySize } from 'lucia';
 
     import { AppBar, Tab, TabGroup } from '@skeletonlabs/skeleton';
     import ArrowLeft from '@lucide/svelte/icons/arrow-left';
@@ -307,8 +308,9 @@
 
             leanMonaco.setInfoviewElement(infoviewRef);
             const proofCont = await load();
+
             leanMonaco.start(options, edit ? (() => {}): enqueueMessage).then(() => {
-                leanMonacoEditor.start(editorRef, `/project/scratch${data.problems[activeProblem].proof_id}.lean`, proofCont);
+                leanMonacoEditor.start(editorRef, `/project/scratch-${generateIdFromEntropySize(25)}.lean`, proofCont);
             });
         });
 
