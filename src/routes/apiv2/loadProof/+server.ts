@@ -10,7 +10,7 @@ export const POST: RequestHandler = async ({ request, locals: { safeQuery, permC
     if(orig === true) {
         try {
             const content = await fs.readFile(problemFilePath, 'utf-8');
-            return json({ content });
+            return json({ content, proofId });
         } catch (err) {
             console.error('Error loading original problem file:', err);
             throw error(500, { message: 'Failed to load original problem file' });
@@ -31,7 +31,7 @@ export const POST: RequestHandler = async ({ request, locals: { safeQuery, permC
     try {
         const filePath = path.join(BASE_PROOF_DIR, proofId);
         const content = await fs.readFile(filePath, 'utf-8');
-        return json({ content });
+        return json({ content, proofId });
     } catch (err) {
         console.error('Proof doesnt exist, attempting to load problem file proofId: ', proofId, ' problemId: ', problemId);
         try {
@@ -44,11 +44,11 @@ export const POST: RequestHandler = async ({ request, locals: { safeQuery, permC
 
             if(edit![0].edit) {
                 await fs.writeFile(problemFilePath, '', 'utf-8');
-                return json({content: ''});
+                return json({content: '', proofId});
             }
 
             const content = await fs.readFile(problemFilePath, 'utf-8');
-            return json({ content });
+            return json({ content, proofId });
         } catch (problemError) {
             console.error('Error loading problem file:', problemError);
             throw error(500, { message: 'Failed to load proof and problem file' });
