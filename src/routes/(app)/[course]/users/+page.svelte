@@ -7,13 +7,6 @@
 
     import DatatableClient from '$lib/components/client/Datatable.svelte';
     let confirmationMessage = '';
-    function createConfirmationHandler(successMessageCallback) {
-    return enhance(async ({ result }) => {
-        if (result.type === 'success') {
-            confirmationMessage = successMessageCallback(result);
-        }
-    });
-}
 </script>
 
 <div class="flex flex-col gap-2">
