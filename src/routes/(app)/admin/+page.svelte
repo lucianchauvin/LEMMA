@@ -6,7 +6,6 @@
     export let data;
     export let form;
 
-
     // Import trash button
     import Users from '@lucide/svelte/icons/users';
     import BookPlus from '@lucide/svelte/icons/book-plus';
@@ -23,22 +22,22 @@
 <form method="post" action="?/add" enctype="multipart/form-data" use:enhance>
     <label class="label pt-4">
         <span>Username</span>
-        <input class="input" name="username" id = username type="text" placeholder="Username" />
+        <input class="input" name="username" id = username type="text" placeholder="Username" required/>
     </label>
 
     <label class="label pt-4">
         <span>Password</span>
-        <input class="input" name="password" id = password type="password" placeholder="Password" />
+        <input class="input" name="password" id = password type="password" placeholder="Password" required/>
     </label>
 
     <label class="label pt-4">
         <span>First Name</span>
-        <input class="input" name="first_name" id = first_name type="text" placeholder="First Name" />
+        <input class="input" name="first_name" id = first_name type="text" placeholder="First Name" required/>
     </label>
 
     <label class="label pt-4">
         <span>Last Name</span>
-        <input class="input" name="last_name" id = last_name type="text" placeholder="Last Name" />
+        <input class="input" name="last_name" id = last_name type="text" placeholder="Last Name" required/>
     </label>
 
     <label class="label pt-4">
@@ -81,11 +80,11 @@
 <form method="post" action="?/add_course" enctype="multipart/form-data" use:enhance>
     <label class="label pt-4">
         <span>Course Number</span>
-        <input class="input" name="course_number" id = course_number type="text" placeholder="CSCE101" />
+        <input class="input" name="course_number" id = course_number type="text" placeholder="CSCE101" required/>
     </label>
     <label class="label pt-4">
         <span>Course Name</span>
-        <input class="input" name="course_name" id = course_name type="text" placeholder="Intro to Computing" />
+        <input class="input" name="course_name" id = course_name type="text" placeholder="Intro to Computing" required/>
     </label>
 
     <label class="label pt-4">
@@ -99,11 +98,11 @@
 
     <label class="label pt-4">
         <span>Start Date</span>
-        <input type="date" class="input" name="start_date" id = start_date />
+        <input type="date" class="input" name="start_date" id="start_date" required/>
     </label>
     <label class="label pt-4">
         <span>End Date</span>
-        <input type="date" class="input" name="end_date" id = end_date/>
+        <input type="date" class="input" name="end_date" id="end_date" requied/>
     </label>
     <button type="submit" class="btn variant-filled-primary mt-8">Submit</button>
 </form>
