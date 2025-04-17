@@ -19,7 +19,7 @@
 
     const columns = [...["assignment_name", "assignment_description", "due_date"], ...((data.permissions.view_inactive_assigned_course_assignments.access) ? ['active'] : []) ];
     const display_columns = [...["Assignment Name", "Assignment Description", "Due Date"], ...((data.permissions.view_inactive_assigned_course_assignments.access) ? ['Active'] : []) ];
-    const rowClass = (row) => (!row.active) ? '!bg-error-100 hover:!bg-error-200': '';
+    const rowClass = (row) => (!row.active) ? 'even:!bg-error-100 odd:!bg-error-50 even:hover:!bg-error-200/70 odd:hover:!bg-error-200/70': '';
 
     const columnConfig = {
       assignment_name: {
