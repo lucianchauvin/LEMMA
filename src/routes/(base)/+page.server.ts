@@ -98,7 +98,7 @@ export const load: PageServerLoad = async ({parent, locals: { safeQuery, permChe
             assignment.date_color = 'black';
         }
         else {
-            assignment.date_color = 'white';
+            assignment.date_color = 'slategrey';
         }
         const temp_date = new Date(assignment.due_date);
         assignment.due_date = months[temp_date.getMonth()] + ' ' + temp_date.getDate();
