@@ -54,7 +54,14 @@
 </form>
 {/if}
 
-<DatatableClient showSlot={data.permissions.update_course_users.access} data={data.users} columns={["name", "email", "role_name"]} display_columns={[ "Name", "Email", "Role"]}>
+<!-- Display the confirmation message if it exists -->
+{#if confirmationMessage}
+    <div class="mt-2 p-4 bg-green-100 text-green-800 rounded">
+        {confirmationMessage}
+    </div>
+{/if}
+
+<DatatableClient removeSlot={data.permissions.update_course_users.access} data={data.users} columns={["name", "email", "role_name"]} display_columns={[ "Name", "Email", "Role"]}>
     <svelte:fragment slot="remove" let:row>
         {#if data.permissions.update_course_users.target_roles?.includes(row.role_name)}
         <form class="flex justify-center" method="POST" action="?/remove" use:enhance>
