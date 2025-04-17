@@ -37,6 +37,7 @@
           props: {
             type: 'text',
             name: 'name',
+            class: 'input',
             value: row.assignment_name ?? ''
           }
         })
