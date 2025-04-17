@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	//Import local datatable components
 	import ThSort from '$lib/components/client/ThSort.svelte';
 	import ThFilter from '$lib/components/client/ThFilter.svelte';
@@ -8,7 +8,7 @@
 	import Pagination from '$lib/components/client/Pagination.svelte';
 
 	// Enable slot
-	export let showSlot = false;
+	export let removeSlot = false;
 
 	// import data from '$lib/components/data';
 
@@ -21,6 +21,7 @@
 	export let columns = [];
 	export let display_columns = [];
   export let rowsPerPage = 5;
+  export let rowClass: (row: any) => string = () => '';
 
 	$: handler = new DataHandler(data, { rowsPerPage });
 	let rows = [];
@@ -44,7 +45,7 @@
       {#each columns as col, i}
       <ThSort {handler} orderBy={col}>{display_columns[i]}</ThSort>
       {/each}
-      {#if showSlot}
+      {#if removeSlot}
         <th scope="col"></th>
       {/if}
     </tr>
@@ -53,18 +54,18 @@
       {#each columns as col}
       <ThFilter {handler} filterBy={col} />
       {/each}
-      {#if showSlot}
+      {#if removeSlot}
       <th></th>
       {/if}
     </tr>
   </thead>
   <tbody>
     {#each rows as row}
-      <tr>
+      <tr class="{rowClass(row)}">
         {#each columns as col}
-        <td>{row[col]}</td>
+        <td><slot name="cell" {row} {col}>{row[col] ?? ''}</slot></td>
         {/each}
-        {#if showSlot}
+        {#if removeSlot}
           <td><slot name="remove" {row}></slot></td>
         {/if}
       </tr>

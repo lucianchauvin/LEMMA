@@ -339,8 +339,8 @@
 
 <main class="h-full grid grid-cols-[1fr_4fr]">
     <div class="h-full bg-surface-100 relative">
-    <div class="flex flex-col">
-    <div id="problem-description" class="p-2">
+    <div class="h-full flex flex-col">
+    <div id="problem-description" class="p-2 flex-[0_0_40%]">
         <h2 class="h3">Problem Description</h2>
         {#if edit}
         <form method="post" action="?/problemDescription" enctype="multipart/form-data" class="flex flex-col" use:enhance>
@@ -353,7 +353,7 @@
         {/if}
     </div>
 
-    <nav id="problem-selection" class="list-nav">
+    <nav id="problem-selection" class="list-nav flex-1">
         <ul class="flex flex-col gap-1 p-1">
             {#each data.problems as problem, i}
             <li class="flex items-center">
