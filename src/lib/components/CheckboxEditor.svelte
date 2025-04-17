@@ -3,5 +3,5 @@
   export let checked: boolean;
 </script>
 
-<input type="hidden" name={name} value="false" />
+<input type="hidden" name={`_${name}`} value="false" />
 <input type="checkbox" name={name} value="true" checked={checked} />

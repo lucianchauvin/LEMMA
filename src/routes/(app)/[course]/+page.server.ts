@@ -208,7 +208,7 @@ export const actions: Actions = {
         const name = formData.get('name') as string;
         const description = formData.get('description') as string;
         const dueDate = formData.get('dueDate') as string;
-        const active = formData.get('active') as string;
+        const active = formData.get('active') === 'true' ? true : formData.get('_active') === 'false' ? false : null;
         const assignmentId = formData.get('assignmentId');
 
         if(!assignmentId || typeof assignmentId !== 'string' || !isUUID(assignmentId)){
@@ -237,7 +237,7 @@ export const actions: Actions = {
             ...((name) ? {assignment_name: name}: {}),
             ...((description) ? {assignment_description: description}: {}),
             ...((date) ? {due_date: date}: {}),
-            ...((active) ? {active: active === 'true'}: {}),
+            ...((active !== null) ? {active: active}: {}),
         }
 
         for(let [key, value] of Object.entries(data)) {
