@@ -79,7 +79,7 @@ export const load: PageServerLoad = async ({parent, locals: { safeQuery, permChe
 
     // get assignments
     const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-    const {data: result_assignments, error: err_assignments} = await safeQuery<Assignment>('SELECT a.*, c.course_number FROM assignments a JOIN courses c ON a.course_id = c.course_id JOIN user_roles ur ON a.course_id = ur.course_id WHERE $1 OR ur.user_id = $2', [user?.isAdmin, user?.id]);
+    const {data: result_assignments, error: err_assignments} = await safeQuery<Assignment>('SELECT a.*, c.course_number FROM assignments a JOIN courses c ON a.course_id = c.course_id JOIN user_roles ur ON a.course_id = ur.course_id WHERE $1 OR ur.user_id = $2 ORDER BY a.due_date', [user?.isAdmin, user?.id]);
     if (err_assignments) {
         console.error('ERROR: Database failed to query for assignments:', err_assignments);
         error(500, {message: 'Database failed to query for assignments'})
