@@ -7,6 +7,7 @@ export const load = (async ({parent, params, locals: { safeQuery, permCheck }}) 
     const {user, course, permissions} = await parent();
     const {data: viewInactiveAssignments, error: viewInactiveAssignmentsErr} = await permCheck('view_inactive_assigned_course_assignments', course.course_id);
     const {data: createAssignments, error: createAssignmentErr} = await permCheck('create_assignments', course.course_id);
+    const {data: updateAssignments, error: updateAssignmentErr} = await permCheck('update_assignments', course.course_id);
     const {data: deleteAssignments, error: deleteAssignmentErr} = await permCheck('delete_assignments', course.course_id);
 
     if(viewInactiveAssignmentsErr) {
@@ -16,6 +17,10 @@ export const load = (async ({parent, params, locals: { safeQuery, permCheck }}) 
     if(createAssignmentErr) {
         console.error('ERROR: Failed to determine permission for creating assignments:', createAssignmentErr);
         throw error(500, {message: 'Failed to determine permission for creating assignments'})
+    }
+    if(updateAssignmentErr) {
+        console.error('ERROR: Failed to determine permission for updating assignments:', updateAssignmentErr);
+        throw error(500, {message: 'Failed to determine permission for updating assignments'})
     }
     if(createAssignmentErr) {
         console.error('ERROR: Failed to determine permission for deleting assignments:', deleteAssignmentErr);
@@ -62,6 +67,7 @@ export const load = (async ({parent, params, locals: { safeQuery, permCheck }}) 
         permissions: {
             ...permissions,
             create_assignments: createAssignments,
+            update_assignments: updateAssignments,
             delete_assignments: deleteAssignments,
             view_inactive_assigned_course_assignments: viewInactiveAssignments
         }
@@ -193,8 +199,57 @@ export const actions: Actions = {
         [assignmentId]);
 
         if(deleteErr) {
-            console.error('ERROR: Failed to delete assignment:', assignmentErr)
+            console.error('ERROR: Failed to delete assignment:', deleteErr)
             throw error(500, {message: "Failed to delete assignment"})
         }
     },
+    update: async ({ request, params, locals: { safeQuery, permCheck } }) => {
+        const formData = await request.formData();
+        const name = formData.get('name') as string;
+        const description = formData.get('description') as string;
+        const dueDate = formData.get('dueDate') as string;
+        const active = formData.get('active') as string;
+        const assignmentId = formData.get('assignmentId');
+
+        if(!assignmentId || typeof assignmentId !== 'string' || !isUUID(assignmentId)){
+            return fail(400, {message: "Assignment id is incorrect"});
+        }
+
+        const {data: assignmentData, error: assignmentErr} = await permCheck('update_assignments', params.course);
+        if(assignmentErr) {
+            console.error('ERROR: Failed to check permission of user for updating assignments:', assignmentErr)
+            throw error(500, {message: "Failed to check permission of user for updating assignments"})
+        }
+        if(!assignmentData.access) {
+            return fail(403, {message: "Do not have permission to update an assignment"});
+        }
+
+        let date: Date | null = null;
+        if(dueDate) {
+            date = new Date(dueDate);
+            if(isNaN(date.getTime())) {
+                return fail(400, {message: "Invalid due date"});
+            }
+        }
+
+        // key value pairs
+        const data = {
+            ...((name) ? {assignment_name: name}: {}),
+            ...((description) ? {assignment_description: description}: {}),
+            ...((date) ? {due_date: date}: {}),
+            ...((active) ? {active: active === 'true'}: {}),
+        }
+
+        for(let [key, value] of Object.entries(data)) {
+            const {error: updateErr} = await safeQuery(
+                `UPDATE assignments SET ${key}=$1 WHERE assignment_id=$2`, 
+            [value, assignmentId]);
+
+            if(updateErr) {
+                console.error('ERROR: Failed to update assignment:', updateErr)
+                throw error(500, {message: "Failed to update assignment"})
+            }
+        }
+
+    }
 }
