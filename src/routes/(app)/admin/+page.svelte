@@ -6,7 +6,6 @@
     export let data;
     export let form;
 
-    let no = false;
 
     // Import trash button
     import Users from '@lucide/svelte/icons/users';
@@ -29,7 +28,7 @@
 
     <label class="label pt-4">
         <span>Password</span>
-        <input class="input" name="password" id = password type="text" placeholder="Password" />
+        <input class="input" name="password" id = password type="password" placeholder="Password" />
     </label>
 
     <label class="label pt-4">
