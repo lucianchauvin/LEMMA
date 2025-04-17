@@ -6,4 +6,4 @@
     import KeyRound from '@lucide/svelte/icons/key-round'; 
 </script>
 
-<DatatableClient showSlot={false} data={data.assignments} columns={["assignment_name", "grade"]} display_columns={[ "Assignment", "Grade"]} />
+<DatatableClient data={data.assignments} columns={["assignment_name", "grade"]} display_columns={[ "Assignment", "Grade"]} />

@@ -15,9 +15,11 @@ export const load: PageServerLoad = async ({locals: { getSession, safeQuery }}) 
         users.last_name,
         users.user_id,
         users.email,
-        user_roles.role_name
+        users.is_super_admin,
+        STRING_AGG(user_roles.role_name, ', ') AS roles
     FROM users
-    LEFT JOIN user_roles ON users.user_id = user_roles.user_id;
+    LEFT JOIN user_roles ON users.user_id = user_roles.user_id
+    GROUP BY users.first_name, users.last_name, users.user_id, users.email;
     `);
 
     if(userErr) {
@@ -47,9 +49,10 @@ export const actions: Actions = {
         const first_name = formData.get("first_name") as string;
         const last_name = formData.get("last_name") as string;
         const email = formData.get("email") as string;
+        const is_admin = formData.get("is_admin") as string;
 
         if (!username || !password || !first_name || !last_name) {
-            return fail(400, { message: "All fields except email are required"});
+            return fail(400, { user_message: "All fields except email are required"});
         }
 
         const {data: existingUser, error: checkError } = await safeQuery(
@@ -58,12 +61,12 @@ export const actions: Actions = {
 
         if (checkError) {
             console.error("Database failed to determine if username already exists on admin page:", checkError);
-            return fail(500, { message: "Database failed to determine if username already exists on admin page" });
+            return fail(500, { user_message: "Database failed to determine if username already exists on admin page" });
         }
 
-        // Don't allow duplicate username
-        if (existingUser && existingUser.length > 0) {
-            return fail(400, { message: "Username already exists: Please choose a different username." });
+        // Don't allow duplicate user
+        if (existingUser!.length > 0) {
+            return fail(400, { user_message: "Username already exists: Please choose a different username."});
         }
 
         // Make sure usernames and passwords are appropriate length
@@ -74,25 +77,25 @@ export const actions: Actions = {
             !/^[a-z0-9_-]+$/.test(username)
         ) {
             return fail(400, {
-                message: "Invalid username: Username must be between 3 and 31 characters long and contain only lowercase letters, numbers, underscores, and dashes."
+                user_message: "Invalid username: Username must be between 3 and 31 characters long and contain only lowercase letters, numbers, underscores, and dashes."
             });
         }
 
         if (typeof password !== "string") {
             return fail(400, {
-                message: "Invalid Password: Password must be a string"
+                user_message: "Invalid Password: Password must be a string"
             });
         }
         
         if (password.length < 6) {
             return fail(400, {
-                message: "Invalid Password: Password must be at least 6 characters long"
+                user_message: "Invalid Password: Password must be at least 6 characters long"
             });
         }
         
         if (password.length > 255) {
             return fail(400, {
-                message: "Invalid Password: Password must not exceed 255 characters"
+                user_message: "Invalid Password: Password must not exceed 255 characters"
             });
         }
 
@@ -104,17 +107,22 @@ export const actions: Actions = {
             parallelism: 1
         });
 
+        let assign_admin = 'f';
+        if (is_admin == "yes") {
+            assign_admin = 't';
+        }
+
         const { error: insertError } = await safeQuery(
-            "INSERT INTO users (username, password, first_name, last_name, email) VALUES ($1, $2, $3, $4, $5)",
-            [username, passwordHash, first_name, last_name, email]
+            "INSERT INTO users (username, password, first_name, last_name, email, is_super_admin) VALUES ($1, $2, $3, $4, $5, $6)",
+            [username, passwordHash, first_name, last_name, email, assign_admin]
         );
 
         if (insertError) {
             console.error("ERROR: Database failed to insert user on admin page:", insertError);
-            return fail(500, { message: "Database failed to insert user" });
+            return fail(500, { user_message: "Database failed to insert user" });
         }
 
-        return { success: true, message: "User added successfully!" };
+        return { success: true, user_message: "User added successfully!" };
     },
 
     remove: async ({ request, locals: { safeQuery } }) => {
@@ -123,7 +131,7 @@ export const actions: Actions = {
         const user_id = formData.get("user_id") as string;
 
         if(!user_id || !isUUID(user_id)) {
-            fail(400, { message: "User ID is required" });
+            fail(400, { user_message: "User ID is required" });
         }
 
         const {error: deleteErr} = await safeQuery(
@@ -133,10 +141,10 @@ export const actions: Actions = {
 
         if (deleteErr) {
             console.error("ERROR: Failed to remove user:", deleteErr);
-            fail(500, { message: "Failed to remove user" });
+            fail(500, { user_message: "Failed to remove user" });
         }
 
-        return { success: true, message: "User removed successfully!"}; 
+        return { success: true, user_message: "User removed successfully!"}; 
     },
 
     add_course: async ({ request, locals: { safeQuery } }) => {
@@ -149,7 +157,7 @@ export const actions: Actions = {
         const end_date = formData.get("end_date") as string;
 
         if (!course_number || !course_name || !status || !start_date || !end_date) {
-            return fail(400, { message: "All fields are required"});
+            return fail(400, { course_message: "All fields are required"});
         }
         const { error: insertError } = await safeQuery(
             "INSERT INTO courses (course_number, course_name, status, start_date, end_date) VALUES ($1, $2, $3, $4, $5)",
@@ -158,10 +166,10 @@ export const actions: Actions = {
 
         if (insertError) {
             console.error("ERROR: Database failed to insert course:", insertError);
-            return fail(500, { message: "Database failed to insert course" });
+            return fail(500, { course_message: "Database failed to insert course" });
         }
 
-        return { success: true, message: "Course added successfully!" };
+        return { success: true, course_message: "Course added successfully!" };
     },
 
     remove_course: async ({ request, locals: { safeQuery } }) => {
@@ -170,7 +178,7 @@ export const actions: Actions = {
         const course_id = formData.get("course_id") as string;
 
         if(!course_id || !isUUID(course_id)) {
-            fail(400, { message: "Course ID is required" });
+            fail(400, { course_message: "Course ID is required" });
         }
 
         const {error: deleteErr} = await safeQuery(
@@ -180,9 +188,9 @@ export const actions: Actions = {
 
         if (deleteErr) {
             console.error("ERROR: Failed to remove course:", deleteErr);
-            fail(500, { message: "Failed to remove course" });
+            fail(500, { course_message: "Failed to remove course" });
         }
 
-        return { success: true, message: "Course removed successfully!"}; 
+        return { success: true, course_message: "Course removed successfully!"}; 
     }
 };

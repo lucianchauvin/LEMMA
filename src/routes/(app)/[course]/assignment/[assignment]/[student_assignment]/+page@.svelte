@@ -5,6 +5,8 @@
     import { page } from '$app/stores';
     import { enhance } from "$app/forms";
     import { onDestroy, onMount } from 'svelte';
+    import { marked } from 'marked';
+    import { generateIdFromEntropySize } from 'lucia';
 
     import { AppBar, Tab, TabGroup } from '@skeletonlabs/skeleton';
     import ArrowLeft from '@lucide/svelte/icons/arrow-left';
@@ -19,7 +21,7 @@
 
     const edit = data.studentAssignment.edit;
 
-    $: activeProblem = (data.problems.length > 0) ? 0 : null;
+    let activeProblem = 0;
 
     $: tactics = data.problems[activeProblem]?.statements?.filter((s) => s.statement_type === 'tactic') ?? [];
     $: definitions = data.problems[activeProblem]?.statements?.filter((s) => s.statement_type === 'definition') ?? [];
@@ -82,6 +84,7 @@
             });
             let value = await response.json();
             isProcessing = false;
+            data.problems[activeProblem].proof_id = value['proofId'];
             return value['content'];
         } catch (e) {
             console.error("Failed to load file:", (e as Error).message);
@@ -305,8 +308,9 @@
 
             leanMonaco.setInfoviewElement(infoviewRef);
             const proofCont = await load();
+
             leanMonaco.start(options, edit ? (() => {}): enqueueMessage).then(() => {
-                leanMonacoEditor.start(editorRef, `/project/scratch.lean`, proofCont);
+                leanMonacoEditor.start(editorRef, `/project/scratch-${generateIdFromEntropySize(25)}.lean`, proofCont);
             });
         });
 
@@ -315,6 +319,8 @@
 
     onDestroy(() => {
         clearInterval(saveInterval);
+        leanMonacoEditor?.dispose?.();
+        leanMonaco?.dispose?.();
     })
 </script>
 
@@ -333,19 +339,21 @@
 
 <main class="h-full grid grid-cols-[1fr_4fr]">
     <div class="h-full bg-surface-100 relative">
-    <div class="flex flex-col">
-    <div id="assignment-description" class="p-2">
+    <div class="h-full flex flex-col">
+    <div id="problem-description" class="p-2 flex-[0_0_40%]">
+        <h2 class="h3">Problem Description</h2>
         {#if edit}
-        <form method="post" action="?/description" enctype="multipart/form-data" use:enhance class="flex flex-col">
-        <textarea id="description-textarea" name="description" rows="10">{data?.assignment?.assignment_description ?? ''}</textarea>
+        <form method="post" action="?/problemDescription" enctype="multipart/form-data" class="flex flex-col" use:enhance>
+        <input type="hidden" name="problemId" value={data?.problems[activeProblem]?.problem_id ?? ''} />
+        <textarea id="description-textarea" name="description" rows="10">{data?.problems[activeProblem]?.problem_description ?? ''}</textarea>
         <button type="submit" class="btn variant-filled">Save</button>
         </form>
         {:else}
-        <p>{data?.assignment?.assignment_description ?? ''}</p>
+        <div class="markdown-body pt-1">{@html marked(data?.problems[activeProblem]?.problem_description ?? '')}</div>
         {/if}
     </div>
 
-    <nav id="problem-selection" class="list-nav">
+    <nav id="problem-selection" class="list-nav flex-1">
         <ul class="flex flex-col gap-1 p-1">
             {#each data.problems as problem, i}
             <li class="flex items-center">
@@ -427,10 +435,7 @@
             </div>
             <div class="w-full absolute bottom-0 p-2">
                 <div class="flex justify-between">
-                <p>{form?.message ?? ''}</p>
-                {#if form?.error}
-                  <p>{form.error}</p>
-                {/if}
+                <p>{form?.error ?? form?.message ?? ''}</p>
                 <div class="flex">
                 {#if edit && activeProblem !== null}
                 <button onclick={async () => await saveProblem()}
