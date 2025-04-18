@@ -1,20 +1,14 @@
 <script lang="ts">
-    import { enhance } from '$app/forms';
-    import DatatableClient from '$lib/components/client/Datatable.svelte';
-    import Trash from '@lucide/svelte/icons/trash';
-
     export let data;
     export let form;
 
-    let no = false;
+    import { enhance } from '$app/forms';
 
-    // Import trash button
     import Users from '@lucide/svelte/icons/users';
     import BookPlus from '@lucide/svelte/icons/book-plus';
+    import Trash from '@lucide/svelte/icons/trash';
 
-    // $: console.log(data.userData);
-    // $: console.log(data.courseData);
-
+    import DatatableClient from '$lib/components/client/Datatable.svelte';
 </script>
 <div class="p-4">
 <br>

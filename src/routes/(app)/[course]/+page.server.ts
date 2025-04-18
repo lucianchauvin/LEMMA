@@ -98,10 +98,9 @@ export const actions: Actions = {
         const active = formData.get("active") == "yes";
         const dueDate = formData.get("dueDate");
 
-        if(typeof name !== 'string') return fail(400, {message: "Assignment name isn't a string"});
-        if(typeof description !== 'string') return fail(400, {message: "Assignment description isn't a string"});
-        if(typeof active !== 'boolean') return fail(400, {message: "Active isn't a boolean"});
-        if(typeof dueDate !== 'string') return fail(400, {message: "Date isn't a string"});
+        if(typeof name !== 'string' || !name) return fail(400, {error: "Invalid assignment name"});
+        if(typeof description !== 'string' || !description) return fail(400, {error: "Invalid assignment description"});
+        if(typeof dueDate !== 'string' || !dueDate) return fail(400, {error: "Invalid due date"});
 
         const date = new Date(dueDate);
         if(isNaN(date.getTime())) {
@@ -205,14 +204,19 @@ export const actions: Actions = {
     },
     update: async ({ request, params, locals: { safeQuery, permCheck } }) => {
         const formData = await request.formData();
-        const name = formData.get('name') as string;
-        const description = formData.get('description') as string;
-        const dueDate = formData.get('dueDate') as string;
+        const name = formData.get('name');
+        const description = formData.get('description');
+        const dueDate = formData.get('dueDate');
         const active = formData.get('active') === 'true' ? true : formData.get('_active') === 'false' ? false : null;
-        const assignmentId = formData.get('assignmentId');
+        const assignmentId = formData.get('assignmentId') as string;
 
         if(!assignmentId || typeof assignmentId !== 'string' || !isUUID(assignmentId)){
             return fail(400, {message: "Assignment id is incorrect"});
+        }
+        // check if there any fields set
+        if((typeof name === 'string' || typeof description === 'string' || typeof dueDate === 'string' || active) && !(name || description || dueDate || active)) {
+            // no field set to something truthy
+            return fail(400, {error: "No fields set to something valid"})
         }
 
         const {data: assignmentData, error: assignmentErr} = await permCheck('update_assignments', params.course);
@@ -225,8 +229,8 @@ export const actions: Actions = {
         }
 
         let date: Date | null = null;
-        if(dueDate) {
-            date = new Date(dueDate);
+        if(dueDate !== null) {
+            date = new Date(dueDate as string);
             if(isNaN(date.getTime())) {
                 return fail(400, {message: "Invalid due date"});
             }
@@ -234,8 +238,8 @@ export const actions: Actions = {
 
         // key value pairs
         const data = {
-            ...((name) ? {assignment_name: name}: {}),
-            ...((description) ? {assignment_description: description}: {}),
+            ...((name !== null) ? {assignment_name: name}: {}),
+            ...((description !== null) ? {assignment_description: description}: {}),
             ...((date) ? {due_date: date}: {}),
             ...((active !== null) ? {active: active}: {}),
         }
