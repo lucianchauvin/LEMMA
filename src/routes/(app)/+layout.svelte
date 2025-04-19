@@ -27,10 +27,6 @@
     </a>
     {/if}
 
-    <!-- <div id="pfp"> -->
-    <!--     <Avatar initials="AZ" background="bg-secondary-200"/> -->
-    <!-- </div> -->
-
     {#if data.session}
     <form method="GET" action="/logout">
       <button id="logout" class="btn btn-sm border-2 border-surface-600 bg-surface-100 hover:variant-filled-surface shadow-lg shadow-surface-900 text-surface-600">Logout</button>

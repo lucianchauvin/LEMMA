@@ -15,7 +15,7 @@
   </a>
   <a href="/{course_id}">
       <div class="bg-white py-10 inline-block flex align-center justify-center items-center">
-          <h3 class="text-black font-semibold">{course_name}</h3>
+          <h3 class="text-black text-center font-semibold">{course_name}</h3>
       </div>
   </a>
   <footer>
