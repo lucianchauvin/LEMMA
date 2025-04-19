@@ -7,8 +7,140 @@
     import Users from '@lucide/svelte/icons/users';
     import BookPlus from '@lucide/svelte/icons/book-plus';
     import Trash from '@lucide/svelte/icons/trash';
+    import Pencil from '@lucide/svelte/icons/pencil';
+    import Check from '@lucide/svelte/icons/check';
+    import X from '@lucide/svelte/icons/x';
 
     import DatatableClient from '$lib/components/client/Datatable.svelte';
+
+    let editing: {id: string, col: string} | null = null;
+
+    const userColumnConfig = {
+      first_name: {
+        render: (row) => ({
+          element: 'span',
+          children: row.first_name ?? ''
+        }),
+        editable: true,
+        editor: (row) => ({
+          element: 'input',
+          props: {
+            type: 'text',
+            name: 'firstName',
+            class: 'input',
+            value: row.first_name ?? ''
+          }
+        })
+      },
+      last_name: {
+        render: (row) => ({
+          element: 'span',
+          children: row.last_name ?? ''
+        }),
+        editable: true,
+        editor: (row) => ({
+          element: 'input',
+          props: {
+            type: 'text',
+            name: 'lastName',
+            class: 'input',
+            value: row.last_name ?? ''
+          }
+        })
+      },
+      email: {
+        render: (row) => ({
+          element: 'span',
+          children: row.email ?? ''
+        }),
+        editable: true,
+        editor: (row) => ({
+          element: 'input',
+          props: {
+            type: 'email',
+            name: 'email',
+            class: 'input',
+            value: row.email ?? ''
+          }
+        })
+      }
+    }
+
+    const courseColumnConfig = {
+      course_number: {
+        render: (row) => ({
+          element: 'a',
+          props: {
+            class: "anchor",
+            href: `/${row.course_id}`
+          },
+          children: row.course_number ?? ''
+        }),
+        editable: true,
+        editor: (row) => ({
+          element: 'input',
+          props: {
+            type: 'text',
+            name: 'courseNumber',
+            class: 'input',
+            value: row.course_number ?? ''
+          }
+        })
+      },
+      course_name: {
+        render: (row) => ({
+          element: 'span',
+          children: row.course_name ?? ''
+        }),
+        editable: true,
+        editor: (row) => ({
+          element: 'input',
+          props: {
+            type: 'text',
+            name: 'courseName',
+            class: 'input',
+            value: row.course_name ?? ''
+          }
+        })
+      },
+      status: {
+        render: (row) => ({
+          element: 'span',
+          children: row.status ?? ''
+        }),
+        editable: true,
+        editor: (row) => ({
+          element: 'select',
+          props: {
+            name: 'status',
+            value: row.status ?? '',
+          },
+          childrens: [
+            {
+              element: 'option',
+              props: {
+                value: 'active'
+              },
+              children: 'active'
+            },
+            {
+              element: 'option',
+              props: {
+                value: 'inactive'
+              },
+              children: 'inactive'
+            },
+            {
+              element: 'option',
+              props: {
+                value: 'archived'
+              },
+              children: 'archived'
+            }
+          ]
+        })
+      }
+    }
 </script>
 <div class="p-4">
 <br>
@@ -58,8 +190,38 @@
 <br>
 
 <DatatableClient removeSlot={true} data={data.userData} columns={["first_name", "last_name", "email"]} display_columns={["First Name", "Last Name", "Email"]}>
+    <svelte:fragment slot="cell" let:row let:col>
+    <div class="flex items-center gap-2">
+      {#if editing?.id === row.user_id && editing?.col === col}
+        {@const editor = (userColumnConfig[col]?.editable) ? userColumnConfig[col]?.editor(row) : {}}
+        <form method="POST" action="?/update_user" class="w-full flex items-center gap-2">
+          {#if editor.element}
+          <svelte:element this={editor.element} {...editor.props} />
+          {:else if editor.component}
+          <svelte:component this={editor.component} {...editor.props} />
+          {/if}
+          <input type="hidden" name="userId" value={row.user_id} />
+          <button type="submit" class="text-green-600"><Check size={16} /></button>
+          <button type="button" on:click={() => editing = null} class="text-red-600"><X size={16} /></button>
+        </form>
+      {:else}
+        {@const display = userColumnConfig[col]?.render(row) ?? {element: 'span', children: row[col]}}
+        <div class="w-full flex justify-between">
+        <svelte:element this={display.element} {...display.props}>
+          {display.children}
+        </svelte:element>
+        {#if col in userColumnConfig && userColumnConfig[col].editable}
+          <button on:click={() => editing = { id: row.user_id, col: col }}>
+            <Pencil size={16} />
+          </button>
+        {/if}
+        </div>
+      {/if}
+    </div>
+    </svelte:fragment>
+
     <svelte:fragment slot="remove" let:row>
-    <form method="post" action="/admin?/remove" use:enhance>
+    <form method="post" action="?/remove" use:enhance>
         <input type="hidden" name="user_id" value={row.user_id}/>
         {#if data.user.id != row.user_id}
         <button type="submit" class="bg-red-500 text-white px-2 py-1 rounded flex items-center gap-1 p-2">
@@ -111,8 +273,44 @@
 {/if}
 
 <DatatableClient removeSlot={true} data={data.courseData} columns={["course_number", "course_name", "status"]} display_columns={["Course Number", "Course Name", "Status"]}>
+    <svelte:fragment slot="cell" let:row let:col>
+    <div class="flex items-center gap-2">
+      {#if editing?.id === row.course_id && editing?.col === col}
+        {@const editor = (courseColumnConfig[col]?.editable) ? courseColumnConfig[col]?.editor(row) : {}}
+        <form method="POST" action="?/update_course" class="w-full flex items-center gap-2">
+          {#if editor.element}
+          <svelte:element this={editor.element} {...editor.props}>
+            {#each editor.childrens as children}
+              <svelte:element this={children.element} {...children.props}>
+                {children.children}
+              </svelte:element>
+            {/each}
+          </svelte:element>
+          {:else if editor.component}
+          <svelte:component this={editor.component} {...editor.props} />
+          {/if}
+          <input type="hidden" name="courseId" value={row.course_id} />
+          <button type="submit" class="text-green-600"><Check size={16} /></button>
+          <button type="button" on:click={() => editing = null} class="text-red-600"><X size={16} /></button>
+        </form>
+      {:else}
+        {@const display = courseColumnConfig[col]?.render(row) ?? {element: 'span', children: row[col]}}
+        <div class="w-full flex justify-between">
+        <svelte:element this={display.element} {...display.props}>
+          {display.children}
+        </svelte:element>
+        {#if col in courseColumnConfig && courseColumnConfig[col].editable}
+          <button on:click={() => editing = { id: row.course_id, col: col }}>
+            <Pencil size={16} />
+          </button>
+        {/if}
+        </div>
+      {/if}
+    </div>
+    </svelte:fragment>
+
     <svelte:fragment slot="remove" let:row>
-    <form method="post" action="/admin?/remove_course" use:enhance>
+    <form method="post" action="?/remove_course" use:enhance>
         <input type="hidden" name="course_id" value={row.course_id}/>
         <button type="submit" class="bg-red-500 text-white px-2 py-1 rounded flex items-center gap-1 p-2">
             <Trash size={16} /> Remove

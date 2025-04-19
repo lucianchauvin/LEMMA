@@ -139,7 +139,6 @@
 
 <DatatableClient rowsPerPage={10} removeSlot={data.permissions.delete_assignments.access} data={data.assignments ?? []} columns={columns} display_columns={display_columns} rowClass={rowClass}>
     <svelte:fragment slot="cell" let:row let:col>
-
     <div class="flex items-center gap-2">
       {#if editing?.id === row.assignment_id && editing?.col === col}
         {@const editor = (columnConfig[col]?.editable) ? columnConfig[col]?.editor(row) : {}}

@@ -203,6 +203,15 @@ export const actions: Actions = {
         }
     },
     update: async ({ request, params, locals: { safeQuery, permCheck } }) => {
+        const {data: assignmentData, error: assignmentErr} = await permCheck('update_assignments', params.course);
+        if(assignmentErr) {
+            console.error('ERROR: Failed to check permission of user for updating assignments:', assignmentErr)
+            throw error(500, {message: "Failed to check permission of user for updating assignments"})
+        }
+        if(!assignmentData.access) {
+            return fail(403, {message: "Do not have permission to update an assignment"});
+        }
+
         const formData = await request.formData();
         const name = formData.get('name');
         const description = formData.get('description');
@@ -217,15 +226,6 @@ export const actions: Actions = {
         if((typeof name === 'string' || typeof description === 'string' || typeof dueDate === 'string' || active) && !(name || description || dueDate || active)) {
             // no field set to something truthy
             return fail(400, {error: "No fields set to something valid"})
-        }
-
-        const {data: assignmentData, error: assignmentErr} = await permCheck('update_assignments', params.course);
-        if(assignmentErr) {
-            console.error('ERROR: Failed to check permission of user for updating assignments:', assignmentErr)
-            throw error(500, {message: "Failed to check permission of user for updating assignments"})
-        }
-        if(!assignmentData.access) {
-            return fail(403, {message: "Do not have permission to update an assignment"});
         }
 
         let date: Date | null = null;
