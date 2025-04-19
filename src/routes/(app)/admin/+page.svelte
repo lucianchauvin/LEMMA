@@ -23,7 +23,7 @@
 
     <label class="label pt-4">
         <span>Password</span>
-        <input class="input" name="password" id = password type="text" placeholder="Password" />
+        <input class="input" name="password" id = password type="password" placeholder="Password" />
     </label>
 
     <label class="label pt-4">

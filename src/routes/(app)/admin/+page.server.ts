@@ -66,7 +66,7 @@ export const actions: Actions = {
 
         // Don't allow duplicate user
         if (existingUser!.length > 0) {
-            return fail(400, { user_message: "Username already exists"});
+            return fail(400, { user_message: "Username already exists: Please choose a different username."});
         }
 
         // Make sure usernames and passwords are appropriate length
@@ -77,12 +77,25 @@ export const actions: Actions = {
             !/^[a-z0-9_-]+$/.test(username)
         ) {
             return fail(400, {
-                user_message: "Invalid username"
+                user_message: "Invalid username: Username must be between 3 and 31 characters long and contain only lowercase letters, numbers, underscores, and dashes."
             });
         }
-        if (typeof password !== "string" || password.length < 6 || password.length > 255) {
+
+        if (typeof password !== "string") {
             return fail(400, {
-                user_message: "Invalid password"
+                user_message: "Invalid Password: Password must be a string"
+            });
+        }
+        
+        if (password.length < 6) {
+            return fail(400, {
+                user_message: "Invalid Password: Password must be at least 6 characters long"
+            });
+        }
+        
+        if (password.length > 255) {
+            return fail(400, {
+                user_message: "Invalid Password: Password must not exceed 255 characters"
             });
         }
 

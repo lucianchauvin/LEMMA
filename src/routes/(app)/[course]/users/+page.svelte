@@ -6,6 +6,14 @@
     export let data;
 
     import DatatableClient from '$lib/components/client/Datatable.svelte';
+    let confirmationMessage = '';
+    function createConfirmationHandler(successMessageCallback) {
+    return enhance(async ({ result }) => {
+        if (result.type === 'success') {
+            confirmationMessage = successMessageCallback(result);
+        }
+    });
+}
 </script>
 
 <div class="flex flex-col gap-2">
@@ -14,7 +22,12 @@
 </h1>
 
 {#if data.permissions.update_course_users.access}
-<form method="POST" action="?/add" class="mt-4 flex gap-2" use:enhance>
+<form method="POST" action="?/add" class="mt-4 flex gap-2" use:enhance on:submit={(e) => {
+    const userSelect = e.target.querySelector('select[name="user_id"]');
+    const selectedUserText = userSelect?.selectedOptions[0]?.textContent;
+    confirmationMessage = `${selectedUserText} has been added to the course.`;
+}}
+>
     <select name="user_id" required class="p-2 border rounded w-48">
         <option value="" disabled selected>Select a user</option>
         {#each data.new_users as user}
@@ -33,10 +46,12 @@
 </form>
 {/if}
 
+
+
 <DatatableClient removeSlot={data.permissions.update_course_users.access} data={data.users} columns={["name", "email", "role_name"]} display_columns={[ "Name", "Email", "Role"]}>
     <svelte:fragment slot="remove" let:row>
         {#if data.permissions.update_course_users.target_roles?.includes(row.role_name)}
-        <form class="flex justify-center" method="POST" action="?/remove" use:enhance>
+        <form class="flex justify-center" method="POST" action="?/remove" use:enhance on:submit={() => {confirmationMessage = `${row.name} has been removed from the course.`; }}>
             <input type="hidden" name="user_id" value={row.user_id} />
             <input type="hidden" name="role" value={row.role_name} />
             <button type="submit" class="bg-red-500 text-white px-2 py-1 rounded flex items-center gap-1 p-2">
@@ -46,4 +61,9 @@
         {/if}
     </svelte:fragment>
 </DatatableClient>
+
+{#if confirmationMessage}
+    <p class="mt-4 text-sm text-black">{confirmationMessage}</p>
+{/if}
+
 </div>
