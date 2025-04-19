@@ -213,7 +213,7 @@
       }
     }
 </script>
-<div class="p-4 flex flex-col gap-4">
+<div class="p-4 flex flex-col gap-4 w-full">
 <h1 class="text-xl font-bold flex items-center gap-2">
 			<Users size={24} /> Add Users
 </h1>
