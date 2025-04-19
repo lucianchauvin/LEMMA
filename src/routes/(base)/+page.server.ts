@@ -40,16 +40,16 @@ export const load: PageServerLoad = async ({parent, locals: { safeQuery, permChe
     }
     const {data: viewInactiveCourses, error: viewInactiveCoursesErr} = await permCheck('view_inactive_assigned_courses');
     if(viewInactiveCoursesErr) {
-        console.error("ERROR: Failed to determine permission of user to view inactive courses:", viewAllCoursesErr);
+        console.error("ERROR: Failed to determine permission of user to view inactive courses:", viewInactiveCoursesErr);
         throw error(500, { message: "Failed to determine permission of user to view inactive courses" })
     }
     const {data: viewArchivedCourses, error: viewArchivedCoursesErr} = await permCheck('view_inactive_assigned_courses');
-    if(viewInactiveCoursesErr) {
-        console.error("ERROR: Failed to determine permission of user to view archived courses:", viewAllCoursesErr);
+    if(viewArchivedCoursesErr) {
+        console.error("ERROR: Failed to determine permission of user to view archived courses:", viewArchivedCoursesErr);
         throw error(500, { message: "Failed to determine permission of user to view archived courses" })
     }
 
-    let courseQuery = 'SELECT * FROM courses';
+    let courseQuery = 'SELECT * FROM courses ORDER BY course_name';
     let courseQueryParams: any[] = [];
     if(!viewAllCourses.access) {
         courseQuery = 'SELECT * FROM courses JOIN user_roles ur ON ur.course_id = courses.course_id WHERE ur.user_id=$1 AND courses.status=ANY($2)';

@@ -16,10 +16,12 @@
 }
 </script>
 
-<div class="flex flex-col gap-2">
-<h1 class="h1 text-xl font-bold flex items-center">
-    <Users size={24} /> Course Users
+<div class="flex flex-col gap-4">
+<h1 class="h1 text-3xl font-bold flex items-center gap-2">
+    <Users size={30} /> 
+    <p>Course Users</p>
 </h1>
+<hr>
 
 {#if data.permissions.update_course_users.access}
 <form method="POST" action="?/add" class="mt-4 flex gap-2" use:enhance on:submit={(e) => {

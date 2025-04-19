@@ -10,8 +10,8 @@
     import Triangle from "@lucide/svelte/icons/triangle";
 </script>
 
-<div class="h-screen flex flex-col">
-<header class="header bg-surface-700 p-2 flex justify-between shadow-md shadow-surface-900">
+<div class="h-screen w-screen relative">
+<header class="fixed top-0 w-screen z-50 h-20 header bg-surface-700 p-2 flex justify-between shadow-md shadow-surface-900">
     <div class="home flex items-center">
         <button type="button" class="btn bg-initial drop-shadow-xl text-primary-400">
             <a href="/">
@@ -38,8 +38,7 @@
     </div>
 </header>
 
-<main class="flex-1 flex">
-<AppRail class="h-full float-left shadow-lg shadow-surface-900">
+<AppRail class="fixed left-0 z-50 shadow-lg shadow-surface-900">
     <AppRailAnchor>
         <svelte:fragment slot="lead">
             <Menu />
@@ -61,8 +60,7 @@
     </AppRailAnchor>
 </AppRail>
 
-<div class="flex-1 flex flex-nowrap p-5">
+<div class="mt-20 ml-20 flex-1 flex flex-nowrap p-5">
 <slot />
 </div>
-</main>
 </div>

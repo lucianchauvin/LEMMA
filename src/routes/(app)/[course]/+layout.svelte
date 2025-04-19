@@ -14,8 +14,7 @@
     import SquareFunction from '@lucide/svelte/icons/square-function'; 
 </script>
 
-<div class="h-full flex">
-<AppRail class="h-full float-left shadow-lg shadow-surface-900">
+<AppRail class="fixed left-0 z-50 shadow-lg shadow-surface-900">
     <AppRailAnchor>
         <svelte:fragment slot="lead">
             <Menu />
@@ -27,13 +26,6 @@
             <House />
         </svelte:fragment>
         <div>Home</div>
-    </AppRailAnchor>
-
-    <AppRailAnchor href="/calendar" title="Calendar" class="calendar-link" selected={$page.url.pathname === "/calendar"}>
-        <svelte:fragment slot="lead">
-            <CalendarDays />
-        </svelte:fragment>
-        <div>Calendar</div>
     </AppRailAnchor>
 
     <AppRailAnchor href="/{data.course.course_id}" title="Assignments" class="assignment-link" selected={$page.url.pathname === `/${data.course.course_id}`}>
@@ -78,13 +70,19 @@
         <div>Course Statements</div>
     </AppRailAnchor>
     {/if}
+
+    <AppRailAnchor href="/calendar" title="Calendar" class="calendar-link" selected={$page.url.pathname === "/calendar"}>
+        <svelte:fragment slot="lead">
+            <CalendarDays />
+        </svelte:fragment>
+        <div>Calendar</div>
+    </AppRailAnchor>
 </AppRail>
 
-<div class="body flex-1 flex flex-nowrap p-10">
+<div class="ml-20 body flex-1 flex flex-nowrap p-10">
     {#key data.url}
         <div in:fade|global={{ delay: 300, duration: 300 }} out:fade={{ duration: 300 }} class="flex-1">
             <slot/>
         </div>
     {/key}
-</div>
 </div>
