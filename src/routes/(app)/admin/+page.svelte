@@ -13,6 +13,7 @@
 
     import DatatableClient from '$lib/components/client/Datatable.svelte';
     import Flatpickr from '$lib/components/Flatpickr.svelte';
+    import CheckboxEditor from '$lib/components/CheckboxEditor.svelte';
 
     let editing: {id: string, col: string} | null = null;
 
@@ -25,6 +26,7 @@
     const userColumnConfig = {
       first_name: {
         editable: true,
+        editPerm: (row) => true,
         editor: (row) => ({
           element: 'input',
           props: {
@@ -37,6 +39,7 @@
       },
       last_name: {
         editable: true,
+        editPerm: (row) => true,
         editor: (row) => ({
           element: 'input',
           props: {
@@ -49,6 +52,7 @@
       },
       username: {
         editable: true,
+        editPerm: (row) => true,
         editor: (row) => ({
           element: 'input',
           props: {
@@ -65,6 +69,7 @@
           children: '********'
         }),
         editable: true,
+        editPerm: (row) => true,
         editor: (row) => ({
           element: 'input',
           props: {
@@ -77,6 +82,7 @@
       },
       email: {
         editable: true,
+        editPerm: (row) => true,
         editor: (row) => ({
           element: 'input',
           props: {
@@ -84,6 +90,21 @@
             name: 'email',
             class: 'input',
             value: row.email ?? ''
+          }
+        })
+      },
+      is_super_admin: {
+        render: (row) => ({
+          element: 'span',
+          children: (row.is_super_admin) ? 'Yes' : 'No'
+        }),
+        editable: true,
+        editPerm: (row) => data.user.id !== row.user_id,
+        editor: (row) => ({
+          component: CheckboxEditor,
+          props: {
+            name: 'admin',
+            checked: row.is_super_admin
           }
         })
       }
@@ -238,7 +259,7 @@
 {/if}
 <br>
 
-<DatatableClient removeSlot={true} data={data.userData} columns={["first_name", "last_name", "username", "password", "email"]} display_columns={["First Name", "Last Name", "Username", "Password", "Email"]}>
+<DatatableClient removeSlot={true} data={data.userData} columns={["first_name", "last_name", "username", "password", "email", "is_super_admin"]} display_columns={["First Name", "Last Name", "Username", "Password", "Email", "Admin"]}>
     <svelte:fragment slot="cell" let:row let:col>
     <div class="flex items-center gap-2">
       {#if editing?.id === row.user_id && editing?.col === col}
@@ -259,7 +280,7 @@
         <svelte:element this={display.element} {...display.props}>
           {display.children}
         </svelte:element>
-        {#if col in userColumnConfig && userColumnConfig[col].editable}
+        {#if col in userColumnConfig && userColumnConfig[col].editable && userColumnConfig[col].editPerm?.(row)}
           <button on:click={() => editing = { id: row.user_id, col: col }}>
             <Pencil size={16} />
           </button>

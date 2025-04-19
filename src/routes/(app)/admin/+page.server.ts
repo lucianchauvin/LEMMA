@@ -117,13 +117,14 @@ export const actions: Actions = {
         const email = formData.get('email');
         const username = formData.get('username');
         const password = formData.get('password');
+        const admin = formData.get('admin') === 'true' ? true : formData.get('_admin') === 'false' ? false : null;
         const userId = formData.get('userId') as string;
 
         if(!userId || typeof userId !== 'string' || !isUUID(userId)){
             return fail(400, {user_message: "User id is not valid"});
         }
         // check if there any fields set
-        if(!(firstName || lastName || email || username || password)) {
+        if(!(firstName || lastName || email || username || password || admin)) {
             // no field set to something truthy
             return fail(400, {user_message: "No fields set to something valid"})
         }
@@ -134,13 +135,21 @@ export const actions: Actions = {
             if(usernameErr) {
                 return fail(400, {user_message: usernameErr});
             }
-        } else if(password) {
+        } 
+        if(password) {
             const response = await handlePassword(password as string)
             if(response.error) {
                 return fail(400, {user_message: response.error});
             }
             passwordHash = response.data!;
         }
+        if(admin !== null) {
+            // check if changing self
+            if(user.id === userId && !admin) {
+                return fail(403, {user_message: "Cannot change self from being admin user"})
+            }
+        }
+        
 
         // key value pairs
         const data = {
@@ -149,6 +158,7 @@ export const actions: Actions = {
             ...((email) ? {email: email}: {}),
             ...((username) ? {username: username}: {}),
             ...((password) ? {password: passwordHash!}: {}),
+            ...((admin !== null) ? {is_super_admin: admin}: {}),
         }
 
         for(let [key, value] of Object.entries(data)) {
