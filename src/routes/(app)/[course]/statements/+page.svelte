@@ -8,10 +8,12 @@
     export let form;
 </script>
 
-<div class="gap-2">
-    <h1 class="h1 text-xl font-bold flex items-center pb-2">
-        <BookKey size={24} /> Course Statements
-    </h1>
+<div class="flex flex-col gap-4">
+<h1 class="h1 text-3xl font-bold flex items-center gap-2">
+    <BookKey size={30} /> 
+    <p>Course Statements</p>
+</h1>
+<hr>
 
     <DatatableClient removeSlot={true} data={data.statements} columns={["statement_name", "statement_type", "statement_description", "statement_category"]} display_columns={["Statement Name", "Statement Type", "Statement Description", "Statement Category"]}>
         <svelte:fragment slot="remove" let:row>

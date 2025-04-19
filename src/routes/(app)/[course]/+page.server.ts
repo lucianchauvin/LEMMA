@@ -95,7 +95,7 @@ export const actions: Actions = {
 
         const name = formData.get("name");
         const description = formData.get("description");
-        const active = formData.get("active") == "yes";
+        const active = formData.get("active") == "active";
         const dueDate = formData.get("dueDate");
 
         if(typeof name !== 'string' || !name) return fail(400, {error: "Invalid assignment name"});
@@ -216,7 +216,7 @@ export const actions: Actions = {
         const name = formData.get('name');
         const description = formData.get('description');
         const dueDate = formData.get('dueDate');
-        const active = formData.get('active') === 'true' ? true : formData.get('_active') === 'false' ? false : null;
+        const active = formData.get('active');
         const assignmentId = formData.get('assignmentId') as string;
 
         if(!assignmentId || typeof assignmentId !== 'string' || !isUUID(assignmentId)){
@@ -241,7 +241,7 @@ export const actions: Actions = {
             ...((name !== null) ? {assignment_name: name}: {}),
             ...((description !== null) ? {assignment_description: description}: {}),
             ...((date) ? {due_date: date}: {}),
-            ...((active !== null) ? {active: active}: {}),
+            ...((active !== null) ? {active: active === 'active'}: {}),
         }
 
         for(let [key, value] of Object.entries(data)) {

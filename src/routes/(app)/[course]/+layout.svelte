@@ -29,13 +29,6 @@
         <div>Home</div>
     </AppRailAnchor>
 
-    <AppRailAnchor href="/calendar" title="Calendar" class="calendar-link" selected={$page.url.pathname === "/calendar"}>
-        <svelte:fragment slot="lead">
-            <CalendarDays />
-        </svelte:fragment>
-        <div>Calendar</div>
-    </AppRailAnchor>
-
     <AppRailAnchor href="/{data.course.course_id}" title="Assignments" class="assignment-link" selected={$page.url.pathname === `/${data.course.course_id}`}>
         <svelte:fragment slot="lead">
             <BookMarked />
@@ -78,6 +71,13 @@
         <div>Course Statements</div>
     </AppRailAnchor>
     {/if}
+
+    <AppRailAnchor href="/calendar" title="Calendar" class="calendar-link" selected={$page.url.pathname === "/calendar"}>
+        <svelte:fragment slot="lead">
+            <CalendarDays />
+        </svelte:fragment>
+        <div>Calendar</div>
+    </AppRailAnchor>
 </AppRail>
 
 <div class="body flex-1 flex flex-nowrap p-10">
