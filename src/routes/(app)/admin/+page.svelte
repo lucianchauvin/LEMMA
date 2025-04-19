@@ -12,15 +12,18 @@
     import X from '@lucide/svelte/icons/x';
 
     import DatatableClient from '$lib/components/client/Datatable.svelte';
+    import Flatpickr from '$lib/components/Flatpickr.svelte';
 
     let editing: {id: string, col: string} | null = null;
 
+    const options: Intl.DateTimeFormatOptions = {
+      month: '2-digit',
+      day: '2-digit',
+      year: '2-digit',
+    };
+
     const userColumnConfig = {
       first_name: {
-        render: (row) => ({
-          element: 'span',
-          children: row.first_name ?? ''
-        }),
         editable: true,
         editor: (row) => ({
           element: 'input',
@@ -33,10 +36,6 @@
         })
       },
       last_name: {
-        render: (row) => ({
-          element: 'span',
-          children: row.last_name ?? ''
-        }),
         editable: true,
         editor: (row) => ({
           element: 'input',
@@ -48,11 +47,35 @@
           }
         })
       },
-      email: {
+      username: {
+        editable: true,
+        editor: (row) => ({
+          element: 'input',
+          props: {
+            type: 'text',
+            name: 'username',
+            class: 'input',
+            value: row.username ?? ''
+          }
+        })
+      },
+      password: {
         render: (row) => ({
           element: 'span',
-          children: row.email ?? ''
+          children: '********'
         }),
+        editable: true,
+        editor: (row) => ({
+          element: 'input',
+          props: {
+            type: 'password',
+            name: 'password',
+            class: 'input',
+            value: ''
+          }
+        })
+      },
+      email: {
         editable: true,
         editor: (row) => ({
           element: 'input',
@@ -88,10 +111,6 @@
         })
       },
       course_name: {
-        render: (row) => ({
-          element: 'span',
-          children: row.course_name ?? ''
-        }),
         editable: true,
         editor: (row) => ({
           element: 'input',
@@ -104,10 +123,6 @@
         })
       },
       status: {
-        render: (row) => ({
-          element: 'span',
-          children: row.status ?? ''
-        }),
         editable: true,
         editor: (row) => ({
           element: 'select',
@@ -138,6 +153,40 @@
               children: 'archived'
             }
           ]
+        })
+      },
+      start_date: {
+        render: (row) => ({
+          element: 'span',
+          children: row.start_date?.toLocaleString('en-US', options).replace(',', '') ?? 'None'
+        }),
+        editable: true,
+        editor: (row) => ({
+          component: Flatpickr,
+          props: {
+            name: 'startDate',
+            value: row.start_date,
+            options: {
+              dateFormat: "Y-m-d H:i"
+            }
+          }
+        })
+      },
+      end_date: {
+        render: (row) => ({
+          element: 'span',
+          children: row.end_date?.toLocaleString('en-US', options).replace(',', '') ?? 'None'
+        }),
+        editable: true,
+        editor: (row) => ({
+          component: Flatpickr,
+          props: {
+            name: 'endDate',
+            value: row.end_date,
+            options: {
+              dateFormat: "Y-m-d H:i"
+            }
+          }
         })
       }
     }
@@ -189,11 +238,11 @@
 {/if}
 <br>
 
-<DatatableClient removeSlot={true} data={data.userData} columns={["first_name", "last_name", "email"]} display_columns={["First Name", "Last Name", "Email"]}>
+<DatatableClient removeSlot={true} data={data.userData} columns={["first_name", "last_name", "username", "password", "email"]} display_columns={["First Name", "Last Name", "Username", "Password", "Email"]}>
     <svelte:fragment slot="cell" let:row let:col>
     <div class="flex items-center gap-2">
       {#if editing?.id === row.user_id && editing?.col === col}
-        {@const editor = (userColumnConfig[col]?.editable) ? userColumnConfig[col]?.editor(row) : {}}
+        {@const editor = (userColumnConfig[col]?.editable) ? userColumnConfig[col]?.editor?.(row) : {}}
         <form method="POST" action="?/update_user" class="w-full flex items-center gap-2">
           {#if editor.element}
           <svelte:element this={editor.element} {...editor.props} />
@@ -205,7 +254,7 @@
           <button type="button" on:click={() => editing = null} class="text-red-600"><X size={16} /></button>
         </form>
       {:else}
-        {@const display = userColumnConfig[col]?.render(row) ?? {element: 'span', children: row[col]}}
+        {@const display = userColumnConfig[col]?.render?.(row) ?? {element: 'span', children: row[col]}}
         <div class="w-full flex justify-between">
         <svelte:element this={display.element} {...display.props}>
           {display.children}
@@ -272,11 +321,11 @@
 	<p>{form.error}</p>
 {/if}
 
-<DatatableClient removeSlot={true} data={data.courseData} columns={["course_number", "course_name", "status"]} display_columns={["Course Number", "Course Name", "Status"]}>
+<DatatableClient removeSlot={true} data={data.courseData} columns={["course_number", "course_name", "status", "start_date", "end_date"]} display_columns={["Course Number", "Course Name", "Status", "Start Date", "End Date"]}>
     <svelte:fragment slot="cell" let:row let:col>
     <div class="flex items-center gap-2">
       {#if editing?.id === row.course_id && editing?.col === col}
-        {@const editor = (courseColumnConfig[col]?.editable) ? courseColumnConfig[col]?.editor(row) : {}}
+        {@const editor = (courseColumnConfig[col]?.editable) ? courseColumnConfig[col]?.editor?.(row) : {}}
         <form method="POST" action="?/update_course" class="w-full flex items-center gap-2">
           {#if editor.element}
           <svelte:element this={editor.element} {...editor.props}>
@@ -294,7 +343,7 @@
           <button type="button" on:click={() => editing = null} class="text-red-600"><X size={16} /></button>
         </form>
       {:else}
-        {@const display = courseColumnConfig[col]?.render(row) ?? {element: 'span', children: row[col]}}
+        {@const display = courseColumnConfig[col]?.render?.(row) ?? {element: 'span', children: row[col]}}
         <div class="w-full flex justify-between">
         <svelte:element this={display.element} {...display.props}>
           {display.children}

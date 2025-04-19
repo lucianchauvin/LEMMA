@@ -14,6 +14,7 @@
   let picker;
 
   onMount(() => {
+    console.log(options);
     picker = flatpickr(inputEl, {
       ...options,
       defaultDate: value,

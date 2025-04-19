@@ -1,7 +1,6 @@
 import type { PageServerLoad, Actions } from "./$types";
-import { isUUID, isUniqueViolation } from '$lib/util';
+import { isUUID, isUniqueViolation, handleUsername, handlePassword, capitalize } from '$lib/util';
 import { fail, error } from "@sveltejs/kit";
-import { hash } from "@node-rs/argon2";
 
 export const load: PageServerLoad = async ({locals: { getSession, safeQuery }}) => {
     const {user} = await getSession();
@@ -9,18 +8,7 @@ export const load: PageServerLoad = async ({locals: { getSession, safeQuery }}) 
     if(!user || !user.isAdmin)
         throw error(403, {message: 'Forbidden'});
 
-    const { data: userData, error: userErr } = await safeQuery(`
-    SELECT
-        users.first_name,
-        users.last_name,
-        users.user_id,
-        users.email,
-        users.is_super_admin,
-        STRING_AGG(user_roles.role_name, ', ') AS roles
-    FROM users
-    LEFT JOIN user_roles ON users.user_id = user_roles.user_id
-    GROUP BY users.first_name, users.last_name, users.user_id, users.email;
-    `);
+    const { data: userData, error: userErr } = await safeQuery(`SELECT * FROM users`);
 
     if(userErr) {
         console.error('Database failed to get users data for admin page:', userErr);
@@ -61,72 +49,25 @@ export const actions: Actions = {
             return fail(400, { user_message: "All fields except email are required"});
         }
 
-        const {data: existingUser, error: checkError } = await safeQuery(
-            "SELECT * FROM users WHERE username = $1", [username]
-        );
-
-        if (checkError) {
-            console.error("Database failed to determine if username already exists on admin page:", checkError);
-            throw error(500, { message: "Database failed to determine if username already exists on admin page" });
+        const {error: usernameErr} = await handleUsername(username)
+        if(usernameErr) {
+            return fail(400, {user_message: usernameErr});
         }
 
-        // Don't allow duplicate user
-        if (existingUser!.length > 0) {
-            return fail(400, { user_message: "Username already exists: Please choose a different username."});
-        }
-
-        // Make sure usernames and passwords are appropriate length
-        if (
-            typeof username !== "string" ||
-            username.length < 3 ||
-            username.length > 31 ||
-            !/^[a-z0-9_-]+$/.test(username)
-        ) {
-            return fail(400, {
-                user_message: "Invalid username: Username must be between 3 and 31 characters long and contain only lowercase letters, numbers, underscores, and dashes."
-            });
-        }
-
-        if (typeof password !== "string") {
-            return fail(400, {
-                user_message: "Invalid Password: Password must be a string"
-            });
-        }
-        
-        if (password.length < 6) {
-            return fail(400, {
-                user_message: "Invalid Password: Password must be at least 6 characters long"
-            });
-        }
-        
-        if (password.length > 255) {
-            return fail(400, {
-                user_message: "Invalid Password: Password must not exceed 255 characters"
-            });
-        }
-
-        // Hash passwords
-        const passwordHash = await hash(password, {
-            memoryCost: 19456,
-            timeCost: 2,
-            outputLen: 32,
-            parallelism: 1
-        });
-
-        let assign_admin = 'f';
-        if (is_admin == "yes") {
-            assign_admin = 't';
+        const {data: passwordHash, error: passwordErr} = await handlePassword(password)
+        if(passwordErr) {
+            return fail(400, {user_message: passwordErr});
         }
 
         const { error: insertError } = await safeQuery(
             "INSERT INTO users (username, password, first_name, last_name, email, is_super_admin) VALUES ($1, $2, $3, $4, $5, $6)",
-            [username, passwordHash, first_name, last_name, email, assign_admin]
+            [username, passwordHash, first_name, last_name, email, is_admin === 'yes']
         );
 
         if (insertError) {
             const uniqueCol = isUniqueViolation(insertError);
             if(uniqueCol) {
-                return fail(400, {user_message: `Field ${uniqueCol.split('_').join(' ')} already used`})
+                return fail(400, {user_message: `${capitalize(uniqueCol).split('_').join(' ')} already used`})
             }
 
             console.error("ERROR: Database failed to insert user on admin page:", insertError);
@@ -174,15 +115,31 @@ export const actions: Actions = {
         const firstName = formData.get('firstName');
         const lastName = formData.get('lastName');
         const email = formData.get('email');
+        const username = formData.get('username');
+        const password = formData.get('password');
         const userId = formData.get('userId') as string;
 
         if(!userId || typeof userId !== 'string' || !isUUID(userId)){
             return fail(400, {user_message: "User id is not valid"});
         }
         // check if there any fields set
-        if((typeof firstName === 'string' || typeof lastName === 'string' || typeof email === 'string') && !(firstName || lastName || email)) {
+        if(!(firstName || lastName || email || username || password)) {
             // no field set to something truthy
             return fail(400, {user_message: "No fields set to something valid"})
+        }
+
+        let passwordHash: string;
+        if(username) {
+            const {error: usernameErr} = await handleUsername(username as string)
+            if(usernameErr) {
+                return fail(400, {user_message: usernameErr});
+            }
+        } else if(password) {
+            const response = await handlePassword(password as string)
+            if(response.error) {
+                return fail(400, {user_message: response.error});
+            }
+            passwordHash = response.data!;
         }
 
         // key value pairs
@@ -190,6 +147,8 @@ export const actions: Actions = {
             ...((firstName !== null) ? {first_name: firstName}: {}),
             ...((lastName !== null) ? {last_name: lastName}: {}),
             ...((email) ? {email: email}: {}),
+            ...((username) ? {username: username}: {}),
+            ...((password) ? {password: passwordHash!}: {}),
         }
 
         for(let [key, value] of Object.entries(data)) {
@@ -200,7 +159,7 @@ export const actions: Actions = {
             if(updateErr) {
                 const uniqueCol = isUniqueViolation(updateErr);
                 if(uniqueCol) {
-                    return fail(400, {user_message: `Field ${uniqueCol.split('_').join(' ')} already used`})
+                    return fail(400, {user_message: `${capitalize(uniqueCol).split('_').join(' ')} already used`})
                 }
 
                 console.error('ERROR: Failed to update user:', updateErr)
@@ -278,15 +237,33 @@ export const actions: Actions = {
         const courseNumber = formData.get('courseNumber');
         const courseName = formData.get('courseName');
         const status = formData.get('status');
+        const startDateStr = formData.get('startDate');
+        const endDateStr = formData.get('endDate');
         const courseId = formData.get('courseId') as string;
 
         if(!courseId || typeof courseId !== 'string' || !isUUID(courseId)){
             return fail(400, {course_message: "Course id is not valid"});
         }
+
         // check if there any fields set
-        if((typeof courseNumber === 'string' || typeof courseName === 'string' || typeof status === 'string') && !(courseNumber || courseName || status)) {
+        if(!(courseNumber || courseName || status || startDateStr || endDateStr)) {
             // no field set to something truthy
             return fail(400, {course_message: "No fields set to something valid"})
+        }
+
+        let startDate: Date | null = null;
+        let endDate: Date | null = null;
+        if(startDateStr) {
+            startDate = new Date(startDateStr as string);
+            if(isNaN(startDate.getTime())) {
+                return fail(400, {message: "Invalid start date"});
+            }
+        }
+        if(endDateStr) {
+            endDate = new Date(endDateStr as string);
+            if(isNaN(endDate.getTime())) {
+                return fail(400, {message: "Invalid end date"});
+            }
         }
 
         // key value pairs
@@ -294,6 +271,8 @@ export const actions: Actions = {
             ...((courseNumber !== null) ? {course_number: courseNumber}: {}),
             ...((courseName !== null) ? {course_name: courseName}: {}),
             ...((status) ? {status: status}: {}),
+            ...((startDate) ? {start_date: startDate.toISOString()}: {}),
+            ...((endDate) ? {end_date: endDate.toISOString()}: {}),
         }
 
         for(let [key, value] of Object.entries(data)) {
@@ -304,7 +283,7 @@ export const actions: Actions = {
             if(updateErr) {
                 const uniqueCol = isUniqueViolation(updateErr);
                 if(uniqueCol) {
-                    return fail(400, {course_message: `Field ${uniqueCol.split('_').join(' ')} already used`})
+                    return fail(400, {course_message: `${capitalize(uniqueCol).split('_').join(' ')} already used`})
                 }
 
                 console.error('ERROR: Failed to update course:', updateErr)
