@@ -36,3 +36,8 @@
   background: none;
   padding: 0;
 }
+
+.input[readonly].flatpickr-input {
+  cursor: pointer !important; /* or default */
+  border-color: rgb(var(--color-surface-400)) !important;
+}

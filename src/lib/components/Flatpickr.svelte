@@ -9,6 +9,7 @@
     dateFormat: "Y-m-d H:i"
   };
   export let name = '';
+  export let classes = 'input border';
 
   let inputEl;
   let picker;
@@ -33,5 +34,5 @@
   bind:value
   name={name}
   type="text"
-  class="p-2 border rounded"
+  class={classes}
 />
