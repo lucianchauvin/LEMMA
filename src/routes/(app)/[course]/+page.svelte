@@ -115,8 +115,7 @@
       hour12: true
     };
 
-    function validateDate() {
-        const val = inputDatetime.value;
+    function validateDate(val) {
         const date = new Date(val);
         return val && !isNaN(date.getTime());
     }
@@ -131,8 +130,8 @@
 
 {#if data.permissions.create_assignments.access}
 <div>
-    <form method="post" action="?/create" enctype="multipart/form-data" class="grid grid-cols-2 gap-4" use:enhance={({cancel}) => {
-        if (!validateDate()) {
+    <form method="post" action="?/create" enctype="multipart/form-data" class="grid grid-cols-2 gap-4" use:enhance={({formData, cancel}) => {
+        if (!validateDate(formData.get('dueDate'))) {
             localMessage = 'Please enter a valid date and time.'
             cancel();
             return;

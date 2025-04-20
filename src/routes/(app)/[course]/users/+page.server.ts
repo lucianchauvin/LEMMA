@@ -19,12 +19,14 @@ export const load = (async ({parent, params, locals: { safeQuery, permCheck } })
     if(update_course_users.access) {
         // only get admin users if current user is an admin
         const { data: tmpVal, error: allUsersErr } = await safeQuery<User>(
-            `SELECT 
-                u.* 
+            `SELECT u.*
             FROM users u
-            LEFT JOIN user_roles ur ON ur.user_id = u.user_id
-            WHERE (ur.course_id<>$1 OR ur.user_id IS NULL) AND u.is_super_admin=ANY($2)
-            `,
+            WHERE NOT EXISTS (
+              SELECT 1
+              FROM user_roles ur
+              WHERE ur.user_id = u.user_id AND ur.course_id = $1
+            )
+            AND u.is_super_admin = ANY($2)`,
         [params.course, [false, user.isAdmin]]);
         
         if(allUsersErr) {
@@ -133,7 +135,7 @@ export const actions: Actions = {
             }
         }
 
-        return { success: true }; 
+        return { success: true, message: `User successfully added` }; 
     },
 
     remove: async ({ request, params, locals: { safeQuery, permCheck } }) => {
@@ -189,6 +191,6 @@ export const actions: Actions = {
             }
         }
 
-        return { success: true }; 
+        return { success: true, message: `User successfully removed` }; 
     }
 };
