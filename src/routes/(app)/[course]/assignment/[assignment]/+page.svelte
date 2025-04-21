@@ -14,7 +14,7 @@
           element: 'a',
           props: {
             class: "anchor",
-            href: `${urlBase}/{student.student_assignment_id}`,
+            href: `${urlBase}/${row.student_assignment_id}`,
           },
           children: row.username ?? 'No student name found'
         }),
