@@ -21,12 +21,21 @@
         </svelte:fragment>
     </AppRailAnchor>
 
+    {#if data.user && data.user.isAdmin}
+    <AppRailAnchor href="/admin" title="Home" class="home-link" selected={$page.url.pathname === "/admin"}>
+        <svelte:fragment slot="lead">
+            <House />
+        </svelte:fragment>
+        <div>Home</div>
+    </AppRailAnchor>
+    {:else}
     <AppRailAnchor href="/" title="Home" class="home-link" selected={$page.url.pathname === "/"}>
         <svelte:fragment slot="lead">
             <House />
         </svelte:fragment>
         <div>Home</div>
     </AppRailAnchor>
+    {/if}
 
     <AppRailAnchor href="/{data.course.course_id}" title="Assignments" class="assignment-link" selected={$page.url.pathname === `/${data.course.course_id}`}>
         <svelte:fragment slot="lead">

@@ -14,7 +14,7 @@
 <header class="fixed top-0 w-screen z-50 h-20 header bg-surface-700 p-2 flex justify-between shadow-md shadow-surface-900">
     <div class="home flex items-center">
         <button type="button" class="btn bg-initial drop-shadow-xl text-primary-400">
-            <a href="/">
+            <a href="/{(data.user && data.user.isAdmin) ? 'admin': ''}">
                 <Triangle size=48 />
             </a>
         </button>
@@ -22,12 +22,6 @@
     </div>
 
     <div class="flex items-center gap-4">
-    {#if data.user && data.user.isAdmin}
-    <a id="admin" href="/admin" class="btn btn-sm border-2 border-error-600 bg-surface-100 hover:variant-filled-error shadow-lg shadow-surface-900 text-error-600" data-sveltekit-reload>
-        Admin Panel
-    </a>
-    {/if}
-
     {#if data.session}
     <form method="GET" action="/logout">
       <button id="logout" class="btn btn-sm border-2 border-surface-600 bg-surface-100 hover:variant-filled-surface shadow-lg shadow-surface-900 text-surface-600">Logout</button>
@@ -45,12 +39,21 @@
         </svelte:fragment>
     </AppRailAnchor>
 
+    {#if data.user && data.user.isAdmin}
+    <AppRailAnchor href="/admin" title="Home" class="home-link" selected={$page.url.pathname === "/admin"}>
+        <svelte:fragment slot="lead">
+            <House />
+        </svelte:fragment>
+        <div>Home</div>
+    </AppRailAnchor>
+    {:else}
     <AppRailAnchor href="/" title="Home" class="home-link" selected={$page.url.pathname === "/"}>
         <svelte:fragment slot="lead">
             <House />
         </svelte:fragment>
         <div>Home</div>
     </AppRailAnchor>
+    {/if}
 
     <AppRailAnchor href="/calendar" title="Calendar" class="calendar-link" selected={$page.url.pathname === "/calendar"}>
         <svelte:fragment slot="lead">

@@ -1,6 +1,6 @@
 import type { PageServerLoad } from './$types';
 import type { Course, Assignment } from '$lib/types';
-import { error } from '@sveltejs/kit';
+import { error, redirect } from '@sveltejs/kit';
 
 const colors = ["darkgreen", "maroon"];
 
@@ -31,6 +31,12 @@ export const load: PageServerLoad = async ({parent, locals: { safeQuery, permChe
     const {user} = await parent();
     if(!user) {
         console.error("ERROR: No user found");
+        redirect(302, '/login')
+    }
+
+    // redirect to admin page if admin
+    if(user.isAdmin) {
+        redirect(302, '/admin');
     }
 
     const {data: viewAllCourses, error: viewAllCoursesErr} = await permCheck('view_courses');
