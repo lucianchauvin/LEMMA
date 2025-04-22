@@ -52,6 +52,10 @@
     </svelte:fragment>
 </DatatableClient>
 
+{#if data.noStudents}
+    <p class="mt-4 text-sm text-black-500 italic text-center">No students are currently enrolled in this course.</p>
+{/if}
+
 {#if form?.message}
     {form.message}
 {:else if form?.error}

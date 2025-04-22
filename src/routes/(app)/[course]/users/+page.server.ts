@@ -56,9 +56,26 @@ export const load = (async ({parent, params, locals: { safeQuery, permCheck } })
         throw error(500, { message: "Database failed to query users for course" });
     }
 
+    // Check if any students are enrolled
+    const { data: enrolledStudents, error: studentQueryErr } = await safeQuery(
+        `SELECT u.user_id
+         FROM users u
+         JOIN user_roles ur ON ur.user_id = u.user_id
+         WHERE ur.course_id = $1 AND ur.role_name = 'student'`,
+        [params.course]
+    );
+
+    if (studentQueryErr) {
+        console.error("ERROR: Failed to fetch enrolled students:", studentQueryErr);
+        throw error(500, { message: "Failed to fetch enrolled students" });
+    }
+
+    const noStudents = !Array.isArray(enrolledStudents) || enrolledStudents.length === 0;
+
     return {
         ...(nonAssignedUsers ? {new_users: nonAssignedUsers}: {}),
         users: courseUsers,
+        noStudents,
         permissions: {
             ...permissions,
             update_course_users
