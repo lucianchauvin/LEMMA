@@ -8,7 +8,7 @@
 
 <div class="left-side ml-12 pr-5 basis-[70%]">
     <h2 class="h2 pb-2 ml-2 font-semibold border-b-2 border-surface-200" in:fade|global={{ delay: 300, duration: 300 }}>Courses</h2>
-    <div class="pt-8 courses-container flex flex-wrap gap-5">
+    <div class="pt-8 grid grid-cols-4 gap-5">
         {#each data.courses as { course_id, course_name, course_number, color }}
             <CourseComponent {course_id} {course_name} {course_number} {color} />
         {/each}

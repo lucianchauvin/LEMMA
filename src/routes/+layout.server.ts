@@ -1,7 +1,7 @@
 import type { LayoutServerLoad } from './$types';
 import { redirect } from '@sveltejs/kit';
 
-const excludeChecks = ['/login', '/logout', '/signup'];
+const excludeChecks = ['/login', '/logout'];
 
 export const load: LayoutServerLoad = async ({ url, locals: { getSession }}) => {
     const {user, session} = await getSession();

@@ -428,12 +428,10 @@
     </div>
     
     <div class="h-full grid grid-cols-[3fr_1fr]">
-        <div class="h-full bg-surface-50 relative">
-            <div class="h-full flex flex-col">
-                <div id="editor" bind:this={editorRef} class="flex-1"></div>
-                <div id="editor-output" bind:this={infoviewRef} class="flex-1"></div>
-            </div>
-            <div class="w-full absolute bottom-0 p-2">
+        <div class="h-full bg-surface-50 flex flex-col">
+            <div id="editor" bind:this={editorRef} class="basis-1/2"></div>
+            <div id="editor-output" bind:this={infoviewRef} class="grow h-[calc(50%-3.5rem)]"></div>
+            <div class="h-14 w-full bottom-0 p-2">
                 <div class="flex justify-between">
                 <p>{form?.error ?? form?.message ?? ''}</p>
                 <div class="flex">

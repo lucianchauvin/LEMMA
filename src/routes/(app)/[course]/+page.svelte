@@ -3,6 +3,7 @@
     export let form;
     
     import DatatableClient from '$lib/components/client/Datatable.svelte';
+    import BookMarked from '@lucide/svelte/icons/book-marked'; 
     import Trash from '@lucide/svelte/icons/trash';
     import Pencil from '@lucide/svelte/icons/pencil';
     import Check from '@lucide/svelte/icons/check';
@@ -75,15 +76,32 @@
       active: {
         render: (row) => ({
           element: 'span',
-          children: (row.active) ? 'Yes' : 'No'
+          children: row.active ? 'active' : 'inactive'
         }),
         editable: true,
         editor: (row) => ({
-          component: CheckboxEditor,
+          element: 'select',
           props: {
+            class: 'select',
             name: 'active',
-            checked: row.active
-          }
+            value: row.status ?? '',
+          },
+          childrens: [
+            {
+              element: 'option',
+              props: {
+                value: 'active'
+              },
+              children: 'active'
+            },
+            {
+              element: 'option',
+              props: {
+                value: 'inactive'
+              },
+              children: 'inactive'
+            },
+          ]
         })
       }
     }
@@ -97,19 +115,23 @@
       hour12: true
     };
 
-    function validateDate() {
-        const val = inputDatetime.value;
+    function validateDate(val) {
         const date = new Date(val);
         return val && !isNaN(date.getTime());
     }
 </script>
 
-<h2 class="h2 pb-3 ml-2 font-semibold border-b-2 border-surface-200">Course Assignments</h2>
+<div class="flex flex-col gap-4">
+<h1 class="h1 text-3xl font-bold flex items-center gap-2">
+    <BookMarked size={30} /> 
+    <p>Course Assignments</p>
+</h1>
+<hr>
 
 {#if data.permissions.create_assignments.access}
 <div>
-    <form method="post" action="?/create" enctype="multipart/form-data" class="flex flex-col gap-2" use:enhance={({cancel}) => {
-        if (!validateDate()) {
+    <form method="post" action="?/create" enctype="multipart/form-data" class="grid grid-cols-2 gap-4" use:enhance={({formData, cancel}) => {
+        if (!validateDate(formData.get('dueDate'))) {
             localMessage = 'Please enter a valid date and time.'
             cancel();
             return;
@@ -117,15 +139,26 @@
         localMessage = '';
     }}>
         <input type="hidden" name="courseId" value={data.course.id} />
-        <label for="name">Name:</label>
-        <input name="name" id="assignment-name" required/>
-        <label for="description">Description:</label>
-        <textarea name="description" id="assignment-description"></textarea>
-        <label for="active">Active:</label>
-        <input type="checkbox" name="active" value="yes" checked>
-        <label for="dueDate">Due Date:</label>
-        <Flatpickr name="dueDate" />
-        <button class="btn btn-sm border-2 border-surface-600 bg-surface-100 hover:variant-filled-surface text-surface-600" id="submit">Submit</button>
+        <label class="label">
+            <span>Name</span>
+            <input class="input" name="name" id="assignment-name" required/>
+        </label>
+        <label class="label">
+            <span>Due Date</span>
+            <Flatpickr name="dueDate" />
+        </label>
+        <label class="label">
+            <span>Description</span>
+            <textarea class="textarea" name="description" id="assignment-description"></textarea>
+        </label>
+        <label class="label">
+            <span>Active</span> <br>
+            <select class="select" name="active">
+                <option value="active">active</option>
+                <option value="inactive">inactive</option>
+            </select>
+        </label>
+        <button class="col-span-2 btn variant-filled-primary" id="submit">Submit</button>
     </form>
 </div>
 {/if}
@@ -139,13 +172,18 @@
 
 <DatatableClient rowsPerPage={10} removeSlot={data.permissions.delete_assignments.access} data={data.assignments ?? []} columns={columns} display_columns={display_columns} rowClass={rowClass}>
     <svelte:fragment slot="cell" let:row let:col>
-
     <div class="flex items-center gap-2">
       {#if editing?.id === row.assignment_id && editing?.col === col}
         {@const editor = (columnConfig[col]?.editable) ? columnConfig[col]?.editor(row) : {}}
         <form method="POST" action="?/update" class="w-full flex items-center gap-2">
           {#if editor.element}
-          <svelte:element this={editor.element} {...editor.props} />
+          <svelte:element this={editor.element} {...editor.props}>
+            {#each editor.childrens as children}
+              <svelte:element this={children.element} {...children.props}>
+                {children.children}
+              </svelte:element>
+            {/each}
+          </svelte:element>
           {:else if editor.component}
           <svelte:component this={editor.component} {...editor.props} />
           {/if}
@@ -179,3 +217,4 @@
         </form>
     </svelte:fragment>
 </DatatableClient>
+</div>

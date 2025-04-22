@@ -9,11 +9,11 @@
     import { onMount } from 'svelte';
 </script>
 
-<div class="h-screen flex flex-col">
-<header class="header bg-surface-700 p-2 flex justify-between shadow-md shadow-surface-900">
+<div class="h-screen w-screen relative">
+<header class="fixed top-0 w-screen z-50 h-20 header bg-surface-700 p-2 flex justify-between shadow-md shadow-surface-900">
     <div class="home flex items-center">
         <button type="button" class="btn bg-initial drop-shadow-xl text-primary-400">
-            <a href="/">
+            <a href="/{(data.user && data.user.isAdmin) ? 'admin': ''}">
                 <Triangle size=48 />
             </a>
         </button>
@@ -21,16 +21,6 @@
     </div>
 
     <div class="flex items-center gap-4">
-    {#if data.user && data.user.isAdmin}
-    <a id="admin" href="/admin" class="btn btn-sm border-2 border-error-600 bg-surface-100 hover:variant-filled-error shadow-lg shadow-surface-900 text-error-600" data-sveltekit-reload>
-        Admin Panel
-    </a>
-    {/if}
-
-    <!-- <div id="pfp"> -->
-    <!--     <Avatar initials="AZ" background="bg-secondary-200"/> -->
-    <!-- </div> -->
-
     {#if data.session}
     <form method="GET" action="/logout">
       <button id="logout" class="btn btn-sm border-2 border-surface-600 bg-surface-100 hover:variant-filled-surface shadow-lg shadow-surface-900 text-surface-600">Logout</button>
@@ -41,7 +31,7 @@
     </div>
 </header>
 
-<main class="flex-1">
+<div class="mt-20 flex-1">
     <slot></slot>
-</main>
+</div>
 </div>

@@ -4,4 +4,4 @@
 </script>
 
 <input type="hidden" name={`_${name}`} value="false" />
-<input type="checkbox" name={name} value="true" checked={checked} />
+<input class="checkbox" type="checkbox" name={name} value="true" checked={checked} />

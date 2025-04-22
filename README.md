@@ -2,6 +2,14 @@
 
 Web application that integrates the formal language [LEAN](https://lean-lang.org/) into a LMS to enable autograding of student-written proofs.
 
+## Prerequisite
+
+### LEAN Adjacent
+This project requires the [elan toolchain](https://leanprover-community.github.io/get_started.html) to be installed which provides [LEAN](https://lean-lang.org/) and its package manager [Lake](https://github.com/leanprover/lean4/tree/master/src/lake).
+
+### Other Software
+This projects also requires [Node.js](https://nodejs.org/en/download) and [BubbleWrap](https://github.com/containers/bubblewrap).
+
 ## Installation and Running
 All of the following commands are expected to be ran on the root of the repo.
 
@@ -33,5 +41,5 @@ npm run dev
 Running for deployment
 ```bash
 npm run build
-node build
+npm run start
 ```

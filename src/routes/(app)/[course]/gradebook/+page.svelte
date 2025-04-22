@@ -71,51 +71,53 @@
     }
 </script>
 
-<div class="table-container">
-    <h1 class="text-xl font-bold flex items-center gap-2">
-        <Book size={24} /> Gradebook
-    </h1>
+<div class="flex flex-col gap-4">
+<h1 class="h1 text-3xl font-bold flex items-center gap-2">
+    <Book size={30} /> 
+    <p>Course Assignments</p>
+</h1>
+<hr>
 
-    <form method="POST" action="?/editGrades" use:enhance class="flex flex-col" on:submit={handleSubmit}>
-        <table class="table table-hover mt-4">
-            <thead>
-                <tr>
-                    <th class = "p-3 text-center"> Student Name </th>
-                    {#each assignmentsData as assignments}
-                        <th class = "p-3 text-center"> {assignments.assignment_name} </th>
-                    {/each}
-                    <th class="p-3 text-center">Letter Grade</th>
-                </tr>
-            </thead>
-            <tbody>
-                {#each data.students as student}
-                    <tr>
-                        <td class="p-3 text-center">{student.first_name} {student.last_name}</td>
-                        {#each assignmentsData as assignments}
-                            <td class="p-3 text-center">
-                                <div class="flex items-center gap-4 justify-center">
-                                        <input type="hidden" name="student_id" value={student.user_id} />
-                                        <input type="hidden" name="assignment_id" value={assignments.assignment_id} />
-                                        <input type="" name="grade" value={fetchGrade(student.user_id, assignments.assignment_id)}
-                                        class = "w-16 text-center border rounded px-2 py-1" />
-                                </div>
-                            </td>
-                        {/each}
-                        <td class="p-3 text-center">
-                            {determineLetterGrade(
-                                assignmentsData.map(assignment => fetchGrade(student.user_id, assignment.assignment_id))
-                                .filter(grade => grade !== '-').map(Number)
-                            )}
-                        </td>
-                    </tr>
+<form method="POST" action="?/editGrades" use:enhance class="flex flex-col" on:submit={handleSubmit}>
+    <table class="table table-hover mt-4">
+        <thead>
+            <tr>
+                <th class = "p-3 text-center"> Student Name </th>
+                {#each assignmentsData as assignments}
+                    <th class = "p-3 text-center"> {assignments.assignment_name} </th>
                 {/each}
-            </tbody>
-        </table>
+                <th class="p-3 text-center">Letter Grade</th>
+            </tr>
+        </thead>
+        <tbody>
+            {#each data.students as student}
+                <tr>
+                    <td class="p-3 text-center">{student.first_name} {student.last_name}</td>
+                    {#each assignmentsData as assignments}
+                        <td class="p-3 text-center">
+                            <div class="flex items-center gap-4 justify-center">
+                                    <input type="hidden" name="student_id" value={student.user_id} />
+                                    <input type="hidden" name="assignment_id" value={assignments.assignment_id} />
+                                    <input type="" name="grade" value={fetchGrade(student.user_id, assignments.assignment_id)}
+                                    class = "w-16 text-center border rounded px-2 py-1" />
+                            </div>
+                        </td>
+                    {/each}
+                    <td class="p-3 text-center">
+                        {determineLetterGrade(
+                            assignmentsData.map(assignment => fetchGrade(student.user_id, assignment.assignment_id))
+                            .filter(grade => grade !== '-').map(Number)
+                        )}
+                    </td>
+                </tr>
+            {/each}
+        </tbody>
+    </table>
 
-        <div class="mt-4 flex justify-end">
-            <button type="submit" class="bg-blue-500 text-white px-2 py-1 rounded flex items-center gap-1">
-                <Save size={20} /> Save All Grades
-            </button>
-        </div>
-    </form>
+    <div class="mt-4 flex justify-end">
+        <button type="submit" class="bg-blue-500 text-white px-2 py-1 rounded flex items-center gap-1">
+            <Save size={20} /> Save All Grades
+        </button>
+    </div>
+</form>
 </div>
