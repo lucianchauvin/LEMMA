@@ -340,7 +340,7 @@
 <main class="h-full grid grid-cols-[1fr_4fr]">
     <div class="h-full bg-surface-100 relative">
     <div class="h-full flex flex-col">
-    <div id="problem-description" class="p-2 flex-[0_0_40%]">
+    <div id="problem-description" class="p-2 flex-[0_0_40%] overflow-y-scroll">
         <h2 class="h3">Problem Description</h2>
         {#if edit}
         <form method="post" action="?/problemDescription" enctype="multipart/form-data" class="flex flex-col" use:enhance>
