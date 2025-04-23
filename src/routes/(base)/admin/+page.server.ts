@@ -123,8 +123,9 @@ export const actions: Actions = {
         if(!userId || typeof userId !== 'string' || !isUUID(userId)){
             return fail(400, {user_message: "User id is not valid"});
         }
+
         // check if there any fields set
-        if(!(firstName || lastName || email || username || password || admin)) {
+        if(!(firstName || lastName || email || username || password || admin !== null)) {
             // no field set to something truthy
             return fail(400, {user_message: "No fields set to something valid"})
         }
