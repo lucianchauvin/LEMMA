@@ -29,7 +29,7 @@
 <nav >
     
     
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-authentication.html">authentication</a><ul class='methods'><li data-type='method'><a href="module-authentication.html#~getUserAttributes">getUserAttributes</a></li><li data-type='method'><a href="module-authentication.html#~getUserAttributes">getUserAttributes</a></li></ul></li><li></li><li><a href="module-db-connection.html">db-connection</a></li><li></li><li><a href="module-lean_runner.html">lean_runner</a></li><li></li></ul><h3>Interfaces</h3><ul><li><a href="DatabaseUserAttributes.html">DatabaseUserAttributes</a></li><li></li></ul><h3>Global</h3><ul><li><a href="global.html#lean_runner">lean_runner</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-authentication.html">authentication</a><ul class='methods'><li data-type='method'><a href="module-authentication.html#~getUserAttributes">getUserAttributes</a></li><li data-type='method'><a href="module-authentication.html#~getUserAttributes">getUserAttributes</a></li></ul></li><li></li><li><a href="module-db-connection.html">db-connection</a></li><li></li><li></li><li></li><li><a href="module-lean_runner.html">lean_runner</a></li><li></li></ul><h3>Interfaces</h3><ul><li><a href="DatabaseUserAttributes.html">DatabaseUserAttributes</a></li><li></li></ul><h3>Global</h3><ul><li><a href="global.html#lean_runner">lean_runner</a></li></ul>
     
 </nav>
 
@@ -52,6 +52,10 @@
         
             
         
+            
+        
+            
+        
     
 </header>
 
@@ -61,8 +65,8 @@
         
             
                 <div class="description usertext"><p>Database Connection Module</p>
-<p>This module sets up the connection to the PostgreSQL database using the <code>pg</code> library
-and creates a pool for managing multiple database connections.</p></div>
+<p>This module sets up a connection to the PostgreSQL database using the <code>pg</code> library
+and initializes a connection pool for managing database connections.</p></div>
             
 
             
@@ -75,14 +79,14 @@ and creates a pool for managing multiple database connections.</p></div>
     
     <dt class="tag-description">Description:</dt>
     <dd class="tag-description"><ul class="dummy"><li><p>Database Connection Module</p>
-<p>This module sets up the connection to the PostgreSQL database using the <code>pg</code> library
-and creates a pool for managing multiple database connections.</p></li></ul></dd>
+<p>This module sets up a connection to the PostgreSQL database using the <code>pg</code> library
+and initializes a connection pool for managing database connections.</p></li></ul></dd>
     
 
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="server_db.ts.html">server/db.ts</a>, <a href="server_db.ts.html#line4">line 4</a>
+        <a href="server_db.ts.html">server/db.ts</a>, <a href="server_db.ts.html#line2">line 2</a>
     </li></ul></dd>
     
 
@@ -163,7 +167,169 @@ and creates a pool for managing multiple database connections.</p></li></ul></dd
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="server_db.ts.html">server/db.ts</a>, <a href="server_db.ts.html#line4">line 4</a>
+        <a href="server_db.ts.html">server/db.ts</a>, <a href="server_db.ts.html#line12">line 12</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            
+                
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>Database Connection Module</p>
+<p>This module sets up a connection to the PostgreSQL database using the <code>pg</code> library
+and initializes a connection pool for managing database connections.</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="server_db.ts.html">server/db.ts</a>, <a href="server_db.ts.html#line2">line 2</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            
+                
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>Database Connection Module</p>
+<p>This module sets up the connection to the PostgreSQL database using the <code>pg</code> library
+and creates a pool for managing multiple database connections.</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="server_db.ts.html">server/db.ts</a>, <a href="server_db.ts.html#line12">line 12</a>
     </li></ul></dd>
     
 
@@ -265,7 +431,7 @@ The pool manages multiple client connections and reuses them to optimize databas
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="server_db.ts.html">server/db.ts</a>, <a href="server_db.ts.html#line27">line 27</a>
+        <a href="server_db.ts.html">server/db.ts</a>, <a href="server_db.ts.html#line35">line 35</a>
     </li></ul></dd>
     
 
@@ -494,7 +660,7 @@ The pool manages multiple client connections and reuses them to optimize databas
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="server_db.ts.html">server/db.ts</a>, <a href="server_db.ts.html#line27">line 27</a>
+        <a href="server_db.ts.html">server/db.ts</a>, <a href="server_db.ts.html#line35">line 35</a>
     </li></ul></dd>
     
 
@@ -732,6 +898,10 @@ The pool manages multiple client connections and reuses them to optimize databas
         
             
         
+            
+        
+            
+        
     
 </header>
 
@@ -755,14 +925,14 @@ and creates a pool for managing multiple database connections.</p></div>
     
     <dt class="tag-description">Description:</dt>
     <dd class="tag-description"><ul class="dummy"><li><p>Database Connection Module</p>
-<p>This module sets up the connection to the PostgreSQL database using the <code>pg</code> library
-and creates a pool for managing multiple database connections.</p></li></ul></dd>
+<p>This module sets up a connection to the PostgreSQL database using the <code>pg</code> library
+and initializes a connection pool for managing database connections.</p></li></ul></dd>
     
 
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="server_db.ts.html">server/db.ts</a>, <a href="server_db.ts.html#line4">line 4</a>
+        <a href="server_db.ts.html">server/db.ts</a>, <a href="server_db.ts.html#line2">line 2</a>
     </li></ul></dd>
     
 
@@ -843,7 +1013,169 @@ and creates a pool for managing multiple database connections.</p></li></ul></dd
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="server_db.ts.html">server/db.ts</a>, <a href="server_db.ts.html#line4">line 4</a>
+        <a href="server_db.ts.html">server/db.ts</a>, <a href="server_db.ts.html#line12">line 12</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            
+                
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>Database Connection Module</p>
+<p>This module sets up a connection to the PostgreSQL database using the <code>pg</code> library
+and initializes a connection pool for managing database connections.</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="server_db.ts.html">server/db.ts</a>, <a href="server_db.ts.html#line2">line 2</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            
+                
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>Database Connection Module</p>
+<p>This module sets up the connection to the PostgreSQL database using the <code>pg</code> library
+and creates a pool for managing multiple database connections.</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="server_db.ts.html">server/db.ts</a>, <a href="server_db.ts.html#line12">line 12</a>
     </li></ul></dd>
     
 
@@ -945,7 +1277,7 @@ The pool manages multiple client connections and reuses them to optimize databas
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="server_db.ts.html">server/db.ts</a>, <a href="server_db.ts.html#line27">line 27</a>
+        <a href="server_db.ts.html">server/db.ts</a>, <a href="server_db.ts.html#line35">line 35</a>
     </li></ul></dd>
     
 
@@ -1174,7 +1506,1699 @@ The pool manages multiple client connections and reuses them to optimize databas
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="server_db.ts.html">server/db.ts</a>, <a href="server_db.ts.html#line27">line 27</a>
+        <a href="server_db.ts.html">server/db.ts</a>, <a href="server_db.ts.html#line35">line 35</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    
+
+<table class="props">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>host</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The IP address or hostname of the PostgreSQL server.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>user</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The username for authentication to the database.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>password</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The password used for authentication, decoded from base64.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>port</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The port on which the PostgreSQL server is listening.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>connectionTimeoutMillis</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The timeout duration (in milliseconds) for establishing a connection to the server.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<div class="description usertext">
+    <p>Creates a Postgres client pool for managing connections to the PostgreSQL database.
+The pool manages multiple client connections and reuses them to optimize database access.</p>
+</div>
+
+
+
+    <h5 class="h5-types">Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">pg.Pool</span>
+
+
+
+        </li>
+    </ul>
+
+
+
+
+
+
+        
+    
+
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+
+
+
+<section>
+
+<header>
+    
+        
+            
+        
+            
+        
+            
+        
+            
+        
+    
+</header>
+
+<article>
+    
+        <div class="container-overview">
+        
+            
+                <div class="description usertext"><p>Database Connection Module</p>
+<p>This module sets up a connection to the PostgreSQL database using the <code>pg</code> library
+and initializes a connection pool for managing database connections.</p></div>
+            
+
+            
+                
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>Database Connection Module</p>
+<p>This module sets up a connection to the PostgreSQL database using the <code>pg</code> library
+and initializes a connection pool for managing database connections.</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="server_db.ts.html">server/db.ts</a>, <a href="server_db.ts.html#line2">line 2</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            
+                
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>Database Connection Module</p>
+<p>This module sets up the connection to the PostgreSQL database using the <code>pg</code> library
+and creates a pool for managing multiple database connections.</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="server_db.ts.html">server/db.ts</a>, <a href="server_db.ts.html#line12">line 12</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            
+                
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>Database Connection Module</p>
+<p>This module sets up a connection to the PostgreSQL database using the <code>pg</code> library
+and initializes a connection pool for managing database connections.</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="server_db.ts.html">server/db.ts</a>, <a href="server_db.ts.html#line2">line 2</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            
+                
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>Database Connection Module</p>
+<p>This module sets up the connection to the PostgreSQL database using the <code>pg</code> library
+and creates a pool for managing multiple database connections.</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="server_db.ts.html">server/db.ts</a>, <a href="server_db.ts.html#line12">line 12</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            
+        
+        </div>
+    
+
+    
+
+    
+
+    
+    
+    
+
+     
+
+    
+
+    
+        <h3 class="subsection-title">Members</h3>
+
+        
+            
+<h4 class="name" id=".pool"><span class="type-signature type-signature-static, constant">(static, constant) </span>pool<span class="type-signature"> :pg.Pool</span></h4>
+
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>Creates a Postgres client pool for managing connections to the PostgreSQL database.
+The pool manages multiple client connections and reuses them to optimize database access.</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="server_db.ts.html">server/db.ts</a>, <a href="server_db.ts.html#line35">line 35</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    
+
+<table class="props">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>host</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The IP address or hostname of the PostgreSQL server.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>user</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The username for authentication to the database.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>password</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The password used for authentication, decoded from base64.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>port</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The port on which the PostgreSQL server is listening.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>connectionTimeoutMillis</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The timeout duration (in milliseconds) for establishing a connection to the server.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<div class="description usertext">
+    <p>Creates a Postgres client pool for managing connections to the PostgreSQL database.
+The pool manages multiple client connections and reuses them to optimize database access.</p>
+</div>
+
+
+
+    <h5 class="h5-types">Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">pg.Pool</span>
+
+
+
+        </li>
+    </ul>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id=".pool"><span class="type-signature type-signature-static, constant">(static, constant) </span>pool<span class="type-signature"> :pg.Pool</span></h4>
+
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>Creates a Postgres client pool for managing connections to the PostgreSQL database.
+The pool manages multiple client connections and reuses them to optimize database access.</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="server_db.ts.html">server/db.ts</a>, <a href="server_db.ts.html#line35">line 35</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    
+
+<table class="props">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>host</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The IP address or hostname of the PostgreSQL server.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>user</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The username for authentication to the database.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>password</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The password used for authentication, decoded from base64.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>port</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The port on which the PostgreSQL server is listening.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>connectionTimeoutMillis</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The timeout duration (in milliseconds) for establishing a connection to the server.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<div class="description usertext">
+    <p>Creates a Postgres client pool for managing connections to the PostgreSQL database.
+The pool manages multiple client connections and reuses them to optimize database access.</p>
+</div>
+
+
+
+    <h5 class="h5-types">Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">pg.Pool</span>
+
+
+
+        </li>
+    </ul>
+
+
+
+
+
+
+        
+    
+
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+
+
+
+<section>
+
+<header>
+    
+        
+            
+        
+            
+        
+            
+        
+            
+        
+    
+</header>
+
+<article>
+    
+        <div class="container-overview">
+        
+            
+                <div class="description usertext"><p>Database Connection Module</p>
+<p>This module sets up the connection to the PostgreSQL database using the <code>pg</code> library
+and creates a pool for managing multiple database connections.</p></div>
+            
+
+            
+                
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>Database Connection Module</p>
+<p>This module sets up a connection to the PostgreSQL database using the <code>pg</code> library
+and initializes a connection pool for managing database connections.</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="server_db.ts.html">server/db.ts</a>, <a href="server_db.ts.html#line2">line 2</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            
+                
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>Database Connection Module</p>
+<p>This module sets up the connection to the PostgreSQL database using the <code>pg</code> library
+and creates a pool for managing multiple database connections.</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="server_db.ts.html">server/db.ts</a>, <a href="server_db.ts.html#line12">line 12</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            
+                
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>Database Connection Module</p>
+<p>This module sets up a connection to the PostgreSQL database using the <code>pg</code> library
+and initializes a connection pool for managing database connections.</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="server_db.ts.html">server/db.ts</a>, <a href="server_db.ts.html#line2">line 2</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            
+                
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>Database Connection Module</p>
+<p>This module sets up the connection to the PostgreSQL database using the <code>pg</code> library
+and creates a pool for managing multiple database connections.</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="server_db.ts.html">server/db.ts</a>, <a href="server_db.ts.html#line12">line 12</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            
+        
+        </div>
+    
+
+    
+
+    
+
+    
+    
+    
+
+     
+
+    
+
+    
+        <h3 class="subsection-title">Members</h3>
+
+        
+            
+<h4 class="name" id=".pool"><span class="type-signature type-signature-static, constant">(static, constant) </span>pool<span class="type-signature"> :pg.Pool</span></h4>
+
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>Creates a Postgres client pool for managing connections to the PostgreSQL database.
+The pool manages multiple client connections and reuses them to optimize database access.</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="server_db.ts.html">server/db.ts</a>, <a href="server_db.ts.html#line35">line 35</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    
+
+<table class="props">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>host</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The IP address or hostname of the PostgreSQL server.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>user</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The username for authentication to the database.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>password</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The password used for authentication, decoded from base64.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>port</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The port on which the PostgreSQL server is listening.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>connectionTimeoutMillis</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The timeout duration (in milliseconds) for establishing a connection to the server.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<div class="description usertext">
+    <p>Creates a Postgres client pool for managing connections to the PostgreSQL database.
+The pool manages multiple client connections and reuses them to optimize database access.</p>
+</div>
+
+
+
+    <h5 class="h5-types">Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">pg.Pool</span>
+
+
+
+        </li>
+    </ul>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id=".pool"><span class="type-signature type-signature-static, constant">(static, constant) </span>pool<span class="type-signature"> :pg.Pool</span></h4>
+
+
+
+
+
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>Creates a Postgres client pool for managing connections to the PostgreSQL database.
+The pool manages multiple client connections and reuses them to optimize database access.</p></li></ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="server_db.ts.html">server/db.ts</a>, <a href="server_db.ts.html#line35">line 35</a>
     </li></ul></dd>
     
 
@@ -1407,7 +3431,7 @@ The pool manages multiple client connections and reuses them to optimize databas
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.7</a> on Fri Apr 04 2025 21:53:28 GMT+0000 (Coordinated Universal Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.7</a> on Thu Apr 24 2025 15:29:19 GMT+0000 (Coordinated Universal Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>
