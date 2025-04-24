@@ -53,30 +53,39 @@ export const actions: Actions = {
         }
 
         const formData = await request.formData();
-        const studentId = formData.get('student_id');
-        const assignmentId = formData.get('assignment_id');
-        const grade = formData.get('grade');
-        
-        if (!studentId || !assignmentId || grade === null) {
-            return { error: 'Missing required fields' };
+        const studentIds = formData.getAll('student_id');
+        const assignmentIds = formData.getAll('assignment_id');
+        const grades = formData.getAll('grade');
+
+        if (studentIds.length !== assignmentIds.length || assignmentIds.length !== grades.length) {
+            return { error: 'Mismatched input lengths' };
         }
 
-        const numericGrade = parseFloat(grade as string);
-        if (isNaN(numericGrade) || numericGrade < 0 || numericGrade > 100) {
-            console.error('ERROR:', grade, 'is an invalid grade. Grade must be a number in between 0 and 100 inclusive');
-            return { error: 'Invalid grade. Grade must be a number in between between 0 and 100 inclusive' };
+        for (let i = 0; i < studentIds.length; i++) {
+            const studentId = studentIds[i];
+            const assignmentId = assignmentIds[i];
+            const grade = grades[i];            
+
+            if (!studentId || !assignmentId || grade === null) {
+                continue;
+            }
+
+            const numericGrade = parseFloat(grade as string);
+            if (isNaN(numericGrade) || numericGrade < 0 || numericGrade > 100) {
+                console.error('ERROR:', grade, 'is an invalid grade. Grade must be a number in between 0 and 100 inclusive');
+                continue; 
+            }
+
+            const { error: updateError } = await safeQuery(
+                "UPDATE student_assignments SET grade = $1 WHERE student_id = $2 AND assignment_id = $3",
+                [numericGrade, studentId, assignmentId]
+            );
+    
+            if (updateError) {
+                console.error('ERROR: Failed to update grade:', updateError);
+                return { error: 'Failed to update grade for one or more students' };
+            }
+
         }
-
-        const { error: updateError } = await safeQuery(
-            "UPDATE student_assignments SET grade = $1 WHERE student_id = $2 AND assignment_id = $3",
-            [numericGrade, studentId, assignmentId]
-        );
-
-        if (updateError) {
-            console.error('ERROR: Failed to update grade:', updateError);
-            return { error: 'Failed to update grade' };
-        }
-
-        return { success: true };
     }
 };

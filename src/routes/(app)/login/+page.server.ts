@@ -25,12 +25,24 @@ export const actions: Actions = {
             !/^[a-z0-9_-]+$/.test(username)
         ) {
             return fail(400, {
-                message: "Invalid username"
+                message: "Invalid Username: Username must be between 3 and 31 characters long and contain only lowercase letters, numbers, underscores, and dashes."
             });
         }
-        if (typeof password !== "string" || password.length < 6 || password.length > 255) {
+        if (typeof password !== "string") {
             return fail(400, {
-                message: "Invalid password"
+                message: "Invalid Password: Password must be a string"
+            });
+        }
+        
+        if (password.length < 6) {
+            return fail(400, {
+                message: "Invalid Password: Password must be at least 6 characters long"
+            });
+        }
+        
+        if (password.length > 255) {
+            return fail(400, {
+                message: "Invalid Password: Password must not exceed 255 characters"
             });
         }
 

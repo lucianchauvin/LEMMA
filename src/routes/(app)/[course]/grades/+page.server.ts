@@ -1,12 +1,9 @@
-
 import type { PageServerLoad } from './$types';
-import type { Course } from '$lib/types';
 import { error } from '@sveltejs/kit';
 
-// const colors = ["darkgreen", "maroon"];
-
-export const load: PageServerLoad = async ({locals: { safeQuery }}) => {
-    const {data: result, error: err} = await safeQuery<Assignment>(`
+export const load: PageServerLoad = async ({parent, params, locals: { safeQuery }}) => {
+    const {user} = await parent();
+    const {data: result, error: err} = await safeQuery(`
     SELECT
         assignments.assignment_id,
         assignments.assignment_name,
@@ -15,29 +12,20 @@ export const load: PageServerLoad = async ({locals: { safeQuery }}) => {
         student_assignments.assignment_id,
         student_assignments.student_id,
         student_assignments.grade,
-        users.username,
-        courses.course_id,
-        courses.course_name
+        users.username
     FROM assignments
     LEFT JOIN student_assignments ON assignments.assignment_id = student_assignments.assignment_id
     LEFT JOIN users on student_assignments.student_id = users.user_id
-    LEFT JOIN courses on assignments.course_id = courses.course_id
-    WHERE student_assignments.edit=false AND users.username=$1
+    JOIN user_roles on assignments.course_id = user_roles.course_id AND users.user_id = user_roles.user_id
+    WHERE student_assignments.edit=false AND users.user_id=$1 AND assignments.course_id=$2
     ORDER BY assignments.course_id, assignments.assignment_id;
-    `, ['marfung']);
+    `, [user.id, params.course]);
     if(err) {
-        console.error('ERROR: Database failed to query for assignments');
-        error(500, {message: 'Database failed to query for assignments'})
+        console.error('ERROR: Database failed to query for student assignments for grades:', err);
+        throw error(500, {message: 'Database failed to query for student assignments for grades'});
     }
 
-    // let i = 0;
-    // for(let course of result){
-    //     course.color = colors[i];
-    //     i++;
-    // }
-
     return {
-        title: "Grades Page",
         assignments: result
     };
 }

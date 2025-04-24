@@ -155,7 +155,6 @@ export type StudentProof = {
     problem_id: UUID,
     student_assignment_id: UUID,
     complete: boolean,
-    student_problem_filepath: string,
 }
 
 /** Represents a logical statement used in readings or problems. */
@@ -164,7 +163,6 @@ export type Statements = {
     statement_name: string,
     statement_type: Statement,
     statement_description?: string,
-    statement_filepath: string,
     statement_category?: string
 }
 
