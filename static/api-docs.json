@@ -1,0 +1,303 @@
+[
+  {
+    "type": "form-action",
+    "path": "/(app)/[course]",
+    "action": "create",
+    "method": "POST",
+    "description": "Creating a new assignment",
+    "params": [],
+    "returns": null,
+    "throws": []
+  },
+  {
+    "type": "form-action",
+    "path": "/(app)/[course]",
+    "action": "delete",
+    "method": "POST",
+    "description": "Deleting an assignment",
+    "params": [],
+    "returns": null,
+    "throws": []
+  },
+  {
+    "type": "form-action",
+    "path": "/(app)/[course]",
+    "action": "update",
+    "method": "POST",
+    "description": "Updating the fields of an assignment",
+    "params": [],
+    "returns": null,
+    "throws": []
+  },
+  {
+    "type": "form-action",
+    "path": "/(app)/[course]/assignment/[assignment]/[student_assignment]",
+    "action": "problemDescription",
+    "method": "POST",
+    "description": "Updating the problem description",
+    "params": [],
+    "returns": null,
+    "throws": []
+  },
+  {
+    "type": "form-action",
+    "path": "/(app)/[course]/assignment/[assignment]/[student_assignment]",
+    "action": "problemName",
+    "method": "POST",
+    "description": "Creating a new problem",
+    "params": [],
+    "returns": null,
+    "throws": []
+  },
+  {
+    "type": "form-action",
+    "path": "/(app)/[course]/assignment/[assignment]/[student_assignment]",
+    "action": "deleteProblem",
+    "method": "POST",
+    "description": "Deleting a problem",
+    "params": [],
+    "returns": null,
+    "throws": []
+  },
+  {
+    "type": "form-action",
+    "path": "/(app)/[course]/assignment/[assignment]/[student_assignment]",
+    "action": "saveProblem",
+    "method": "POST",
+    "description": "Saving a problem into file",
+    "params": [],
+    "returns": null,
+    "throws": []
+  },
+  {
+    "type": "form-action",
+    "path": "/(app)/[course]/gradebook",
+    "action": "editGrades",
+    "method": "POST",
+    "description": "Edit grades for assignments in course",
+    "params": [],
+    "returns": null,
+    "throws": []
+  },
+  {
+    "type": "form-action",
+    "path": "/(app)/[course]/statements",
+    "action": "add",
+    "method": "POST",
+    "description": "Adding a new statement and uploads a file to server.",
+    "params": [],
+    "returns": null,
+    "throws": []
+  },
+  {
+    "type": "form-action",
+    "path": "/(app)/[course]/statements",
+    "action": "remove",
+    "method": "POST",
+    "description": "Removing an statement",
+    "params": [],
+    "returns": null,
+    "throws": []
+  },
+  {
+    "type": "form-action",
+    "path": "/(app)/[course]/users",
+    "action": "add",
+    "method": "POST",
+    "description": "Adding a user to the course",
+    "params": [],
+    "returns": null,
+    "throws": []
+  },
+  {
+    "type": "form-action",
+    "path": "/(app)/[course]/users",
+    "action": "remove",
+    "method": "POST",
+    "description": "Removing a user from the course",
+    "params": [],
+    "returns": null,
+    "throws": []
+  },
+  {
+    "type": "form-action",
+    "path": "/(app)/login",
+    "action": "default",
+    "method": "POST",
+    "description": "Login",
+    "params": [],
+    "returns": null,
+    "throws": []
+  },
+  {
+    "type": "form-action",
+    "path": "/(base)/admin",
+    "action": "add",
+    "method": "POST",
+    "description": "Add a new user",
+    "params": [],
+    "returns": null,
+    "throws": []
+  },
+  {
+    "type": "form-action",
+    "path": "/(base)/admin",
+    "action": "remove",
+    "method": "POST",
+    "description": "Remove a user",
+    "params": [],
+    "returns": null,
+    "throws": []
+  },
+  {
+    "type": "form-action",
+    "path": "/(base)/admin",
+    "action": "update_user",
+    "method": "POST",
+    "description": "Update fields for user",
+    "params": [],
+    "returns": null,
+    "throws": []
+  },
+  {
+    "type": "form-action",
+    "path": "/(base)/admin",
+    "action": "add_course",
+    "method": "POST",
+    "description": "Add a course",
+    "params": [],
+    "returns": null,
+    "throws": []
+  },
+  {
+    "type": "form-action",
+    "path": "/(base)/admin",
+    "action": "remove_course",
+    "method": "POST",
+    "description": "Remove a course",
+    "params": [],
+    "returns": null,
+    "throws": []
+  },
+  {
+    "type": "form-action",
+    "path": "/(base)/admin",
+    "action": "update_course",
+    "method": "POST",
+    "description": "Update the fields for a course",
+    "params": [],
+    "returns": null,
+    "throws": []
+  },
+  {
+    "type": "api",
+    "path": "/apiv2/completeProof",
+    "methods": [
+      "POST"
+    ],
+    "description": "Marks a student's proof as completed. By the database trigger also updates the grade.",
+    "params": [
+      {
+        "name": "event",
+        "type": "RequestEvent",
+        "description": "The request event containing the proof ID and completion value."
+      }
+    ],
+    "returns": {
+      "type": "Response",
+      "description": "A JSON response indicating success or throws an error if the update fails."
+    },
+    "throws": []
+  },
+  {
+    "type": "api",
+    "path": "/apiv2/loadProof",
+    "methods": [
+      "POST"
+    ],
+    "description": "Handles requests to load a proof or problem file, and creates a new proof if does not exist.\nThis handler supports:\n- Returning the original problem file content if `orig` is `true`.\n- Inserting a new proof record if `proofId` is not provided.\n- Returning the content of the existing proof file, or if not found, return the problem file.",
+    "params": [
+      {
+        "name": "event",
+        "type": "RequestEvent",
+        "description": "- The request event containing the proofId, problemId, studentAssignmentId, and orig fields."
+      }
+    ],
+    "returns": {
+      "type": "Response",
+      "description": "A JSON response with the proof content or problem content and proofId."
+    },
+    "throws": [
+      {
+        "type": "HttpError",
+        "description": "400 - If proof insertion fails due to bad request."
+      },
+      {
+        "type": "HttpError",
+        "description": "500 - If there is an error loading the proof or problem file."
+      }
+    ]
+  },
+  {
+    "type": "api",
+    "path": "/apiv2/saveProblem",
+    "methods": [
+      "POST"
+    ],
+    "description": "Handles the request to update the content of a problem file for a specific course.\nThis handler performs the following steps:\n- Checks if the user has the necessary permissions to update assignments for the course.\n- Validates the `problemId` to ensure it is a valid UUID.\n- Checks if the `problemId` exists in the database.\n- Writes the new content to the corresponding problem file.",
+    "params": [
+      {
+        "name": "event",
+        "type": "RequestEvent",
+        "description": "- The SvelteKit request event containing the `courseId`, `problemId`, and `content` in the request body."
+      }
+    ],
+    "returns": {
+      "type": "Response",
+      "description": "A JSON response with a success message or error details."
+    },
+    "throws": [
+      {
+        "type": "HttpError",
+        "description": "400 - If the `problemId` is invalid or the problem is not found in the database."
+      },
+      {
+        "type": "HttpError",
+        "description": "403 - If the user does not have permission to update the assignment."
+      },
+      {
+        "type": "HttpError",
+        "description": "500 - If there is an error determining the user's permissions or any unexpected error occurs."
+      }
+    ]
+  },
+  {
+    "type": "api",
+    "path": "/apiv2/saveProof",
+    "methods": [
+      "POST"
+    ],
+    "description": "Handles the request to save or update a proof file based on the provided `proofId`.\nThis handler performs the following steps:\n- Validates the provided `proofId`.\n- Checks if the `proofId` exists in the database.\n- Writes the new content to the proof file if the proof exists.",
+    "params": [
+      {
+        "name": "event",
+        "type": "RequestEvent",
+        "description": "- The SvelteKit request event containing the request body with `proofId` and `content`."
+      }
+    ],
+    "returns": {
+      "type": "Response",
+      "description": "A JSON response with a success message or error details."
+    },
+    "throws": [
+      {
+        "type": "HttpError",
+        "description": "400 - If the `proofId` is not provided or invalid."
+      },
+      {
+        "type": "HttpError",
+        "description": "500 - If there is an error with the database query or file writing."
+      }
+    ]
+  }
+]

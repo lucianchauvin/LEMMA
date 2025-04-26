@@ -1,8 +1,13 @@
 import { json, error } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
 
-  // set the proof as completed
-export const POST: RequestHandler = async ({ request, locals: { safeQuery, permCheck } }) => {
+/**
+ * Marks a student's proof as completed. By the database trigger also updates the grade.
+ * 
+ * @param {RequestEvent} event The request event containing the proof ID and completion value.
+ * @returns {Response} A JSON response indicating success or throws an error if the update fails.
+ */
+export const POST: RequestHandler = async ({ request, locals: { safeQuery } }) => {
 	const { proofId, val } = await request.json();
 
 	const { error: updateProofErr } = await safeQuery(

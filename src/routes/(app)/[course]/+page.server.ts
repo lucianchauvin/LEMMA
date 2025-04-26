@@ -76,6 +76,9 @@ export const load = (async ({parent, params, locals: { safeQuery, permCheck }}) 
 
 
 export const actions: Actions = {
+  /**
+   * Creating a new assignment
+   */
     create: async ({ request, locals: { safeQuery, permCheck } }) => {
         const formData = await request.formData();
         const courseId = formData.get("courseId");
@@ -172,6 +175,9 @@ export const actions: Actions = {
             throw error(500, {message: "Failed to insert student assignments to newly created course"});
         }
     },
+  /**
+   * Deleting an assignment
+   */
     delete: async ({ request, locals: { safeQuery, permCheck } }) => {
         const formData = await request.formData();
         const courseId = formData.get('courseId');
@@ -202,6 +208,9 @@ export const actions: Actions = {
             throw error(500, {message: "Failed to delete assignment"})
         }
     },
+  /**
+   * Updating the fields of an assignment
+   */
     update: async ({ request, params, locals: { safeQuery, permCheck } }) => {
         const {data: assignmentData, error: assignmentErr} = await permCheck('update_assignments', params.course);
         if(assignmentErr) {

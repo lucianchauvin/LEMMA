@@ -67,6 +67,9 @@ export const load = (async ({parent, params, locals: { safeQuery, permCheck } })
 }) satisfies PageServerLoad;
 
 export const actions: Actions = {
+  /**
+   * Adding a user to the course
+   */
     add: async ({ request, params, locals: { safeQuery, permCheck } }) => {
         const {data: permData, error: permErr} = await permCheck('update_course_users', params.course);
         if(permErr) {
@@ -138,6 +141,9 @@ export const actions: Actions = {
         return { success: true, message: `User successfully added` }; 
     },
 
+  /**
+   * Removing a user from the course
+   */
     remove: async ({ request, params, locals: { safeQuery, permCheck } }) => {
         const {data: permData, error: permErr} = await permCheck('update_course_users', params.course);
         if(permErr) {

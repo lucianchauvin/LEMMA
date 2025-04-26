@@ -89,6 +89,9 @@ export const load = (async ({params, locals: { safeQuery, permCheck }}) => {
 }) satisfies PageServerLoad;
 
 export const actions: Actions = {
+  /**
+   * Updating the problem description
+   */
     problemDescription: async({ request, params, locals: { safeQuery, permCheck } }) => {
         const {data: perm, error: permErr} = await permCheck('update_assignments', params.course);
         if(permErr) {
@@ -116,6 +119,9 @@ export const actions: Actions = {
         }
     },
 
+  /**
+   * Creating a new problem
+   */
     problemName: async({ request, params, locals: { safeQuery, permCheck } }) => {
         const {data: perm, error: permErr} = await permCheck('update_assignments', params.course);
         if(permErr) {
@@ -141,6 +147,9 @@ export const actions: Actions = {
         }
     },
 
+  /**
+   * Deleting a problem
+   */
     deleteProblem: async({ request, params, locals: { safeQuery, permCheck } }) => {
         const {data: perm, error: permErr} = await permCheck('update_assignments', params.course);
         if(permErr) {
@@ -167,6 +176,9 @@ export const actions: Actions = {
 
     },
 
+  /**
+   * Saving a problem into file
+   */
     saveProblem: async({ request, params, locals: { safeQuery, permCheck } }) => {
         const {data: perm, error: permErr} = await permCheck('update_assignments', params.course);
         if(permErr) {

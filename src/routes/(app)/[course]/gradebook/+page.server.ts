@@ -41,6 +41,9 @@ export const load = (async ({parent, params, locals: { safeQuery, permCheck }}) 
 }) satisfies PageServerLoad;
 
 export const actions: Actions = {
+  /**
+   * Edit grades for assignments in course
+   */
     editGrades: async ({ request, params, locals: { safeQuery, permCheck } }) => {
         const {data: permData, error: permErr} = await permCheck('change_course_grades', params.course);
         if(permErr) {

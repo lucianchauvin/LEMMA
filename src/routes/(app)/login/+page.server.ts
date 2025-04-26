@@ -13,6 +13,9 @@ export const load: PageServerLoad = async ({ locals: { getSession } }) => {
 };
 
 export const actions: Actions = {
+   /**
+   * Login
+   */
     default: async ({ request, cookies, locals: { safeQuery } }) => {
         const formData = await request.formData();
         const username = formData.get("username");

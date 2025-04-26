@@ -24,6 +24,9 @@ export const load: PageServerLoad = async ({parent, locals: { safeQuery }}) => {
 }
 
 export const actions: Actions = {
+  /**
+   * Adding a new statement and uploads a file to server.
+   */
     add: async ({ request, params, locals: { safeQuery, permCheck } }) => {
         const formData = await request.formData();
         const statement_name = formData.get("statement_name") as string;
@@ -69,6 +72,9 @@ export const actions: Actions = {
         return { success: true, message: "Successfully added statement!" }; 
     },
 
+  /**
+   * Removing an statement
+   */
     remove: async ({ request, params, locals: { safeQuery, permCheck } }) => {
         const formData = await request.formData();
         const statement_id = formData.get("statement_id") as string;

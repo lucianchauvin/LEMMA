@@ -29,6 +29,9 @@ export const load: PageServerLoad = async ({locals: { getSession, safeQuery }}) 
 }
 
 export const actions: Actions = {
+  /**
+   * Add a new user
+   */
     add: async ({ request, locals: { getSession, safeQuery } }) => {
         const { user } = await getSession();
 
@@ -77,6 +80,9 @@ export const actions: Actions = {
         return { success: true, user_message: "User added successfully!" };
     },
 
+  /**
+   * Remove a user
+   */
     remove: async ({ request, locals: { getSession, safeQuery } }) => {
         const { user } = await getSession();
 
@@ -104,6 +110,9 @@ export const actions: Actions = {
         return { success: true, user_message: "User removed successfully!"}; 
     },
 
+  /**
+   * Update fields for user
+   */
     update_user: async ({ request, locals: { getSession, safeQuery } }) => {
         const { user } = await getSession();
 
@@ -178,6 +187,9 @@ export const actions: Actions = {
         }
     },
 
+  /**
+   * Add a course
+   */
     add_course: async ({ request, locals: { getSession, safeQuery } }) => {
         const { user } = await getSession();
 
@@ -209,6 +221,9 @@ export const actions: Actions = {
         return { success: true, course_message: "Course added successfully!" };
     },
 
+  /**
+   * Remove a course
+   */
     remove_course: async ({ request, locals: { getSession, safeQuery } }) => {
         const { user } = await getSession();
 
@@ -235,7 +250,9 @@ export const actions: Actions = {
 
         return { success: true, course_message: "Course removed successfully!"}; 
     },
-
+  /**
+   * Update the fields for a course
+   */
     update_course: async ({ request, locals: { getSession, safeQuery } }) => {
         const { user } = await getSession();
 
