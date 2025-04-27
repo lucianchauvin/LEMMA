@@ -10,7 +10,8 @@ import type { RequestHandler } from './$types';
  * Validates the provided proof ID, checks that the proof exists in the database,
  * and writes the provided content to the corresponding proof file.
  * 
- * @param request - The request containing a JSON body with `proofId` and `content`.
+ * @param proofId {UUID} - Proof id for what the content is save to
+ * @param content {string} - Content to save to the proof
  * @returns A JSON response confirming that the proof was saved successfully.
  * 
  * @throws 400 - If the proof ID is missing or invalid.

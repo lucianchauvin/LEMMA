@@ -29,7 +29,11 @@ export const actions: Actions = {
      * 
      * Validates the provided statement data and uploads the associated file to the server. A new record is added to the database for the statement.
      * 
-     * @param request - The request containing form data: statement_name, statement_type, statement_description, statement_category, and statement_file.
+     * @param statement_name {string} - The name of the statement to be added.
+     * @param statement_type {string} - The type of the statement to be added.
+     * @param statement_description {string} - The description of the statement to be added.
+     * @param statement_category {string} - The category of the statement to be added.
+     * @param statement_file {string} - The file content of the statement to be uploaded.
      * 
      * @returns A success message if the statement is added and file is uploaded successfully, or a fail response with an error message.
      * 
@@ -86,7 +90,7 @@ export const actions: Actions = {
      * 
      * Validates the provided statement ID, deletes the associated record from the database, and removes the file from the server.
      * 
-     * @param request - The request containing form data: statement_id.
+     * @param statement_id {string} - The ID of the statement to be removed.
      * 
      * @returns A success message if the statement is removed and the file is deleted successfully, or a fail response with an error message.
      * 

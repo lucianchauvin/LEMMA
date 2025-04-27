@@ -12,7 +12,9 @@ import type { RequestHandler } from './$types';
  * Checks user permission to update assignments for the given course, verifies the problem exists,
  * and saves the new content to the problem's file.
  * 
- * @param request - The request containing a JSON body with `courseId`, `problemId`, and `content`.
+ * @param courseId {UUID} - Course id to check if have permission to save a problem
+ * @param problemId {UUID} - Problem id for what the content is save to
+ * @param content {string} - Content to save to the problem
  * @returns A JSON response confirming the proof was saved successfully.
  * 
  * @throws 400 - If the problem ID is missing, invalid, or the problem does not exist.

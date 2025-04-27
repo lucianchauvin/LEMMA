@@ -7,7 +7,8 @@ import type { RequestHandler } from './$types';
  * Updates the `complete` status for a specific proof in the database. 
  * This also causes the trigger in database to update grade for the assignment.
  * 
- * @param request - The request containing JSON body with `proofId` and `val` (completion status).
+ * @param proofId {UUID} - Proof id to change the complete status
+ * @param val {boolean} - The complete status
  * @returns A JSON response confirming the update.
  * 
  * @throws 500 - If the database update operation fails.

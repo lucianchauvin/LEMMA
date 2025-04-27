@@ -72,7 +72,9 @@ export const actions: Actions = {
      * 
      * Validates the provided user ID and role, and adds the user to the course with the specified role. If the user is assigned the "student" role, their assignments for the course are also created.
      * 
-     * @param request - The request containing form data: user_id and role.
+     * @param user_id {string} - The ID of the user to be added to the course.
+     * @param role {string} - The role to be assigned to the user (e.g., "student", "instructor").
+     * @param courseId {UUID} - The ID of the course to which the user is being added.
      * 
      * @returns A success message if the user is successfully added to the course and assigned a role, or a fail response with an error message.
      * 
@@ -156,7 +158,9 @@ export const actions: Actions = {
      * 
      * Validates the provided user ID and role, and removes the user from the course, deleting their assignments for the course if they are a student.
      * 
-     * @param request - The request containing form data: user_id and role.
+     * @param user_id {string} - The ID of the user to be removed from the course.
+     * @param role {string} - The role of the user to be removed (e.g., "student", "instructor").
+     * @param courseId {UUID} - The ID of the course from which the user is being removed.
      * 
      * @returns A success message if the user is successfully removed from the course and their assignments are deleted, or a fail response with an error message.
      * 

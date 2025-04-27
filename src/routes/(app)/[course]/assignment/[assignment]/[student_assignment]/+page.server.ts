@@ -95,7 +95,11 @@ export const actions: Actions = {
      * Only users with permission to update assignments for the course can perform this action.
      * Validates the provided problem ID and description before updating the problem description in the database.
      * 
-     * @param request - The request containing form data: problemId, description.
+     * @param course {UUID} - The ID of the course to which the assignment belongs.
+     * @param assignment {UUID} - The ID of the assignment that the problem is part of.
+     * @param student_assignment {UUID} - The ID of the student assignment, if necessary for context.
+     * @param problemId {UUID} - The ID of the problem to update.
+     * @param description {string} - The new description for the problem.
      * 
      * @returns A success message if the problem description is updated successfully, or a fail response with an error message.
      * 
@@ -136,7 +140,10 @@ export const actions: Actions = {
      * Only users with permission to update assignments for the course can perform this action.
      * Validates the provided problem name before inserting a new problem into the database.
      * 
-     * @param request - The request containing form data: problemName.
+     * @param course {UUID} - The ID of the course to which the assignment belongs.
+     * @param assignment {UUID} - The ID of the assignment that the problem is part of.
+     * @param student_assignment {UUID} - The ID of the student assignment, if necessary for context.
+     * @param problemName {string} - The name of the new problem.
      * 
      * @returns A success message if the new problem is created successfully, or a fail response with an error message.
      * 
@@ -175,7 +182,10 @@ export const actions: Actions = {
      * Only users with permission to update assignments for the course can perform this action.
      * Validates the provided problem ID before deleting the problem from the database.
      * 
-     * @param request - The request containing form data: problemId.
+     * @param course {UUID} - The ID of the course to which the assignment belongs.
+     * @param assignment {UUID} - The ID of the assignment that the problem is part of.
+     * @param student_assignment {UUID} - The ID of the student assignment, if necessary for context.
+     * @param problemId {UUID} - The ID of the problem to delete.
      * 
      * @returns A success message if the problem is deleted successfully, or a fail response with an error message.
      * 
@@ -215,7 +225,11 @@ export const actions: Actions = {
      * Only users with permission to update assignments for the course can perform this action.
      * Validates the provided problem ID and content before saving the content to a file.
      * 
-     * @param request - The request containing form data: problemId, content.
+     * @param course {UUID} - The ID of the course to which the assignment belongs.
+     * @param assignment {UUID} - The ID of the assignment that the problem is part of.
+     * @param student_assignment {UUID} - The ID of the student assignment, if necessary for context.
+     * @param problemId {UUID} - The ID of the problem to save content for.
+     * @param content {string} - The content to be saved for the problem.
      * 
      * @returns A success message if the problem content is saved to a file successfully, or a fail response with an error message.
      * 

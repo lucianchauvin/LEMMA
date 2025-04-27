@@ -20,8 +20,9 @@ export const actions: Actions = {
      * and compares the provided password with the stored password hash. If the credentials are correct,
      * it creates a new session and sets a session cookie.
      * 
-     * @param request - The request containing form data: username, password.
-     * @param cookies - The cookies object for setting the session cookie.
+     * @param username {string} - The username entered by the user.
+     * @param password {string} - The password entered by the user.
+     * @param cookies {Cookies} - The cookies object for setting the session cookie.
      * 
      * @returns A fail response with an error message if the credentials are invalid or if there are any errors during the process.
      * 

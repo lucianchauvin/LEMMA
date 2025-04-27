@@ -35,7 +35,13 @@ export const actions: Actions = {
      * Only admin users can add new users. Validates username and password,
      * ensures required fields are present, and handles unique constraint violations.
      * 
-     * @param request - The request containing form data: username, password, first_name, last_name, email, is_admin.
+     * @param username {string} - The username of the new user.
+     * @param password {string} - The password for the new user.
+     * @param first_name {string} - The first name of the new user.
+     * @param last_name {string} - The last name of the new user.
+     * @param email {string} - The email address of the new user (optional).
+     * @param is_admin {string} - Whether the user should have admin privileges (optional, default: 'no').
+     * 
      * @returns A success message if the user is added, or a fail response with an error message.
      * 
      * @throws 500 - If there is a database insertion error.
@@ -88,13 +94,13 @@ export const actions: Actions = {
         return { success: true, user_message: "User added successfully!" };
     },
 
-
     /**
      * Removes a user from the system.
      * 
      * Only admin users can remove users. Validates the provided user ID.
      * 
-     * @param request - The request containing form data: user_id.
+     * @param user_id {string} - The unique identifier (UUID) of the user to be removed.
+     * 
      * @returns A success message if the user is removed, or a fail response with an error message.
      * 
      * @throws 500 - If there is a database deletion error.
@@ -129,10 +135,17 @@ export const actions: Actions = {
     /**
      * Updates fields for an existing user.
      * 
-     * Only admin users can update user fields. Validates the provided user ID and updates specified fields.
+     * Only admin users can update user fields. Validates the provided user ID and ensures that at least one field is being updated.
      * Prevents users from demoting themselves from admin status.
      * 
-     * @param request - The request containing form data: username, password, firstName, lastName, email, admin, userId.
+     * @param first_name {string} - The new first name of the user (optional).
+     * @param last_name {string} - The new last name of the user (optional).
+     * @param email {string} - The new email address of the user (optional).
+     * @param username {string} - The new username for the user (optional).
+     * @param password {string} - The new password for the user (optional).
+     * @param admin {boolean} - Whether the user should be an admin (optional).
+     * @param user_id {string} - The unique identifier (UUID) of the user to be updated.
+     * 
      * @returns Nothing if successful, or a fail response with an error message.
      * 
      * @throws 500 - If there is a database update error.
@@ -216,7 +229,12 @@ export const actions: Actions = {
      * 
      * Only admin users can add courses. Ensures all fields are provided before insertion.
      * 
-     * @param request - The request containing form data: course_number, course_name, status, start_date, end_date.
+     * @param course_number {string} - The unique course number.
+     * @param course_name {string} - The name of the course.
+     * @param status {string} - The current status of the course (e.g., 'active', 'inactive').
+     * @param start_date {string} - The start date of the course in ISO format.
+     * @param end_date {string} - The end date of the course in ISO format.
+     * 
      * @returns A success message if the course is added, or a fail response with an error message.
      * 
      * @throws 500 - If there is a database insertion error.
@@ -252,13 +270,13 @@ export const actions: Actions = {
         return { success: true, course_message: "Course added successfully!" };
     },
 
-
     /**
      * Removes a course from the system.
      * 
      * Only admin users can remove courses. Validates the provided course ID.
      * 
-     * @param request - The request containing form data: course_id.
+     * @param course_id {string} - The unique identifier (UUID) of the course to be removed.
+     * 
      * @returns A success message if the course is removed, or a fail response with an error message.
      * 
      * @throws 500 - If there is a database deletion error.
@@ -295,7 +313,13 @@ export const actions: Actions = {
      * 
      * Only admin users can update course fields. Validates the provided course ID and ensures that at least one field is being updated.
      * 
-     * @param request - The request containing form data: courseNumber, courseName, status, startDate, endDate, courseId.
+     * @param course_number {string} - The new course number (optional).
+     * @param course_name {string} - The new course name (optional).
+     * @param status {string} - The new status of the course (optional).
+     * @param start_date {string} - The new start date of the course in ISO format (optional).
+     * @param end_date {string} - The new end date of the course in ISO format (optional).
+     * @param course_id {string} - The unique identifier (UUID) of the course to be updated.
+     * 
      * @returns Nothing if successful, or a fail response with an error message.
      * 
      * @throws 500 - If there is a database update error.

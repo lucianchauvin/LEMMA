@@ -2,7 +2,7 @@
 
 ## /[course]/create
 
-**Type:** form-action
+**Type:** Form Data
 
 **Method:** POST
 
@@ -12,7 +12,11 @@ Only users with permission to create assignments for the course can perform this
 Validates the provided course ID and ensures all necessary assignment fields are included.
 
 ### Parameters
-- **request**: The request containing form data: courseId, name, description, active, dueDate.
+- **courseId** UUID: The course ID to which the assignment is being created.
+- **name** string: The name of the assignment.
+- **description** string: The description of the assignment.
+- **active** boolean: Whether the assignment is active or not.
+- **dueDate** string: The due date for the assignment in a valid date string format.
 
 ### Returns
 - A success message if the assignment is created successfully, or a fail response with an error message.
@@ -24,7 +28,7 @@ Validates the provided course ID and ensures all necessary assignment fields are
 
 ## /[course]/delete
 
-**Type:** form-action
+**Type:** Form Data
 
 **Method:** POST
 
@@ -34,7 +38,8 @@ Only users with permission to delete assignments for the course can perform this
 Validates the provided course ID and assignment ID before deletion.
 
 ### Parameters
-- **request**: The request containing form data: courseId, assignmentId.
+- **courseId** UUID: The course ID to which the assignment belongs.
+- **assignmentId** UUID: The assignment ID to be deleted.
 
 ### Returns
 - A success message if the assignment is deleted successfully, or a fail response with an error message.
@@ -46,7 +51,7 @@ Validates the provided course ID and assignment ID before deletion.
 
 ## /[course]/update
 
-**Type:** form-action
+**Type:** Form Data
 
 **Method:** POST
 
@@ -56,7 +61,11 @@ Only users with permission to update assignments for the course can perform this
 Validates the provided assignment ID and ensures that at least one field is being updated.
 
 ### Parameters
-- **request**: The request containing form data: assignmentId, name, description, dueDate, active.
+- **assignmentId** UUID: The assignment ID to be updated.
+- **name** string: The new name of the assignment (optional).
+- **description** string: The new description of the assignment (optional).
+- **dueDate** string: The new due date for the assignment in a valid date string format (optional).
+- **active** boolean: Whether the assignment is active or not (optional).
 
 ### Returns
 - A success message if the assignment is updated successfully, or a fail response with an error message.
@@ -68,7 +77,7 @@ Validates the provided assignment ID and ensures that at least one field is bein
 
 ## /[course]/assignment/[assignment]/[student_assignment]/problem_description
 
-**Type:** form-action
+**Type:** Form Data
 
 **Method:** POST
 
@@ -78,7 +87,11 @@ Only users with permission to update assignments for the course can perform this
 Validates the provided problem ID and description before updating the problem description in the database.
 
 ### Parameters
-- **request**: The request containing form data: problemId, description.
+- **course** UUID: The ID of the course to which the assignment belongs.
+- **assignment** UUID: The ID of the assignment that the problem is part of.
+- **student_assignment** UUID: The ID of the student assignment, if necessary for context.
+- **problemId** UUID: The ID of the problem to update.
+- **description** string: The new description for the problem.
 
 ### Returns
 - A success message if the problem description is updated successfully, or a fail response with an error message.
@@ -90,7 +103,7 @@ Validates the provided problem ID and description before updating the problem de
 
 ## /[course]/assignment/[assignment]/[student_assignment]/problem_name
 
-**Type:** form-action
+**Type:** Form Data
 
 **Method:** POST
 
@@ -100,7 +113,10 @@ Only users with permission to update assignments for the course can perform this
 Validates the provided problem name before inserting a new problem into the database.
 
 ### Parameters
-- **request**: The request containing form data: problemName.
+- **course** UUID: The ID of the course to which the assignment belongs.
+- **assignment** UUID: The ID of the assignment that the problem is part of.
+- **student_assignment** UUID: The ID of the student assignment, if necessary for context.
+- **problemName** string: The name of the new problem.
 
 ### Returns
 - A success message if the new problem is created successfully, or a fail response with an error message.
@@ -112,7 +128,7 @@ Validates the provided problem name before inserting a new problem into the data
 
 ## /[course]/assignment/[assignment]/[student_assignment]/delete_problem
 
-**Type:** form-action
+**Type:** Form Data
 
 **Method:** POST
 
@@ -122,7 +138,10 @@ Only users with permission to update assignments for the course can perform this
 Validates the provided problem ID before deleting the problem from the database.
 
 ### Parameters
-- **request**: The request containing form data: problemId.
+- **course** UUID: The ID of the course to which the assignment belongs.
+- **assignment** UUID: The ID of the assignment that the problem is part of.
+- **student_assignment** UUID: The ID of the student assignment, if necessary for context.
+- **problemId** UUID: The ID of the problem to delete.
 
 ### Returns
 - A success message if the problem is deleted successfully, or a fail response with an error message.
@@ -134,7 +153,7 @@ Validates the provided problem ID before deleting the problem from the database.
 
 ## /[course]/assignment/[assignment]/[student_assignment]/save_problem
 
-**Type:** form-action
+**Type:** Form Data
 
 **Method:** POST
 
@@ -144,7 +163,11 @@ Only users with permission to update assignments for the course can perform this
 Validates the provided problem ID and content before saving the content to a file.
 
 ### Parameters
-- **request**: The request containing form data: problemId, content.
+- **course** UUID: The ID of the course to which the assignment belongs.
+- **assignment** UUID: The ID of the assignment that the problem is part of.
+- **student_assignment** UUID: The ID of the student assignment, if necessary for context.
+- **problemId** UUID: The ID of the problem to save content for.
+- **content** string: The content to be saved for the problem.
 
 ### Returns
 - A success message if the problem content is saved to a file successfully, or a fail response with an error message.
@@ -156,7 +179,7 @@ Validates the provided problem ID and content before saving the content to a fil
 
 ## /[course]/gradebook/edit_grades
 
-**Type:** form-action
+**Type:** Form Data
 
 **Method:** POST
 
@@ -166,19 +189,22 @@ Only users with permission to change course grades can perform this action.
 Validates the provided student IDs, assignment IDs, and grades before updating the grades in the database.
 
 ### Parameters
-- **request**: The request containing form data: student_id, assignment_id, and grade.
+- **course** UUID: The course id for the grades that are being changed.
+- **student_id** UUID[]: The array of student IDs whose grades need to be updated.
+- **assignment_id** UUID[]: The array of assignment IDs for which grades need to be updated.
+- **grade** number[]: The array of grades to be assigned to the students for the respective assignments.
 
 ### Returns
 - A success message if the grades are updated successfully, or a fail response with an error message.
 
 ### Throws
-- 400 - If the input data is mismatched or invalid.
+- 400 - If the input data is mismatched or invalid (e.g., mismatched lengths of student IDs, assignment IDs, and grades).
 - 403 - If the user does not have permission to edit the grades.
 - 500 - If there is a database update error.
 
 ## /[course]/statements/add
 
-**Type:** form-action
+**Type:** Form Data
 
 **Method:** POST
 
@@ -187,7 +213,11 @@ Adds a new statement and uploads a file to the server.
 Validates the provided statement data and uploads the associated file to the server. A new record is added to the database for the statement.
 
 ### Parameters
-- **request**: The request containing form data: statement_name, statement_type, statement_description, statement_category, and statement_file.
+- **statement_name** string: The name of the statement to be added.
+- **statement_type** string: The type of the statement to be added.
+- **statement_description** string: The description of the statement to be added.
+- **statement_category** string: The category of the statement to be added.
+- **statement_file** string: The file content of the statement to be uploaded.
 
 ### Returns
 - A success message if the statement is added and file is uploaded successfully, or a fail response with an error message.
@@ -198,7 +228,7 @@ Validates the provided statement data and uploads the associated file to the ser
 
 ## /[course]/statements/remove
 
-**Type:** form-action
+**Type:** Form Data
 
 **Method:** POST
 
@@ -207,7 +237,7 @@ Removes a statement from the database and deletes the associated file.
 Validates the provided statement ID, deletes the associated record from the database, and removes the file from the server.
 
 ### Parameters
-- **request**: The request containing form data: statement_id.
+- **statement_id** string: The ID of the statement to be removed.
 
 ### Returns
 - A success message if the statement is removed and the file is deleted successfully, or a fail response with an error message.
@@ -218,7 +248,7 @@ Validates the provided statement ID, deletes the associated record from the data
 
 ## /[course]/users/add
 
-**Type:** form-action
+**Type:** Form Data
 
 **Method:** POST
 
@@ -227,7 +257,9 @@ Adds a user to the course and assigns a role.
 Validates the provided user ID and role, and adds the user to the course with the specified role. If the user is assigned the "student" role, their assignments for the course are also created.
 
 ### Parameters
-- **request**: The request containing form data: user_id and role.
+- **user_id** string: The ID of the user to be added to the course.
+- **role** string: The role to be assigned to the user (e.g., "student", "instructor").
+- **courseId** UUID: The ID of the course to which the user is being added.
 
 ### Returns
 - A success message if the user is successfully added to the course and assigned a role, or a fail response with an error message.
@@ -239,7 +271,7 @@ Validates the provided user ID and role, and adds the user to the course with th
 
 ## /[course]/users/remove
 
-**Type:** form-action
+**Type:** Form Data
 
 **Method:** POST
 
@@ -248,7 +280,9 @@ Removes a user from the course and deletes their assignments.
 Validates the provided user ID and role, and removes the user from the course, deleting their assignments for the course if they are a student.
 
 ### Parameters
-- **request**: The request containing form data: user_id and role.
+- **user_id** string: The ID of the user to be removed from the course.
+- **role** string: The role of the user to be removed (e.g., "student", "instructor").
+- **courseId** UUID: The ID of the course from which the user is being removed.
 
 ### Returns
 - A success message if the user is successfully removed from the course and their assignments are deleted, or a fail response with an error message.
@@ -260,7 +294,7 @@ Validates the provided user ID and role, and removes the user from the course, d
 
 ## /login/default
 
-**Type:** form-action
+**Type:** Form Data
 
 **Method:** POST
 
@@ -271,8 +305,9 @@ and compares the provided password with the stored password hash. If the credent
 it creates a new session and sets a session cookie.
 
 ### Parameters
-- **request**: The request containing form data: username, password.
-- **cookies**: The cookies object for setting the session cookie.
+- **username** string: The username entered by the user.
+- **password** string: The password entered by the user.
+- **cookies** Cookies: The cookies object for setting the session cookie.
 
 ### Returns
 - A fail response with an error message if the credentials are invalid or if there are any errors during the process.
@@ -283,7 +318,7 @@ it creates a new session and sets a session cookie.
 
 ## /admin/add
 
-**Type:** form-action
+**Type:** Form Data
 
 **Method:** POST
 
@@ -293,7 +328,12 @@ Only admin users can add new users. Validates username and password,
 ensures required fields are present, and handles unique constraint violations.
 
 ### Parameters
-- **request**: The request containing form data: username, password, first_name, last_name, email, is_admin.
+- **username** string: The username of the new user.
+- **password** string: The password for the new user.
+- **first_name** string: The first name of the new user.
+- **last_name** string: The last name of the new user.
+- **email** string: The email address of the new user (optional).
+- **is_admin** string: Whether the user should have admin privileges (optional, default: 'no').
 
 ### Returns
 - A success message if the user is added, or a fail response with an error message.
@@ -303,7 +343,7 @@ ensures required fields are present, and handles unique constraint violations.
 
 ## /admin/remove
 
-**Type:** form-action
+**Type:** Form Data
 
 **Method:** POST
 
@@ -312,7 +352,7 @@ Removes a user from the system.
 Only admin users can remove users. Validates the provided user ID.
 
 ### Parameters
-- **request**: The request containing form data: user_id.
+- **user_id** string: The unique identifier (UUID) of the user to be removed.
 
 ### Returns
 - A success message if the user is removed, or a fail response with an error message.
@@ -322,17 +362,23 @@ Only admin users can remove users. Validates the provided user ID.
 
 ## /admin/update_user
 
-**Type:** form-action
+**Type:** Form Data
 
 **Method:** POST
 
 **Description:**
 Updates fields for an existing user.
-Only admin users can update user fields. Validates the provided user ID and updates specified fields.
+Only admin users can update user fields. Validates the provided user ID and ensures that at least one field is being updated.
 Prevents users from demoting themselves from admin status.
 
 ### Parameters
-- **request**: The request containing form data: username, password, firstName, lastName, email, admin, userId.
+- **first_name** string: The new first name of the user (optional).
+- **last_name** string: The new last name of the user (optional).
+- **email** string: The new email address of the user (optional).
+- **username** string: The new username for the user (optional).
+- **password** string: The new password for the user (optional).
+- **admin** boolean: Whether the user should be an admin (optional).
+- **user_id** string: The unique identifier (UUID) of the user to be updated.
 
 ### Returns
 - Nothing if successful, or a fail response with an error message.
@@ -342,7 +388,7 @@ Prevents users from demoting themselves from admin status.
 
 ## /admin/add_course
 
-**Type:** form-action
+**Type:** Form Data
 
 **Method:** POST
 
@@ -351,7 +397,11 @@ Adds a new course to the system.
 Only admin users can add courses. Ensures all fields are provided before insertion.
 
 ### Parameters
-- **request**: The request containing form data: course_number, course_name, status, start_date, end_date.
+- **course_number** string: The unique course number.
+- **course_name** string: The name of the course.
+- **status** string: The current status of the course (e.g., 'active', 'inactive').
+- **start_date** string: The start date of the course in ISO format.
+- **end_date** string: The end date of the course in ISO format.
 
 ### Returns
 - A success message if the course is added, or a fail response with an error message.
@@ -361,7 +411,7 @@ Only admin users can add courses. Ensures all fields are provided before inserti
 
 ## /admin/remove_course
 
-**Type:** form-action
+**Type:** Form Data
 
 **Method:** POST
 
@@ -370,7 +420,7 @@ Removes a course from the system.
 Only admin users can remove courses. Validates the provided course ID.
 
 ### Parameters
-- **request**: The request containing form data: course_id.
+- **course_id** string: The unique identifier (UUID) of the course to be removed.
 
 ### Returns
 - A success message if the course is removed, or a fail response with an error message.
@@ -380,7 +430,7 @@ Only admin users can remove courses. Validates the provided course ID.
 
 ## /admin/update_course
 
-**Type:** form-action
+**Type:** Form Data
 
 **Method:** POST
 
@@ -389,7 +439,12 @@ Updates fields for an existing course.
 Only admin users can update course fields. Validates the provided course ID and ensures that at least one field is being updated.
 
 ### Parameters
-- **request**: The request containing form data: courseNumber, courseName, status, startDate, endDate, courseId.
+- **course_number** string: The new course number (optional).
+- **course_name** string: The new course name (optional).
+- **status** string: The new status of the course (optional).
+- **start_date** string: The new start date of the course in ISO format (optional).
+- **end_date** string: The new end date of the course in ISO format (optional).
+- **course_id** string: The unique identifier (UUID) of the course to be updated.
 
 ### Returns
 - Nothing if successful, or a fail response with an error message.
@@ -399,9 +454,9 @@ Only admin users can update course fields. Validates the provided course ID and 
 
 ## /apiv2/complete_proof
 
-**Type:** api
+**Type:** JSON
 
-**Method:** undefined
+**Method:** POST
 
 **Description:**
 Marks a student's proof as complete.
@@ -409,7 +464,8 @@ Updates the `complete` status for a specific proof in the database.
 This also causes the trigger in database to update grade for the assignment.
 
 ### Parameters
-- **request**: The request containing JSON body with `proofId` and `val` (completion status).
+- **proofId** UUID: Proof id to change the complete status
+- **val** boolean: The complete status
 
 ### Returns
 - A JSON response confirming the update.
@@ -419,9 +475,9 @@ This also causes the trigger in database to update grade for the assignment.
 
 ## /apiv2/load_proof
 
-**Type:** api
+**Type:** JSON
 
-**Method:** undefined
+**Method:** POST
 
 **Description:**
 Loads or creates a student's proof file for a given problem.
@@ -430,7 +486,10 @@ Loads or creates a student's proof file for a given problem.
 - Attempts to load the student's proof file; if missing and editable, creates a blank file.
 
 ### Parameters
-- **request**: The request containing JSON body with `proofId`, `problemId`, `studentAssignmentId`, and optional `orig`.
+- **proofId** UUID: Proof id of which file to load from. Possibly null if proof doesn't exist yet.
+- **problemId** UUID: Problem id to load from if proof id is null
+- **studentAssignmentId** UUID: Student assignment id to correspond which student assignment the proof is for
+- **orig** boolean: Whether to always to pull from problem file
 
 ### Returns
 - A JSON response containing the file content and `proofId`.
@@ -441,9 +500,9 @@ Loads or creates a student's proof file for a given problem.
 
 ## /apiv2/save_problem
 
-**Type:** api
+**Type:** JSON
 
-**Method:** undefined
+**Method:** POST
 
 **Description:**
 Updates the content of a problem file.
@@ -451,7 +510,9 @@ Checks user permission to update assignments for the given course, verifies the 
 and saves the new content to the problem's file.
 
 ### Parameters
-- **request**: The request containing a JSON body with `courseId`, `problemId`, and `content`.
+- **courseId** UUID: Course id to check if have permission to save a problem
+- **problemId** UUID: Problem id for what the content is save to
+- **content** string: Content to save to the problem
 
 ### Returns
 - A JSON response confirming the proof was saved successfully.
@@ -463,9 +524,9 @@ and saves the new content to the problem's file.
 
 ## /apiv2/save_proof
 
-**Type:** api
+**Type:** JSON
 
-**Method:** undefined
+**Method:** POST
 
 **Description:**
 Saves a student's proof content.
@@ -473,7 +534,8 @@ Validates the provided proof ID, checks that the proof exists in the database,
 and writes the provided content to the corresponding proof file.
 
 ### Parameters
-- **request**: The request containing a JSON body with `proofId` and `content`.
+- **proofId** UUID: Proof id for what the content is save to
+- **content** string: Content to save to the proof
 
 ### Returns
 - A JSON response confirming that the proof was saved successfully.

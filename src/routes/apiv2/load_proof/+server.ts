@@ -10,7 +10,10 @@ import type { RequestHandler } from './$types';
  * - If no `proofId` is provided, creates a new student proof entry.
  * - Attempts to load the student's proof file; if missing and editable, creates a blank file.
  * 
- * @param request - The request containing JSON body with `proofId`, `problemId`, `studentAssignmentId`, and optional `orig`.
+ * @param proofId {UUID} - Proof id of which file to load from. Possibly null if proof doesn't exist yet.
+ * @param problemId {UUID} - Problem id to load from if proof id is null
+ * @param studentAssignmentId {UUID} - Student assignment id to correspond which student assignment the proof is for
+ * @param orig {boolean} - Whether to always to pull from problem file
  * @returns A JSON response containing the file content and `proofId`.
  * 
  * @throws 400 - If proof creation fails due to a bad request.

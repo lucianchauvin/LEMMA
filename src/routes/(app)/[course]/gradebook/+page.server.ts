@@ -47,11 +47,14 @@ export const actions: Actions = {
      * Only users with permission to change course grades can perform this action.
      * Validates the provided student IDs, assignment IDs, and grades before updating the grades in the database.
      * 
-     * @param request - The request containing form data: student_id, assignment_id, and grade.
+     * @param course {UUID} - The course id for the grades that are being changed.
+     * @param student_id {UUID[]} - The array of student IDs whose grades need to be updated.
+     * @param assignment_id {UUID[]} - The array of assignment IDs for which grades need to be updated.
+     * @param grade {number[]} - The array of grades to be assigned to the students for the respective assignments.
      * 
      * @returns A success message if the grades are updated successfully, or a fail response with an error message.
      * 
-     * @throws 400 - If the input data is mismatched or invalid.
+     * @throws 400 - If the input data is mismatched or invalid (e.g., mismatched lengths of student IDs, assignment IDs, and grades).
      * @throws 403 - If the user does not have permission to edit the grades.
      * @throws 500 - If there is a database update error.
      */

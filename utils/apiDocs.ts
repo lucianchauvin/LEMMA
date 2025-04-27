@@ -40,7 +40,7 @@ async function generateDocs() {
       docs.push({
         type: 'api',
         path: routePathFromFile(file),
-        metho: methods[0],
+        method: methods[0],
         ...parseDoc
       });
     }
@@ -88,16 +88,16 @@ function parseDocBlock(doc: string) {
     .filter(line => line.length > 0);
 
   const descriptionLines: string[] = [];
-  const params: { name: string, description: string }[] = [];
+  const params: { name: string, type: string, description: string }[] = [];
   let returns: { description: string } | null = null;
   const throws: { description: string }[] = [];
 
   for (const line of lines) {
     if (line.startsWith('@param')) {
-      const paramMatch = line.match(/@param\s+(\w+)[\s-]+(.*)/);
+      const paramMatch = line.match(/@param\s+(\w+)\s+{(.+)}[\s-]+(.*)/);
       if (paramMatch) {
-        const [, name, desc] = paramMatch;
-        params.push({ name, description: desc });
+        const [, name, type, desc] = paramMatch;
+        params.push({ name, type, description: desc });
       }
     } else if (line.startsWith('@returns') || line.startsWith('@return')) {
       const returnMatch = line.match(/@(returns?|return)[\s-]+(.*)/);
@@ -129,14 +129,16 @@ function generateMarkdown(apiActions: any[]): string {
 
   apiActions.forEach(action => {
     markdown += `## ${action.path}` + ((action.action) ? `/${action.action}\n\n`: `\n\n`);
-    markdown += `**Type:** ${action.type}\n\n`;
+
+    const contentType = (action.type == 'form-action') ? 'Form Data' : 'JSON';
+    markdown += `**Type:** ${contentType}\n\n`;
     markdown += `**Method:** ${action.method}\n\n`;
     markdown += `**Description:**\n${action.description}\n\n`;
 
     if (action.params && action.params.length > 0) {
       markdown += '### Parameters\n';
       action.params.forEach(param => {
-        markdown += `- **${param.name}**: ${param.description}\n`;
+        markdown += `- **${param.name}** ${(param.type) ?? ''}: ${param.description}\n`;
       });
       markdown += '\n';
     }
