@@ -1,6 +1,6 @@
 import type { PageServerLoad } from './$types';
 import type { Course, Assignment } from '$lib/types';
-import { error } from '@sveltejs/kit';
+import { error, redirect } from '@sveltejs/kit';
 
 const colors = ["darkgreen", "maroon"];
 
@@ -31,6 +31,12 @@ export const load: PageServerLoad = async ({parent, locals: { safeQuery, permChe
     const {user} = await parent();
     if(!user) {
         console.error("ERROR: No user found");
+        redirect(302, '/login')
+    }
+
+    // redirect to admin page if admin
+    if(user.isAdmin) {
+        redirect(302, '/admin');
     }
 
     const {data: viewAllCourses, error: viewAllCoursesErr} = await permCheck('view_courses');
@@ -40,16 +46,16 @@ export const load: PageServerLoad = async ({parent, locals: { safeQuery, permChe
     }
     const {data: viewInactiveCourses, error: viewInactiveCoursesErr} = await permCheck('view_inactive_assigned_courses');
     if(viewInactiveCoursesErr) {
-        console.error("ERROR: Failed to determine permission of user to view inactive courses:", viewAllCoursesErr);
+        console.error("ERROR: Failed to determine permission of user to view inactive courses:", viewInactiveCoursesErr);
         throw error(500, { message: "Failed to determine permission of user to view inactive courses" })
     }
     const {data: viewArchivedCourses, error: viewArchivedCoursesErr} = await permCheck('view_inactive_assigned_courses');
-    if(viewInactiveCoursesErr) {
-        console.error("ERROR: Failed to determine permission of user to view archived courses:", viewAllCoursesErr);
+    if(viewArchivedCoursesErr) {
+        console.error("ERROR: Failed to determine permission of user to view archived courses:", viewArchivedCoursesErr);
         throw error(500, { message: "Failed to determine permission of user to view archived courses" })
     }
 
-    let courseQuery = 'SELECT * FROM courses';
+    let courseQuery = 'SELECT * FROM courses ORDER BY course_name';
     let courseQueryParams: any[] = [];
     if(!viewAllCourses.access) {
         courseQuery = 'SELECT * FROM courses JOIN user_roles ur ON ur.course_id = courses.course_id WHERE ur.user_id=$1 AND courses.status=ANY($2)';

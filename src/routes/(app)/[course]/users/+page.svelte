@@ -4,14 +4,17 @@
     import UserPlus from '@lucide/svelte/icons/user-plus';
     import Trash from '@lucide/svelte/icons/trash';
     export let data;
+    export let form;
 
     import DatatableClient from '$lib/components/client/Datatable.svelte';
 </script>
 
-<div class="flex flex-col gap-2">
-<h1 class="h1 text-xl font-bold flex items-center">
-    <Users size={24} /> Course Users
+<div class="flex flex-col gap-4">
+<h1 class="h1 text-3xl font-bold flex items-center gap-2">
+    <Users size={30} /> 
+    <p>Course Users</p>
 </h1>
+<hr>
 
 {#if data.permissions.update_course_users.access}
 <form method="POST" action="?/add" class="mt-4 flex gap-2" use:enhance>
@@ -33,6 +36,8 @@
 </form>
 {/if}
 
+
+
 <DatatableClient removeSlot={data.permissions.update_course_users.access} data={data.users} columns={["name", "email", "role_name"]} display_columns={[ "Name", "Email", "Role"]}>
     <svelte:fragment slot="remove" let:row>
         {#if data.permissions.update_course_users.target_roles?.includes(row.role_name)}
@@ -46,4 +51,11 @@
         {/if}
     </svelte:fragment>
 </DatatableClient>
+
+{#if form?.message}
+    {form.message}
+{:else if form?.error}
+    {form.error}
+{/if}
+
 </div>
