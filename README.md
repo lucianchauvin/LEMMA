@@ -22,6 +22,14 @@ This creates a `data/init_db.sql` file that runs the other `data/*.sql` files in
 \i data/init_db.sql
 ```
 
+The project needs a directory that will be set in the `DATAROOT` environment variable with certain structure. The following subdirectories need to exist.
+```
+    $DATAROOT/problems
+    $DATAROOT/proofs
+    $DATAROOT/statements
+    $DATAROOT/readings
+```
+
 This project requires a `.env` file. The existing `.env.example` is on the repo with the environment variables used in the project.
 ```bash
 cp .env.example .env
