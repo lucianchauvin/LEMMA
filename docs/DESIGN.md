@@ -92,3 +92,8 @@ This project generates multiple files such as the lean files for student proofs 
 - `proofs` - The proofs that students write that prove the theorem/statement made in the problem files
 - `statements` - The files for statements mentioned in the [Database](#database) section that are not used due to time constraints
 - `reading` - The files for readings mentioned in the [Database](#database) section that are not used due to time constraints
+
+## Other Details
+To get `lean4monaco` working, we needed the package to use `memfs` instead of node's `fs`. 
+We use nodePolyFills to replace this as that appear to be the convention. 
+This replaces `fs` with `memfs` when our project does need `fs` to write and read files on the server, therefore we use `zlib` that gets replaced with `fs` to use `fs` in our project.
