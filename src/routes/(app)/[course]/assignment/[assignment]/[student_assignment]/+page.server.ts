@@ -89,9 +89,20 @@ export const load = (async ({params, locals: { safeQuery, permCheck }}) => {
 }) satisfies PageServerLoad;
 
 export const actions: Actions = {
-  /**
-   * Updating the problem description
-   */
+    /**
+     * Updates the problem description.
+     * 
+     * Only users with permission to update assignments for the course can perform this action.
+     * Validates the provided problem ID and description before updating the problem description in the database.
+     * 
+     * @param request - The request containing form data: problemId, description.
+     * 
+     * @returns A success message if the problem description is updated successfully, or a fail response with an error message.
+     * 
+     * @throws 400 - If the problem ID is invalid or the description is missing.
+     * @throws 403 - If the user does not have permission to update the problem description.
+     * @throws 500 - If there is a database update error.
+     */
     problem_description: async({ request, params, locals: { safeQuery, permCheck } }) => {
         const {data: perm, error: permErr} = await permCheck('update_assignments', params.course);
         if(permErr) {
@@ -119,9 +130,20 @@ export const actions: Actions = {
         }
     },
 
-  /**
-   * Creating a new problem
-   */
+    /**
+     * Creates a new problem.
+     * 
+     * Only users with permission to update assignments for the course can perform this action.
+     * Validates the provided problem name before inserting a new problem into the database.
+     * 
+     * @param request - The request containing form data: problemName.
+     * 
+     * @returns A success message if the new problem is created successfully, or a fail response with an error message.
+     * 
+     * @throws 400 - If the problem name is missing.
+     * @throws 403 - If the user does not have permission to create a problem.
+     * @throws 500 - If there is a database insertion error.
+     */
     problem_name: async({ request, params, locals: { safeQuery, permCheck } }) => {
         const {data: perm, error: permErr} = await permCheck('update_assignments', params.course);
         if(permErr) {
@@ -147,9 +169,20 @@ export const actions: Actions = {
         }
     },
 
-  /**
-   * Deleting a problem
-   */
+    /**
+     * Deletes a problem.
+     * 
+     * Only users with permission to update assignments for the course can perform this action.
+     * Validates the provided problem ID before deleting the problem from the database.
+     * 
+     * @param request - The request containing form data: problemId.
+     * 
+     * @returns A success message if the problem is deleted successfully, or a fail response with an error message.
+     * 
+     * @throws 400 - If the problem ID is invalid or missing.
+     * @throws 403 - If the user does not have permission to delete the problem.
+     * @throws 500 - If there is a database deletion error.
+     */
     delete_problem: async({ request, params, locals: { safeQuery, permCheck } }) => {
         const {data: perm, error: permErr} = await permCheck('update_assignments', params.course);
         if(permErr) {
@@ -176,9 +209,20 @@ export const actions: Actions = {
 
     },
 
-  /**
-   * Saving a problem into file
-   */
+    /**
+     * Saves a problem's content to a file.
+     * 
+     * Only users with permission to update assignments for the course can perform this action.
+     * Validates the provided problem ID and content before saving the content to a file.
+     * 
+     * @param request - The request containing form data: problemId, content.
+     * 
+     * @returns A success message if the problem content is saved to a file successfully, or a fail response with an error message.
+     * 
+     * @throws 400 - If the problem ID or content is missing or invalid.
+     * @throws 403 - If the user does not have permission to save the problem.
+     * @throws 500 - If there is an error while saving the content to a file.
+     */
     save_problem: async({ request, params, locals: { safeQuery, permCheck } }) => {
         const {data: perm, error: permErr} = await permCheck('update_assignments', params.course);
         if(permErr) {

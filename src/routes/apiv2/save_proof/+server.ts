@@ -5,18 +5,16 @@ import { BASE_PROOF_DIR, BASE_PROBLEM_DIR } from '$lib/constants';
 import type { RequestHandler } from './$types';
 
 /**
- * Handles the request to save or update a proof file based on the provided `proofId`.
+ * Saves a student's proof content.
  * 
- * This handler performs the following steps:
- * - Validates the provided `proofId`.
- * - Checks if the `proofId` exists in the database.
- * - Writes the new content to the proof file if the proof exists.
+ * Validates the provided proof ID, checks that the proof exists in the database,
+ * and writes the provided content to the corresponding proof file.
  * 
- * @param {RequestEvent} event - The SvelteKit request event containing the request body with `proofId` and `content`.
- * @returns {Response} A JSON response with a success message or error details.
+ * @param request - The request containing a JSON body with `proofId` and `content`.
+ * @returns A JSON response confirming that the proof was saved successfully.
  * 
- * @throws {HttpError} 400 - If the `proofId` is not provided or invalid.
- * @throws {HttpError} 500 - If there is an error with the database query or file writing.
+ * @throws 400 - If the proof ID is missing or invalid.
+ * @throws 500 - If the proof does not exist in the database, or if writing to the file fails.
  */
 export const POST: RequestHandler = async ({ request, locals: { safeQuery, permCheck } }) => {
     const { proofId, content } = await request.json();

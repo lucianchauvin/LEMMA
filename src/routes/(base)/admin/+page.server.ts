@@ -29,9 +29,17 @@ export const load: PageServerLoad = async ({locals: { getSession, safeQuery }}) 
 }
 
 export const actions: Actions = {
-  /**
-   * Add a new user
-   */
+    /**
+     * Adds a new user to the system.
+     * 
+     * Only admin users can add new users. Validates username and password,
+     * ensures required fields are present, and handles unique constraint violations.
+     * 
+     * @param request - The request containing form data: username, password, first_name, last_name, email, is_admin.
+     * @returns A success message if the user is added, or a fail response with an error message.
+     * 
+     * @throws 500 - If there is a database insertion error.
+     */
     add: async ({ request, locals: { getSession, safeQuery } }) => {
         const { user } = await getSession();
 
@@ -80,9 +88,17 @@ export const actions: Actions = {
         return { success: true, user_message: "User added successfully!" };
     },
 
-  /**
-   * Remove a user
-   */
+
+    /**
+     * Removes a user from the system.
+     * 
+     * Only admin users can remove users. Validates the provided user ID.
+     * 
+     * @param request - The request containing form data: user_id.
+     * @returns A success message if the user is removed, or a fail response with an error message.
+     * 
+     * @throws 500 - If there is a database deletion error.
+     */
     remove: async ({ request, locals: { getSession, safeQuery } }) => {
         const { user } = await getSession();
 
@@ -110,9 +126,17 @@ export const actions: Actions = {
         return { success: true, user_message: "User removed successfully!"}; 
     },
 
-  /**
-   * Update fields for user
-   */
+    /**
+     * Updates fields for an existing user.
+     * 
+     * Only admin users can update user fields. Validates the provided user ID and updates specified fields.
+     * Prevents users from demoting themselves from admin status.
+     * 
+     * @param request - The request containing form data: username, password, firstName, lastName, email, admin, userId.
+     * @returns Nothing if successful, or a fail response with an error message.
+     * 
+     * @throws 500 - If there is a database update error.
+     */
     update_user: async ({ request, locals: { getSession, safeQuery } }) => {
         const { user } = await getSession();
 
@@ -187,9 +211,16 @@ export const actions: Actions = {
         }
     },
 
-  /**
-   * Add a course
-   */
+    /**
+     * Adds a new course to the system.
+     * 
+     * Only admin users can add courses. Ensures all fields are provided before insertion.
+     * 
+     * @param request - The request containing form data: course_number, course_name, status, start_date, end_date.
+     * @returns A success message if the course is added, or a fail response with an error message.
+     * 
+     * @throws 500 - If there is a database insertion error.
+     */
     add_course: async ({ request, locals: { getSession, safeQuery } }) => {
         const { user } = await getSession();
 
@@ -221,9 +252,17 @@ export const actions: Actions = {
         return { success: true, course_message: "Course added successfully!" };
     },
 
-  /**
-   * Remove a course
-   */
+
+    /**
+     * Removes a course from the system.
+     * 
+     * Only admin users can remove courses. Validates the provided course ID.
+     * 
+     * @param request - The request containing form data: course_id.
+     * @returns A success message if the course is removed, or a fail response with an error message.
+     * 
+     * @throws 500 - If there is a database deletion error.
+     */
     remove_course: async ({ request, locals: { getSession, safeQuery } }) => {
         const { user } = await getSession();
 
@@ -250,9 +289,17 @@ export const actions: Actions = {
 
         return { success: true, course_message: "Course removed successfully!"}; 
     },
-  /**
-   * Update the fields for a course
-   */
+
+    /**
+     * Updates fields for an existing course.
+     * 
+     * Only admin users can update course fields. Validates the provided course ID and ensures that at least one field is being updated.
+     * 
+     * @param request - The request containing form data: courseNumber, courseName, status, startDate, endDate, courseId.
+     * @returns Nothing if successful, or a fail response with an error message.
+     * 
+     * @throws 500 - If there is a database update error.
+     */
     update_course: async ({ request, locals: { getSession, safeQuery } }) => {
         const { user } = await getSession();
 

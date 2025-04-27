@@ -2,10 +2,15 @@ import { json, error } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
 
 /**
- * Marks a student's proof as completed. By the database trigger also updates the grade.
+ * Marks a student's proof as complete.
  * 
- * @param {RequestEvent} event The request event containing the proof ID and completion value.
- * @returns {Response} A JSON response indicating success or throws an error if the update fails.
+ * Updates the `complete` status for a specific proof in the database. 
+ * This also causes the trigger in database to update grade for the assignment.
+ * 
+ * @param request - The request containing JSON body with `proofId` and `val` (completion status).
+ * @returns A JSON response confirming the update.
+ * 
+ * @throws 500 - If the database update operation fails.
  */
 export const POST: RequestHandler = async ({ request, locals: { safeQuery } }) => {
 	const { proofId, val } = await request.json();

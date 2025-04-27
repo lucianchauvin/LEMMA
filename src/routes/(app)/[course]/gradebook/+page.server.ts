@@ -41,9 +41,20 @@ export const load = (async ({parent, params, locals: { safeQuery, permCheck }}) 
 }) satisfies PageServerLoad;
 
 export const actions: Actions = {
-  /**
-   * Edit grades for assignments in course
-   */
+    /**
+     * Edits grades for assignments in a course.
+     * 
+     * Only users with permission to change course grades can perform this action.
+     * Validates the provided student IDs, assignment IDs, and grades before updating the grades in the database.
+     * 
+     * @param request - The request containing form data: student_id, assignment_id, and grade.
+     * 
+     * @returns A success message if the grades are updated successfully, or a fail response with an error message.
+     * 
+     * @throws 400 - If the input data is mismatched or invalid.
+     * @throws 403 - If the user does not have permission to edit the grades.
+     * @throws 500 - If there is a database update error.
+     */
     edit_grades: async ({ request, params, locals: { safeQuery, permCheck } }) => {
         const {data: permData, error: permErr} = await permCheck('change_course_grades', params.course);
         if(permErr) {

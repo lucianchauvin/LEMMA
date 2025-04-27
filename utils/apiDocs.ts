@@ -7,7 +7,7 @@ import { promises as fs } from 'fs';
 import path from 'path';
 
 const ROUTES_DIR = path.resolve('src/routes');
-const OUTPUT_FILE = path.resolve('static/api-docs.json');
+const OUTPUT_FILE = path.resolve('docs/API.md');
 
 async function walk(dir: string): Promise<string[]> {
   const files = await fs.readdir(dir, { withFileTypes: true });
@@ -40,7 +40,7 @@ async function generateDocs() {
       docs.push({
         type: 'api',
         path: routePathFromFile(file),
-        methods,
+        metho: methods[0],
         ...parseDoc
       });
     }
@@ -65,14 +65,16 @@ async function generateDocs() {
       }
     }
   }
+  const markdownContent = generateMarkdown(docs);
 
   await fs.mkdir(path.dirname(OUTPUT_FILE), { recursive: true });
-  await fs.writeFile(OUTPUT_FILE, JSON.stringify(docs, null, 2), 'utf-8');
+  await fs.writeFile(OUTPUT_FILE, markdownContent, 'utf-8');
   console.log(`✅ API docs generated at ${OUTPUT_FILE}`);
 }
 
 function routePathFromFile(filePath: string): string {
   let route = path.relative(ROUTES_DIR, path.dirname(filePath));
+  route = route.replace(/\(.*?\)\//g, '');
   route = route.replace(/\/\+page$/, '');
   route = route.replace(/\/\+server$/, '');
   if (route === '') route = '/';
@@ -86,28 +88,28 @@ function parseDocBlock(doc: string) {
     .filter(line => line.length > 0);
 
   const descriptionLines: string[] = [];
-  const params: { name: string, type: string, description: string }[] = [];
-  let returns: { type: string, description: string } | null = null;
-  const throws: { type: string, description: string }[] = [];
+  const params: { name: string, description: string }[] = [];
+  let returns: { description: string } | null = null;
+  const throws: { description: string }[] = [];
 
   for (const line of lines) {
     if (line.startsWith('@param')) {
-      const paramMatch = line.match(/@param\s+\{(\w+)\}\s+(\w+)\s+(.*)/);
+      const paramMatch = line.match(/@param\s+(\w+)[\s-]+(.*)/);
       if (paramMatch) {
-        const [, type, name, desc] = paramMatch;
-        params.push({ name, type, description: desc });
+        const [, name, desc] = paramMatch;
+        params.push({ name, description: desc });
       }
     } else if (line.startsWith('@returns') || line.startsWith('@return')) {
-      const returnMatch = line.match(/@(returns?|return)\s+\{(\w+)\}\s+(.*)/);
+      const returnMatch = line.match(/@(returns?|return)[\s-]+(.*)/);
       if (returnMatch) {
-        const [, , type, desc] = returnMatch;
-        returns = { type, description: desc };
+        const [, , desc] = returnMatch;
+        returns = { description: desc };
       }
     } else if (line.startsWith('@throws')) {
-      const throwsMatch = line.match(/@throws\s+\{(\w+)\}\s+(.*)/);
+      const throwsMatch = line.match(/@throws\s+(.*)/);
       if (throwsMatch) {
-        const [, type, desc] = throwsMatch;
-        throws.push({ type, description: desc });
+        const [, desc] = throwsMatch;
+        throws.push({ description: desc });
       }
     } else {
       descriptionLines.push(line);
@@ -120,6 +122,40 @@ function parseDocBlock(doc: string) {
     returns,
     throws
   };
+}
+
+function generateMarkdown(apiActions: any[]): string {
+  let markdown = '# API Documentation\n\n';
+
+  apiActions.forEach(action => {
+    markdown += `## ${action.path}` + ((action.action) ? `/${action.action}\n\n`: `\n\n`);
+    markdown += `**Type:** ${action.type}\n\n`;
+    markdown += `**Method:** ${action.method}\n\n`;
+    markdown += `**Description:**\n${action.description}\n\n`;
+
+    if (action.params && action.params.length > 0) {
+      markdown += '### Parameters\n';
+      action.params.forEach(param => {
+        markdown += `- **${param.name}**: ${param.description}\n`;
+      });
+      markdown += '\n';
+    }
+
+    if (action.returns) {
+      markdown += '### Returns\n';
+      markdown += `- ${action.returns.description}\n\n`;
+    }
+
+    if (action.throws && action.throws.length > 0) {
+      markdown += '### Throws\n';
+      action.throws.forEach(throwable => {
+        markdown += `- ${throwable.description}\n`;
+      });
+      markdown += '\n';
+    }
+  });
+
+  return markdown;
 }
 
 generateDocs().catch(console.error);
