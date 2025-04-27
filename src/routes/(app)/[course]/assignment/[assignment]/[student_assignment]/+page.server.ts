@@ -92,7 +92,7 @@ export const actions: Actions = {
   /**
    * Updating the problem description
    */
-    problemDescription: async({ request, params, locals: { safeQuery, permCheck } }) => {
+    problem_description: async({ request, params, locals: { safeQuery, permCheck } }) => {
         const {data: perm, error: permErr} = await permCheck('update_assignments', params.course);
         if(permErr) {
             console.error("ERROR: Failed to determine permission for updating assignments:", permErr);
@@ -122,7 +122,7 @@ export const actions: Actions = {
   /**
    * Creating a new problem
    */
-    problemName: async({ request, params, locals: { safeQuery, permCheck } }) => {
+    problem_name: async({ request, params, locals: { safeQuery, permCheck } }) => {
         const {data: perm, error: permErr} = await permCheck('update_assignments', params.course);
         if(permErr) {
             console.error("ERROR: Failed to determine permission for updating assignments:", permErr);
@@ -150,7 +150,7 @@ export const actions: Actions = {
   /**
    * Deleting a problem
    */
-    deleteProblem: async({ request, params, locals: { safeQuery, permCheck } }) => {
+    delete_problem: async({ request, params, locals: { safeQuery, permCheck } }) => {
         const {data: perm, error: permErr} = await permCheck('update_assignments', params.course);
         if(permErr) {
             console.error("ERROR: Failed to determine permission for updating assignments:", permErr);
@@ -179,7 +179,7 @@ export const actions: Actions = {
   /**
    * Saving a problem into file
    */
-    saveProblem: async({ request, params, locals: { safeQuery, permCheck } }) => {
+    save_problem: async({ request, params, locals: { safeQuery, permCheck } }) => {
         const {data: perm, error: permErr} = await permCheck('update_assignments', params.course);
         if(permErr) {
             console.error("ERROR: Failed to determine permission for updating assignments:", permErr);

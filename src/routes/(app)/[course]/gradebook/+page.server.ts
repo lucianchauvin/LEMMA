@@ -44,7 +44,7 @@ export const actions: Actions = {
   /**
    * Edit grades for assignments in course
    */
-    editGrades: async ({ request, params, locals: { safeQuery, permCheck } }) => {
+    edit_grades: async ({ request, params, locals: { safeQuery, permCheck } }) => {
         const {data: permData, error: permErr} = await permCheck('change_course_grades', params.course);
         if(permErr) {
             console.error("ERROR: Failed to determine permission for changing course grades:", permErr);

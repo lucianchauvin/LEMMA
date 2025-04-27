@@ -78,7 +78,7 @@
 </h1>
 <hr>
 
-<form method="POST" action="?/editGrades" use:enhance class="flex flex-col" on:submit={handleSubmit}>
+<form method="POST" action="?/edit_grades" use:enhance class="flex flex-col" on:submit={handleSubmit}>
     <table class="table table-hover mt-4">
         <thead>
             <tr>
