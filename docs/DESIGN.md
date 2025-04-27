@@ -45,6 +45,7 @@ This project is a website and has several pages to support the LMS structure.
 ![Web Flow](WebFlow.png)
 
 The frontend consist of several pages. The above diagrams describes the flow between all of the pages of the website and the main purpose of each page.
+
 - Login Page: This is the first page that the users will encounter.  It features a login form with fields for entering username and password. Upon successful authentication, the user is directed to the home page.   
 - Admin Panel: This page allows management of users and courses. This is the admin user's home page and the page they get directed to upon login.
 - Course Dashboard Page: This page displays differently based on the type of user.  Students are able to view all courses that they are enrolled in, represented as clickable icons which leads them to their respective course pages  
