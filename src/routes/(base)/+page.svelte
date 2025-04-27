@@ -4,7 +4,6 @@
     import { fade, slide } from "svelte/transition"
     import CourseComponent from '$lib/components/CourseComponent.svelte';
     import TaskComponent from '$lib/components/TaskComponent.svelte';
-    console.log(data.assignments);
 </script>
 
 <div class="left-side ml-12 pr-5 basis-[70%]">
