@@ -125,6 +125,25 @@ const {data: result_assignments, error: err_assignments} = await safeQuery<Assig
         i++;
     }
 
+    for(let course of result_courses!) {
+        const {data: viewCourseStatements, error: viewCourseStatementsErr} = await permCheck('view_assigned_course_statements', course.course_id);
+        const {data: viewCourseGrades, error: viewCourseGradesErr} = await permCheck('view_course_grades', course.course_id);
+
+        if(viewCourseStatementsErr) {
+            console.error('ERROR: Failed to determine permission for viewing course statements:', viewCourseStatementsErr);
+            error(500, {message: 'Failed to determine permission for viewing course statements'})
+        }
+        if(viewCourseGradesErr) {
+            console.error('ERROR: Failed to determine permission for viewing course grades:', viewCourseGradesErr);
+            error(500, {message: 'Failed to determine permission for viewing course grades'})
+        }
+
+        course['permissions'] = {
+            view_course_statements: viewCourseStatements,
+            view_course_grades: viewCourseGrades,
+        };
+    }
+
     return {
         courses: result_courses,
         assignments: result_assignments
