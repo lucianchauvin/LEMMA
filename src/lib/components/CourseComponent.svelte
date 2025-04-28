@@ -21,20 +21,20 @@
   <footer>
       <div class="inline-block flex flex-wrap gap-5 align-center justify-center">
           <button type="button" class="btn-icon">
-              <a href="/{course_id}" class="assignments">
+              <a href="/{course_id}" id="assignments">
                   <BookMarked />
               </a>
           </button>
           {#if student}
           <button type="button" class="btn-icon">
-              <a href="/{course_id}/grades" class="grades">
+              <a href="/{course_id}/grades" id="grades">
                   <BookCheck />
               </a>
           </button>
           {/if}
           {#if permissions?.view_course_grades?.access}
           <button type="button" class="btn-icon">
-              <a href="/{course_id}/gradebook" class="">
+              <a href="/{course_id}/gradebook" id="gradebook">
                   <BookCheck />
               </a>
           </button>
@@ -42,7 +42,7 @@
 
           {#if permissions?.view_course_statements?.access}
           <button type="button" class="btn-icon">
-              <a href="/{course_id}/statements" class="statements">
+              <a href="/{course_id}/statements" id="statements">
                   <SquareFunction />
               </a>
           </button>
