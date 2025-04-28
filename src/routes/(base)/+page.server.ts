@@ -85,14 +85,20 @@ export const load: PageServerLoad = async ({parent, locals: { safeQuery, permChe
 
     // get assignments
     const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-    const {data: result_assignments, error: err_assignments} = await safeQuery<Assignment>('SELECT a.*, c.course_number FROM assignments a JOIN courses c ON a.course_id = c.course_id JOIN user_roles ur ON a.course_id = ur.course_id WHERE $1 OR ur.user_id = $2 ORDER BY a.due_date', [user?.isAdmin, user?.id]);
-    if (user?.isAdmin == false)
+const {data: result_assignments, error: err_assignments} = await safeQuery<Assignment>('SELECT a.*, c.course_number FROM assignments a JOIN courses c ON a.course_id = c.course_id JOIN user_roles ur ON a.course_id = ur.course_id WHERE $1 OR ur.user_id = $2 ORDER BY a.due_date', [user?.isAdmin, user?.id]);
+    for (let assignment of result_assignments!)
     {
-        for (let assignment of result_assignments!)
+        const {data: result_students, error: err_students} = await safeQuery<StudentAssignment>('SELECT * FROM student_assignments WHERE assignment_id = $1 AND student_id = $2', [assignment.assignment_id, user?.id]);
+        console.log(result_students);
+        if (result_students.length != 0)
         {
-            const {data: result_students, error: err_students} = await safeQuery<StudentAssignment>('SELECT * FROM student_assignments WHERE assignment_id = $1 AND student_id = $2', [assignment.assignment_id, user?.id]);
-            console.log(result_students);
+            console.log("b");
             assignment.student_assignment_id = result_students![0].student_assignment_id;
+        }
+        else
+        {
+            console.log("a");
+            assignment.student_assignment_id = "";
         }
     }
 
