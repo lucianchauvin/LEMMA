@@ -89,15 +89,12 @@ const {data: result_assignments, error: err_assignments} = await safeQuery<Assig
     for (let assignment of result_assignments!)
     {
         const {data: result_students, error: err_students} = await safeQuery<StudentAssignment>('SELECT * FROM student_assignments WHERE assignment_id = $1 AND student_id = $2', [assignment.assignment_id, user?.id]);
-        console.log(result_students);
         if (result_students.length != 0)
         {
-            console.log("b");
             assignment.student_assignment_id = result_students![0].student_assignment_id;
         }
         else
         {
-            console.log("a");
             assignment.student_assignment_id = "";
         }
     }
