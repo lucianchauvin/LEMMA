@@ -186,6 +186,9 @@
         if(data.problems[activeProblem].complete)
             return;
 
+        while (isProcessing) await new Promise(resolve => setTimeout(resolve, 50));
+        isProcessing = true;
+
         const isCorrect = await checkAssm();
         if (isCorrect) {
             const response = await fetch('/apiv2/complete_proof', {
@@ -203,12 +206,16 @@
         } else {
             alert("You have finished all goals but have changed the original statment. Please save your work locally and reset your workspace.")
         }
+        isProcessing = false;
     }
 
     async function unComplete() {
         // don't go to database if already seen as unComplete client side
         if(!data.problems[activeProblem].complete)
             return;
+
+        while (isProcessing) await new Promise(resolve => setTimeout(resolve, 50));
+        isProcessing = true;
 
         const response = await fetch('/apiv2/complete_proof', {
             method: 'POST',
@@ -222,6 +229,7 @@
         });
 
         invalidateAll();
+        isProcessing = false;
     }
 
     function enqueueMessage(msg) {
