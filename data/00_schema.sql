@@ -178,7 +178,7 @@ ALTER TABLE "reading_statements" ADD FOREIGN KEY ("reading_id") REFERENCES "read
 
 ALTER TABLE "student_assignments" ADD FOREIGN KEY ("assignment_id") REFERENCES "assignments" ("assignment_id") ON DELETE CASCADE;
 
-ALTER TABLE "student_assignments" ADD FOREIGN KEY ("student_id") REFERENCES "users" ("user_id");
+ALTER TABLE "student_assignments" ADD FOREIGN KEY ("student_id") REFERENCES "users" ("user_id") ON DELETE CASCADE;
 
 ALTER TABLE "problems" ADD FOREIGN KEY ("assignment_id") REFERENCES "assignments" ("assignment_id") ON DELETE CASCADE;
 
