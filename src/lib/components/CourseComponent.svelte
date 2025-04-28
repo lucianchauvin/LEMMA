@@ -1,6 +1,6 @@
 <script>
     import { fade, slide } from "svelte/transition"
-    let { course_id, course_number, course_name, color } = $props();
+    let { course_id, course_number, course_name, color, permissions, student } = $props();
 
     import BookMarked from '@lucide/svelte/icons/book-marked'; 
     import BookCheck from '@lucide/svelte/icons/book-check'; 
@@ -25,16 +25,28 @@
                   <BookMarked />
               </a>
           </button>
+          {#if student}
           <button type="button" class="btn-icon">
               <a href="/{course_id}/grades" id="grades">
                   <BookCheck />
               </a>
           </button>
+          {/if}
+          {#if permissions?.view_course_grades?.access}
+          <button type="button" class="btn-icon">
+              <a href="/{course_id}/gradebook" id="gradebook">
+                  <BookCheck />
+              </a>
+          </button>
+          {/if}
+
+          {#if permissions?.view_course_statements?.access}
           <button type="button" class="btn-icon">
               <a href="/{course_id}/statements" id="statements">
                   <SquareFunction />
               </a>
           </button>
+          {/if}
       </div>
   </footer>
 </div>
