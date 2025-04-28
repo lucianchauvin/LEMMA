@@ -13,6 +13,22 @@ export const load: PageServerLoad = async ({ locals: { getSession } }) => {
 };
 
 export const actions: Actions = {
+    /**
+     * Handles the user login process.
+     * 
+     * Validates the username and password, checks for the existence of the user in the database,
+     * and compares the provided password with the stored password hash. If the credentials are correct,
+     * it creates a new session and sets a session cookie.
+     * 
+     * @param username {string} - The username entered by the user.
+     * @param password {string} - The password entered by the user.
+     * @param cookies {Cookies} - The cookies object for setting the session cookie.
+     * 
+     * @returns A fail response with an error message if the credentials are invalid or if there are any errors during the process.
+     * 
+     * @throws 400 - If the username or password is invalid.
+     * @throws 500 - If there is an error querying the user in the database or during password verification.
+     */
     default: async ({ request, cookies, locals: { safeQuery } }) => {
         const formData = await request.formData();
         const username = formData.get("username");

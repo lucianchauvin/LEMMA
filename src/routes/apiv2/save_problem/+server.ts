@@ -6,6 +6,21 @@ import { json, error } from '@sveltejs/kit';
 import { BASE_PROBLEM_DIR } from '$lib/constants';
 import type { RequestHandler } from './$types';
 
+/**
+ * Updates the content of a problem file.
+ * 
+ * Checks user permission to update assignments for the given course, verifies the problem exists,
+ * and saves the new content to the problem's file.
+ * 
+ * @param courseId {UUID} - Course id to check if have permission to save a problem
+ * @param problemId {UUID} - Problem id for what the content is save to
+ * @param content {string} - Content to save to the problem
+ * @returns A JSON response confirming the proof was saved successfully.
+ * 
+ * @throws 400 - If the problem ID is missing, invalid, or the problem does not exist.
+ * @throws 403 - If the user does not have permission to update assignments.
+ * @throws 500 - If there is a failure checking permissions or saving the file.
+ */
 export const POST: RequestHandler = async ({ request, locals: { safeQuery, permCheck } }) => {
     const { courseId, problemId, content } = await request.json();
 

@@ -89,7 +89,25 @@ export const load = (async ({params, locals: { safeQuery, permCheck }}) => {
 }) satisfies PageServerLoad;
 
 export const actions: Actions = {
-    problemDescription: async({ request, params, locals: { safeQuery, permCheck } }) => {
+    /**
+     * Updates the problem description.
+     * 
+     * Only users with permission to update assignments for the course can perform this action.
+     * Validates the provided problem ID and description before updating the problem description in the database.
+     * 
+     * @param course {UUID} - The ID of the course to which the assignment belongs.
+     * @param assignment {UUID} - The ID of the assignment that the problem is part of.
+     * @param student_assignment {UUID} - The ID of the student assignment, if necessary for context.
+     * @param problemId {UUID} - The ID of the problem to update.
+     * @param description {string} - The new description for the problem.
+     * 
+     * @returns A success message if the problem description is updated successfully, or a fail response with an error message.
+     * 
+     * @throws 400 - If the problem ID is invalid or the description is missing.
+     * @throws 403 - If the user does not have permission to update the problem description.
+     * @throws 500 - If there is a database update error.
+     */
+    problem_description: async({ request, params, locals: { safeQuery, permCheck } }) => {
         const {data: perm, error: permErr} = await permCheck('update_assignments', params.course);
         if(permErr) {
             console.error("ERROR: Failed to determine permission for updating assignments:", permErr);
@@ -116,7 +134,24 @@ export const actions: Actions = {
         }
     },
 
-    problemName: async({ request, params, locals: { safeQuery, permCheck } }) => {
+    /**
+     * Creates a new problem.
+     * 
+     * Only users with permission to update assignments for the course can perform this action.
+     * Validates the provided problem name before inserting a new problem into the database.
+     * 
+     * @param course {UUID} - The ID of the course to which the assignment belongs.
+     * @param assignment {UUID} - The ID of the assignment that the problem is part of.
+     * @param student_assignment {UUID} - The ID of the student assignment, if necessary for context.
+     * @param problemName {string} - The name of the new problem.
+     * 
+     * @returns A success message if the new problem is created successfully, or a fail response with an error message.
+     * 
+     * @throws 400 - If the problem name is missing.
+     * @throws 403 - If the user does not have permission to create a problem.
+     * @throws 500 - If there is a database insertion error.
+     */
+    problem_name: async({ request, params, locals: { safeQuery, permCheck } }) => {
         const {data: perm, error: permErr} = await permCheck('update_assignments', params.course);
         if(permErr) {
             console.error("ERROR: Failed to determine permission for updating assignments:", permErr);
@@ -141,7 +176,24 @@ export const actions: Actions = {
         }
     },
 
-    deleteProblem: async({ request, params, locals: { safeQuery, permCheck } }) => {
+    /**
+     * Deletes a problem.
+     * 
+     * Only users with permission to update assignments for the course can perform this action.
+     * Validates the provided problem ID before deleting the problem from the database.
+     * 
+     * @param course {UUID} - The ID of the course to which the assignment belongs.
+     * @param assignment {UUID} - The ID of the assignment that the problem is part of.
+     * @param student_assignment {UUID} - The ID of the student assignment, if necessary for context.
+     * @param problemId {UUID} - The ID of the problem to delete.
+     * 
+     * @returns A success message if the problem is deleted successfully, or a fail response with an error message.
+     * 
+     * @throws 400 - If the problem ID is invalid or missing.
+     * @throws 403 - If the user does not have permission to delete the problem.
+     * @throws 500 - If there is a database deletion error.
+     */
+    delete_problem: async({ request, params, locals: { safeQuery, permCheck } }) => {
         const {data: perm, error: permErr} = await permCheck('update_assignments', params.course);
         if(permErr) {
             console.error("ERROR: Failed to determine permission for updating assignments:", permErr);
@@ -167,7 +219,25 @@ export const actions: Actions = {
 
     },
 
-    saveProblem: async({ request, params, locals: { safeQuery, permCheck } }) => {
+    /**
+     * Saves a problem's content to a file.
+     * 
+     * Only users with permission to update assignments for the course can perform this action.
+     * Validates the provided problem ID and content before saving the content to a file.
+     * 
+     * @param course {UUID} - The ID of the course to which the assignment belongs.
+     * @param assignment {UUID} - The ID of the assignment that the problem is part of.
+     * @param student_assignment {UUID} - The ID of the student assignment, if necessary for context.
+     * @param problemId {UUID} - The ID of the problem to save content for.
+     * @param content {string} - The content to be saved for the problem.
+     * 
+     * @returns A success message if the problem content is saved to a file successfully, or a fail response with an error message.
+     * 
+     * @throws 400 - If the problem ID or content is missing or invalid.
+     * @throws 403 - If the user does not have permission to save the problem.
+     * @throws 500 - If there is an error while saving the content to a file.
+     */
+    save_problem: async({ request, params, locals: { safeQuery, permCheck } }) => {
         const {data: perm, error: permErr} = await permCheck('update_assignments', params.course);
         if(permErr) {
             console.error("ERROR: Failed to determine permission for updating assignments:", permErr);
