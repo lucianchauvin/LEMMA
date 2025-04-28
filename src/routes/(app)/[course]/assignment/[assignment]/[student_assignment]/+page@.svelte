@@ -217,7 +217,7 @@
         while (isProcessing) await new Promise(resolve => setTimeout(resolve, 50));
         isProcessing = true;
 
-        const response = await fetch('/apiv2/completeProof', {
+        const response = await fetch('/apiv2/complete_proof', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
