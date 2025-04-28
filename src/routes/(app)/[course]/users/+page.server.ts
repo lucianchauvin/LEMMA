@@ -56,9 +56,13 @@ export const load = (async ({parent, params, locals: { safeQuery, permCheck } })
         throw error(500, { message: "Database failed to query users for course" });
     }
 
+	// Check for presence of any students in already-fetched courseUsers list
+	const noStudents =  !Array.isArray(courseUsers) || !courseUsers.some((u: any) => u.role_name === "student");
+
     return {
         ...(nonAssignedUsers ? {new_users: nonAssignedUsers}: {}),
         users: courseUsers,
+        noStudents,
         permissions: {
             ...permissions,
             update_course_users
