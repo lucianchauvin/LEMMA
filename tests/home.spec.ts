@@ -5,135 +5,144 @@ const student_username = process.env.STUDENT_USER;
 const student_password = process.env.STUDENT_PASSWORD;
 const prof_username = process.env.PROF_USER;
 const prof_password = process.env.PROF_PASSWORD;
-const admin_username = process.env.ADMIN_USER;
-const admin_password = process.env.ADMIN_PASSWORD;
 
-// test("Home Page - Can click on calendar sidebar icon", async ({ page }) => {
-//     // Navigate to login page
-//     await page.goto("http://localhost:3000/login")
+test("Home Page - Student Can click on Course Card", async ({ page }) => {
+    // Navigate to login page
+    await page.goto("http://localhost:3000/login")
       
-//     // Fill in input forms
-//     await page.getByLabel("username").fill(username);
-//     await page.getByLabel("password").fill(password);
+    // Fill in input forms
+    await page.getByLabel("username").fill(student_username);
+    await page.getByLabel("password").fill(student_password);
 
-//     // Click login button
-//     await page.getByText("Login").last().click();
+    // Click login button
+    await page.getByText("Login").last().click();
     
-//     // Click calendar button
-//     await page.getByText("Calendar").click();
+    // Click the CSCE 222 course
+    await page.getByText("CSCE222").first().click();
 
-//     // Verify that we are on the calendar page
-//     await expect(page).toHaveURL("http://localhost:3000/calendar");
-// });
+    // Verify that we are on the CSCE 222 page
+    await expect(page).toHaveURL("http://localhost:3000/e8ce0fe7-d982-441b-80fb-7e0bc67adb4b");
+});
 
-// test("Home Page - Can click on admin panel button", async ({ page }) => {
-//     // Navigate to login page
-//     await page.goto("http://localhost:3000/login")
+test("Home Page - Instructor Can click on Course Card", async ({ page }) => {
+    // Navigate to login page
+    await page.goto("http://localhost:3000/login")
       
-//     // Fill in input forms
-//     await page.getByLabel("username").fill(username);
-//     await page.getByLabel("password").fill(password);
+    // Fill in input forms
+    await page.getByLabel("username").fill(prof_username);
+    await page.getByLabel("password").fill(prof_password);
 
-//     // Click login button
-//     await page.getByText("Login").last().click();
+    // Click login button
+    await page.getByText("Login").last().click();
     
-//     // Click admin panel button
-//     await page.getByText("Admin Panel").click();
+    // Click the CSCE 222 course
+    await page.getByText("CSCE222").first().click();
 
-//     // Verify that we are on the admin page
-//     await expect(page).toHaveURL("http://localhost:3000/admin");
-// });
+    // Verify that we are on the CSCE 222 page
+    await expect(page).toHaveURL("http://localhost:3000/e8ce0fe7-d982-441b-80fb-7e0bc67adb4b");
+});
 
-// test("Home Page - Can click on LEMMA icon to return to home page", async ({ page }) => {
-//     // Navigate to login page
-//     await page.goto("http://localhost:3000/login")
+test("Home Page - Student Can Click on Course Card Assignments", async ({ page }) => {
+    // Navigate to login page
+    await page.goto("http://localhost:3000/login")
       
-//     // Fill in input forms
-//     await page.getByLabel("username").fill(username);
-//     await page.getByLabel("password").fill(password);
+    // Fill in input forms
+    await page.getByLabel("username").fill(student_username);
+    await page.getByLabel("password").fill(student_password);
 
-//     // Click login button
-//     await page.getByText("Login").last().click();
+    // Click login button
+    await page.getByText("Login").last().click();
     
-//     // Click calendar button
-//     await page.getByText("Calendar").click();
-//     await expect(page).toHaveURL("http://localhost:3000/calendar");
+    // Click the first course
+    await page.locator("#assignments").first().click();
 
-//     // Click LEMMA icon
-//     await page.getByRole('button').first().click();
+    // Verify that we are on not on the home page anymore
+    await expect(page).not.toHaveURL("http://localhost:3000");
+});
 
-//     // Verify that we are on the home page
-//     await expect(page).toHaveURL("http://localhost:3000");
-// });
-
-// test("Home Page - Can click on course card", async ({ page }) => {
-//     // Navigate to login page
-//     await page.goto("http://localhost:3000/login")
+test("Home Page - Instructor Can Click on Course Card Assignments", async ({ page }) => {
+    // Navigate to login page
+    await page.goto("http://localhost:3000/login")
       
-//     // Fill in input forms
-//     await page.getByLabel("username").fill(username);
-//     await page.getByLabel("password").fill(password);
+    // Fill in input forms
+    await page.getByLabel("username").fill(prof_username);
+    await page.getByLabel("password").fill(prof_password);
 
-//     // Click login button
-//     await page.getByText("Login").last().click();
+    // Click login button
+    await page.getByText("Login").last().click();
     
-//     // Click the CSCE 222 course
-//     await page.getByText("CSCE222").first().click();
+    // Click the first course
+    await page.locator("#assignments").first().click();
 
-//     // Verify that we are on the CSCE 222 page
-//     await expect(page).toHaveURL("http://localhost:3000/6baedc0e-72e5-4674-9ab8-e96db38446eb");
-// });
+    // Verify that we are not on the home page anymore
+    await expect(page).not.toHaveURL("http://localhost:3000");
+});
 
-// test("Home Page - Can click on course card assignments", async ({ page }) => {
-//     // Navigate to login page
-//     await page.goto("http://localhost:3000/login")
+test("Home Page - Student Can Click on Course Card Grades", async ({ page }) => {
+    // Navigate to login page
+    await page.goto("http://localhost:3000/login")
       
-//     // Fill in input forms
-//     await page.getByLabel("username").fill(username);
-//     await page.getByLabel("password").fill(password);
+    // Fill in input forms
+    await page.getByLabel("username").fill(student_username);
+    await page.getByLabel("password").fill(student_password);
 
-//     // Click login button
-//     await page.getByText("Login").last().click();
+    // Click login button
+    await page.getByText("Login").last().click();
     
-//     // Click the CSCE 222 course
-//     await page.locator("#assignments").first().click();
+    // Click the first course
+    await page.locator("#grades").first().click();
 
-//     // Verify that we are on the CSCE 222 page
-//     await expect(page).toHaveURL("http://localhost:3000/6baedc0e-72e5-4674-9ab8-e96db38446eb");
-// });
+    // Verify that we are not on the home page anymore
+    await expect(page).not.toHaveURL("http://localhost:3000");
+});
 
-// test("Home Page - Can click on course card grades", async ({ page }) => {
-//     // Navigate to login page
-//     await page.goto("http://localhost:3000/login")
+test("Home Page - Instructor Can Click on Course Card Grades", async ({ page }) => {
+    // Navigate to login page
+    await page.goto("http://localhost:3000/login")
       
-//     // Fill in input forms
-//     await page.getByLabel("username").fill(username);
-//     await page.getByLabel("password").fill(password);
+    // Fill in input forms
+    await page.getByLabel("username").fill(prof_username);
+    await page.getByLabel("password").fill(prof_password);
 
-//     // Click login button
-//     await page.getByText("Login").last().click();
+    // Click login button
+    await page.getByText("Login").last().click();
     
-//     // Click the CSCE 222 course
-//     await page.locator("#grades").first().click();
+    // Click the first course
+    await page.locator("#grades").first().click();
 
-//     // Verify that we are on the CSCE 222 grades page
-//     await expect(page).toHaveURL("http://localhost:3000/6baedc0e-72e5-4674-9ab8-e96db38446eb/grades");
-// });
+    // Verify that we are not on the home page anymore
+    await expect(page).not.toHaveURL("http://localhost:3000");
+});
 
-// test("Home Page - Can click on course card statements", async ({ page }) => {
-//     // Navigate to login page
-//     await page.goto("http://localhost:3000/login")
+test("Home Page - Student Cannot See Course Card Statements", async ({ page }) => {
+    // Navigate to login page
+    await page.goto("http://localhost:3000/login")
       
-//     // Fill in input forms
-//     await page.getByLabel("username").fill(username);
-//     await page.getByLabel("password").fill(password);
+    // Fill in input forms
+    await page.getByLabel("username").fill(student_username);
+    await page.getByLabel("password").fill(student_password);
 
-//     // Click login button
-//     await page.getByText("Login").last().click();
+    // Click login button
+    await page.getByText("Login").last().click();
     
-//     // Click the CSCE 222 course
-//     await page.locator("#statements").first().click();
+    // Verify that the course statements icon is not there
+    await expect(page.locator("#statements")).not.toBeAttached();
+});
 
-//     // Verify that we are on the CSCE 222 statements page
-//     await expect(page).toHaveURL("http://localhost:3000/6baedc0e-72e5-4674-9ab8-e96db38446eb/statements");
-// });
+test("Home Page - Instructors Can Click on Course Card Statements", async ({ page }) => {
+    // Navigate to login page
+    await page.goto("http://localhost:3000/login")
+      
+    // Fill in input forms
+    await page.getByLabel("username").fill(prof_username);
+    await page.getByLabel("password").fill(prof_password);
+
+    // Click login button
+    await page.getByText("Login").last().click();
+    
+    // Click the first course
+    await page.locator("#statements").first().click();
+
+    // Verify that we are not on the home page anymore
+    await expect(page).not.toHaveURL("http://localhost:3000");
+});
