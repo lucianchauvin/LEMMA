@@ -76,6 +76,24 @@ export const load = (async ({parent, params, locals: { safeQuery, permCheck }}) 
 
 
 export const actions: Actions = {
+    /**
+     * Creates a new assignment for a course.
+     * 
+     * Only users with permission to create assignments for the course can perform this action.
+     * Validates the provided course ID and ensures all necessary assignment fields are included.
+     * 
+     * @param courseId {UUID} - The course ID to which the assignment is being created.
+     * @param name {string} - The name of the assignment.
+     * @param description {string} - The description of the assignment.
+     * @param active {boolean} - Whether the assignment is active or not.
+     * @param dueDate {string} - The due date for the assignment in a valid date string format.
+     * 
+     * @returns A success message if the assignment is created successfully, or a fail response with an error message.
+     * 
+     * @throws 400 - If the course ID or assignment fields are invalid.
+     * @throws 403 - If the user does not have permission to create an assignment.
+     * @throws 500 - If there is a database insertion error.
+     */
     create: async ({ request, locals: { safeQuery, permCheck } }) => {
         const formData = await request.formData();
         const courseId = formData.get("courseId");
@@ -172,6 +190,22 @@ export const actions: Actions = {
             throw error(500, {message: "Failed to insert student assignments to newly created course"});
         }
     },
+
+    /**
+     * Deletes an assignment from a course.
+     * 
+     * Only users with permission to delete assignments for the course can perform this action.
+     * Validates the provided course ID and assignment ID before deletion.
+     * 
+     * @param courseId {UUID} - The course ID to which the assignment belongs.
+     * @param assignmentId {UUID} - The assignment ID to be deleted.
+     * 
+     * @returns A success message if the assignment is deleted successfully, or a fail response with an error message.
+     * 
+     * @throws 400 - If the course ID or assignment ID is invalid.
+     * @throws 403 - If the user does not have permission to delete the assignment.
+     * @throws 500 - If there is a database deletion error.
+     */
     delete: async ({ request, locals: { safeQuery, permCheck } }) => {
         const formData = await request.formData();
         const courseId = formData.get('courseId');
@@ -202,6 +236,25 @@ export const actions: Actions = {
             throw error(500, {message: "Failed to delete assignment"})
         }
     },
+
+    /**
+     * Updates fields for an existing assignment.
+     * 
+     * Only users with permission to update assignments for the course can perform this action.
+     * Validates the provided assignment ID and ensures that at least one field is being updated.
+     * 
+     * @param assignmentId {UUID} - The assignment ID to be updated.
+     * @param name {string} - The new name of the assignment (optional).
+     * @param description {string} - The new description of the assignment (optional).
+     * @param dueDate {string} - The new due date for the assignment in a valid date string format (optional).
+     * @param active {boolean} - Whether the assignment is active or not (optional).
+     * 
+     * @returns A success message if the assignment is updated successfully, or a fail response with an error message.
+     * 
+     * @throws 400 - If the assignment ID is invalid or no fields to update are provided.
+     * @throws 403 - If the user does not have permission to update the assignment.
+     * @throws 500 - If there is a database update error.
+     */
     update: async ({ request, params, locals: { safeQuery, permCheck } }) => {
         const {data: assignmentData, error: assignmentErr} = await permCheck('update_assignments', params.course);
         if(assignmentErr) {

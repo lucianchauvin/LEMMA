@@ -4,7 +4,20 @@ import { json, error } from '@sveltejs/kit';
 import { BASE_PROOF_DIR, BASE_PROBLEM_DIR } from '$lib/constants';
 import type { RequestHandler } from './$types';
 
-export const POST: RequestHandler = async ({ request, params, locals: { safeQuery, permCheck } }) => {
+/**
+ * Saves a student's proof content.
+ * 
+ * Validates the provided proof ID, checks that the proof exists in the database,
+ * and writes the provided content to the corresponding proof file.
+ * 
+ * @param proofId {UUID} - Proof id for what the content is save to
+ * @param content {string} - Content to save to the proof
+ * @returns A JSON response confirming that the proof was saved successfully.
+ * 
+ * @throws 400 - If the proof ID is missing or invalid.
+ * @throws 500 - If the proof does not exist in the database, or if writing to the file fails.
+ */
+export const POST: RequestHandler = async ({ request, locals: { safeQuery, permCheck } }) => {
     const { proofId, content } = await request.json();
 
     if(!proofId) {

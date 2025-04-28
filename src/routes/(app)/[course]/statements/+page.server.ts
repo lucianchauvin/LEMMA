@@ -24,6 +24,22 @@ export const load: PageServerLoad = async ({parent, locals: { safeQuery }}) => {
 }
 
 export const actions: Actions = {
+    /**
+     * Adds a new statement and uploads a file to the server.
+     * 
+     * Validates the provided statement data and uploads the associated file to the server. A new record is added to the database for the statement.
+     * 
+     * @param statement_name {string} - The name of the statement to be added.
+     * @param statement_type {string} - The type of the statement to be added.
+     * @param statement_description {string} - The description of the statement to be added.
+     * @param statement_category {string} - The category of the statement to be added.
+     * @param statement_file {string} - The file content of the statement to be uploaded.
+     * 
+     * @returns A success message if the statement is added and file is uploaded successfully, or a fail response with an error message.
+     * 
+     * @throws 400 - If any required fields (statement_name, statement_type, statement_description, statement_category, or statement_file) are missing.
+     * @throws 500 - If there is a database insertion error or file upload error.
+     */
     add: async ({ request, params, locals: { safeQuery, permCheck } }) => {
         const formData = await request.formData();
         const statement_name = formData.get("statement_name") as string;
@@ -69,6 +85,18 @@ export const actions: Actions = {
         return { success: true, message: "Successfully added statement!" }; 
     },
 
+    /**
+     * Removes a statement from the database and deletes the associated file.
+     * 
+     * Validates the provided statement ID, deletes the associated record from the database, and removes the file from the server.
+     * 
+     * @param statement_id {string} - The ID of the statement to be removed.
+     * 
+     * @returns A success message if the statement is removed and the file is deleted successfully, or a fail response with an error message.
+     * 
+     * @throws 400 - If the statement ID is missing.
+     * @throws 500 - If there is a database deletion error or file removal error.
+     */
     remove: async ({ request, params, locals: { safeQuery, permCheck } }) => {
         const formData = await request.formData();
         const statement_id = formData.get("statement_id") as string;

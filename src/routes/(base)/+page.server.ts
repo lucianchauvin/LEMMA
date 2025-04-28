@@ -85,7 +85,20 @@ export const load: PageServerLoad = async ({parent, locals: { safeQuery, permChe
 
     // get assignments
     const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-    const {data: result_assignments, error: err_assignments} = await safeQuery<Assignment>('SELECT a.*, c.course_number FROM assignments a JOIN courses c ON a.course_id = c.course_id JOIN user_roles ur ON a.course_id = ur.course_id WHERE $1 OR ur.user_id = $2', [user?.isAdmin, user?.id]);
+const {data: result_assignments, error: err_assignments} = await safeQuery<Assignment>('SELECT a.*, c.course_number FROM assignments a JOIN courses c ON a.course_id = c.course_id JOIN user_roles ur ON a.course_id = ur.course_id WHERE $1 OR ur.user_id = $2 ORDER BY a.due_date', [user?.isAdmin, user?.id]);
+    for (let assignment of result_assignments!)
+    {
+        const {data: result_students, error: err_students} = await safeQuery<StudentAssignment>('SELECT * FROM student_assignments WHERE assignment_id = $1 AND student_id = $2', [assignment.assignment_id, user?.id]);
+        if (result_students.length != 0)
+        {
+            assignment.student_assignment_id = result_students![0].student_assignment_id;
+        }
+        else
+        {
+            assignment.student_assignment_id = "";
+        }
+    }
+
     if (err_assignments) {
         console.error('ERROR: Database failed to query for assignments:', err_assignments);
         error(500, {message: 'Database failed to query for assignments'})
@@ -104,7 +117,7 @@ export const load: PageServerLoad = async ({parent, locals: { safeQuery, permChe
             assignment.date_color = 'black';
         }
         else {
-            assignment.date_color = 'white';
+            assignment.date_color = 'slategrey';
         }
         const temp_date = new Date(assignment.due_date);
         assignment.due_date = months[temp_date.getMonth()] + ' ' + temp_date.getDate();

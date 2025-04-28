@@ -56,9 +56,13 @@ export const load = (async ({parent, params, locals: { safeQuery, permCheck } })
         throw error(500, { message: "Database failed to query users for course" });
     }
 
+	// Check for presence of any students in already-fetched courseUsers list
+	const noStudents =  !Array.isArray(courseUsers) || !courseUsers.some((u: any) => u.role_name === "student");
+
     return {
         ...(nonAssignedUsers ? {new_users: nonAssignedUsers}: {}),
         users: courseUsers,
+        noStudents,
         permissions: {
             ...permissions,
             update_course_users
@@ -67,6 +71,21 @@ export const load = (async ({parent, params, locals: { safeQuery, permCheck } })
 }) satisfies PageServerLoad;
 
 export const actions: Actions = {
+    /**
+     * Adds a user to the course and assigns a role.
+     * 
+     * Validates the provided user ID and role, and adds the user to the course with the specified role. If the user is assigned the "student" role, their assignments for the course are also created.
+     * 
+     * @param user_id {string} - The ID of the user to be added to the course.
+     * @param role {string} - The role to be assigned to the user (e.g., "student", "instructor").
+     * @param courseId {UUID} - The ID of the course to which the user is being added.
+     * 
+     * @returns A success message if the user is successfully added to the course and assigned a role, or a fail response with an error message.
+     * 
+     * @throws 400 - If the user ID or role is missing or if the user is already assigned a role.
+     * @throws 403 - If the user does not have permission to update course users or the role is not valid for the user.
+     * @throws 500 - If there is a database insertion error or error adding student assignments.
+     */
     add: async ({ request, params, locals: { safeQuery, permCheck } }) => {
         const {data: permData, error: permErr} = await permCheck('update_course_users', params.course);
         if(permErr) {
@@ -138,6 +157,21 @@ export const actions: Actions = {
         return { success: true, message: `User successfully added` }; 
     },
 
+    /**
+     * Removes a user from the course and deletes their assignments.
+     * 
+     * Validates the provided user ID and role, and removes the user from the course, deleting their assignments for the course if they are a student.
+     * 
+     * @param user_id {string} - The ID of the user to be removed from the course.
+     * @param role {string} - The role of the user to be removed (e.g., "student", "instructor").
+     * @param courseId {UUID} - The ID of the course from which the user is being removed.
+     * 
+     * @returns A success message if the user is successfully removed from the course and their assignments are deleted, or a fail response with an error message.
+     * 
+     * @throws 400 - If the user ID or role is missing.
+     * @throws 403 - If the user does not have permission to update course users or the role is not valid for the user.
+     * @throws 500 - If there is a database deletion error or error deleting student assignments.
+     */
     remove: async ({ request, params, locals: { safeQuery, permCheck } }) => {
         const {data: permData, error: permErr} = await permCheck('update_course_users', params.course);
         if(permErr) {

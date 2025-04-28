@@ -19,21 +19,27 @@
     <h2 class="h2 pb-2 ml-2 font-semibold border-b-2 border-surface-200" in:fade|global={{ delay: 300, duration: 300 }}>Assignments</h2>
     <div class="todo-container pt-4 grid grid-cols-1 gap-2" in:fade|global={{ delay: 300, duration: 300 }}>
         <h4 style="color:crimson;" class="h4 pb-2 ml-2 font-semibold">Overdue</h4>
-        {#each data.assignments as { course_number, assignment_name, active, due_date, color, date_color }}
+        {#each data.assignments as { course_number, assignment_name, active, due_date, color, date_color, course_id, assignment_id, student_assignment_id }}
             {#if active === true && date_color === 'crimson'}
-                <TaskComponent {course_number} {assignment_name} {due_date} {color} {date_color} />
+                <TaskComponent {course_number} {assignment_name} {due_date} {color} {date_color} {course_id} {assignment_id} {student_assignment_id} />
             {/if}
         {/each}
         <h4 style="color:darkorange;" class="h4 pt-5 pb-2 ml-2 font-semibold">Due Today</h4>
-        {#each data.assignments as { course_number, assignment_name, active, due_date, color, date_color }}
+        {#each data.assignments as { course_number, assignment_name, active, due_date, color, date_color, course_id, assignment_id, student_assignment_id }}
             {#if active === true && date_color === 'darkorange'}
-                <TaskComponent {course_number} {assignment_name} {due_date} {color} {date_color} />
+                <TaskComponent {course_number} {assignment_name} {due_date} {color} {date_color} {course_id} {assignment_id} {student_assignment_id} />
             {/if}
         {/each}
         <h4 style="color:black;" class="h4 pt-5 pb-2 ml-2 font-semibold">Due This Week</h4>
-        {#each data.assignments as { course_number, assignment_name, active, due_date, color, date_color }}
+        {#each data.assignments as { course_number, assignment_name, active, due_date, color, date_color, course_id, assignment_id, student_assignment_id }}
             {#if active === true && date_color === 'black'}
-                <TaskComponent {course_number} {assignment_name} {due_date} {color} {date_color} />
+                <TaskComponent {course_number} {assignment_name} {due_date} {color} {date_color} {course_id} {assignment_id} {student_assignment_id} />
+            {/if}
+        {/each}
+        <h4 style="color:slategrey;" class="h4 pt-5 pb-2 ml-2 font-semibold">Due Later</h4>
+        {#each data.assignments as { course_number, assignment_name, active, due_date, color, date_color, course_id, assignment_id, student_assignment_id }}
+            {#if active === true && date_color === 'slategrey'}
+                <TaskComponent {course_number} {assignment_name} {due_date} {color} {date_color} {course_id} {assignment_id} {student_assignment_id} />
             {/if}
         {/each}
     </div>

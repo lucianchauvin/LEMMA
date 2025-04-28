@@ -70,7 +70,7 @@
         isProcessing = true;
 
         try {
-            const response = await fetch('/apiv2/loadProof', {
+            const response = await fetch('/apiv2/load_proof', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -102,7 +102,7 @@
 
         console.log(`[Lean4web] Saving proof...`);
         try {
-            const response = await fetch('/apiv2/saveProof', {
+            const response = await fetch('/apiv2/save_proof', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -120,7 +120,7 @@
 
     async function saveProblem() {
         try {
-            const response = await fetch('/apiv2/saveProblem', {
+            const response = await fetch('/apiv2/save_problem', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -143,7 +143,7 @@
         if (!data.problems[activeProblem]?.problem_id || !studentProof) return false;
 
         try {
-            const response = await fetch('/apiv2/loadProof', {
+            const response = await fetch('/apiv2/load_proof', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -191,7 +191,7 @@
 
         const isCorrect = await checkAssm();
         if (isCorrect) {
-            const response = await fetch('/apiv2/completeProof', {
+            const response = await fetch('/apiv2/complete_proof', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -351,7 +351,7 @@
     <div id="problem-description" class="p-2 flex-[0_0_40%] overflow-y-scroll">
         <h2 class="h3">Problem Description</h2>
         {#if edit}
-        <form method="post" action="?/problemDescription" enctype="multipart/form-data" class="flex flex-col" use:enhance>
+        <form method="post" action="?/problem_description" enctype="multipart/form-data" class="flex flex-col" use:enhance>
         <input type="hidden" name="problemId" value={data?.problems[activeProblem]?.problem_id ?? ''} />
         <textarea id="description-textarea" name="description" rows="10">{data?.problems[activeProblem]?.problem_description ?? ''}</textarea>
         <button type="submit" class="btn variant-filled">Save</button>
@@ -387,7 +387,7 @@
                 </span>
                 </button>
                 {#if edit}
-                    <form method="post" action="?/deleteProblem" enctype="multipart/form-data">
+                    <form method="post" action="?/delete_problem" enctype="multipart/form-data">
                         <input type="hidden" name="problemId" value={problem.problem_id} />
                         <button type="submit" class="bg-red-500 text-white px-2 py-1 rounded flex items-center gap-1 p-2">
                             <Trash size={16} />
@@ -400,7 +400,7 @@
             <li class="w-full">
                 <form 
                 method="post" 
-                action="?/problemName" 
+                action="?/problem_name" 
                 enctype="multipart/form-data"
                 class="flex justify-center gap-2" 
                 use:enhance={() => {
