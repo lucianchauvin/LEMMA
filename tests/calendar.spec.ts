@@ -186,3 +186,57 @@ test("Calendar Page - Admin Can Click on Home Page Icon in Sidebar to Return to 
     // Verify that we are on the admin panel page
     await expect(page).toHaveURL("http://localhost:3000/admin");
 });
+
+test("Calendar Page - Student Can View Assignments in Calendar", async ({ page }) => {
+    // Navigate to login page
+    await page.goto("http://localhost:3000/login")
+      
+    // Fill in input forms
+    await page.getByLabel("username").fill(student_username);
+    await page.getByLabel("password").fill(student_password);
+
+    // Click login button
+    await page.getByText("Login").last().click();
+    
+    // Click calendar button
+    await page.getByText("Calendar").click();
+
+    // Verify that assignments can be seen
+    await expect(page.getByText("Predicate Logic and Quantifiers").or(page.getByText("Basics of LEAN")).nth(0)).toBeVisible();
+});
+
+test("Calendar Page - Instructor Can View Assignments in Calendar", async ({ page }) => {
+    // Navigate to login page
+    await page.goto("http://localhost:3000/login")
+      
+    // Fill in input forms
+    await page.getByLabel("username").fill(prof_username);
+    await page.getByLabel("password").fill(prof_password);
+
+    // Click login button
+    await page.getByText("Login").last().click();
+    
+    // Click calendar button
+    await page.getByText("Calendar").click();
+
+    // Verify that assignments can be seen
+    await expect(page.getByText("Predicate Logic and Quantifiers").or(page.getByText("Basics of LEAN")).nth(0)).toBeVisible();
+});
+
+test("Calendar Page - Admin Can View Assignments in Calendar", async ({ page }) => {
+    // Navigate to login page
+    await page.goto("http://localhost:3000/login")
+      
+    // Fill in input forms
+    await page.getByLabel("username").fill(admin_username);
+    await page.getByLabel("password").fill(admin_password);
+
+    // Click login button
+    await page.getByText("Login").last().click();
+    
+    // Click calendar button
+    await page.getByText("Calendar").click();
+
+    // Verify that assignments can be seen
+    await expect(page.getByText("Predicate Logic and Quantifiers").or(page.getByText("Basics of LEAN")).nth(0)).toBeVisible();
+});
