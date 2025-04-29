@@ -147,7 +147,7 @@ test("Home Page - (Integration Test) Instructors Can Click on Course Card Statem
     await expect(page).not.toHaveURL("http://localhost:3000");
 });
 
-test("Home Page - (Integration Test) Students Can See Assignments To-Do List", async ({ page }) => {
+test("Home Page - (Integration Test) Information is Displayed and Students Can See Assignments To-Do List", async ({ page }) => {
     // Navigate to login page
     await page.goto("http://localhost:3000/login")
       
@@ -162,7 +162,7 @@ test("Home Page - (Integration Test) Students Can See Assignments To-Do List", a
     await expect(page.getByText("Basics of LEAN")).toBeVisible();
 });
 
-test("Home Page - (Integration Test) Instructors Can See Assignments To-Do List", async ({ page }) => {
+test("Home Page - (Integration Test) Information is Displayed and Instructors Can See Assignments To-Do List", async ({ page }) => {
     // Navigate to login page
     await page.goto("http://localhost:3000/login")
       
@@ -177,7 +177,7 @@ test("Home Page - (Integration Test) Instructors Can See Assignments To-Do List"
     await expect(page.getByText("Basics of LEAN")).toBeVisible();
 });
 
-test("Home Page - (System Test) Students Can Click on Assignments To-Do List", async ({ page }) => {
+test("Home Page - (System Test) Information is Displayed and Students Can Click on Assignments To-Do List", async ({ page }) => {
     // Navigate to login page
     await page.goto("http://localhost:3000/login")
       

@@ -68,7 +68,7 @@ test("Course Grades Page - (Integration Test) Admin Cannot Navigate to Course Gr
     await expect(page.getByText("Course Grades")).not.toBeAttached();
 });
 
-test("Course Grades Page - (Integration Test) Student Can View Course Grades", async ({ page }) => {
+test("Course Grades Page - (Integration Test) Information is Displayed and Student Can View Course Grades", async ({ page }) => {
     // Navigate to login page
     await page.goto("http://localhost:3000/login")
       

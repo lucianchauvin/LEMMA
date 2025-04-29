@@ -62,7 +62,7 @@ test("Course Assignments Page - (System Test) Admin Can Navigate to Course Assig
     await expect(page).not.toHaveURL("http://localhost:3000/admin");
 });
 
-test("Course Assignments Page - (System Test) Student Can View Course Assignments", async ({ page }) => {
+test("Course Assignments Page - (System Test) Information is Displayed and Student Can View Course Assignments", async ({ page }) => {
     // Navigate to login page
     await page.goto("http://localhost:3000/login")
       
@@ -80,7 +80,7 @@ test("Course Assignments Page - (System Test) Student Can View Course Assignment
     await expect(page.getByText("Predicate Logic and Quantifiers").or(page.getByText("Basics of LEAN")).first()).toBeVisible();
 });
 
-test("Course Assignments Page - (System Test) Instructor Can View Course Assignments", async ({ page }) => {
+test("Course Assignments Page - (System Test) Information is Displayed and Instructor Can View Course Assignments", async ({ page }) => {
     // Navigate to login page
     await page.goto("http://localhost:3000/login")
       
@@ -98,7 +98,7 @@ test("Course Assignments Page - (System Test) Instructor Can View Course Assignm
     await expect(page.getByText("Predicate Logic and Quantifiers").or(page.getByText("Basics of LEAN")).first()).toBeVisible();
 });
 
-test("Course Assignments Page - (System Test) Admin Can View Course Assignments", async ({ page }) => {
+test("Course Assignments Page - (System Test) Information is Displayed and Admin Can View Course Assignments", async ({ page }) => {
     // Navigate to login page
     await page.goto("http://localhost:3000/login")
       

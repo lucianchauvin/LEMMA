@@ -80,7 +80,7 @@ test("Course Users Page - (Integration Test) Admin Can Navigate to Course Users"
     await expect(page).not.toHaveURL(url);
 });
 
-test("Course Users Page - (Integration Test) Student Can View Course Users (Only Self and Instructor)", async ({ page }) => {
+test("Course Users Page - (Integration Test) Information is Displayed and Student Can View Course Users (Only Self and Instructor)", async ({ page }) => {
     // Navigate to login page
     await page.goto("http://localhost:3000/login")
       
@@ -108,7 +108,7 @@ test("Course Users Page - (Integration Test) Student Can View Course Users (Only
     await expect(page.getByText("Admin")).not.toBeVisible();
 });
 
-test("Course Users Page - (Integration Test) Instructor Can View Course Users (All except Admin)", async ({ page }) => {
+test("Course Users Page - (Integration Test) Information is Displayed and Instructor Can View Course Users (All except Admin)", async ({ page }) => {
     // Navigate to login page
     await page.goto("http://localhost:3000/login")
       
@@ -136,7 +136,7 @@ test("Course Users Page - (Integration Test) Instructor Can View Course Users (A
     await expect(page.getByText("Admin")).not.toBeVisible();
 });
 
-test("Course Users Page - (Integration Test) Admin Can View Course Users", async ({ page }) => {
+test("Course Users Page - (Integration Test) Information is Displayed and Admin Can View Course Users", async ({ page }) => {
     // Navigate to login page
     await page.goto("http://localhost:3000/login")
       

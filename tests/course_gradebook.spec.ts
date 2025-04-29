@@ -77,7 +77,7 @@ test("Course Gradebook Page - (Integration Test) Admin Can Navigate to Course Gr
     await expect(page).not.toHaveURL(url);
 });
 
-test("Course Gradebook Page - (Integration Test) Instructor Can View Course Gradebook", async ({ page }) => {
+test("Course Gradebook Page - (Integration Test) Information is Displayed and Instructor Can View Course Gradebook", async ({ page }) => {
     // Navigate to login page
     await page.goto("http://localhost:3000/login")
       
@@ -101,7 +101,7 @@ test("Course Gradebook Page - (Integration Test) Instructor Can View Course Grad
     await expect(page.getByText("Predicate Logic and Quantifiers").or(page.getByText("Basics of LEAN")).first()).toBeVisible();
 });
 
-test("Course Gradebook Page - (Integration Test) Admin Can View Course Gradebook", async ({ page }) => {
+test("Course Gradebook Page - (Integration Test) Information is Displayed and Admin Can View Course Gradebook", async ({ page }) => {
     // Navigate to login page
     await page.goto("http://localhost:3000/login")
       
