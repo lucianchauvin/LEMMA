@@ -202,7 +202,7 @@ test("Calendar Page - Student Can View Assignments in Calendar", async ({ page }
     await page.getByText("Calendar").click();
 
     // Verify that assignments can be seen
-    await expect(page.getByText("Predicate Logic and Quantifiers").or(page.getByText("Basics of LEAN")).nth(0)).toBeVisible();
+    await expect(page.getByText("Predicate Logic and Quantifiers").or(page.getByText("Basics of LEAN")).first()).toBeVisible();
 });
 
 test("Calendar Page - Instructor Can View Assignments in Calendar", async ({ page }) => {
@@ -220,7 +220,7 @@ test("Calendar Page - Instructor Can View Assignments in Calendar", async ({ pag
     await page.getByText("Calendar").click();
 
     // Verify that assignments can be seen
-    await expect(page.getByText("Predicate Logic and Quantifiers").or(page.getByText("Basics of LEAN")).nth(0)).toBeVisible();
+    await expect(page.getByText("Predicate Logic and Quantifiers").or(page.getByText("Basics of LEAN")).first()).toBeVisible();
 });
 
 test("Calendar Page - Admin Can View Assignments in Calendar", async ({ page }) => {
@@ -238,5 +238,5 @@ test("Calendar Page - Admin Can View Assignments in Calendar", async ({ page }) 
     await page.getByText("Calendar").click();
 
     // Verify that assignments can be seen
-    await expect(page.getByText("Predicate Logic and Quantifiers").or(page.getByText("Basics of LEAN")).nth(0)).toBeVisible();
+    await expect(page.getByText("Predicate Logic and Quantifiers").or(page.getByText("Basics of LEAN")).first()).toBeVisible();
 });

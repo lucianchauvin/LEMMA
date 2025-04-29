@@ -8,7 +8,7 @@ const prof_password = process.env.PROF_PASSWORD;
 const admin_username = process.env.ADMIN_USER;
 const admin_password = process.env.ADMIN_PASSWORD;
 
-test("Home Page - Student Can Navigate to Course Assignments", async ({ page }) => {
+test("Course Assignments Page - Student Can Navigate to Course Assignments", async ({ page }) => {
     // Navigate to login page
     await page.goto("http://localhost:3000/login")
       
@@ -26,7 +26,7 @@ test("Home Page - Student Can Navigate to Course Assignments", async ({ page }) 
     await expect(page).not.toHaveURL("http://localhost:3000");
 });
 
-test("Home Page - Instructor Can Navigate to Course Assignments", async ({ page }) => {
+test("Course Assignments Page - Instructor Can Navigate to Course Assignments", async ({ page }) => {
     // Navigate to login page
     await page.goto("http://localhost:3000/login")
       
@@ -44,7 +44,7 @@ test("Home Page - Instructor Can Navigate to Course Assignments", async ({ page 
     await expect(page).not.toHaveURL("http://localhost:3000");
 });
 
-test("Admin Page - Admin Can Navigate to Course Assignments", async ({ page }) => {
+test("Course Assignments Page - Admin Can Navigate to Course Assignments", async ({ page }) => {
     // Navigate to login page
     await page.goto("http://localhost:3000/login")
       
