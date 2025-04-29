@@ -8,7 +8,7 @@ const prof_password = process.env.PROF_PASSWORD;
 const admin_username = process.env.ADMIN_USER;
 const admin_password = process.env.ADMIN_PASSWORD;
 
-test("Course Statements Page - (System Test) Student Cannot Navigate to Course Statements", async ({ page }) => {
+test("Course Statements Page - (Integration Test) Student Cannot Navigate to Course Statements", async ({ page }) => {
     // Navigate to login page
     await page.goto("http://localhost:3000/login")
       
@@ -26,7 +26,7 @@ test("Course Statements Page - (System Test) Student Cannot Navigate to Course S
     await expect(page.getByText("Course Statements")).not.toBeAttached();
 });
 
-test("Course Statements Page - (System Test) Instructor Can Navigate to Course Statements", async ({ page }) => {
+test("Course Statements Page - (Integration Test) Instructor Can Navigate to Course Statements", async ({ page }) => {
     // Navigate to login page
     await page.goto("http://localhost:3000/login")
       
@@ -50,7 +50,7 @@ test("Course Statements Page - (System Test) Instructor Can Navigate to Course S
     await expect(page).not.toHaveURL(url);
 });
 
-test("Course Statements Page - (System Test) Admin Can Navigate to Course Statements", async ({ page }) => {
+test("Course Statements Page - (Integration Test) Admin Can Navigate to Course Statements", async ({ page }) => {
     // Navigate to login page
     await page.goto("http://localhost:3000/login")
       
@@ -74,7 +74,7 @@ test("Course Statements Page - (System Test) Admin Can Navigate to Course Statem
     await expect(page).not.toHaveURL(url);
 });
 
-test("Course Statements Page - (System Test) Instructor Can View Course Statements", async ({ page }) => {
+test("Course Statements Page - (Integration Test) Instructor Can View Course Statements", async ({ page }) => {
     // Navigate to login page
     await page.goto("http://localhost:3000/login")
       
@@ -95,7 +95,7 @@ test("Course Statements Page - (System Test) Instructor Can View Course Statemen
     await expect(page.getByText("rw").first()).toBeVisible();
 });
 
-test("Course Statements Page - (System Test) Admin Can View Course Statements", async ({ page }) => {
+test("Course Statements Page - (Integration Test) Admin Can View Course Statements", async ({ page }) => {
     // Navigate to login page
     await page.goto("http://localhost:3000/login")
       

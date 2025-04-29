@@ -8,7 +8,7 @@ const prof_password = process.env.PROF_PASSWORD;
 const admin_username = process.env.ADMIN_USER;
 const admin_password = process.env.ADMIN_PASSWORD;
 
-test("Course Grades Page - (System Test) Student Can Navigate to Course Grades", async ({ page }) => {
+test("Course Grades Page - (Integration Test) Student Can Navigate to Course Grades", async ({ page }) => {
     // Navigate to login page
     await page.goto("http://localhost:3000/login")
       
@@ -32,7 +32,7 @@ test("Course Grades Page - (System Test) Student Can Navigate to Course Grades",
     await expect(page).not.toHaveURL(url);
 });
 
-test("Course Grades Page - (System Test) Instructor Cannot Navigate to Course Grades (they use Course Gradebook instead)", async ({ page }) => {
+test("Course Grades Page - (Integration Test) Instructor Cannot Navigate to Course Grades (they use Course Gradebook instead)", async ({ page }) => {
     // Navigate to login page
     await page.goto("http://localhost:3000/login")
       
@@ -50,7 +50,7 @@ test("Course Grades Page - (System Test) Instructor Cannot Navigate to Course Gr
     await expect(page.getByText("Course Grades")).not.toBeAttached();
 });
 
-test("Course Grades Page - (System Test) Admin Cannot Navigate to Course Grades (they use Course Gradebook instead)", async ({ page }) => {
+test("Course Grades Page - (Integration Test) Admin Cannot Navigate to Course Grades (they use Course Gradebook instead)", async ({ page }) => {
     // Navigate to login page
     await page.goto("http://localhost:3000/login")
       
@@ -68,7 +68,7 @@ test("Course Grades Page - (System Test) Admin Cannot Navigate to Course Grades 
     await expect(page.getByText("Course Grades")).not.toBeAttached();
 });
 
-test("Course Grades Page - (System Test) Student Can View Course Grades", async ({ page }) => {
+test("Course Grades Page - (Integration Test) Student Can View Course Grades", async ({ page }) => {
     // Navigate to login page
     await page.goto("http://localhost:3000/login")
       

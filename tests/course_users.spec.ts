@@ -8,7 +8,7 @@ const prof_password = process.env.PROF_PASSWORD;
 const admin_username = process.env.ADMIN_USER;
 const admin_password = process.env.ADMIN_PASSWORD;
 
-test("Course Users Page - (System Test) Student Can Navigate to Course Users", async ({ page }) => {
+test("Course Users Page - (Integration Test) Student Can Navigate to Course Users", async ({ page }) => {
     // Navigate to login page
     await page.goto("http://localhost:3000/login")
       
@@ -32,7 +32,7 @@ test("Course Users Page - (System Test) Student Can Navigate to Course Users", a
     await expect(page).not.toHaveURL(url);
 });
 
-test("Course Users Page - (System Test) Instructor Can Navigate to Course Users", async ({ page }) => {
+test("Course Users Page - (Integration Test) Instructor Can Navigate to Course Users", async ({ page }) => {
     // Navigate to login page
     await page.goto("http://localhost:3000/login")
       
@@ -56,7 +56,7 @@ test("Course Users Page - (System Test) Instructor Can Navigate to Course Users"
     await expect(page).not.toHaveURL(url);
 });
 
-test("Course Users Page - (System Test) Admin Can Navigate to Course Users", async ({ page }) => {
+test("Course Users Page - (Integration Test) Admin Can Navigate to Course Users", async ({ page }) => {
     // Navigate to login page
     await page.goto("http://localhost:3000/login")
       
@@ -80,7 +80,7 @@ test("Course Users Page - (System Test) Admin Can Navigate to Course Users", asy
     await expect(page).not.toHaveURL(url);
 });
 
-test("Course Users Page - (System Test) Student Can View Course Users (Only Self and Instructor)", async ({ page }) => {
+test("Course Users Page - (Integration Test) Student Can View Course Users (Only Self and Instructor)", async ({ page }) => {
     // Navigate to login page
     await page.goto("http://localhost:3000/login")
       
@@ -108,7 +108,7 @@ test("Course Users Page - (System Test) Student Can View Course Users (Only Self
     await expect(page.getByText("Admin")).not.toBeVisible();
 });
 
-test("Course Users Page - (System Test) Instructor Can View Course Users (All except Admin)", async ({ page }) => {
+test("Course Users Page - (Integration Test) Instructor Can View Course Users (All except Admin)", async ({ page }) => {
     // Navigate to login page
     await page.goto("http://localhost:3000/login")
       
@@ -136,7 +136,7 @@ test("Course Users Page - (System Test) Instructor Can View Course Users (All ex
     await expect(page.getByText("Admin")).not.toBeVisible();
 });
 
-test("Course Users Page - (System Test) Admin Can View Course Users", async ({ page }) => {
+test("Course Users Page - (Integration Test) Admin Can View Course Users", async ({ page }) => {
     // Navigate to login page
     await page.goto("http://localhost:3000/login")
       

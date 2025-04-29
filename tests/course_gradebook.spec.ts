@@ -8,7 +8,7 @@ const prof_password = process.env.PROF_PASSWORD;
 const admin_username = process.env.ADMIN_USER;
 const admin_password = process.env.ADMIN_PASSWORD;
 
-test("Course Gradebook Page - (System Test) Student Cannot Navigate to Course Gradebook (they use Course Grades instead)", async ({ page }) => {
+test("Course Gradebook Page - (Integration Test) Student Cannot Navigate to Course Gradebook (they use Course Grades instead)", async ({ page }) => {
     // Navigate to login page
     await page.goto("http://localhost:3000/login")
       
@@ -29,7 +29,7 @@ test("Course Gradebook Page - (System Test) Student Cannot Navigate to Course Gr
     await expect(page.getByText("Course Gradebook")).not.toBeAttached();
 });
 
-test("Course Gradebook Page - (System Test) Instructor Can Navigate to Course Gradebook", async ({ page }) => {
+test("Course Gradebook Page - (Integration Test) Instructor Can Navigate to Course Gradebook", async ({ page }) => {
     // Navigate to login page
     await page.goto("http://localhost:3000/login")
       
@@ -53,7 +53,7 @@ test("Course Gradebook Page - (System Test) Instructor Can Navigate to Course Gr
     await expect(page).not.toHaveURL(url);
 });
 
-test("Course Gradebook Page - (System Test) Admin Can Navigate to Course Gradebook", async ({ page }) => {
+test("Course Gradebook Page - (Integration Test) Admin Can Navigate to Course Gradebook", async ({ page }) => {
     // Navigate to login page
     await page.goto("http://localhost:3000/login")
       
@@ -77,7 +77,7 @@ test("Course Gradebook Page - (System Test) Admin Can Navigate to Course Gradebo
     await expect(page).not.toHaveURL(url);
 });
 
-test("Course Gradebook Page - (System Test) Instructor Can View Course Gradebook", async ({ page }) => {
+test("Course Gradebook Page - (Integration Test) Instructor Can View Course Gradebook", async ({ page }) => {
     // Navigate to login page
     await page.goto("http://localhost:3000/login")
       
@@ -101,7 +101,7 @@ test("Course Gradebook Page - (System Test) Instructor Can View Course Gradebook
     await expect(page.getByText("Predicate Logic and Quantifiers").or(page.getByText("Basics of LEAN")).first()).toBeVisible();
 });
 
-test("Course Gradebook Page - (System Test) Admin Can View Course Gradebook", async ({ page }) => {
+test("Course Gradebook Page - (Integration Test) Admin Can View Course Gradebook", async ({ page }) => {
     // Navigate to login page
     await page.goto("http://localhost:3000/login")
       

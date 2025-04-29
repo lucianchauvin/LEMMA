@@ -6,7 +6,7 @@ const student_password = process.env.STUDENT_PASSWORD;
 const prof_username = process.env.PROF_USER;
 const prof_password = process.env.PROF_PASSWORD;
 
-test("Home Page - (System Test) Student Can click on Course Card", async ({ page }) => {
+test("Home Page - (Integration Test) Student Can click on Course Card", async ({ page }) => {
     // Navigate to login page
     await page.goto("http://localhost:3000/login")
       
@@ -24,7 +24,7 @@ test("Home Page - (System Test) Student Can click on Course Card", async ({ page
     await expect(page).toHaveURL("http://localhost:3000/e8ce0fe7-d982-441b-80fb-7e0bc67adb4b");
 });
 
-test("Home Page - (System Test) Instructor Can click on Course Card", async ({ page }) => {
+test("Home Page - (Integration Test) Instructor Can click on Course Card", async ({ page }) => {
     // Navigate to login page
     await page.goto("http://localhost:3000/login")
       
@@ -42,7 +42,7 @@ test("Home Page - (System Test) Instructor Can click on Course Card", async ({ p
     await expect(page).toHaveURL("http://localhost:3000/e8ce0fe7-d982-441b-80fb-7e0bc67adb4b");
 });
 
-test("Home Page - (System Test) Student Can Click on Course Card Assignments", async ({ page }) => {
+test("Home Page - (Integration Test) Student Can Click on Course Card Assignments", async ({ page }) => {
     // Navigate to login page
     await page.goto("http://localhost:3000/login")
       
@@ -60,7 +60,7 @@ test("Home Page - (System Test) Student Can Click on Course Card Assignments", a
     await expect(page).not.toHaveURL("http://localhost:3000");
 });
 
-test("Home Page - (System Test) Instructor Can Click on Course Card Assignments", async ({ page }) => {
+test("Home Page - (Integration Test) Instructor Can Click on Course Card Assignments", async ({ page }) => {
     // Navigate to login page
     await page.goto("http://localhost:3000/login")
       
@@ -78,7 +78,7 @@ test("Home Page - (System Test) Instructor Can Click on Course Card Assignments"
     await expect(page).not.toHaveURL("http://localhost:3000");
 });
 
-test("Home Page - (System Test) Student Can Click on Course Card Grades", async ({ page }) => {
+test("Home Page - (Integration Test) Student Can Click on Course Card Grades", async ({ page }) => {
     // Navigate to login page
     await page.goto("http://localhost:3000/login")
       
@@ -96,7 +96,7 @@ test("Home Page - (System Test) Student Can Click on Course Card Grades", async 
     await expect(page).not.toHaveURL("http://localhost:3000");
 });
 
-test("Home Page - (System Test) Instructor Can Click on Course Card Grades", async ({ page }) => {
+test("Home Page - (Integration Test) Instructor Can Click on Course Card Grades", async ({ page }) => {
     // Navigate to login page
     await page.goto("http://localhost:3000/login")
       
@@ -114,7 +114,7 @@ test("Home Page - (System Test) Instructor Can Click on Course Card Grades", asy
     await expect(page).not.toHaveURL("http://localhost:3000");
 });
 
-test("Home Page - (System Test) Student Cannot See Course Card Statements", async ({ page }) => {
+test("Home Page - (Integration Test) Student Cannot See Course Card Statements", async ({ page }) => {
     // Navigate to login page
     await page.goto("http://localhost:3000/login")
       
@@ -129,7 +129,7 @@ test("Home Page - (System Test) Student Cannot See Course Card Statements", asyn
     await expect(page.locator("#statements")).not.toBeAttached();
 });
 
-test("Home Page - (System Test) Instructors Can Click on Course Card Statements", async ({ page }) => {
+test("Home Page - (Integration Test) Instructors Can Click on Course Card Statements", async ({ page }) => {
     // Navigate to login page
     await page.goto("http://localhost:3000/login")
       
@@ -147,7 +147,7 @@ test("Home Page - (System Test) Instructors Can Click on Course Card Statements"
     await expect(page).not.toHaveURL("http://localhost:3000");
 });
 
-test("Home Page - (System Test) Students Can See Assignments To-Do List", async ({ page }) => {
+test("Home Page - (Integration Test) Students Can See Assignments To-Do List", async ({ page }) => {
     // Navigate to login page
     await page.goto("http://localhost:3000/login")
       
@@ -162,7 +162,7 @@ test("Home Page - (System Test) Students Can See Assignments To-Do List", async 
     await expect(page.getByText("Basics of LEAN")).toBeVisible();
 });
 
-test("Home Page - (System Test) Instructors Can See Assignments To-Do List", async ({ page }) => {
+test("Home Page - (Integration Test) Instructors Can See Assignments To-Do List", async ({ page }) => {
     // Navigate to login page
     await page.goto("http://localhost:3000/login")
       
@@ -177,7 +177,7 @@ test("Home Page - (System Test) Instructors Can See Assignments To-Do List", asy
     await expect(page.getByText("Basics of LEAN")).toBeVisible();
 });
 
-test("Home Page - (Integration Test) Students Can Click on Assignments To-Do List", async ({ page }) => {
+test("Home Page - (System Test) Students Can Click on Assignments To-Do List", async ({ page }) => {
     // Navigate to login page
     await page.goto("http://localhost:3000/login")
       
@@ -198,7 +198,7 @@ test("Home Page - (Integration Test) Students Can Click on Assignments To-Do Lis
     await expect(page).not.toHaveURL(url);
 });
 
-test("Home Page - (Integration Test) Instructors Can Click on Assignments To-Do List", async ({ page }) => {
+test("Home Page - (System Test) Instructors Can Click on Assignments To-Do List", async ({ page }) => {
     // Navigate to login page
     await page.goto("http://localhost:3000/login")
       
