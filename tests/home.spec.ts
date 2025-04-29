@@ -147,7 +147,7 @@ test("Home Page - (Integration Test) Instructors Can Click on Course Card Statem
     await expect(page).not.toHaveURL("http://localhost:3000");
 });
 
-test("Home Page - (Integration Test) Information is Displayed and Students Can See Assignments To-Do List", async ({ page }) => {
+test("Home Page - (Integration Test) Correct Information is Displayed After Edit and Students Can See Assignments To-Do List", async ({ page }) => {
     // Navigate to login page
     await page.goto("http://localhost:3000/login")
       
@@ -162,7 +162,7 @@ test("Home Page - (Integration Test) Information is Displayed and Students Can S
     await expect(page.getByText("Basics of LEAN")).toBeVisible();
 });
 
-test("Home Page - (Integration Test) Information is Displayed and Instructors Can See Assignments To-Do List", async ({ page }) => {
+test("Home Page - (Integration Test) Correct Information is Displayed After Edit and Instructors Can See Assignments To-Do List", async ({ page }) => {
     // Navigate to login page
     await page.goto("http://localhost:3000/login")
       
@@ -177,7 +177,7 @@ test("Home Page - (Integration Test) Information is Displayed and Instructors Ca
     await expect(page.getByText("Basics of LEAN")).toBeVisible();
 });
 
-test("Home Page - (System Test) Information is Displayed and Students Can Click on Assignments To-Do List", async ({ page }) => {
+test("Home Page - (System Test) Students Can Directly Jump to Correct Assignment from Assignments To-Do List", async ({ page }) => {
     // Navigate to login page
     await page.goto("http://localhost:3000/login")
       
@@ -198,7 +198,7 @@ test("Home Page - (System Test) Information is Displayed and Students Can Click 
     await expect(page).not.toHaveURL(url);
 });
 
-test("Home Page - (System Test) Instructors Can Click on Assignments To-Do List", async ({ page }) => {
+test("Home Page - (System Test) Instructors Can Directly Jump to Correct Assignment from Assignments To-Do List", async ({ page }) => {
     // Navigate to login page
     await page.goto("http://localhost:3000/login")
       

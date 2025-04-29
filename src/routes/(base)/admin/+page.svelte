@@ -220,32 +220,32 @@
 <form class="grid grid-cols-4 gap-4" method="post" action="?/add" enctype="multipart/form-data" use:enhance>
     <label class="label col-span-2">
         <span>Username</span>
-        <input class="input" name="username" id = username type="text" placeholder="Username" required />
+        <input class="input" name="username" id="username" type="text" placeholder="Username" required />
     </label>
 
     <label class="label col-span-2">
         <span>Password</span>
-        <input class="input" name="password" id = password type="password" placeholder="Password" required />
+        <input class="input" name="password" id="password" type="password" placeholder="Password" required />
     </label>
 
     <label class="label col-span-2">
         <span>First Name</span>
-        <input class="input" name="first_name" id = first_name type="text" placeholder="First Name" required />
+        <input class="input" name="first_name" id="first_name" type="text" placeholder="First Name" required />
     </label>
 
     <label class="label col-span-2">
         <span>Last Name</span>
-        <input class="input" name="last_name" id = last_name type="text" placeholder="Last Name" required />
+        <input class="input" name="last_name" id="last_name" type="text" placeholder="Last Name" required />
     </label>
 
     <label class="label col-span-2">
         <span>Email</span>
-        <input type = "email" class="input" name="email" id = email placeholder="email@example.com" required />
+        <input type="email" class="input" name="email" id="email" placeholder="email@example.com" required />
     </label>
 
     <label class="label">
         <span>Admin?</span> <br>
-        <input class="checkbox" type = "checkbox" value="yes" name="is_admin"/>
+        <input class="checkbox" type="checkbox" value="yes" name="is_admin" id="is_admin"/>
     </label>
     <button type="submit" class="btn variant-filled-primary self-end">Submit</button>
 </form>
@@ -307,11 +307,11 @@
 <form class="grid grid-cols-4 gap-4" method="post" action="?/add_course" enctype="multipart/form-data" use:enhance>
     <label class="label pt-4 col-span-2">
         <span>Course Number</span>
-        <input class="input" name="course_number" id = course_number type="text" placeholder="CSCE101" required />
+        <input class="input" name="course_number" id="course_number" type="text" placeholder="CSCE101" required />
     </label>
     <label class="label pt-4 col-span-2">
         <span>Course Name</span>
-        <input class="input" name="course_name" id = course_name type="text" placeholder="Intro to Computing" required />
+        <input class="input" name="course_name" id="course_name" type="text" placeholder="Intro to Computing" required />
     </label>
     <label class="label pt-4">
         <span>Start Date</span>

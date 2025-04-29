@@ -80,7 +80,7 @@ test("Course Users Page - (Integration Test) Admin Can Navigate to Course Users"
     await expect(page).not.toHaveURL(url);
 });
 
-test("Course Users Page - (Integration Test) Information is Displayed and Student Can View Course Users (Only Self and Instructor)", async ({ page }) => {
+test("Course Users Page - (Integration Test) Correct Information is Displayed After Edit and Student Can View Course Users (Only Self and Instructor)", async ({ page }) => {
     // Navigate to login page
     await page.goto("http://localhost:3000/login")
       
@@ -108,7 +108,7 @@ test("Course Users Page - (Integration Test) Information is Displayed and Studen
     await expect(page.getByText("Admin")).not.toBeVisible();
 });
 
-test("Course Users Page - (Integration Test) Information is Displayed and Instructor Can View Course Users (All except Admin)", async ({ page }) => {
+test("Course Users Page - (Integration Test) Correct Information is Displayed After Edit and Instructor Can View Course Users (All except Admin)", async ({ page }) => {
     // Navigate to login page
     await page.goto("http://localhost:3000/login")
       
@@ -136,7 +136,7 @@ test("Course Users Page - (Integration Test) Information is Displayed and Instru
     await expect(page.getByText("Admin")).not.toBeVisible();
 });
 
-test("Course Users Page - (Integration Test) Information is Displayed and Admin Can View Course Users", async ({ page }) => {
+test("Course Users Page - (Integration Test) Correct Information is Displayed After Edit and Admin Can View Course Users", async ({ page }) => {
     // Navigate to login page
     await page.goto("http://localhost:3000/login")
       
@@ -161,7 +161,7 @@ test("Course Users Page - (Integration Test) Information is Displayed and Admin 
     await expect(page.getByText("Martin Carsile")).toBeVisible();
     await expect(page.getByText("Marvin Fung")).toBeVisible();
     await expect(page.getByText("Shiro Kaieda")).toBeVisible();
-    await expect(page.getByText("Admin").first()).toBeVisible();
+    await expect(page.getByText("admin@example.com")).toBeVisible();
 });
 
 test("Course Users Page - (Unit Test) Student Can Click on LEMMA Icon to Return to Home Page", async ({ page }) => {

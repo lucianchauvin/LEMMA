@@ -62,7 +62,7 @@ test("Calendar Page - (Unit Test) Admin Can Click on Calendar Icon In Sidebar", 
     await expect(page).toHaveURL("http://localhost:3000/calendar");
 });
 
-test("Calendar Page - (Integration Test) Information is Displayed and Student Can View Assignments in Calendar", async ({ page }) => {
+test("Calendar Page - (Integration Test) Correct Information is Displayed After Edit and Student Can View Assignments in Calendar", async ({ page }) => {
     // Navigate to login page
     await page.goto("http://localhost:3000/login")
       
@@ -80,7 +80,7 @@ test("Calendar Page - (Integration Test) Information is Displayed and Student Ca
     await expect(page.getByText("Predicate Logic and Quantifiers").or(page.getByText("Basics of LEAN")).first()).toBeVisible();
 });
 
-test("Calendar Page - (Integration Test) Information is Displayed and Instructor Can View Assignments in Calendar", async ({ page }) => {
+test("Calendar Page - (Integration Test) Correct Information is Displayed After Edit and Instructor Can View Assignments in Calendar", async ({ page }) => {
     // Navigate to login page
     await page.goto("http://localhost:3000/login")
       
@@ -98,7 +98,7 @@ test("Calendar Page - (Integration Test) Information is Displayed and Instructor
     await expect(page.getByText("Predicate Logic and Quantifiers").or(page.getByText("Basics of LEAN")).first()).toBeVisible();
 });
 
-test("Calendar Page - (Integration Test) Information is Displayed and Admin Can View Assignments in Calendar", async ({ page }) => {
+test("Calendar Page - (Integration Test) Correct Information is Displayed After Edit and Admin Can View Assignments in Calendar", async ({ page }) => {
     // Navigate to login page
     await page.goto("http://localhost:3000/login")
       
@@ -116,7 +116,7 @@ test("Calendar Page - (Integration Test) Information is Displayed and Admin Can 
     await expect(page.getByText("Predicate Logic and Quantifiers").or(page.getByText("Basics of LEAN")).first()).toBeVisible();
 });
 
-test("Calendar Page - (System Test) Student Can Click on Assignments in Calendar", async ({ page }) => {
+test("Calendar Page - (System Test) Student Can Directly Jump to Correct Assignment from Assignments To-Do List", async ({ page }) => {
     // Navigate to login page
     await page.goto("http://localhost:3000/login")
       
@@ -140,7 +140,7 @@ test("Calendar Page - (System Test) Student Can Click on Assignments in Calendar
     await expect(page).not.toHaveURL(url);
 });
 
-test("Calendar Page - (System Test) Instructor Can Click on Assignments in Calendar", async ({ page }) => {
+test("Calendar Page - (System Test) Instructor Can Directly Jump to Correct Assignment from Assignments To-Do List", async ({ page }) => {
     // Navigate to login page
     await page.goto("http://localhost:3000/login")
       
@@ -164,7 +164,7 @@ test("Calendar Page - (System Test) Instructor Can Click on Assignments in Calen
     await expect(page).not.toHaveURL(url);
 });
 
-test("Calendar Page - (System Test) Admin Can Click on Assignments in Calendar", async ({ page }) => {
+test("Calendar Page - (System Test) Admin Can Directly Jump to Correct Assignment from Assignments To-Do List", async ({ page }) => {
     // Navigate to login page
     await page.goto("http://localhost:3000/login")
       

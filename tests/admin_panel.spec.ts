@@ -1,4 +1,4 @@
-// Complete testing for the Admin Panel Page
+// Complete testing for the Admin Panel Page + System Testing
 
 import { test, expect } from '@playwright/test';
 const student_username = process.env.STUDENT_USER;
@@ -8,7 +8,7 @@ const prof_password = process.env.PROF_PASSWORD;
 const admin_username = process.env.ADMIN_USER;
 const admin_password = process.env.ADMIN_PASSWORD;
 
-test("Admin Panel Page - (System Test) Student Cannot Access Admin Panel Page", async ({ page }) => {
+test("Admin Panel Page - (Integration Test) Student Cannot Access Admin Panel Page", async ({ page }) => {
     // Navigate to login page
     await page.goto("http://localhost:3000/login")
       
@@ -26,7 +26,7 @@ test("Admin Panel Page - (System Test) Student Cannot Access Admin Panel Page", 
     await expect(page.getByText("Add Users")).not.toBeVisible();
 });
 
-test("Admin Panel Page - (System Test) Instructor Cannot Access Admin Panel Page", async ({ page }) => {
+test("Admin Panel Page - (Integration Test) Instructor Cannot Access Admin Panel Page", async ({ page }) => {
     // Navigate to login page
     await page.goto("http://localhost:3000/login")
       
@@ -44,7 +44,7 @@ test("Admin Panel Page - (System Test) Instructor Cannot Access Admin Panel Page
     await expect(page.getByText("Add Users")).not.toBeVisible();
 });
 
-test("Admin Panel Page - (System Test) Admin Can See Users", async ({ page }) => {
+test("Admin Panel Page - (Integration Test) Admin Can See Users", async ({ page }) => {
     // Navigate to login page
     await page.goto("http://localhost:3000/login")
       
@@ -59,7 +59,7 @@ test("Admin Panel Page - (System Test) Admin Can See Users", async ({ page }) =>
     await expect(page.getByText("Martin Carsile")).toBeVisible();
 });
 
-test("Admin Panel Page - (System Test) Admin Can See Courses", async ({ page }) => {
+test("Admin Panel Page - (Integration Test) Admin Can See Courses", async ({ page }) => {
     // Navigate to login page
     await page.goto("http://localhost:3000/login")
       
@@ -72,4 +72,80 @@ test("Admin Panel Page - (System Test) Admin Can See Courses", async ({ page }) 
 
     // Verify that courses appear
     await expect(page.getByText("MATH409")).toBeVisible();
+});
+
+test("Admin Panel - (System Test) System Test for Users", async ({ page, browserName }) => {
+    test.skip(browserName !== "chromium", "Only running one browser to avoid race conditions in database!")
+    // Verify that the test users "test_student", "test_prof", and "test_admin" do not exist yet
+    await page.goto("http://localhost:3000/login")
+    await page.getByLabel("username").fill("test_student");
+    await page.getByLabel("password").fill("test_student");
+    await page.getByText("Login").last().click();
+    await page.waitForTimeout(5000);
+    await expect(page).toHaveURL("http://localhost:3000/login");
+    await page.getByLabel("username").fill("test_prof");
+    await page.getByLabel("password").fill("test_prof");
+    await page.getByText("Login").last().click();
+    await page.waitForTimeout(5000);
+    await expect(page).toHaveURL("http://localhost:3000/login");
+    await page.getByLabel("username").fill("test_admin");
+    await page.getByLabel("password").fill("test_admin");
+    await page.getByText("Login").last().click();
+    await page.waitForTimeout(5000);
+    await expect(page).toHaveURL("http://localhost:3000/login");
+
+    // Log in as admin and create the users
+    await page.getByLabel("username").fill(admin_username);
+    await page.getByLabel("password").fill(admin_password);
+    await page.getByText("Login").last().click();
+    await page.waitForTimeout(5000);
+    await page.locator("#username").fill("test_student");
+    await page.locator("#password").fill("test_student");
+    await page.locator("#first_name").fill("test_student");
+    await page.locator("#last_name").fill("test_student");
+    await page.locator("#email").fill("test_student@gmail.com");
+    await page.getByText("Submit").first().click();
+    await page.waitForTimeout(5000);
+    await expect(page.getByText("User added successfully!")).toBeVisible();
+    await page.locator("#username").fill("test_prof");
+    await page.locator("#password").fill("test_prof");
+    await page.locator("#first_name").fill("test_prof");
+    await page.locator("#last_name").fill("test_prof");
+    await page.locator("#email").fill("test_prof@gmail.com");
+    await page.getByText("Submit").first().click();
+    await page.waitForTimeout(5000);
+    await expect(page.getByText("User added successfully!")).toBeVisible();
+    await page.locator("#username").fill("test_admin");
+    await page.locator("#password").fill("test_admin");
+    await page.locator("#first_name").fill("test_admin");
+    await page.locator("#last_name").fill("test_admin");
+    await page.locator("#email").fill("test_admin@gmail.com");
+    await page.locator("#is_admin")
+    await page.getByText("Submit").first().click();
+    await page.waitForTimeout(5000);
+    await expect(page.getByText("User added successfully!")).toBeVisible();
+    await page.getByText("Logout").click();
+    await page.waitForTimeout(5000);
+
+    // Log in as the new users and verify that they have been created
+    await page.getByLabel("username").fill("test_student");
+    await page.getByLabel("password").fill("test_student");
+    await page.getByText("Login").last().click();
+    await page.waitForTimeout(5000);
+    await expect(page).not.toHaveURL("http://localhost:3000/login");
+    await page.getByText("Logout").click();
+    await page.waitForTimeout(5000);
+    await page.getByLabel("username").fill("test_prof");
+    await page.getByLabel("password").fill("test_prof");
+    await page.getByText("Login").last().click();
+    await page.waitForTimeout(5000);
+    await expect(page).not.toHaveURL("http://localhost:3000/login");
+    await page.getByText("Logout").click();
+    await page.waitForTimeout(5000);
+    await page.getByLabel("username").fill("test_admin");
+    await page.getByLabel("password").fill("test_admin");
+    await page.getByText("Login").last().click();
+    await page.waitForTimeout(5000);
+    await expect(page).not.toHaveURL("http://localhost:3000/login");
+    await page.getByText("Logout").click();
 });

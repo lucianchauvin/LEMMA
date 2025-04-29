@@ -74,7 +74,7 @@ test("Course Statements Page - (Integration Test) Admin Can Navigate to Course S
     await expect(page).not.toHaveURL(url);
 });
 
-test("Course Statements Page - (Integration Test) Information is Displayed and Instructor Can View Course Statements", async ({ page }) => {
+test("Course Statements Page - (Integration Test) Correct Information is Displayed After Edit and Instructor Can View Course Statements", async ({ page }) => {
     // Navigate to login page
     await page.goto("http://localhost:3000/login")
       
@@ -95,7 +95,7 @@ test("Course Statements Page - (Integration Test) Information is Displayed and I
     await expect(page.getByText("rw").first()).toBeVisible();
 });
 
-test("Course Statements Page - (Integration Test) Information is Displayed and Admin Can View Course Statements", async ({ page }) => {
+test("Course Statements Page - (Integration Test) Correct Information is Displayed After Edit and Admin Can View Course Statements", async ({ page }) => {
     // Navigate to login page
     await page.goto("http://localhost:3000/login")
       

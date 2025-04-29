@@ -8,7 +8,7 @@ const prof_password = process.env.PROF_PASSWORD;
 const admin_username = process.env.ADMIN_USER;
 const admin_password = process.env.ADMIN_PASSWORD;
 
-test("Course Assignments Page - (System Test) Student Can Navigate to Course Assignments", async ({ page }) => {
+test("Course Assignments Page - (Integration Test) Student Can Navigate to Course Assignments", async ({ page }) => {
     // Navigate to login page
     await page.goto("http://localhost:3000/login")
       
@@ -26,7 +26,7 @@ test("Course Assignments Page - (System Test) Student Can Navigate to Course Ass
     await expect(page).not.toHaveURL("http://localhost:3000");
 });
 
-test("Course Assignments Page - (System Test) Instructor Can Navigate to Course Assignments", async ({ page }) => {
+test("Course Assignments Page - (Integration Test) Instructor Can Navigate to Course Assignments", async ({ page }) => {
     // Navigate to login page
     await page.goto("http://localhost:3000/login")
       
@@ -44,7 +44,7 @@ test("Course Assignments Page - (System Test) Instructor Can Navigate to Course 
     await expect(page).not.toHaveURL("http://localhost:3000");
 });
 
-test("Course Assignments Page - (System Test) Admin Can Navigate to Course Assignments", async ({ page }) => {
+test("Course Assignments Page - (Integration Test) Admin Can Navigate to Course Assignments", async ({ page }) => {
     // Navigate to login page
     await page.goto("http://localhost:3000/login")
       
@@ -62,7 +62,7 @@ test("Course Assignments Page - (System Test) Admin Can Navigate to Course Assig
     await expect(page).not.toHaveURL("http://localhost:3000/admin");
 });
 
-test("Course Assignments Page - (System Test) Information is Displayed and Student Can View Course Assignments", async ({ page }) => {
+test("Course Assignments Page - (Integration Test) Correct Information is Displayed After Edit and Student Can View Course Assignments", async ({ page }) => {
     // Navigate to login page
     await page.goto("http://localhost:3000/login")
       
@@ -80,7 +80,7 @@ test("Course Assignments Page - (System Test) Information is Displayed and Stude
     await expect(page.getByText("Predicate Logic and Quantifiers").or(page.getByText("Basics of LEAN")).first()).toBeVisible();
 });
 
-test("Course Assignments Page - (System Test) Information is Displayed and Instructor Can View Course Assignments", async ({ page }) => {
+test("Course Assignments Page - (Integration Test) Correct Information is Displayed After Edit and Instructor Can View Course Assignments", async ({ page }) => {
     // Navigate to login page
     await page.goto("http://localhost:3000/login")
       
@@ -98,7 +98,7 @@ test("Course Assignments Page - (System Test) Information is Displayed and Instr
     await expect(page.getByText("Predicate Logic and Quantifiers").or(page.getByText("Basics of LEAN")).first()).toBeVisible();
 });
 
-test("Course Assignments Page - (System Test) Information is Displayed and Admin Can View Course Assignments", async ({ page }) => {
+test("Course Assignments Page - (Integration Test) Correct Information is Displayed After Edit and Admin Can View Course Assignments", async ({ page }) => {
     // Navigate to login page
     await page.goto("http://localhost:3000/login")
       
