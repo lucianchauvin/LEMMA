@@ -33,7 +33,7 @@
     <form method="POST" action="?/add" enctype="multipart/form-data" use:enhance>
         <label class="label pt-4">
             <span>Statement Name</span>
-            <input class="input" name="statement_name" type="text" placeholder="Statement Name" />
+            <input class="input" name="statement_name" id="statement_name" type="text" placeholder="Statement Name" />
         </label>
 
         <label class="label pt-2">
@@ -47,17 +47,17 @@
 
         <label class="label pt-2">
             <span>Statement Description</span>
-            <textarea class="textarea" name="statement_description" rows="4" placeholder="Statement Description"></textarea>
+            <textarea class="textarea" name="statement_description" id="statement_description" rows="4" placeholder="Statement Description"></textarea>
         </label>		
 
         <label class="label pt-4">
             <span>Statement Category</span>
-            <input class="input" name="statement_category" type="text" placeholder="Statement Category" />
+            <input class="input" name="statement_category" id="statement_category" type="text" placeholder="Statement Category" />
         </label>
 
         <label class="label pt-4">
             <span>Type Statement File here</span>
-            <textarea class="textarea" name="statement_file" rows="4" placeholder="Statement File"></textarea>
+            <textarea class="textarea" name="statement_file" id="statement_file" rows="4" placeholder="Statement File"></textarea>
         </label>
 
         <button type="submit" class="btn variant-filled-primary mt-8">Submit</button>

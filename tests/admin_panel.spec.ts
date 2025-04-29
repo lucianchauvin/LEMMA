@@ -74,7 +74,267 @@ test("Admin Panel Page - (Integration Test) Admin Can See Courses", async ({ pag
     await expect(page.getByText("MATH409")).toBeVisible();
 });
 
-test("Admin Panel - (System Test) System Test for Users", async ({ page, browserName }) => {
+test("Admin Panel - (Unit Test) Adding User - Invalid Input for All", async ({ page, browserName }) => {
+    // Navigate to login page
+    await page.goto("http://localhost:3000/login")
+
+    // Fill in input forms
+    await page.getByLabel("username").fill(admin_username);
+    await page.getByLabel("password").fill(admin_password);
+    await page.getByText("Login").last().click();
+    await page.waitForTimeout(5000);
+
+    // Verify that the form validation input works as intended
+    await page.getByText("Submit").first().click();
+    await page.waitForTimeout(5000);
+    await expect(page.getByText("User added successfully!")).not.toBeAttached();
+});
+
+test("Admin Panel - (Unit Test) Adding User - Invalid Input for Username", async ({ page, browserName }) => {
+    // Navigate to login page
+    await page.goto("http://localhost:3000/login")
+
+    // Fill in input forms
+    await page.getByLabel("username").fill(admin_username);
+    await page.getByLabel("password").fill(admin_password);
+    await page.getByText("Login").last().click();
+    await page.waitForTimeout(5000);
+
+    // Verify that the form validation input works as intended
+    await page.locator("#username").fill("");
+    await page.locator("#password").fill("test_student");
+    await page.locator("#first_name").fill("test_student");
+    await page.locator("#last_name").fill("test_student");
+    await page.locator("#email").fill("test_student@gmail.com");
+    await page.getByText("Submit").first().click();
+    await page.waitForTimeout(5000);
+    await expect(page.getByText("User added successfully!")).not.toBeAttached();
+});
+
+test("Admin Panel - (Unit Test) Adding User - Invalid Input for Password (No Password)", async ({ page, browserName }) => {
+    // Navigate to login page
+    await page.goto("http://localhost:3000/login")
+
+    // Fill in input forms
+    await page.getByLabel("username").fill(admin_username);
+    await page.getByLabel("password").fill(admin_password);
+    await page.getByText("Login").last().click();
+    await page.waitForTimeout(5000);
+
+    // Verify that the form validation input works as intended
+    await page.locator("#username").fill("test_student");
+    await page.locator("#password").fill("");
+    await page.locator("#first_name").fill("test_student");
+    await page.locator("#last_name").fill("test_student");
+    await page.locator("#email").fill("test_student@gmail.com");
+    await page.getByText("Submit").first().click();
+    await page.waitForTimeout(5000);
+    await expect(page.getByText("User added successfully!")).not.toBeAttached();
+});
+
+test("Admin Panel - (Unit Test) Adding User - Invalid Input for Password (Password too short)", async ({ page, browserName }) => {
+    // Navigate to login page
+    await page.goto("http://localhost:3000/login")
+
+    // Fill in input forms
+    await page.getByLabel("username").fill(admin_username);
+    await page.getByLabel("password").fill(admin_password);
+    await page.getByText("Login").last().click();
+    await page.waitForTimeout(5000);
+
+    // Verify that the form validation input works as intended
+    await page.locator("#username").fill("test_student");
+    await page.locator("#password").fill("a");
+    await page.locator("#first_name").fill("test_student");
+    await page.locator("#last_name").fill("test_student");
+    await page.locator("#email").fill("test_student@gmail.com");
+    await page.getByText("Submit").first().click();
+    await page.waitForTimeout(5000);
+    await expect(page.getByText("User added successfully!")).not.toBeAttached();
+});
+
+test("Admin Panel - (Unit Test) Adding User - Invalid Input for Password (Password too long)", async ({ page, browserName }) => {
+    // Navigate to login page
+    await page.goto("http://localhost:3000/login")
+
+    // Fill in input forms
+    await page.getByLabel("username").fill(admin_username);
+    await page.getByLabel("password").fill(admin_password);
+    await page.getByText("Login").last().click();
+    await page.waitForTimeout(5000);
+
+    // Verify that the form validation input works as intended
+    await page.locator("#username").fill("test_student");
+    await page.locator("#password").fill("askhgfljksdebgfvjlksrdbgfjvlkcsdbgfvkjsared,bgfvkjdszb,fckjdaznbgfvkjsfdzbngvkjsrfbgvkjsadbFDKCJsd,bFCKjdAZBFCkjmnsd,ZBFkcjsdz,bgfvkjfdszmb,gvkjsf,bzngvkj,fdbnfvkj,sfbgjkhvsbdfjvhbsfdkjgvbsfkdjgvbskdhfbcksdjhgfbhcewsakujhfbiuweakjshdbfckrejwshafocsukirhgviusdrfgbhgoukhsraeoiadfrlhqwaoilhrfukserdjghbksfjbgkjdvf");
+    await page.locator("#first_name").fill("test_student");
+    await page.locator("#last_name").fill("test_student");
+    await page.locator("#email").fill("test_student@gmail.com");
+    await page.getByText("Submit").first().click();
+    await page.waitForTimeout(5000);
+    await expect(page.getByText("User added successfully!")).not.toBeAttached();
+});
+
+test("Admin Panel - (Unit Test) Adding User - Invalid Input for First Name", async ({ page, browserName }) => {
+    // Navigate to login page
+    await page.goto("http://localhost:3000/login")
+
+    // Fill in input forms
+    await page.getByLabel("username").fill(admin_username);
+    await page.getByLabel("password").fill(admin_password);
+    await page.getByText("Login").last().click();
+    await page.waitForTimeout(5000);
+
+    // Verify that the form validation input works as intended
+    await page.locator("#username").fill("test_student");
+    await page.locator("#password").fill("test_student");
+    await page.locator("#first_name").fill("");
+    await page.locator("#last_name").fill("test_student");
+    await page.locator("#email").fill("test_student@gmail.com");
+    await page.getByText("Submit").first().click();
+    await page.waitForTimeout(5000);
+    await expect(page.getByText("User added successfully!")).not.toBeAttached();
+});
+
+test("Admin Panel - (Unit Test) Adding User - Invalid Input for Last Name", async ({ page, browserName }) => {
+    // Navigate to login page
+    await page.goto("http://localhost:3000/login")
+
+    // Fill in input forms
+    await page.getByLabel("username").fill(admin_username);
+    await page.getByLabel("password").fill(admin_password);
+    await page.getByText("Login").last().click();
+    await page.waitForTimeout(5000);
+
+    // Verify that the form validation input works as intended
+    await page.locator("#username").fill("test_student");
+    await page.locator("#password").fill("test_student");
+    await page.locator("#first_name").fill("test_student");
+    await page.locator("#last_name").fill("");
+    await page.locator("#email").fill("test_student@gmail.com");
+    await page.getByText("Submit").first().click();
+    await page.waitForTimeout(5000);
+    await expect(page.getByText("User added successfully!")).not.toBeAttached();
+});
+
+test("Admin Panel - (Unit Test) Adding User - Invalid Input for Email (No Email)", async ({ page, browserName }) => {
+    // Navigate to login page
+    await page.goto("http://localhost:3000/login")
+
+    // Fill in input forms
+    await page.getByLabel("username").fill(admin_username);
+    await page.getByLabel("password").fill(admin_password);
+    await page.getByText("Login").last().click();
+    await page.waitForTimeout(5000);
+
+    // Verify that the form validation input works as intended
+    await page.locator("#username").fill("test_student");
+    await page.locator("#password").fill("test_student");
+    await page.locator("#first_name").fill("test_student");
+    await page.locator("#last_name").fill("test_student");
+    await page.locator("#email").fill("");
+    await page.getByText("Submit").first().click();
+    await page.waitForTimeout(5000);
+    await expect(page.getByText("User added successfully!")).not.toBeAttached();
+});
+
+test("Admin Panel - (Unit Test) Adding User - Invalid Input for Email (Email Domain Not Provided)", async ({ page, browserName }) => {
+    // Navigate to login page
+    await page.goto("http://localhost:3000/login")
+
+    // Fill in input forms
+    await page.getByLabel("username").fill(admin_username);
+    await page.getByLabel("password").fill(admin_password);
+    await page.getByText("Login").last().click();
+    await page.waitForTimeout(5000);
+
+    // Verify that the form validation input works as intended
+    await page.locator("#username").fill("test_student");
+    await page.locator("#password").fill("test_student");
+    await page.locator("#first_name").fill("test_student");
+    await page.locator("#last_name").fill("test_student");
+    await page.locator("#email").fill("test_student");
+    await page.getByText("Submit").first().click();
+    await page.waitForTimeout(5000);
+    await expect(page.getByText("User added successfully!")).not.toBeAttached();
+});
+
+test("Admin Panel - (Unit Test) Adding User - Multiple Invalid Inputs", async ({ page, browserName }) => {
+    // Navigate to login page
+    await page.goto("http://localhost:3000/login")
+
+    // Fill in input forms
+    await page.getByLabel("username").fill(admin_username);
+    await page.getByLabel("password").fill(admin_password);
+    await page.getByText("Login").last().click();
+    await page.waitForTimeout(5000);
+
+    // Verify that the form validation input works as intended
+    await page.locator("#username").fill("test_student");
+    await page.locator("#password").fill("test_student");
+    await page.locator("#first_name").fill("");
+    await page.locator("#last_name").fill("");
+    await page.locator("#email").fill("");
+    await page.getByText("Submit").first().click();
+    await page.waitForTimeout(5000);
+    await expect(page.getByText("User added successfully!")).not.toBeAttached();
+});
+
+test("Admin Panel - (Unit Test) Adding Course - Invalid Input for All", async ({ page, browserName }) => {
+    // Navigate to login page
+    await page.goto("http://localhost:3000/login")
+
+    // Fill in input forms
+    await page.getByLabel("username").fill(admin_username);
+    await page.getByLabel("password").fill(admin_password);
+    await page.getByText("Login").last().click();
+    await page.waitForTimeout(5000);
+
+    // Verify that the form validation input works as intended
+    await page.locator("#course_number").fill("");
+    await page.locator("#course_name").fill("");
+    await page.getByText("Submit").nth(1).click();
+    await page.waitForTimeout(5000);
+    await expect(page.getByText("Course added successfully!")).not.toBeAttached();
+});
+
+test("Admin Panel - (Unit Test) Adding Course - Invalid Input for Course Number", async ({ page, browserName }) => {
+    // Navigate to login page
+    await page.goto("http://localhost:3000/login")
+
+    // Fill in input forms
+    await page.getByLabel("username").fill(admin_username);
+    await page.getByLabel("password").fill(admin_password);
+    await page.getByText("Login").last().click();
+    await page.waitForTimeout(5000);
+
+    // Verify that the form validation input works as intended
+    await page.locator("#course_number").fill("");
+    await page.locator("#course_name").fill("course_name");
+    await page.getByText("Submit").nth(1).click();
+    await page.waitForTimeout(5000);
+    await expect(page.getByText("Course added successfully!")).not.toBeAttached();
+});
+
+test("Admin Panel - (Unit Test) Adding Course - Invalid Input for Course Name", async ({ page, browserName }) => {
+    // Navigate to login page
+    await page.goto("http://localhost:3000/login")
+
+    // Fill in input forms
+    await page.getByLabel("username").fill(admin_username);
+    await page.getByLabel("password").fill(admin_password);
+    await page.getByText("Login").last().click();
+    await page.waitForTimeout(5000);
+
+    // Verify that the form validation input works as intended
+    await page.locator("#course_number").fill("course_number");
+    await page.locator("#course_name").fill("");
+    await page.getByText("Submit").nth(1).click();
+    await page.waitForTimeout(5000);
+    await expect(page.getByText("Course added successfully!")).not.toBeAttached();
+});
+
+
+test("Admin Panel - (System Test) System Test for Adding Multiple Types of Users", async ({ page, browserName }) => {
     test.skip(browserName !== "chromium", "Only running one browser to avoid race conditions in database!")
     // Verify that the test users "test_student", "test_prof", and "test_admin" do not exist yet
     await page.goto("http://localhost:3000/login")
