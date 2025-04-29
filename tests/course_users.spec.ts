@@ -94,6 +94,9 @@ test("Course Users Page - Student Can Click on LEMMA Icon to Return to Home Page
     // Click the first course
     await page.locator("#assignments").first().click();
 
+    // Click users page button
+    await page.getByText("Course Users").click();
+
     // Click LEMMA icon
     await page.getByRole('button').first().click();
 
@@ -114,6 +117,9 @@ test("Course Users Page - Instructor Can Click on LEMMA Icon to Return to Home P
     
     // Click the first course
     await page.locator("#assignments").first().click();
+
+    // Click users page button
+    await page.getByText("Course Users").click();
 
     // Click LEMMA icon
     await page.getByRole('button').first().click();
@@ -136,6 +142,9 @@ test("Course Users Page - Admin Can Click on LEMMA Icon to Return to Admin Panel
     // Click the CSCE 222 course
     await page.getByText("CSCE222").click();
 
+    // Click users page button
+    await page.getByText("Course Users").click();
+
     // Click LEMMA icon
     await page.getByRole('button').first().click();
 
@@ -156,6 +165,9 @@ test("Course Users Page - Student Can Click on Home Page Icon in Sidebar to Retu
     
     // Click the first course
     await page.locator("#assignments").first().click();
+
+    // Click users page button
+    await page.getByText("Course Users").click();
 
     // Click home page button
     await page.getByText("Home").click();
@@ -178,6 +190,9 @@ test("Course Users Page - Instructor Can Click on Home Page Icon in Sidebar to R
     // Click the first course
     await page.locator("#assignments").first().click();
 
+    // Click users page button
+    await page.getByText("Course Users").click();
+
     // Click home page button
     await page.getByText("Home").click();
 
@@ -198,6 +213,9 @@ test("Course Users Page - Admin Can Click on Home Page Icon in Sidebar to Return
     
     // Click the CSCE 222 course
     await page.getByText("CSCE222").click();
+
+    // Click users page button
+    await page.getByText("Course Users").click();
 
     // Click home page button
     await page.getByText("Home").click();
