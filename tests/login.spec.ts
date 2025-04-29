@@ -8,7 +8,7 @@ const prof_password = process.env.PROF_PASSWORD;
 const admin_username = process.env.ADMIN_USER;
 const admin_password = process.env.ADMIN_PASSWORD;
 
-test("Login Page - Nonexistent User Cannot Login", async ({ page }) => {
+test("Login Page - (System Test) Nonexistent User Cannot Login", async ({ page }) => {
     // Navigate to login page
     await page.goto("http://localhost:3000/login")
       
@@ -23,7 +23,7 @@ test("Login Page - Nonexistent User Cannot Login", async ({ page }) => {
     await expect(page).toHaveURL("http://localhost:3000/login");
 });
 
-test("Login Page - Incorrect Student Cannot Login (Wrong Username)", async ({ page }) => {
+test("Login Page - (System Test) Incorrect Student Cannot Login (Wrong Username)", async ({ page }) => {
     // Navigate to login page
     await page.goto("http://localhost:3000/login")
       
@@ -38,7 +38,7 @@ test("Login Page - Incorrect Student Cannot Login (Wrong Username)", async ({ pa
     await expect(page).toHaveURL("http://localhost:3000/login");
 });
 
-test("Login Page - Incorrect Student Cannot Login (Wrong Password)", async ({ page }) => {
+test("Login Page - (System Test) Incorrect Student Cannot Login (Wrong Password)", async ({ page }) => {
     // Navigate to login page
     await page.goto("http://localhost:3000/login")
       
@@ -53,7 +53,7 @@ test("Login Page - Incorrect Student Cannot Login (Wrong Password)", async ({ pa
     await expect(page).toHaveURL("http://localhost:3000/login");
 });
 
-test("Login Page - Correct Student Can Login", async ({ page }) => {
+test("Login Page - (System Test) Correct Student Can Login", async ({ page }) => {
     // Navigate to login page
     await page.goto("http://localhost:3000/login")
       
@@ -68,7 +68,7 @@ test("Login Page - Correct Student Can Login", async ({ page }) => {
     await expect(page).toHaveURL("http://localhost:3000");
 });
 
-test("Login Page - Incorrect Instructor Cannot Login (Wrong Username)", async ({ page }) => {
+test("Login Page - (System Test) Incorrect Instructor Cannot Login (Wrong Username)", async ({ page }) => {
     // Navigate to login page
     await page.goto("http://localhost:3000/login")
       
@@ -83,7 +83,7 @@ test("Login Page - Incorrect Instructor Cannot Login (Wrong Username)", async ({
     await expect(page).toHaveURL("http://localhost:3000/login");
 });
 
-test("Login Page - Incorrect Instructor Cannot Login (Wrong Password)", async ({ page }) => {
+test("Login Page - (System Test) Incorrect Instructor Cannot Login (Wrong Password)", async ({ page }) => {
     // Navigate to login page
     await page.goto("http://localhost:3000/login")
       
@@ -98,7 +98,7 @@ test("Login Page - Incorrect Instructor Cannot Login (Wrong Password)", async ({
     await expect(page).toHaveURL("http://localhost:3000/login");
 });
 
-test("Login Page - Correct Instructor Can Login", async ({ page }) => {
+test("Login Page - (System Test) Correct Instructor Can Login", async ({ page }) => {
     // Navigate to login page
     await page.goto("http://localhost:3000/login")
       
@@ -113,7 +113,7 @@ test("Login Page - Correct Instructor Can Login", async ({ page }) => {
     await expect(page).toHaveURL("http://localhost:3000");
 });
 
-test("Login Page - Incorrect Admin Cannot Login (Wrong Username)", async ({ page }) => {
+test("Login Page - (System Test) Incorrect Admin Cannot Login (Wrong Username)", async ({ page }) => {
     // Navigate to login page
     await page.goto("http://localhost:3000/login")
       
@@ -128,7 +128,7 @@ test("Login Page - Incorrect Admin Cannot Login (Wrong Username)", async ({ page
     await expect(page).toHaveURL("http://localhost:3000/login");
 });
 
-test("Login Page - Incorrect Admin Cannot Login (Wrong Password)", async ({ page }) => {
+test("Login Page - (System Test) Incorrect Admin Cannot Login (Wrong Password)", async ({ page }) => {
     // Navigate to login page
     await page.goto("http://localhost:3000/login")
       
@@ -143,7 +143,7 @@ test("Login Page - Incorrect Admin Cannot Login (Wrong Password)", async ({ page
     await expect(page).toHaveURL("http://localhost:3000/login");
 });
 
-test("Login Page - Correct Admin Can Login", async ({ page }) => {
+test("Login Page - (System Test) Correct Admin Can Login", async ({ page }) => {
     // Navigate to login page
     await page.goto("http://localhost:3000/login")
       
@@ -158,7 +158,7 @@ test("Login Page - Correct Admin Can Login", async ({ page }) => {
     await expect(page).toHaveURL("http://localhost:3000/admin");
 });
 
-test("Login Page - Student Can Press Logout Button to Logout", async ({ page }) => {
+test("Login Page - (Unit Test) Student Can Press Logout Button to Logout", async ({ page }) => {
     // Navigate to login page
     await page.goto("http://localhost:3000/login")
       
@@ -176,7 +176,7 @@ test("Login Page - Student Can Press Logout Button to Logout", async ({ page }) 
     await expect(page).toHaveURL("http://localhost:3000/login");
 });
 
-test("Login Page - Instructor Can Press Logout Button to Logout", async ({ page }) => {
+test("Login Page - (Unit Test) Instructor Can Press Logout Button to Logout", async ({ page }) => {
     // Navigate to login page
     await page.goto("http://localhost:3000/login")
       
@@ -194,7 +194,7 @@ test("Login Page - Instructor Can Press Logout Button to Logout", async ({ page 
     await expect(page).toHaveURL("http://localhost:3000/login");
 });
 
-test("Login Page - Admin Can Press Logout Button to Logout", async ({ page }) => {
+test("Login Page - (Unit Test) Admin Can Press Logout Button to Logout", async ({ page }) => {
     // Navigate to login page
     await page.goto("http://localhost:3000/login")
       
