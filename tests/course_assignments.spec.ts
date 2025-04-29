@@ -103,6 +103,7 @@ test("Course Assignments Page - Instructor Can Click on LEMMA Icon to Return to 
     // Verify that we are on the home page
     await expect(page).toHaveURL("http://localhost:3000");
 });
+
 test("Course Assignments Page - Admin Can Click on LEMMA Icon to Return to Admin Panel Page", async ({ page }) => {
     // Navigate to login page
     await page.goto("http://localhost:3000/login")
